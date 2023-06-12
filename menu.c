@@ -835,9 +835,9 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 						if(CurrentMenu.Flags & mpbClrGroup)
 						{
 							// clear status Text
-							////----------------------------------------Ñ¡ÖÐÇÐ»»Ä£Ê½»òÕßµ÷½ÚÊ±³öÏÖ°×¿òµÄÎÊÌâ-------------------------------------------//
+							////----------------------------------------Ñ¡ï¿½ï¿½ï¿½Ð»ï¿½Ä£Ê½ï¿½ï¿½ï¿½ßµï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½Ö°×¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½-------------------------------------------//
 							Osd_Set256TextColor( CPC_Background << 4 | CPC_Background, Color_2);
-						//	ÕâÀïÎÒÃÇ×¢ÊÍµôÔ­À´µÄ»­¿Õ¸ñ¾Í¿ÉÒÔÈ¥µô°×¿ò£¬È»ºó×Ô¼ºÖØÐÂÈ¡É«»­¿Õ¸ñ£¬ÔÙÖØÐÂÏÔÊ¾µ±Ç°Ò³ÃæµÄÄÚÈÝ£¬¾Í¿ÉÒÔ½â¾öÇÐ»»Ä£Ê½Ê±ÎÄ×ÖÖØ¸´µÄÎÊÌâ
+						//	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×¢ï¿½Íµï¿½Ô­ï¿½ï¿½ï¿½Ä»ï¿½ï¿½Õ¸ï¿½Í¿ï¿½ï¿½ï¿½È¥ï¿½ï¿½ï¿½×¿ï¿½È»ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½È¡É«ï¿½ï¿½ï¿½Õ¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½Ç°Ò³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý£ï¿½ï¿½Í¿ï¿½ï¿½Ô½ï¿½ï¿½ï¿½Ð»ï¿½Ä£Ê½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 						//	Osd_DrawContinuesChar(CurrentMenuItem.XPos + CENTER_ALIGN_STARTPOS + 1, CurrentMenuItem.YPos, SpaceFont, 11);              //my
 						}
 
@@ -974,14 +974,14 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 						///	for(tempValue = SUB_TEXT_YPOS; tempValue < 0x0F; tempValue += 2)
 						//	Osd_DrawContinuesChar( SUB_TEXT_XPOS, tempValue, SpaceFont, 0x27 - SUB_TEXT_XPOS);
 							Osd_SetTextMonoColor(COLOR_BLACK, COLOR_BLACK);
-							//ÖØ»­¿Õ¸ñ
+							//ï¿½Ø»ï¿½ï¿½Õ¸ï¿½
 							Osd_DrawContinuesChar( SUB_TEXT_XPOS+2, (SUB_TEXT_YPOS + OSD_LANGUAGE_ITEM      * IconShift ), SpaceFont, 30);
 							Osd_DrawContinuesChar( SUB_TEXT_XPOS-6, (SUB_TEXT_YPOS + OSD_HPOSITION_ITEM     * IconShift ), SpaceFont, 21);
 							Osd_DrawContinuesChar( SUB_TEXT_XPOS-6, (SUB_TEXT_YPOS + OSD_VPOSITION_ITEM     * IconShift ), SpaceFont, 21);
 							Osd_DrawContinuesChar( SUB_TEXT_XPOS-6, (SUB_TEXT_YPOS + OSD_TIMEOUT_ITEM       * IconShift ), SpaceFont, 21);
 							Osd_DrawContinuesChar( SUB_TEXT_XPOS-6, (SUB_TEXT_YPOS + OSD_TRANSPARENCE_ITEM  * IconShift ), SpaceFont, 21);
 							Osd_DrawContinuesChar( SUB_TEXT_XPOS-6, (SUB_TEXT_YPOS + OSD_HPOSITION_ITEM     * IconShift ), SpaceFont, 21);
-							//ÖØ»­¶þ¼¶²Ëµ¥
+							//ï¿½Ø»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½
 							DrawOsdSubMenu(LanguageMenu);
 							DrawOsdSubMenu(OsdHPositionMenu);
 							DrawOsdSubMenu(OsdVPositionMenu);
@@ -1141,7 +1141,7 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 										{
 											//DrawOsdSubMenu( NextMenuPage );	// å±è”½äºŒçº§èœå•
 											if( MenuItemIndex == MAIN_Misc_ITEM)
-												DrawTimingInfo();		// å±è”½åˆ†è¾¨çŽ?
+												DrawTimingInfo();		// å±è”½åˆ†è¾¨ï¿½?
 										}
 					*/
 
@@ -1323,7 +1323,7 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 				#endif
 				DrawOsdMenu();
 				if( MenuPageIndex == MainMenu );
-				//	DrawOsdSubMenu( NextMenuPage );                                     my  ÆÁ±Î¶þ¼¶²Ëµ¥
+				//	DrawOsdSubMenu( NextMenuPage );                                     my  ï¿½ï¿½ï¿½Î¶ï¿½ï¿½ï¿½ï¿½Ëµï¿½
 				#if DDCCI_ENABLE && DDCCCIMenu_Enable
 				if (MenuPageIndex == DdcciInfoMenu)
 					Delay1ms(200);
@@ -2012,11 +2012,11 @@ void SelectItem(BYTE ucXPos, BYTE ucYPos, BYTE ucColor)
 void DrawOsdMenu(void)
 {
 	Bool redrawFlags;
-													//////////////////////////////ÆÁ±ÎÔ­À´µÄ¶þ¼¶²Ëµ¥
+													//////////////////////////////ï¿½ï¿½ï¿½ï¿½Ô­ï¿½ï¿½ï¿½Ä¶ï¿½ï¿½ï¿½ï¿½Ëµï¿½
 	if((MenuPageIndex >= MainMenu && MenuPageIndex < ExitMenu) || MenuPageIndex == HotInputSelectMenu)
 	{
 	int i;
-		DrawOsdBackGround();													////Ë¢ÐÂ¶þ¼¶Èý¼¶½çÃæ
+		DrawOsdBackGround();													////Ë¢ï¿½Â¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		for(i=0;i<MenuItemCount;i++)
 		{
 			DrawOsdMenuItem(i,&CurrentMenu.MenuItems[i]);
@@ -2241,7 +2241,7 @@ void DrawOsdMenuItem(BYTE itemIndex, MenuItemType *menuItem)
 		}
 		else
 		{
-			Osd_Set256TextColor( menuItem->ForeColor, menuItem->BackColor );   //±¾À´Ã»ÓÐ
+			Osd_Set256TextColor( menuItem->ForeColor, menuItem->BackColor );   //ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½
 			DrawOsdMenuItemValue( itemIndex, &( menuItem->DisplayValue ) );
 		}
 	}
@@ -2292,7 +2292,7 @@ void DrawOsdMenuItemText(BYTE itemIndex, MenuItemType *menuItem)
 			}		
 			OSD_TEXT_HI_ADDR_CLR_TO_0();
 
-/*			Osd_DrawCharDirect(menuItem->XPos, menuItem->YPos, str[0]);                     //Ô­À´µÄ
+/*			Osd_DrawCharDirect(menuItem->XPos, menuItem->YPos, str[0]);                     //Ô­ï¿½ï¿½ï¿½ï¿½
 			Osd_DrawCharDirect(menuItem->XPos + 1, menuItem->YPos, str[1]);
 			Osd_DrawCharDirect(menuItem->XPos + 2, menuItem->YPos, str[2]);
 			Osd_DrawCharDirect(menuItem->XPos, menuItem->YPos + 1, str[3]);
@@ -2302,7 +2302,7 @@ void DrawOsdMenuItemText(BYTE itemIndex, MenuItemType *menuItem)
 
 /*
 	if(itemIndex == MenuItemIndex)
-				Osd_SetTextMonoColor(0x03, 0x03)                                                   //IconµÄË«±ß
+				Osd_SetTextMonoColor(0x03, 0x03)                                                   //Iconï¿½ï¿½Ë«ï¿½ï¿½
 			else
 				Osd_SetTextMonoColor(0x03, 0x04);
 			if(itemIndex == 5)
@@ -2633,7 +2633,7 @@ void DrawOsdMenuItemGuage(BYTE itemIndex, DrawGuageType *gaugeItem)
 
 
 //=========================================================================
-// draw radio   ÎÄ±¾¿ò
+// draw radio   ï¿½Ä±ï¿½ï¿½ï¿½
 void DrawOsdMenuItemRadioGroup(BYTE itemIndex, DrawRadioGroupType *radioItem)
 {
 	RadioTextType *radioText;
@@ -2734,7 +2734,7 @@ void DrawOsdMenuItemRadioGroup(BYTE itemIndex, DrawRadioGroupType *radioItem)
 	}
 }
 
-void DrawOsdSubMenuItemValue( BYTE itemIndex, DrawValueType *valueItem )//»æÖÆ¸±²Ëµ¥Öµ
+void DrawOsdSubMenuItemValue( BYTE itemIndex, DrawValueType *valueItem )//ï¿½ï¿½ï¿½Æ¸ï¿½ï¿½Ëµï¿½Öµ
 {
 	if( valueItem->DrawNumber )
 	{
@@ -2750,7 +2750,7 @@ void DrawOsdSubMenuItemValue( BYTE itemIndex, DrawValueType *valueItem )//»æÖÆ¸±
 	}
 }
 
-void DrawOsdSubMenuItem( BYTE itemIndex, MenuItemType *menuItem ) //»æÖÆ¸±²Ëµ¥ÏîÄ¿
+void DrawOsdSubMenuItem( BYTE itemIndex, MenuItemType *menuItem ) //ï¿½ï¿½ï¿½Æ¸ï¿½ï¿½Ëµï¿½ï¿½ï¿½Ä¿
 {
 	if( menuItem->Flags & mibInvisible )
 		return;
@@ -2833,7 +2833,7 @@ Bool DrawTimingInfo(void)
 	WORD xdata FontWide = 0;
 	Osd_Set256TextColor( CP_UnselectItem, Color_2 );
 	OSD_FONT_HI_ADDR_SET_BIT8();//0x100~0x1FF
-	Osd_DynamicLoadFont(ResoulationAddress, ResolutionProp, 27); //20180109  ????????§Ý???1152x864 60hz ?????????
+	Osd_DynamicLoadFont(ResoulationAddress, ResolutionProp, 27); //20180109  ????????ï¿½ï¿½???1152x864 60hz ?????????
 	OSD_FONT_HI_ADDR_CLR_TO_0();
 	for (Vnumber = 0; Vnumber < 8; Vnumber++)
 		VFreqProp[Vnumber] = 0x01; //space
@@ -3420,7 +3420,7 @@ BYTE GetMenuItemIndex(BYTE menuPageIndex)
 			return MAIN_Setting_ITEM;
 		}
 	}
-	// Èý¼¶²Ëµ¥ÍË³ö¶þ¼¶²Ëµ¥Ê±Ëù¶ÔÓ¦µÄITEM
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½Ë³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½Ê±ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ITEM
 	else if( MenuPageIndex == OSD_BriContrastMenu )
 	{
 		if( UserPrefDcrMode )
@@ -3805,43 +3805,43 @@ void DrawOsdBackGround(void)
 	BYTE i,j;
 	if ( MenuPageIndex == MainMenu || (MenuPageIndex >= OSD_BriContrastMenu && MenuPageIndex <= ExitMenu))
 	{
-		Osd_SetTextMonoColor(COLOR_BLACK, COLOR_BLACK);  //¿ªÊ¼½çÃæ´ó±³¾°×ÅÉ«
+		Osd_SetTextMonoColor(COLOR_BLACK, COLOR_BLACK);  //ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ó±³¾ï¿½ï¿½ï¿½É«
 		for (i = 3; i <= OsdWindowHeight - 4; i++)
 		{
-			Osd_DrawContinuesChar( 0, i, SpaceFont, OsdWindowWidth);//»­´ó±³¾°
+			Osd_DrawContinuesChar( 0, i, SpaceFont, OsdWindowWidth);//ï¿½ï¿½ï¿½ó±³¾ï¿½
 		}
 		//draw Four Cornu
-		Osd_SetTextMonoColor(COLOR_DARK_GREEN, CPC_TranColor);//ÉÏÁ½½Ç£¬£º¸ü»»ÑÕÉ«ÎªÉîÂÌÉ«£»
-		Osd_DrawCharDirect(0, 0, MonoFrame_LT); //ÉÏ×ó½ÇµÄ»¡¶ÈÔÚ×ó±ß
-//		Osd_DrawCharDirect(0, 0, MonoFrame_RT);//ÉÏ×ó½ÇµÄ»¡¶ÈÔÚÓÒ±ß
-		Osd_SetTextMonoColor(COLOR_DARK_GREEN, CPC_TranColor);//£º¸ü»»ÑÕÉ«ÎªÉîÂÌÉ«£»
+		Osd_SetTextMonoColor(COLOR_DARK_GREEN, CPC_TranColor);//ï¿½ï¿½ï¿½ï¿½ï¿½Ç£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«Îªï¿½ï¿½ï¿½ï¿½É«ï¿½ï¿½
+		Osd_DrawCharDirect(0, 0, MonoFrame_LT); //ï¿½ï¿½ï¿½ï¿½ÇµÄ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//		Osd_DrawCharDirect(0, 0, MonoFrame_RT);//ï¿½ï¿½ï¿½ï¿½ÇµÄ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò±ï¿½
+		Osd_SetTextMonoColor(COLOR_DARK_GREEN, CPC_TranColor);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«Îªï¿½ï¿½ï¿½ï¿½É«ï¿½ï¿½
 		Osd_DrawCharDirect(CurrentMenu.XSize-1, 0, MonoFrame_RT);
   		#if OsdHelpKeyType == OsdHelpKey_Right           
 		#else
-		Osd_SetTextMonoColor(COLOR_GRAY, CPC_TranColor);   //ÏÂÁ½½Ç  ¸ü»»ÑÕÉ«Îª»ÒÉ«
+		Osd_SetTextMonoColor(COLOR_GRAY, CPC_TranColor);   //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«Îªï¿½ï¿½É«
 		Osd_DrawCharDirect(0, CurrentMenu.YSize - 1, MonoFrame_LD);		
 		Osd_DrawCharDirect(CurrentMenu.XSize - 1, CurrentMenu.YSize - 1, MonoFrame_RD);
 		#endif
 
 		//draw frame
-		Osd_SetTextMonoColor(COLOR_WHITE,COLOR_DARK_GREEN);      //ÉÏ±³¾°
-		for(i = 1; i <= CurrentMenu.XSize - 2; i++)              //Ò»¸ö½ÇµÄ¸ß¶ÈÎª1£¬ÒòÎª±³¾°ÊÇºÚÉ«£¬ÐèÒªÓÃ»ÒÂÌÉ«¸²¸Ç£¬ÏÔÉ«²¿·ÖÎªºó¾°É«
+		Osd_SetTextMonoColor(COLOR_WHITE,COLOR_DARK_GREEN);      //ï¿½Ï±ï¿½ï¿½ï¿½
+		for(i = 1; i <= CurrentMenu.XSize - 2; i++)              //Ò»ï¿½ï¿½ï¿½ÇµÄ¸ß¶ï¿½Îª1ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½Çºï¿½É«ï¿½ï¿½ï¿½ï¿½Òªï¿½Ã»ï¿½ï¿½ï¿½É«ï¿½ï¿½ï¿½Ç£ï¿½ï¿½ï¿½É«ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½É«
 		{
 			for(j = 0;j < 3;j++)
 			{
 				Osd_DrawCharDirect(i, j, SpaceFont);
 			}
-		//	Osd_DrawCharDirect(i, 0, SpaceFont);                 //ÉÏ±³¾°·ÖÎª3²¿·Ö
-		//	Osd_DrawCharDirect(i, 1, SpaceFont);                 //È«Í¼µÄ»­É«ÊÇ°´ÕÕÒ»¸öÒ»¸öÐ¡ÇøÓòËù»­µÄ
+		//	Osd_DrawCharDirect(i, 0, SpaceFont);                 //ï¿½Ï±ï¿½ï¿½ï¿½ï¿½ï¿½Îª3ï¿½ï¿½ï¿½ï¿½
+		//	Osd_DrawCharDirect(i, 1, SpaceFont);                 //È«Í¼ï¿½Ä»ï¿½É«ï¿½Ç°ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ò»ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		//	Osd_DrawCharDirect(i, 2, SpaceFont);
 			
 		}
 		Osd_DrawCharDirect(0, 1, SpaceFont);                     
-		Osd_DrawCharDirect(CurrentMenu.XSize - 1, 1, SpaceFont);//ÉÏÁ½¸ö½Ç(ÓÐ»¡¶È)ÏÂÃæµÄ²¿·ÖÇøÓò
+		Osd_DrawCharDirect(CurrentMenu.XSize - 1, 1, SpaceFont);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½Ð»ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½Ä²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		Osd_DrawCharDirect(0, 2, SpaceFont);
 		Osd_DrawCharDirect(CurrentMenu.XSize - 1, 2, SpaceFont);
 		Osd_SetTextMonoColor(0, COLOR_GRAY);
-		#if OsdHelpKeyType == OsdHelpKey_Right                         //ÏÂ±³¾°
+		#if OsdHelpKeyType == OsdHelpKey_Right                         //ï¿½Â±ï¿½ï¿½ï¿½
 		#else
 		for(i = 1; i <= CurrentMenu.XSize - 2; i++)
 		{
@@ -3858,7 +3858,7 @@ void DrawOsdBackGround(void)
 		Osd_DrawCharDirect(CurrentMenu.XSize - 1, CurrentMenu.YSize - 2, SpaceFont);
 		Osd_DrawCharDirect(CurrentMenu.XSize - 1, CurrentMenu.YSize - 3, SpaceFont);
 		#endif
-		/////////////////////////////////////////////////////////////////////////////   ÏÂËÄ¸öÍ¼±ê
+		/////////////////////////////////////////////////////////////////////////////   ï¿½ï¿½ï¿½Ä¸ï¿½Í¼ï¿½ï¿½
 		Osd_SetTextMonoColor(COLOR_WHITE,COLOR_GRAY);
 		for(i = 0 ;i < 2;i++)
 		{
@@ -3871,41 +3871,41 @@ void DrawOsdBackGround(void)
 	}
 /*
 	///////////////////////////////////////////////////
-	//////////////////////////////////////¶þ¼¶²Ëµ¥
+	//////////////////////////////////////ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½
 	else if(PrevPage == MainMenu && (MenuPageIndex >= OSD_BriContrastMenu && MenuPageIndex <= ExitMenu))
 	{
-		Osd_SetTextMonoColor(COLOR_BLACK, COLOR_BLACK);  //¿ªÊ¼½çÃæ´ó±³¾°É«
+		Osd_SetTextMonoColor(COLOR_BLACK, COLOR_BLACK);  //ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ó±³¾ï¿½É«
 		for (i = 0; i <= OsdWindowHeight - 1; i++)
 		{
 			Osd_DrawContinuesChar( 0, i, SpaceFont, OsdWindowWidth);
 		}
 		//draw Four Cornu
-		Osd_SetTextMonoColor(COLOR_DARK_GREEN, 0);//ÉÏÁ½½Ç£¬£º¸ü»»ÑÕÉ«ÎªÉîÂÌÉ«£»
-		Osd_DrawCharDirect(0, 0, MonoFrame_LT); //ÉÏ×ó½ÇµÄ»¡¶ÈÔÚ×ó±ß
-//		Osd_DrawCharDirect(0, 0, MonoFrame_RT);//ÉÏ×ó½ÇµÄ»¡¶ÈÔÚÓÒ±ß
-		Osd_SetTextMonoColor(COLOR_DARK_GREEN, CPC_TranColor);//£º¸ü»»ÑÕÉ«ÎªÉîÂÌÉ«£»
+		Osd_SetTextMonoColor(COLOR_DARK_GREEN, 0);//ï¿½ï¿½ï¿½ï¿½ï¿½Ç£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«Îªï¿½ï¿½ï¿½ï¿½É«ï¿½ï¿½
+		Osd_DrawCharDirect(0, 0, MonoFrame_LT); //ï¿½ï¿½ï¿½ï¿½ÇµÄ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//		Osd_DrawCharDirect(0, 0, MonoFrame_RT);//ï¿½ï¿½ï¿½ï¿½ÇµÄ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò±ï¿½
+		Osd_SetTextMonoColor(COLOR_DARK_GREEN, CPC_TranColor);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«Îªï¿½ï¿½ï¿½ï¿½É«ï¿½ï¿½
 		Osd_DrawCharDirect(CurrentMenu.XSize-1, 0, MonoFrame_RT);
   	#if OsdHelpKeyType == OsdHelpKey_Right           
 	#else
-		Osd_SetTextMonoColor(COLOR_GRAY, CPC_TranColor);   //ÏÂÁ½½Ç  ¸ü»»ÑÕÉ«Îª»ÒÉ«
+		Osd_SetTextMonoColor(COLOR_GRAY, CPC_TranColor);   //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«Îªï¿½ï¿½É«
 		Osd_DrawCharDirect(0, CurrentMenu.YSize - 1, MonoFrame_LD);		
 		Osd_DrawCharDirect(CurrentMenu.XSize - 1, CurrentMenu.YSize - 1, MonoFrame_RD);
 	#endif
 
 		//draw frame
-		Osd_SetTextMonoColor(COLOR_WHITE,COLOR_DARK_GREEN);      //ÉÏ±³¾°
-		for(i = 1; i <= CurrentMenu.XSize - 2; i++)              //Ò»¸ö½ÇµÄ¸ß¶ÈÎª1£¬ÒòÎª±³¾°ÊÇºÚÉ«£¬ÐèÒªÓÃ»ÒÂÌÉ«¸²¸Ç£¬ÏÔÉ«²¿·ÖÎªºó¾°É«
+		Osd_SetTextMonoColor(COLOR_WHITE,COLOR_DARK_GREEN);      //ï¿½Ï±ï¿½ï¿½ï¿½
+		for(i = 1; i <= CurrentMenu.XSize - 2; i++)              //Ò»ï¿½ï¿½ï¿½ÇµÄ¸ß¶ï¿½Îª1ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½Çºï¿½É«ï¿½ï¿½ï¿½ï¿½Òªï¿½Ã»ï¿½ï¿½ï¿½É«ï¿½ï¿½ï¿½Ç£ï¿½ï¿½ï¿½É«ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½É«
 		{
-			Osd_DrawCharDirect(i, 0, SpaceFont);                 //ÉÏ±³¾°·ÖÎª3²¿·Ö
-			Osd_DrawCharDirect(i, 1, SpaceFont);                 //È«Í¼µÄ»­É«ÊÇ°´ÕÕÒ»¸öÒ»¸öÐ¡ÇøÓòËù»­µÄ
+			Osd_DrawCharDirect(i, 0, SpaceFont);                 //ï¿½Ï±ï¿½ï¿½ï¿½ï¿½ï¿½Îª3ï¿½ï¿½ï¿½ï¿½
+			Osd_DrawCharDirect(i, 1, SpaceFont);                 //È«Í¼ï¿½Ä»ï¿½É«ï¿½Ç°ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ò»ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			Osd_DrawCharDirect(i, 2, SpaceFont);
 		}
 		Osd_DrawCharDirect(0, 1, SpaceFont);                     
-		Osd_DrawCharDirect(CurrentMenu.XSize - 1, 1, SpaceFont);//ÉÏÁ½¸ö½Ç(ÓÐ»¡¶È)ÏÂÃæµÄ²¿·ÖÇøÓò
+		Osd_DrawCharDirect(CurrentMenu.XSize - 1, 1, SpaceFont);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½Ð»ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½Ä²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		Osd_DrawCharDirect(0, 2, SpaceFont);
 		Osd_DrawCharDirect(CurrentMenu.XSize - 1, 2, SpaceFont);
 		Osd_SetTextMonoColor(0, COLOR_GRAY);
-	#if OsdHelpKeyType == OsdHelpKey_Right                         //ÏÂ±³¾°
+	#if OsdHelpKeyType == OsdHelpKey_Right                         //ï¿½Â±ï¿½ï¿½ï¿½
 	#else
 		for(i = 1; i <= CurrentMenu.XSize - 2; i++)
 		{
@@ -3940,38 +3940,38 @@ void DrawOsdBackGround(void)
 	BYTE i;
 	if ( MenuPageIndex == MainMenu )
 	{
-		Osd_SetTextMonoColor(COLOR_BLACK, COLOR_BLACK);  //¿ªÊ¼½çÃæ´ó±³¾°É«
+		Osd_SetTextMonoColor(COLOR_BLACK, COLOR_BLACK);  //ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ó±³¾ï¿½É«
 		for (i = 0; i <= OsdWindowHeight - 1; i++)
 		{
 			Osd_DrawContinuesChar( 0, i, SpaceFont, OsdWindowWidth);
 		}
 		//draw Four Cornu
-		Osd_SetTextMonoColor(COLOR_DARK_GREEN, 0);//ÉÏÁ½½Ç£¬£º¸ü»»ÑÕÉ«ÎªÉîÂÌÉ«£»
-		Osd_DrawCharDirect(0, 0, MonoFrame_LT); //ÉÏ×ó½ÇµÄ»¡¶ÈÔÚ×ó±ß
-//		Osd_DrawCharDirect(0, 0, MonoFrame_RT);//ÉÏ×ó½ÇµÄ»¡¶ÈÔÚÓÒ±ß
-		Osd_SetTextMonoColor(COLOR_DARK_GREEN, CPC_TranColor);//£º¸ü»»ÑÕÉ«ÎªÉîÂÌÉ«£»
+		Osd_SetTextMonoColor(COLOR_DARK_GREEN, 0);//ï¿½ï¿½ï¿½ï¿½ï¿½Ç£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«Îªï¿½ï¿½ï¿½ï¿½É«ï¿½ï¿½
+		Osd_DrawCharDirect(0, 0, MonoFrame_LT); //ï¿½ï¿½ï¿½ï¿½ÇµÄ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//		Osd_DrawCharDirect(0, 0, MonoFrame_RT);//ï¿½ï¿½ï¿½ï¿½ÇµÄ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò±ï¿½
+		Osd_SetTextMonoColor(COLOR_DARK_GREEN, CPC_TranColor);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«Îªï¿½ï¿½ï¿½ï¿½É«ï¿½ï¿½
 		Osd_DrawCharDirect(CurrentMenu.XSize-1, 0, MonoFrame_RT);
   		#if OsdHelpKeyType == OsdHelpKey_Right           
 		#else
-		Osd_SetTextMonoColor(COLOR_GRAY, CPC_TranColor);   //ÏÂÁ½½Ç  ¸ü»»ÑÕÉ«Îª»ÒÉ«
+		Osd_SetTextMonoColor(COLOR_GRAY, CPC_TranColor);   //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«Îªï¿½ï¿½É«
 		Osd_DrawCharDirect(0, CurrentMenu.YSize - 1, MonoFrame_LD);		
 		Osd_DrawCharDirect(CurrentMenu.XSize - 1, CurrentMenu.YSize - 1, MonoFrame_RD);
 		#endif
 
 		//draw frame
-		Osd_SetTextMonoColor(COLOR_WHITE,COLOR_DARK_GREEN);      //ÉÏ±³¾°
-		for(i = 1; i <= CurrentMenu.XSize - 2; i++)              //Ò»¸ö½ÇµÄ¸ß¶ÈÎª1£¬ÒòÎª±³¾°ÊÇºÚÉ«£¬ÐèÒªÓÃ»ÒÂÌÉ«¸²¸Ç£¬ÏÔÉ«²¿·ÖÎªºó¾°É«
+		Osd_SetTextMonoColor(COLOR_WHITE,COLOR_DARK_GREEN);      //ï¿½Ï±ï¿½ï¿½ï¿½
+		for(i = 1; i <= CurrentMenu.XSize - 2; i++)              //Ò»ï¿½ï¿½ï¿½ÇµÄ¸ß¶ï¿½Îª1ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½Çºï¿½É«ï¿½ï¿½ï¿½ï¿½Òªï¿½Ã»ï¿½ï¿½ï¿½É«ï¿½ï¿½ï¿½Ç£ï¿½ï¿½ï¿½É«ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½É«
 		{
-			Osd_DrawCharDirOsd_SetTextMonoColor(0, COLOR_GRAY);ect(i, 0, SpaceFont);                 //ÉÏ±³¾°·ÖÎª3²¿·Ö
-			Osd_DrawCharDirect(i, 1, SpaceFont);                 //È«Í¼µÄ»­É«ÊÇ°´ÕÕÒ»¸öÒ»¸öÐ¡ÇøÓòËù»­µÄ
+			Osd_DrawCharDirOsd_SetTextMonoColor(0, COLOR_GRAY);ect(i, 0, SpaceFont);                 //ï¿½Ï±ï¿½ï¿½ï¿½ï¿½ï¿½Îª3ï¿½ï¿½ï¿½ï¿½
+			Osd_DrawCharDirect(i, 1, SpaceFont);                 //È«Í¼ï¿½Ä»ï¿½É«ï¿½Ç°ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ò»ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			Osd_DrawCharDirect(i, 2, SpaceFont);
 		}
 		Osd_DrawCharDirect(0, 1, SpaceFont);                     
-		Osd_DrawCharDirect(CurrentMenu.XSize - 1, 1, SpaceFont);//ÉÏÁ½¸ö½Ç(ÓÐ»¡¶È)ÏÂÃæµÄ²¿·ÖÇøÓò
+		Osd_DrawCharDirect(CurrentMenu.XSize - 1, 1, SpaceFont);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½Ð»ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½Ä²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		Osd_DrawCharDirect(0, 2, SpaceFont);
 		Osd_DrawCharDirect(CurrentMenu.XSize - 1, 2, SpaceFont);	
 		
-		#if OsdHelpKeyType == OsdHelpKey_Right                         //ÏÂ±³¾°
+		#if OsdHelpKeyType == OsdHelpKey_Right                         //ï¿½Â±ï¿½ï¿½ï¿½
 		#else
 		for(i = 1; i <= CurrentMenu.XSize - 2; i++)
 		{
@@ -3989,22 +3989,22 @@ void DrawOsdBackGround(void)
 		
 		for(i = 0; i < CurrentMenu.XSize; i++)                
 		{
-			Osd_DrawCharDirect(i, 2, MenuFrame_TopSide);//ÉÏ±ß¿ò
+			Osd_DrawCharDirect(i, 2, MenuFrame_TopSide);//ï¿½Ï±ß¿ï¿½
 		}
 		Osd_SetTextMonoColor(COLOR_DARK_GREEN, COLOR_GRAY);
 		for(i = 0; i < CurrentMenu.XSize; i++)
 		{
-			Osd_DrawCharDirect(i, CurrentMenu.YSize - underBlankFontWide, MenuFrame_BottomSide);  //ÏÂ±ß¿ò
+			Osd_DrawCharDirect(i, CurrentMenu.YSize - underBlankFontWide, MenuFrame_BottomSide);  //ï¿½Â±ß¿ï¿½
 		}
 		Osd_SetTextMonoColor(COLOR_BLACK, COLOR_BLACK);
-		for(i = 3; i < CurrentMenu.YSize - underBlankFontWide; i++)   //×ó±ß¿ò
+		for(i = 3; i < CurrentMenu.YSize - underBlankFontWide; i++)   //ï¿½ï¿½ß¿ï¿½
 		{
 			Osd_DrawCharDirect(5, i, MenuFrame_LeftSide);
 		}
 		#if OsdHelpKeyType == OsdHelpKey_Right
 		for(i = 3; i < CurrentMenu.YSize - underBlankFontWide; i++)
 		{
-			Osd_DrawCharDirect(CurrentMenu.XSize - 5, i, MenuFrame_RightSide);      //ÓÐ±ß¿ò
+			Osd_DrawCharDirect(CurrentMenu.XSize - 5, i, MenuFrame_RightSide);      //ï¿½Ð±ß¿ï¿½
 		}
 		Osd_SetTextMonoColor(COLOR_WHITE, COLOR_GRAY);
 		for(i = 3; i < CurrentMenu.YSize - underBlankFontWide; i++)
@@ -4015,13 +4015,13 @@ void DrawOsdBackGround(void)
 			Osd_DrawCharDirect(CurrentMenu.XSize - 1, i, SpaceFont);
 		}
 		#else
-		for(i = 3; i < CurrentMenu.YSize - underBlankFontWide; i++)               //ÏÂ¿Õ°××ÖÌå¿í¶È
+		for(i = 3; i < CurrentMenu.YSize - underBlankFontWide; i++)               //ï¿½Â¿Õ°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		{
-			Osd_DrawCharDirect(CurrentMenu.XSize - 1, i, MenuFrame_RightSide);  //²Ëµ¥¿ò¼Ü_ÓÒÃæ
+			Osd_DrawCharDirect(CurrentMenu.XSize - 1, i, MenuFrame_RightSide);  //ï¿½Ëµï¿½ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½ï¿½
 		}
 		#endif
 */		Osd_SetTextMonoColor(0, COLOR_GRAY);
-		#if OsdHelpKeyType == OsdHelpKey_Right                         //ÏÂ±³¾°
+		#if OsdHelpKeyType == OsdHelpKey_Right                         //ï¿½Â±ï¿½ï¿½ï¿½
 		#else
 		for(i = 1; i <= CurrentMenu.XSize - 2; i++)
 		{
@@ -4142,3 +4142,5 @@ void DrawOsdBackGround(void)
 
 
 
+FFF
+HHHHHHHHHHHHHHHHHHHHHHHHH
