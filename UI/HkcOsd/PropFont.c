@@ -71,7 +71,7 @@ void Osd_DynamicLoadFont( BYTE  addr, BYTE *fontPtr, WORD num )
 #if ENABLE_OVER_SCAN
 
 #define ImageRatioStatusAddr    0xA8
-void DynamicLoadFont_RatioStatus(void)
+void DynamicLoadFont_RatioStatus(void)//动态加载字体比例状态
 {
 	if( UserprefExpansionMode == Expansion_Aspect && ExpansionFlag )
 	{
@@ -116,7 +116,7 @@ void DynamicLoadFont_RatioStatus(void)
 #endif
 
 
-void DynamicLoadFont(MenuFontType *menuFonts)
+void DynamicLoadFont(MenuFontType *menuFonts)//加载语言状态字体
 {
 	if (menuFonts->Fonts)
 	#if !AdjustLanguageFunction

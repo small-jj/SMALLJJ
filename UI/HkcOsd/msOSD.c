@@ -497,6 +497,7 @@ void Osd_DrawHex(BYTE xPos, BYTE yPos, WORD value)
 #if CHIP_ID>=CHIP_TSUMV
 void LoadCommonFont(void)
 {
+//	msWrite2ByteMask(OSD1_00, 0x0000 + _2ColorFontStart, 0x03FF); // 2 color start   my
 	msWrite2ByteMask(OSD1_0A, 0x0200 + _4ColorFontStart, 0x03FF); // 4 color start
 	msWrite2ByteMask(OSD1_0C, 0x0200 + _8ColorFontStart, 0x03FF); // 8 color start
 	msWrite2ByteMask(OSD1_0E, 0x03FF, 0x03FF);  // 16 color start
@@ -508,27 +509,38 @@ void LoadCommonFont(void)
 	#else
 	mStar_LoadCompressedFont( MonoFontStart, tColor2FixFont, 0 );
 	mStar_LoadCompressedFont( MonoNumberStart, tOSDNumberFont, 0 );
-	mStar_LoadCompressedFont( (FfontStart), &tFontF, 0 );
-	#endif
-	#if OsdHelpKeyType == OsdHelpKey_Under
-	mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(0x11), &HelpKeyIcon, 0 );
-	#elif 	OsdHelpKeyType == OsdHelpKey_Right
-	OSD_FONT_HI_ADDR_SET_BIT8();//0x100~0x1FF
-	mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(0x11), &HelpKeyIcon, 0 );
-	OSD_FONT_HI_ADDR_CLR_TO_0();
+//	mStar_LoadCompressedFont( (FfontStart), &tFontF, 0 );
+//	#endif
+//	#if OsdHelpKeyType == OsdHelpKey_Under
+//	mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(0x11), &HelpKeyIcon, 0 );
+//	#elif 	OsdHelpKeyType == OsdHelpKey_Right
+//	OSD_FONT_HI_ADDR_SET_BIT8();//0x100~0x1FF
+//	mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(0x11), &HelpKeyIcon, 0 );
+//	OSD_FONT_HI_ADDR_CLR_TO_0();
 	#endif
 	LoadLanguageStatusPropfont();
 	OSD_FONT_HI_ADDR_SET_BIT8();//0x100~0x1FF
 	OSD_WRITE_FONT_ADDRESS(MonoGuageFontStar);
+
+	
 	#if CHIP_ID>=CHIP_TSUM2
-	mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(MonoGuageFontStar), tMonoGauge, 0 );
+	mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(MonoGuageFontStar), tMonoGauge, 0 );    
+
+//	mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(_2ColorMainIconStart),tColor2MainMenuItemColor,0);//my
+	mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(_2ColorMainIconStart),tColor2MainPicture,0);//my
+	
+//	LoadCompressColorFont(&tColor2PictureFont, NULL, 19);
+
+	
 	#else
 	mStar_LoadCompressedFont( MonoGuageFontStar, tMonoGauge, 0 );
 	#endif
+	//mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(_2ColorMainIconStart),tColor2MainPicture,0);//my
+
 	OSD_FONT_HI_ADDR_CLR_TO_0();
 	OSD_FONT_HI_ADDR_SET_BIT9();//0x200~0x2FF
-	OSD_WRITE_FONT_ADDRESS(_4ColorMainIconStart);
-	LoadCompressColorFont(&tMainMenuIcon4ColorFont, NULL, 18); // load osd fonts
+//	OSD_WRITE_FONT_ADDRESS(_4ColorMainIconStart);
+//	LoadCompressColorFont(&tMainMenuIcon4ColorFont, NULL, 18); // load osd fonts
 	OSD_WRITE_FONT_ADDRESS(_8ColorMainIconStart);
 	Osd_Load8ColorFont( _8ColorMainIconStart, &tMainMenuIcon8ColorFont, sizeof( tMainMenuIcon8ColorFont ) );
 	OSD_FONT_HI_ADDR_CLR_TO_0();
