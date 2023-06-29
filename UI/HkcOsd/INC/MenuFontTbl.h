@@ -2401,8 +2401,6 @@ MenuFontType code MenuPage6[16] =
 };
 // Total Menu Font Number = 2302
 #elif ( LowBlueLightType==LowBlueLight_Misc_Group)
-
-
 BYTE code MenuPage6L1[154] =
 {
 	// Total fonts: 87

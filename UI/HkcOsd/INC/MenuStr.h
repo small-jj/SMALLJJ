@@ -32,6 +32,17 @@ extern BYTE* OSDIcon(void);
 extern BYTE* ResetIcon(void);
 extern BYTE* MiscIcon(void);
 extern BYTE *Main_FText(void);
+extern BYTE* PictureIcon(void);
+extern BYTE* ColorIcon(void);
+extern BYTE* InputIcon(void);
+extern BYTE* SettingIcon(void);
+extern BYTE* InformationIcon(void);
+
+extern BYTE code LOW_ICON_1[2];
+extern BYTE code LOW_ICON_2[2];
+extern BYTE code LOW_ICON_3[2];
+extern BYTE code LOW_ICON_4[2];
+
 
 
 #if AudioFunc
@@ -85,23 +96,6 @@ extern BYTE *InputTypeRationText( void );
 *
 *
 *******************************************************************************/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 extern BYTE *VersionDateText(void);
 extern BYTE *ChangeDateText(void);
