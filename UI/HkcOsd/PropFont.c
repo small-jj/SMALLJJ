@@ -71,7 +71,7 @@ void Osd_DynamicLoadFont( BYTE  addr, BYTE *fontPtr, WORD num )
 #if ENABLE_OVER_SCAN
 
 #define ImageRatioStatusAddr    0xA8
-void DynamicLoadFont_RatioStatus(void)//动态加载字体比例状态
+void DynamicLoadFont_RatioStatus(void)
 {
 	if( UserprefExpansionMode == Expansion_Aspect && ExpansionFlag )
 	{
@@ -116,7 +116,7 @@ void DynamicLoadFont_RatioStatus(void)//动态加载字体比例状态
 #endif
 
 
-void DynamicLoadFont(MenuFontType *menuFonts)//加载语言状态字体
+void DynamicLoadFont(MenuFontType *menuFonts)
 {
 	if (menuFonts->Fonts)
 	#if !AdjustLanguageFunction
@@ -133,6 +133,8 @@ void LoadLanguageStatusPropfont( void )
 	if(MenuPageIndex != FactoryMenu)
 		Osd_DynamicLoadFont( PropFontAddress, MenuPage4[UserPrefLanguage].Fonts, MenuPage4[UserPrefLanguage].FontCount );
 	Osd_DynamicLoadFont( MainAddress, MenuPage7[UserPrefLanguage].Fonts, MenuPage7[UserPrefLanguage].FontCount );
+	Osd_DynamicLoadFont( MainAddress, MenuPage0[UserPrefLanguage].Fonts, MenuPage0[UserPrefLanguage].FontCount );
+	
 	#if AdjustLanguageFunction
 	Osd_DynamicLoadFont( LanguageAddress, MenuPage8[UserPrefLanguage].Fonts, MenuPage8[UserPrefLanguage].FontCount );
 	#endif

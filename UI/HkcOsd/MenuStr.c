@@ -4,330 +4,61 @@
 #include "keypaddef.h"
 #include "menudef.h"
 
+
+
 #if PropFontNewData
 #include "menuTextProp_new.h"
 #else
 #include "menuTextProp.h"
 #endif
 
-
-#define color_2font 1
-#define color_4font 2
-#define color_8font 3
-
-#define Icon2Color_AddrShift   1
 #define Icon4Color_AddrShift   2
 #define Icon8Color_AddrShift   3
-
-/*
-BYTE code strPictureIcon[7] =                                  //my
+//主界面图标
+#define M1(x)	( _2ColorMainIconStart + x )
+BYTE code strBrightnessIcon[1][3] =
 {
-	_2ColorMainIconStart + 0 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 1 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 2 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 3 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 4 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 5 * Icon2Color_AddrShift,
-	'\0'
+	{M1(0x00), M1(0x01), 0}
+};
+
+#define M2(x)	( _2ColorMainIconStart + x + 2 )
+
+BYTE code strImageIcon[1][3] =
+{
+	{M2(0x00), M2(0x01), 0}
+};
+
+#define M3(x)	( _2ColorMainIconStart + x + 4 )
+
+BYTE code strColorTempIcon[1][3] =
+{
+	{M3(0x00), M3(0x01), 0}
+};
+
+#define M4(x)	( _2ColorMainIconStart + x + 6 )
+
+BYTE code strOSDIcon[1][3] =
+{
+	{M4(0x00), M4(0x01), 0}
+};
+
+#define M5(x)	( _2ColorMainIconStart + x + 8)
+
+BYTE code strResetIcon[1][3] =
+{
+	{M5(0x00), M5(0x01), 0}
+
+};
+
+#define M6(x)	( _2ColorMainIconStart + x + 10)
+
+BYTE code strMiscIcon[1][3] =
+{
+	{M6(0x00), M6(0x01),0}
+
 };
 
 
-BYTE code strColorcon[7] =                                //my
-{
-	_2ColorMainIconStart + 6 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 7 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 8 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 9 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 10 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 11 * Icon2Color_AddrShift,
-
-	'\0'
-};
-
-BYTE code strInputIcon[7] =                                  //my
-{
-	_2ColorMainIconStart + 12 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 13 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 14 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 15 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 16 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 17 * Icon2Color_AddrShift,
-	'\0'
-};
-
-
-BYTE code strSettingIcon[7] =                                //my
-{
-	_2ColorMainIconStart + 18 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 19 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 20 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 21 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 22 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 23 * Icon2Color_AddrShift,
-
-	'\0'
-};
-
-BYTE code strInformationIcon[7] =                                //my
-{
-	_2ColorMainIconStart + 24 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 25 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 26 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 27 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 28 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 29 * Icon2Color_AddrShift,
-
-	'\0'
-};
-*/
-
-
-BYTE code strPictureIcon[25] =                                  //my
-{
-	_2ColorMainIconStart + 0 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 1 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 2 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 3 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 4 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 5 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 6 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 7 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 8 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 9 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 10 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 11 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 12 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 13 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 14 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 15 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 16 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 17 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 18 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 19 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 20 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 21 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 22 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 23 * Icon2Color_AddrShift,	
-	'\0'
-};
-
-BYTE code strColorIcon[25] =                                  //my
-{
-	_2ColorMainIconStart + 24 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 25 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 26 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 27 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 28 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 29 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 30 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 31 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 32 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 33 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 34 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 35 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 36 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 37 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 38 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 39 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 40 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 41 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 42 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 43 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 44 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 45 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 46 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 47 * Icon2Color_AddrShift,	
-	'\0'
-};
-
-BYTE code strInputIcon[25] =                                  //my
-{
-	_2ColorMainIconStart + 48 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 49 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 50 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 51 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 52 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 53 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 54 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 55 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 56 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 57 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 58 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 59 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 60 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 61 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 62 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 63 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 64 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 65 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 66 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 67 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 68 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 69 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 70 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 71 * Icon2Color_AddrShift,	
-	'\0'
-};
-
-BYTE code strSettingIcon[25] =                                  //my
-{
-	_2ColorMainIconStart + 72 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 73 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 74 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 75 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 76 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 77 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 78 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 79 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 80 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 81 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 82 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 83 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 84 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 85 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 86 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 87 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 88 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 89 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 90 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 91 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 92 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 93 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 94 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 95 * Icon2Color_AddrShift,	
-	'\0'
-};
-
-BYTE code strInformationIcon[25] =                                  //my
-{
-	_2ColorMainIconStart + 96 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 97 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 98 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 99 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 100 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 101 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 102 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 103 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 104 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 105 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 106 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 107 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 108 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 109 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 110 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 111 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 112 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 113 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 114 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 115 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 116 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 117 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 118 * Icon2Color_AddrShift,
-	_2ColorMainIconStart + 119 * Icon2Color_AddrShift,	
-	'\0'
-};
-
-
-
-
-
-BYTE code strBrightnessIcon[7] =
-{
-	_8ColorMainIconStart + 0 * Icon8Color_AddrShift,
-	_8ColorMainIconStart + 1 * Icon8Color_AddrShift,
-	_8ColorMainIconStart + 2 * Icon8Color_AddrShift,
-	_8ColorMainIconStart + 3 * Icon8Color_AddrShift,
-	_8ColorMainIconStart + 4 * Icon8Color_AddrShift,
-	_8ColorMainIconStart + 5 * Icon8Color_AddrShift,
-	'\0'
-};
-
-
-
-
-BYTE code strImageIcon[7] =
-{
-	_4ColorMainIconStart + 0 * Icon4Color_AddrShift,
-	_4ColorMainIconStart + 1 * Icon4Color_AddrShift,
-	_4ColorMainIconStart + 2 * Icon4Color_AddrShift,
-	_4ColorMainIconStart + 3 * Icon4Color_AddrShift,
-	_4ColorMainIconStart + 4 * Icon4Color_AddrShift,
-	_4ColorMainIconStart + 5 * Icon4Color_AddrShift,
-	'\0'
-};
-
-BYTE code strColorTempIcon[7] =
-{
-	_8ColorMainIconStart + 6 * Icon8Color_AddrShift,
-	_8ColorMainIconStart + 7 * Icon8Color_AddrShift,
-	_8ColorMainIconStart + 8 * Icon8Color_AddrShift,
-	_8ColorMainIconStart + 9 * Icon8Color_AddrShift,
-	_8ColorMainIconStart + 10 * Icon8Color_AddrShift,
-	_8ColorMainIconStart + 11 * Icon8Color_AddrShift,
-	'\0'
-};
-
-BYTE code strOSDIcon[7] =
-{
-	_8ColorMainIconStart + 12 * Icon8Color_AddrShift,
-	_8ColorMainIconStart + 13 * Icon8Color_AddrShift,
-	_8ColorMainIconStart + 14 * Icon8Color_AddrShift,
-	_8ColorMainIconStart + 15 * Icon8Color_AddrShift,
-	_8ColorMainIconStart + 16 * Icon8Color_AddrShift,
-	_8ColorMainIconStart + 17 * Icon8Color_AddrShift,
-	'\0'
-};
-
-BYTE code strResetIcon[7] =
-{
-	_4ColorMainIconStart + 6 * Icon4Color_AddrShift,
-	_4ColorMainIconStart + 7 * Icon4Color_AddrShift,
-	_4ColorMainIconStart + 8 * Icon4Color_AddrShift,
-	_4ColorMainIconStart + 9 * Icon4Color_AddrShift,
-	_4ColorMainIconStart + 10 * Icon4Color_AddrShift,
-	_4ColorMainIconStart + 11 * Icon4Color_AddrShift,
-	'\0'
-};
-
-BYTE code strMiscIcon[7] =
-{
-	_4ColorMainIconStart + 12 * Icon4Color_AddrShift,
-	_4ColorMainIconStart + 13 * Icon4Color_AddrShift,
-	_4ColorMainIconStart + 14 * Icon4Color_AddrShift,
-	_4ColorMainIconStart + 15 * Icon4Color_AddrShift,
-	_4ColorMainIconStart + 16 * Icon4Color_AddrShift,
-	_4ColorMainIconStart + 17 * Icon4Color_AddrShift,
-	'\0'
-};
-BYTE* ColorIcon(void)                    //my
-{
-	return strColorIcon;
-
-}
-
-BYTE* PictureIcon(void)                    //my
-{
-	return strPictureIcon;
-	
-}
-
-BYTE* InputIcon(void)                    //my
-{
-	return strInputIcon;
-	
-}
-
-BYTE* SettingIcon(void)                    //my
-{
-	return strSettingIcon;
-
-}
-
-BYTE* InformationIcon(void)                    //my
-{
-	return strInformationIcon;
-	
-}
 
 
 
@@ -355,8 +86,222 @@ BYTE* MiscIcon(void)
 {
 	return strMiscIcon;
 }
+/////////////////////主菜单///////////////////////////////////
+//my
+BYTE* MainMenu_ColorsText(void)
+{
+	return strColorM0[UserPrefLanguage];
+}
+BYTE* MainMenu_BriContrastText(void)
+{
+	return strBriContrastM0[UserPrefLanguage];
+}
+BYTE* MainMenu_PictureText(void)
+{
+	return strPictureM0[UserPrefLanguage];
+}
+
+BYTE* MainMenu_Game_Pro_FeaturesText(void)
+{
+	return strGame_Pro_FeaturesM0[UserPrefLanguage];
+}
+
+BYTE* MainMenu_Menu_settingsText(void)
+{
+	return strMenu_settingsM0[UserPrefLanguage];
+}
+BYTE* MainMenu_Other_settingsText(void)
+{
+	return strOther_settingsM0[UserPrefLanguage];
+}
+//BYTE* MainMenu_Shortcut_KeyText(void)
+//{
+//	return strShortcut_KeysM0[UserPrefLanguage];
+//}
+
+///////////////////颜色二级菜单////////////////
+
+BYTE *WarmColorTempText( void )
+{
+	return strWarmColorTempText[UserPrefLanguage];
+}
+BYTE *CoolColorTempText( void )
+{
+	return strCoolColorTempText[UserPrefLanguage];
+}
+BYTE *ChromatictysText( void )
+{
+	return strChromatictysText[UserPrefLanguage];
+}
+
+BYTE *ColorSaturationtext( void )
+{
+	return strColorSaturationtext[UserPrefLanguage];
+}
+//亮度/对比度二级菜单////////////////////////////////////////////
+
+BYTE *BrightnesssText( void )
+{
+	return strWBrightnessText[UserPrefLanguage];
+}
+BYTE *ContrastRatioText( void )
+{
+	return strContrastRatioText[UserPrefLanguage];
+}
+BYTE *Dynamic_Contrast_RatioText( void )
+{
+	return strDynamic_Contrast_RatioText[UserPrefLanguage];
+}
+
+BYTE *Dynamic_Brightnesstext( void )
+{
+	return strDynamic_Brightnesstext[UserPrefLanguage];
+}
+//画面二级菜单
+BYTE *Scenario_ModeText( void )
+{
+	return strScenario_ModeText[UserPrefLanguage];
+}
+BYTE *Screen_ScaleText( void )
+{
+	return strScreen_ScaleText[UserPrefLanguage];
+}
+BYTE *GammaText( void )
+{
+	return strGammaText[UserPrefLanguage];
+}
+BYTE *Sharpnesstext( void )
+{
+	return strSharpnesstext[UserPrefLanguage];
+}
+BYTE *Low_Blue_LightText( void )
+{
+	return strLow_Blue_LightText[UserPrefLanguage];
+}
+BYTE *HDRtext( void )
+{
+	return strHDRtext[UserPrefLanguage];
+}
+BYTE *Dark_Balancetext( void )
+{
+	return strDark_Balancetext[UserPrefLanguage];
+}
+
+//游戏专业功能二级菜单
+
+BYTE *MPRTText( void )
+{
+	return strMPRTText[UserPrefLanguage];
+}
+BYTE *Adaptive_SyncText( void )
+{
+	return strSAdaptive_SyncText[UserPrefLanguage];
+}
+BYTE *Response_timeText( void )
+{
+	return strResponse_timeText[UserPrefLanguage];
+}
+BYTE *Refresh_ratetext( void )
+{
+	return strRefresh_ratetext[UserPrefLanguage];
+}
+BYTE *Game_alignmentText( void )
+{
+	return strGame_alignmentText[UserPrefLanguage];
+}
+BYTE *Game_Timingtext( void )
+{
+	return strGame_Timingtext[UserPrefLanguage];
+}
+BYTE *Ambient_lighttext( void )
+{
+	return strAmbient_lighttext[UserPrefLanguage];
+}
+//菜单设置二级菜单
+BYTE *LanguageeText( void )
+{
+	return strLanguageText[UserPrefLanguage];
+}
+BYTE *Show_TimeText( void )
+{
+	return strShow_TimeText[UserPrefLanguage];
+}
+BYTE *Horizontal_PositionText( void )
+{
+	return strHorizontal_PositionText[UserPrefLanguage];
+}
+BYTE *Vertical_Vositiontext( void )
+{
+	return strVertical_Vositiontext[UserPrefLanguage];
+}
+BYTE *Transparencytext( void )
+{
+	return strTransparencytext[UserPrefLanguage];
+}
+BYTE *Menu_Rotationtext( void )
+{
+	return strMenu_Rotationtext[UserPrefLanguage];
+}
+BYTE *Menu_LockText( void )
+{
+	return strMenu_LockText[UserPrefLanguage];
+}
+BYTE *Shortcut_OneText( void )
+{
+	return strShortcut_OneText[UserPrefLanguage];
+}
+BYTE *Shortcut_TwoText( void )
+{
+	return strShortcut_TwoText[UserPrefLanguage];
+}
+BYTE *Shortcut_Threetext( void )
+{
+	return strShortcut_Threetext[UserPrefLanguage];
+}
+BYTE *Shortcut_FourText( void )
+{
+	return strShortcut_FourText[UserPrefLanguage];
+}
+
+//其他设置二级菜单
+BYTE *Signal_Input_Text( void )
+{
+	return strSignalInput[UserPrefLanguage];
+}
+BYTE *Mute_Text( void )
+{
+	return strMute[UserPrefLanguage];
+}
+BYTE *Volume_Text( void )
+{
+	return strVolume[UserPrefLanguage];
+}
+BYTE *Auto_Power_Off_Text( void )
+{
+	return strAutoPowerOff[UserPrefLanguage];
+}
+
+BYTE *Eye_Protection_Reminder_text( void )
+{
+	return strEyeProtectionReminder[UserPrefLanguage];
+}
+BYTE *Reset_text( void )
+{
+	return strReset_test[UserPrefLanguage];
+}
+
+BYTE *Information_text( void )
+{
+	return strInformation_test[UserPrefLanguage];
+}
+BYTE *Audio_Input_text( void )
+{
+	return strAudioIput[UserPrefLanguage];
+}
 
 
+
+//////////////////////////////////////////////////////
 //----Eson Start----------------------------------
 //========= TEXT =========
 BYTE* MainMenu_BrightText(void)

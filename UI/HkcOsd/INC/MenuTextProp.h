@@ -1,6 +1,7 @@
 
 
 
+
 //----Eson Start----------------------------------
 BYTE code strFactory[2] =
 {
@@ -8,6 +9,9 @@ BYTE code strFactory[2] =
 };
 
 #if 1
+
+
+
 
 
 BYTE code strLuminanceM7[16][2] =
