@@ -10,224 +10,204 @@ BYTE code strFactory[2] =
 
 #if 1
 
-
-#if 1
-
-BYTE code strColorM0[2][2]=
-{ { 0xc0, 0x02 },
-  { 0xc0, 0x03 },
+//----------------主菜单---------------------
+BYTE code strMain_ColorM100[2][2]=
+{ { 0xC0 , 0x02 },
+  { 0xC0 , 0x04 }
 };
-BYTE code strBriContrastM0[2][2]=
-{ { 0xc2 , 0x06 },
-  { 0xc3 , 0x11 }
+BYTE code strMain_BrightnessM100[2][2]=
+{ { 0xC2 , 0x06 },
+  { 0xC4 , 0x0D }
 };
-BYTE code strPictureM0[2][2]=
-{ { 0xc8 , 0x02 },
-  { 0xd4 , 0x04 }
+BYTE code strMain_ScreenM100[2][2]=
+{ { 0xC8 , 0x02 },
+  { 0xD1 , 0x05 }
 };
-BYTE code strGame_Pro_FeaturesM0[2][2]=
-{ { 0xca , 0x06 },
-  { 0xd8 , 0x0b }
+BYTE code strMain_GameFeaturesM100[2][2]=
+{ { 0xCA , 0x06 },
+  { 0xD6 , 0x10 }
 };
-BYTE code strMenu_settingsM0[2][2]=
-{ { 0xd0 , 0x04 },
-  { 0xe3 , 0x08 }
+BYTE code strMain_MenuSettingsM100[2][2]=
+{ { 0xD0 , 0x04 },
+  { 0xE6 , 0x09 }
 };
-BYTE code strOther_settingsM0[2][2]=
-{ { 0xd4 , 0x04 },
-  { 0xeb , 0x08 }
+BYTE code strMain_OtherSettingsM100[2][2]=
+{ { 0xD4 , 0x04 },
+  { 0xEF , 0x0A }
 };
-BYTE code strShortcut_KeysM0[2][2]=
-{{ 0xd8 , 0x03 },
-  { 0xf3 , 0x08 }
-};
-//颜色二级菜单
-
-BYTE code strWarmColorTempText[2][2]=
+//----------------颜色菜单-------------------
+BYTE code strWarmTempM101[2][2]=
 { { 0x2C , 0x03 },
-  { 0x2C , 0x10 }
+  { 0x2C , 0x04 }
 };
-BYTE code strCoolColorTempText[2][2]=
-{ { 0x2f , 0x03 },
-  { 0x3c , 0x09 }
+BYTE code strCoolTempM101[2][2]=
+{ { 0x2F , 0x03 },
+  { 0x30 , 0x03 }
 };
-BYTE code strChromatictysText[2][2]=
+BYTE code strChromaticityM101[2][2]=
 { { 0x32 , 0x02 },
-  { 0x4b , 0x07 }
+  { 0x33 , 0x08 }
 };
-BYTE code strColorSaturationtext[2][2]=
+BYTE code strColorSaturationM101[2][2]=
 { { 0x34 , 0x04 },
-  { 0x52 , 0x0b }
+  { 0x3B , 0x0B }
 };
-//亮度对比度二级菜单
-
-BYTE code strWBrightnessText[2][2]=
+//-----------------------------------亮度菜单
+BYTE code strBrightnessM102[2][2]=
 { { 0x2C , 0x02 },
-  { 0x2C , 0x06 }
+  { 0x2C , 0x07 }
 };
-BYTE code strContrastRatioText[2][2]=
-{ { 0x2e , 0x03 },
-  { 0x32 , 0x09 }
+BYTE code strContrastM102[2][2]=
+{ { 0x2E , 0x03 },
+  { 0x33 , 0x06 }
 };
-BYTE code strDynamic_Contrast_RatioText[2][2]=
+BYTE code strDynamicContrastM102[2][2]=
 { { 0x31 , 0x05 },
-  { 0x3b , 0x0e }
+  { 0x39 , 0x0C }
 };
-BYTE code strDynamic_Brightnesstext[2][2]=
+BYTE code strDynamicBrightnessM102[2][2]=
 { { 0x36 , 0x04 },
-  { 0x39 , 0x0c }
+  { 0x45 , 0x0D }
 };
-//画面二级菜单
-
-BYTE code strScenario_ModeText[2][2]=
+//-----------------------------------画面菜单
+BYTE code strScenarioModeM103[2][2]=
 { { 0x2C , 0x04 },
-  { 0x2C , 0x09 }
+  { 0x2C , 0x0A }
 };
-BYTE code strScreen_ScaleText[2][2]=
+BYTE code strScreenRatioM103[2][2]=
 { { 0x30 , 0x04 },
-  { 0x35 , 0x07 }
+  { 0x36 , 0x09 }
 };
-BYTE code strGammaText[2][2]=
+BYTE code strGammaM103[2][2]=
 { { 0x34 , 0x02 },
-  { 0x3c , 0x04 }
+  { 0x3F , 0x05 }
 };
-BYTE code strSharpnesstext[2][2]=
+BYTE code strSharpnessM103[2][2]=
 { { 0x36 , 0x03 },
-  { 0x40 , 0x06 }
+  { 0x44 , 0x07 }
 };
-BYTE code strLow_Blue_LightText[2][2]=
+BYTE code strLowBlueLightM103[2][2]=
 { { 0x39 , 0x03 },
-  { 0x46 , 0x08 }
+  { 0x4B , 0x09 }
 };
-BYTE code strHDRtext[2][2]=
-{ { 0x3c , 0x03 },
-  { 0x4e , 0x03 }
+BYTE code strHDRM103[2][2]=
+{ { 0x3C , 0x03 },
+  { 0x54 , 0x03 }
 };
-
-BYTE code strDark_Balancetext[2][2]=
-{ { 0x3f , 0x04 },
-  { 0x51 , 0x08 }
+BYTE code strDarkBalanceM103[2][2]=
+{ { 0x3F , 0x04 },
+  { 0x57 , 0x09 }
 };
-//游戏专业功能二级菜单
-
-BYTE code strMPRTText[2][2]=
+//-----------------------------------游戏专用功能菜单
+BYTE code strMPRTM104[2][2]=
 { { 0x2C , 0x04 },
   { 0x2C , 0x04 }
 };
-BYTE code strSAdaptive_SyncText[2][2]=
+BYTE code strAdaptiveSyncM104[2][2]=
 { { 0x30 , 0x09 },
-  { 0x30 , 0x09 }
+  { 0x30 , 0x0A }
 };
-BYTE code strResponse_timeText[2][2]=
+BYTE code strResponseTimeM104[2][2]=
 { { 0x39 , 0x04 },
-  { 0x39 , 0x09 }
+  { 0x3A , 0x0A }
 };
-BYTE code strRefresh_ratetext[2][2]=
-{ { 0x3d , 0x03 },
-  { 0x42 , 0x08 }
+BYTE code strRefreshRateM104[2][2]=
+{ { 0x3D , 0x03 },
+  { 0x44 , 0x09 }
 };
-BYTE code strGame_alignmentText[2][2]=
+BYTE code strGameAlignmentM104[2][2]=
 { { 0x40 , 0x04 },
-  { 0x3a , 0x09 }
+  { 0x4D , 0x0A }
 };
-BYTE code strGame_Timingtext[2][2]=
+BYTE code strGameTimingM104[2][2]=
 { { 0x44 , 0x04 },
-  { 0x53 , 0x07 }
+  { 0x57 , 0x08 }
 };
-BYTE code strAmbient_lighttext[2][2]=
+BYTE code strAmbientLightM104[2][2]=
 { { 0x48 , 0x03 },
-  { 0x5a , 0x08 }
+  { 0x5F , 0x09 }
 };
-//菜单设置二级菜单
-
-BYTE code strLanguageText[2][2]=
-{ { 0x2C , 0x02 },
-  { 0x2C , 0x05 }
+//-----------------------------------菜单设置
+BYTE code strLanguageM105[2][2]=
+{ { 0x2C , 0x03 },
+  { 0x2C , 0x06 }
 };
-BYTE code strShow_TimeText[2][2]=
-{ { 0x2e , 0x04 },
-  { 0x31 , 0x06 }
+BYTE code strOSD_DisplayTimeM105[2][2]=
+{ { 0x2F , 0x07 },
+  { 0x32 , 0x0B }
 };
-BYTE code strVertical_Vositiontext[2][2]=
-{ { 0x32 , 0x04 },
-  { 0x37 , 0x0a }
+BYTE code strOSD_HPositionM105[2][2]=
+{ { 0x36 , 0x07 },
+  { 0x3D , 0x09 }
 };
-BYTE code strTransparencytext[2][2]=
+BYTE code strOSD_VPostionM105[2][2]=
+{ { 0x3D , 0x07 },
+  { 0x46 , 0x0A }
+};
+BYTE code strMenuRotationM105[2][2]=
+{ { 0x44 , 0x05 },
+  { 0x50 , 0x0A }
+};
+BYTE code strMenuLockM105[2][2]=
+{ { 0x49 , 0x04 },
+  { 0x5A , 0x07 }
+};
+BYTE code strShortcutKey1_M105[2][2]=
+{ { 0x4D , 0x08 },
+  { 0x61 , 0x10 }
+};
+BYTE code strShortcutkey2_M105[2][2]=
+{ { 0x55 , 0x08 },
+  { 0x71 , 0x10 }
+};
+BYTE code strShortcutkey3_M105[2][2]=
+{ { 0x5D , 0x07 },
+  { 0x81 , 0x10 }
+};
+BYTE code strShortcutkey4_M105[2][2]=
+{ { 0x64 , 0x07 },
+  { 0x91 , 0x10 }
+};
+//-----------------------------------其他设置
+BYTE code strSignalInputM106[2][2]=
+{ { 0x2C , 0x05 },
+  { 0x2C , 0x08 }
+};
+BYTE code strAudioInputM106[2][2]=
+{ { 0x31 , 0x05 },
+  { 0x34 , 0x08 }
+};
+BYTE code strMuteM106[2][2]=
 { { 0x36 , 0x03 },
-  { 0x41 , 0x08 }
+  { 0x3C , 0x04 }
 };
-BYTE code strMenu_Rotationtext[2][2]=
-{ { 0x39 , 0x04 },
-  { 0x49 , 0x09 }
+BYTE code strVolumeM106[2][2]=
+{ { 0x39 , 0x03 },
+  { 0x40 , 0x05 }
 };
-BYTE code strMenu_LockText[2][2]=
-{ { 0x3d , 0x03 },
-  { 0x52 , 0x06 }
+BYTE code strAutoShutdownM106[2][2]=
+{ { 0x3C , 0x05 },
+  { 0x45 , 0x0A }
 };
-BYTE code strShortcut_OneText[2][2]=
-{ { 0x40 , 0x03 },
-  { 0x58 , 0x06 }
+BYTE code strEyeProtectionReminderM106[2][2]=
+{ { 0x41 , 0x05 },
+  { 0x4F , 0x10 }
 };
-BYTE code strShortcut_TwoText[2][2]=
-{ { 0x43 , 0x04 },
-  { 0x5e , 0x06 }
+BYTE code strResetM106[2][2]=
+{ { 0x46 , 0x03 },
+  { 0x5F , 0x04 }
 };
-BYTE code strShortcut_Threetext[2][2]=
-{ { 0x47 , 0x03 },
-  { 0x64 , 0x06 }
-};
-BYTE code strShortcut_FourText[2][2]=
-{ { 0x40 , 0x04 },
-  { 0x6a , 0x06 }
-};
-BYTE code strHorizontal_PositionText[2][2]=
-{ { 0x44 , 0x04 },
-  { 0x70 , 0x0b }
+BYTE code strInformationM106[2][2]=
+{ { 0x49 , 0x03 },
+  { 0x63 , 0x08 }
 };
 
+//-----------------------------------------
 
-//其他设置二级菜单
+#if 1
+//------------------------------------------
 
-BYTE code strSignalInput[2][2]=
-{ { 0x2C , 0x04 },
-  { 0x2C , 0x07 }
-};
-BYTE code strMute[2][2]=
-{ { 0x30 , 0x02 },
-  { 0x33 , 0x03 }
-};
-BYTE code strVolume[2][2]=
-{ { 0x32 , 0x02 },
-  { 0x36 , 0x04 }
-};
-BYTE code strAutoPowerOff[2][2]=
-{ { 0x34 , 0x04 },
-  { 0x3a , 0x09 }
-};
-BYTE code strEyeProtectionReminder[2][2]=
-{ { 0x38 , 0x04 },
-  { 0x43 , 0x0f }
-};
-BYTE code strReset_test[2][2]=
-{ { 0x3c , 0x02 },
-  { 0x52 , 0x03 }
-};
-BYTE code strInformation_test[2][2]=
-{ { 0x3e , 0x02 },
-  { 0x55 , 0x07 }
-};
-BYTE code strAudioIput[2][2]=
-{ { 0x40 , 0x04 },
-  { 0x5c , 0x07 }
-};
-
-
-
-
-
-
-
-
+#if 0
 BYTE code strLuminanceM7[16][2] =
 {
 	{ 0xC0, 0x04 },
@@ -343,7 +323,6 @@ BYTE code strExtraM7[16][2] =
 	{ 0xD2, 0x03 },
 };
 #endif
-
 
 #if OD_Trans_Chinese
 

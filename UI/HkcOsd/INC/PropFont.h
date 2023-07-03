@@ -42,14 +42,12 @@ extern MenuFontType code MenuPage80[];
 extern MenuFontType code MenuPage88[];
 
 extern MenuFontType code MenuPage55[];
-extern MenuFontType code MenuPage0[];
-extern MenuFontType code MenuPage01[];
-extern MenuFontType code MenuPage02[];
-extern MenuFontType code MenuPage03[];
-extern MenuFontType code MenuPage04[];
-extern MenuFontType code MenuPage05[];
-extern MenuFontType code MenuPage06[];
 
-
-
+extern MenuFontType code MenuPage100[];
+extern MenuFontType code MenuPage101[];
+extern MenuFontType code MenuPage102[];
+extern MenuFontType code MenuPage103[];
+extern MenuFontType code MenuPage104[];
+extern MenuFontType code MenuPage105[];
+extern MenuFontType code MenuPage106[];
 

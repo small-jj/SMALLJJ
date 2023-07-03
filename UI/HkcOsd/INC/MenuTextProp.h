@@ -1,7 +1,6 @@
 
 
 
-
 //----Eson Start----------------------------------
 BYTE code strFactory[2] =
 {
@@ -10,7 +9,9 @@ BYTE code strFactory[2] =
 
 #if 1
 
-
+BYTE code strColorSetUpM0[1][2]=
+{ { 0x2C , 0x03 }
+};
 
 
 
@@ -4252,6 +4253,8 @@ BYTE code strAutoColorFailM57[14][2] =
 	{ 0x6F, 0x03}
 };
 #endif
+
+
 
 
 

@@ -4,8 +4,6 @@
 #include "keypaddef.h"
 #include "menudef.h"
 
-
-
 #if PropFontNewData
 #include "menuTextProp_new.h"
 #else
@@ -14,53 +12,560 @@
 
 #define Icon4Color_AddrShift   2
 #define Icon8Color_AddrShift   3
-//主界面图标
-#define M1(x)	( _2ColorMainIconStart + x )
-BYTE code strBrightnessIcon[1][3] =
+
+#define _1FONT_		1
+#define _2FONT_		2
+#define _3FONT_		3
+#define _4FONT_		4
+#define _5FONT_		5
+#define _6FONT_		6
+#define _7FONT_		7
+#define _8FONT_		8
+#define _9FONT_		9
+
+extern BYTE code strColorSetUpM0[1][2];
+
+
+//============================================================
+#define ysM(x)		(x+_2ColorMainIconStart)
+BYTE code strys_2ColorIcon[1][3]=
 {
-	{M1(0x00), M1(0x01), 0}
+	{	 ysM(0x00), ysM(0x01), 
+	 0}
+};
+#define ldM(x)		(x+_2ColorMainIconStart + _2FONT_)
+BYTE code strld_2ColorIcon[1][3]=
+{
+	{	 ldM(0x00), ldM(0x01), 
+	 0}
+};
+#define hmM(x)		(x+_2ColorMainIconStart + _2FONT_*2)
+BYTE code strhm_2ColorIcon[1][3]=
+{
+	{	 hmM(0x00), hmM(0x01), 
+	 0}
+};
+#define gnM(x)		(x+_2ColorMainIconStart + _2FONT_*3)
+BYTE code strgn_2ColorIcon[1][3]=
+{
+	{	 gnM(0x00), gnM(0x01), 
+	 0}
+};
+#define szM(x)		(x+_2ColorMainIconStart + _2FONT_*4)
+BYTE code strsz_2ColorIcon[1][3]=
+{
+	{	 szM(0x00), szM(0x01), 
+	 0}
+};
+#define otM(x)		(x+_2ColorMainIconStart + _2FONT_*5)
+BYTE code stroth_2ColorIcon[1][3]=
+{
+	{	 otM(0x00), otM(0x01), 
+	 0}
 };
 
-#define M2(x)	( _2ColorMainIconStart + x + 2 )
-
-BYTE code strImageIcon[1][3] =
+BYTE* Color_Icon(void)					//0 颜色
 {
-	{M2(0x00), M2(0x01), 0}
+	return strys_2ColorIcon;
+}
+BYTE* BrightnessContrast_Icon(void)			//1 亮度 对比度
+{
+	return strld_2ColorIcon;
+}
+BYTE* Screen_Icon(void)					//2 画面
+{
+	return strhm_2ColorIcon;
+}
+BYTE* GameProFeatures_Icon(void)		//3 游戏专业功能
+{
+	return strgn_2ColorIcon;
+}
+BYTE* MenuSettings_Icon(void)			//4 菜单功能
+{
+	return strsz_2ColorIcon;
+}
+BYTE* OtherSettings_Icon(void)			//5 其他功能
+{
+	return stroth_2ColorIcon;
+}
+
+//===============================================================================
+//上背景
+//----------2Color----------
+//TOP01
+#define T1M(x)		(x+_2ColorBackGroundStart )
+BYTE code strTOP01_2ColorFont[1][6]=
+{
+	{	 T1M(0x00), T1M(0x01), T1M(0x02), T1M(0x03), T1M(0x04), 
+	 0}
+};
+//TOP04
+#define T4M(x)		(x+_2ColorBackGroundStart + _5FONT_)
+BYTE code strTOP04_2ColorFont[1][3]=
+{
+	{	 T4M(0x00), T4M(0x01), 
+	 0}
+};
+//TOP05:	2Font
+#define T5M(x)		(x+_2ColorBackGroundStart + _5FONT_ + _2FONT_)
+BYTE code strTOP05_2ColorFont[1][3]=
+{
+	{	 T5M(0x00), T5M(0x01), 
+	 0}
+};
+//TOP07:	3Font
+#define T7M(x)		(x+_2ColorBackGroundStart + _5FONT_ + _2FONT_*2)
+BYTE code strTOP07_2ColorFont[1][4]=
+{
+	{	 T7M(0x00), T7M(0x01), T7M(0x02), 
+	 0}
+};
+//TOP08:	3Font
+#define T8M(x)		(x+_2ColorBackGroundStart + _5FONT_ + _2FONT_*2 + _3FONT_)
+BYTE code strTOP08_2ColorFont[1][4]=
+{
+	{	 T8M(0x00), T8M(0x01), T8M(0x02), 
+	 0}
+};
+//TOP11:	2Font
+#define T11M(x)		(x+_2ColorBackGroundStart + _5FONT_ + _2FONT_*2 + _3FONT_*2)
+BYTE code strTOP11_2ColorFont[1][3]=
+{
+	{	 T11M(0x00), T11M(0x01), 
+	 0}
+};
+//TOP12:	2Font
+#define T12M(x)		(x+_2ColorBackGroundStart + _5FONT_ + _2FONT_*3 + _3FONT_*2)
+BYTE code strTOP12_2ColorFont[1][3]=
+{
+	{	 T12M(0x00), T12M(0x01), 
+	 0}
+};
+//TOP14:	2Font
+#define T14M(x)		(x+_2ColorBackGroundStart + _5FONT_ + _2FONT_*4 + _3FONT_*2)
+BYTE code strTOP14_2ColorFont[1][3]=
+{
+	{	 T14M(0x00), T14M(0x01),
+	 0}
+};
+//TOP15:	2Font
+#define T15M(x)		(x+_2ColorBackGroundStart + _5FONT_ + _2FONT_*5 + _3FONT_*2)
+BYTE code strTOP15_2ColorFont[1][3]=
+{
+	{	 T15M(0x00), T15M(0x01),
+	 0}
+};
+//TOP16:	5Font
+#define T16M(x)		(x+_2ColorBackGroundStart + _5FONT_ + _2FONT_*6 + _3FONT_*2)
+BYTE code strTOP16_2ColorFont[1][6]=
+{
+	{	 T16M(0x00), T16M(0x01), T16M(0x02), T16M(0x03), T16M(0x04), 
+	 0}
+};
+//TOP17:	1Font
+#define T17M(x)		(x+_2ColorBackGroundStart + _5FONT_*2 + _2FONT_*6 + _3FONT_*2)
+BYTE code strTOP17_2ColorFont[1][2]=
+{
+	{	 T17M(0x00),
+	 0}
+};
+//TOP18:	2Font
+#define T18M(x)		(x+_2ColorBackGroundStart + _5FONT_*2 + _2FONT_*6 + _3FONT_*2 + _1FONT_)
+BYTE code strTOP18_2ColorFont[1][3]=
+{
+	{	 T18M(0x00), T18M(0x01),
+	 0}
+};
+//TOP19:	2Font
+#define T19M(x)		(x+_2ColorBackGroundStart + _5FONT_*2 + _2FONT_*7 + _3FONT_*2 + _1FONT_)
+BYTE code strTOP19_2ColorFont[1][3]=
+{
+	{	 T19M(0x00), T19M(0x01),
+	 0}
+};
+//TOP20:	4Font
+#define T20M(x)		(x+_2ColorBackGroundStart + _5FONT_*2 + _2FONT_*8 + _3FONT_*2 + _1FONT_)
+BYTE code strTOP20_2ColorFont[1][5]=
+{
+	{	  T20M(0x00), T20M(0x01), T20M(0x02), T20M(0x03),
+	 0}
+};
+//LIGHT01:	2Font
+#define L01M(x)		(x+_2ColorBackGroundStart + _5FONT_*2 + _2FONT_*8 + _3FONT_*2 + _1FONT_ + _4FONT_)
+BYTE code str_LIGHT01_2ColorFont[1][3]=
+{
+	{	  L01M(0x00), L01M(0x01),
+	 0}
+};
+//RIGHT01:	2Font
+#define R01M(x)		(x+_2ColorBackGroundStart + _5FONT_*2 + _2FONT_*9 + _3FONT_*2 + _1FONT_ + _4FONT_)
+BYTE code str_RIGHT01_2ColorFont[1][3]=
+{
+	{	  R01M(0x00), R01M(0x01),
+	 0}
+};
+//LIGHT02:	1Font
+#define L02M(x)		(x+_2ColorBackGroundStart + _5FONT_*2 + _2FONT_*10 + _3FONT_*2 + _1FONT_ + _4FONT_)
+BYTE code str_LIGHT02_2ColorFont[1][2]=
+{
+	{	  L02M(0x00),
+	 0}
+};
+//RIGHT02:	1Font
+#define R02M(x)		(x+_2ColorBackGroundStart + _5FONT_*2 + _2FONT_*10 + _3FONT_*2 + _1FONT_*2 + _4FONT_)
+BYTE code str_RIGHT02_2ColorFont[1][2]=
+{
+	{	  R02M(0x00),
+	 0}
+};
+//LIGHT03:	1Font
+#define L03M(x)		(x+_2ColorBackGroundStart + _5FONT_*2 + _2FONT_*10 + _3FONT_*2 + _1FONT_*3 + _4FONT_)
+BYTE code str_LIGHT03_2ColorFont[1][2]=
+{
+	{	  L03M(0x00),
+	 0}
+};
+//RIGHT03:	1Font
+#define R03M(x)		(x+_2ColorBackGroundStart + _5FONT_*2 + _2FONT_*10 + _3FONT_*2 + _1FONT_*4 + _4FONT_)
+BYTE code str_RIGHT03_2ColorFont[1][2]=
+{
+	{	  R03M(0x00),
+	 0}
+};
+//LIGHT04:	1Font
+#define L04M(x)		(x+_2ColorBackGroundStart + _5FONT_*2 + _2FONT_*10 + _3FONT_*2 + _1FONT_*5 + _4FONT_)
+BYTE code str_LIGHT04_2ColorFont[1][2]=
+{
+	{	  L04M(0x00),
+	 0}
+};
+//RIGHT04:	1Font
+#define R04M(x)		(x+_2ColorBackGroundStart + _5FONT_*2 + _2FONT_*10 + _3FONT_*2 + _1FONT_*6 + _4FONT_)
+BYTE code str_RIGHT04_2ColorFont[1][2]=
+{
+	{	  R04M(0x00),
+	 0}
+};
+//bottom01:		2Font
+#define B01M(x)		(x+_2ColorBackGroundStart + _5FONT_*2 + _2FONT_*10 + _3FONT_*2 + _1FONT_*7 + _4FONT_ + _9FONT_*2)
+BYTE code str_bottom01_2ColorFont[2][2]=
+{
+	{	 B01M(0x00), 
+	 0},
+	{	 B01M(0x01), 
+	 0}
+};
+//bottom02:		4Font
+#define B02M(x)		(x+_2ColorBackGroundStart + _5FONT_*2 + _2FONT_*11 + _3FONT_*2 + _1FONT_*7 + _4FONT_ + _9FONT_*2)
+BYTE code str_bottom02_2ColorFont[2][3]=
+{
+	{	 B02M(0x00), B02M(0x01), 
+	 0},
+	{	 B02M(0x02), B02M(0x03), 
+	 0}
+};
+//bottom03:		1Font
+#define B03M(x)		(x+_2ColorBackGroundStart + _5FONT_*2 + _2FONT_*11 + _3FONT_*2 + _1FONT_*7 + _4FONT_*2 + _9FONT_*2)
+BYTE code str_bottom03_2ColorFont[1][2]=
+{
+	{	 B03M(0x00), 
+	 0},
+};
+//bottom04:		1Font
+#define B04M(x)		(x+_2ColorBackGroundStart + _5FONT_*2 + _2FONT_*11 + _3FONT_*2 + _1FONT_*8 + _4FONT_*2 + _9FONT_*2)
+BYTE code str_bottom04_2ColorFont[1][2]=
+{
+	{	 B04M(0x00), 
+	 0},
+};
+//bottom05:		1Font
+#define B05M(x)		(x+_2ColorBackGroundStart + _5FONT_*2 + _2FONT_*11 + _3FONT_*2 + _1FONT_*9 + _4FONT_*2 + _9FONT_*2)
+BYTE code str_bottom05_2ColorFont[1][2]=
+{
+	{	 B05M(0x00), 
+	 0},
+};
+//bottom06:		2Font
+#define B06M(x)		(x+_2ColorBackGroundStart + _5FONT_*2 + _2FONT_*11 + _3FONT_*2 + _1FONT_*10 + _4FONT_*2 + _9FONT_*2)
+BYTE code str_bottom06_2ColorFont[2][2]=
+{
+	{	 B06M(0x00), 
+	 0},
+	{	 B06M(0x01), 
+	 0}
+}; 
+//bottom07:		3Font
+#define B07M(x)		(x+_2ColorBackGroundStart + _5FONT_*2 + _2FONT_*12 + _3FONT_*2 + _1FONT_*10 + _4FONT_*2 + _9FONT_*2)
+BYTE code str_bottom07_2ColorFont[3][2]=
+{
+	{	 B07M(0x00), 
+	 0},
+	{	 B07M(0x01), 
+	 0},
+	{	 B07M(0x02), 
+	 0}
+};
+//bottom08:		1Font
+#define B08M(x)		(x+_2ColorBackGroundStart + _5FONT_*2 + _2FONT_*12 + _3FONT_*3 + _1FONT_*10 + _4FONT_*2 + _9FONT_*2)
+BYTE code str_bottom08_2ColorFont[1][2]=
+{
+	{	 B08M(0x00), 
+	 0},
+};
+//bottom09:		2Font
+#define B09M(x)		(x+_2ColorBackGroundStart + _5FONT_*2 + _2FONT_*12 + _3FONT_*3 + _1FONT_*11 + _4FONT_*2 + _9FONT_*2)
+BYTE code str_bottom09_2ColorFont[2][2]=
+{
+	{	 B09M(0x00), 
+	 0},
+	{	 B09M(0x01), 
+	 0}
+};
+//bottom10:		2Font
+#define B10M(x)		(x+_2ColorBackGroundStart + _5FONT_*2 + _2FONT_*13 + _3FONT_*3 + _1FONT_*11 + _4FONT_*2 + _9FONT_*2)
+BYTE code str_bottom10_2ColorFont[2][2]=
+{
+	{	 B10M(0x00), 
+	 0},
+	{	 B10M(0x01), 
+	 0}
+};
+//bottom11:		3Font
+#define B11M(x)		(x+_2ColorBackGroundStart + _5FONT_*2 + _2FONT_*14 + _3FONT_*3 + _1FONT_*11 + _4FONT_*2 + _9FONT_*2)
+BYTE code str_bottom11_2ColorFont[3][2]=
+{
+	{	 B11M(0x00), 
+	 0},
+	{	 B11M(0x01), 
+	 0},
+	{	 B11M(0x02), 
+	 0}
+};
+//bottom12:		2Font
+#define B12M(x)		(x+_2ColorBackGroundStart + _5FONT_*2 + _2FONT_*14 + _3FONT_*4 + _1FONT_*11 + _4FONT_*2 + _9FONT_*2)
+BYTE code str_bottom12_2ColorFont[2][2]=
+{
+	{	 B12M(0x00), 
+	 0},
+	{	 B12M(0x01), 
+	 0}
+};
+//bottom13:		3Font
+#define B13M(x)		(x+_2ColorBackGroundStart + _5FONT_*2 + _2FONT_*15 + _3FONT_*4 + _1FONT_*11 + _4FONT_*2 + _9FONT_*2)
+BYTE code str_bottom13_2ColorFont[3][2]=
+{
+	{	 B13M(0x00), 
+	 0},
+	{	 B13M(0x01), 
+	 0},
+	{	 B13M(0x02), 
+	 0}
+};
+//bottom14:		4Font
+#define B14M(x)		(x+_2ColorBackGroundStart + _5FONT_*2 + _2FONT_*15 + _3FONT_*5 + _1FONT_*11 + _4FONT_*2 + _9FONT_*2)
+BYTE code str_bottom14_2ColorFont[2][3]=
+{
+	{	 B14M(0x00), B14M(0x01), 
+	 0},
+	{	 B14M(0x02), B14M(0x03), 
+	 0}
+};																				  
+//Title:		9Font
+#define TitleM(x)	(x+_2ColorBackGroundStart + _5FONT_*2 + _2FONT_*15 + _3FONT_*5 + _1FONT_*11 + _4FONT_*3 + _9FONT_*2)
+BYTE code str_Title_2ColorFont[1][10]=
+{
+	{	 TitleM(0x00), TitleM(0x01), TitleM(0x02), TitleM(0x03), TitleM(0x04), 
+		 TitleM(0x05), TitleM(0x06), TitleM(0x07), TitleM(0x08), 
+	 0}
+};	
+
+
+//----------4Color----------
+//左上角:		2Font
+#define LTA(x)		(x*Icon4Color_AddrShift + _4ColorHotIconStart)
+BYTE code strLT_4ColorFont[1][3]=
+{
+	{	LTA(0x00), LTA(0x01), 
+	 0}
+};
+//右上角:		2Font
+#define RTA(x)		(x*Icon4Color_AddrShift + _4ColorHotIconStart + _2FONT_)
+BYTE code strRT_4ColorFont[1][3]=
+{
+	{	 RTA(0x00), RTA(0x01), 
+	 0}
+};
+//TOP02:	2Font
+#define T2P(x)		(x*Icon4Color_AddrShift + _4ColorHotIconStart + _2FONT_*2)
+BYTE code strTOP02_4ColorFont[1][3]=
+{
+	{	 T2P(0x00), T2P(0x01), 
+	 0}
+};
+//buttom1:	1Font
+#define bu1(x)		(x*Icon4Color_AddrShift + _4ColorHotIconStart + _2FONT_*3)
+BYTE code strbu1_4ColorFont[1][2]=
+{
+	{	 bu1(0x00), 
+	 0}
+};
+//buttom2:	5Font
+#define bu2(x)		(x*Icon4Color_AddrShift + _4ColorHotIconStart + _2FONT_*3 + _1FONT_)
+BYTE code strbut2_4ColorFont[1][6]=
+{
+	{	 bu2(0x00), bu2(0x01), bu2(0x02), bu2(0x03), bu2(0x04), 
+	 0}
+};
+//buttom3:	1Font
+#define bu3(x)		(x*Icon4Color_AddrShift + _4ColorHotIconStart + _2FONT_*3 + _1FONT_ + _5FONT_)
+BYTE code strbu3_4ColorFont[1][2]=
+{
+	{	 bu3(0x00), 
+	 0}
+};
+//TOP03:	2Font
+#define T3P(x)		(x*Icon4Color_AddrShift + _4ColorHotIconStart + _2FONT_*3 + _1FONT_*2 + _5FONT_)
+BYTE code strTOP03_4ColorFont[1][3]=
+{
+	{	 T3P(0x00), T3P(0x01), 
+	 0}
+};
+//TOP06:	1Font
+#define T6P(x)		(x*Icon4Color_AddrShift + _4ColorHotIconStart + _2FONT_*4 + _1FONT_*2 + _5FONT_)
+BYTE code strTOP06_4ColorFont[1][2]=
+{
+	{	 T6P(0x00), 
+	 0}
+};
+//TOP09:	2Font
+#define T9P(x)		(x*Icon4Color_AddrShift + _4ColorHotIconStart + _2FONT_*4 + _1FONT_*3 + _5FONT_)
+BYTE code strTOP09_4ColorFont[1][3]=
+{
+	{	 T9P(0x00), T9P(0x01), 
+	 0}
+};
+//TOP10:	2Font
+#define T10P(x)		(x*Icon4Color_AddrShift + _4ColorHotIconStart + _2FONT_*5 + _1FONT_*3 + _5FONT_)
+BYTE code strTOP10_4ColorFont[1][3]=
+{
+	{	 T10P(0x00), T10P(0x01), 
+	 0}
+};
+//TOP13:	2Font
+#define T13P(x)		(x*Icon4Color_AddrShift + _4ColorHotIconStart + _2FONT_*6 + _1FONT_*3 + _5FONT_)
+BYTE code strTOP13_4ColorFont[1][3]=
+{
+	{	 T13P(0x00), T13P(0x01), 
+	 0}
+};
+//左下角:		15Font
+#define LDM(x)		(x+_2ColorBackGroundStart + _5FONT_*2 + _2FONT_*10 + _3FONT_*2 + _1FONT_*7 + _4FONT_)
+#define LDA(x)		(x*Icon4Color_AddrShift + _4ColorHotIconStart + _2FONT_*7 + _1FONT_*3 + _5FONT_)
+BYTE code str_LD_ColorFont[3][6]=
+{
+	{	 LDA(0x00), LDM(0x00), LDM(0x01), LDM(0x02), LDM(0x03),
+	 0},
+	{	 LDM(0x04), LDA(0x01), LDA(0x02), LDM(0x05), LDM(0x06), 
+	 0},
+	{	 LDM(0x07), LDM(0x08), LDA(0x03), LDA(0x04), LDA(0x05), 
+	 0}
+};
+//右下角:		15Font
+#define RDM(x)		(x+_2ColorBackGroundStart + _5FONT_*2 + _2FONT_*10 + _3FONT_*2 + _1FONT_*7 + _4FONT_ + _9FONT_)
+#define RDA(x)		(x*Icon4Color_AddrShift + _4ColorHotIconStart + _2FONT_*7 + _1FONT_*3 + _5FONT_ + _6FONT_)
+BYTE code str_RD_ColorFont[3][6]=
+{
+	{	 RDM(0x00), RDM(0x01), RDM(0x02), RDM(0x03), RDA(0x00), 
+	 0},
+	{	 RDM(0x04), RDM(0x05), RDA(0x01), RDA(0x02), RDM(0x06), 
+	 0},
+	{	 RDA(0x03), RDA(0x04), RDA(0x05), RDM(0x07), RDM(0x08), 
+	 0}
+};
+//刷新率：		4Font
+#define SXLA(x)		(x*Icon4Color_AddrShift + _4ColorHotIconStart + _2FONT_*7 + _1FONT_*3 + _5FONT_ + _6FONT_*2)
+BYTE code strSXL_4ColorFont[2][3]=
+{
+	{	 SXLA(0x00), SXLA(0x01), 
+	 0},
+	{	 SXLA(0x02), SXLA(0x03), 
+	 0}
+};
+//分辨率：		4Font
+#define FBLA(x)		(x*Icon4Color_AddrShift + _4ColorHotIconStart + _2FONT_*7 + _1FONT_*3 + _5FONT_ + _6FONT_*2 + _4FONT_)
+BYTE code strFBL_4ColorFont[2][3]=
+{
+	{	 FBLA(0x00), FBLA(0x01), 
+	 0},
+	{	 FBLA(0x02), FBLA(0x03), 
+	 0}
 };
 
-#define M3(x)	( _2ColorMainIconStart + x + 4 )
-
-BYTE code strColorTempIcon[1][3] =
+//============================================================
+BYTE code strBrightnessIcon[7] =
 {
-	{M3(0x00), M3(0x01), 0}
+	_8ColorMainIconStart + 0 * Icon8Color_AddrShift,
+	_8ColorMainIconStart + 1 * Icon8Color_AddrShift,
+	_8ColorMainIconStart + 2 * Icon8Color_AddrShift,
+	_8ColorMainIconStart + 3 * Icon8Color_AddrShift,
+	_8ColorMainIconStart + 4 * Icon8Color_AddrShift,
+	_8ColorMainIconStart + 5 * Icon8Color_AddrShift,
+	'\0'
+};
+BYTE code strImageIcon[7] =
+{
+	_4ColorMainIconStart + 0 * Icon4Color_AddrShift,
+	_4ColorMainIconStart + 1 * Icon4Color_AddrShift,
+	_4ColorMainIconStart + 2 * Icon4Color_AddrShift,
+	_4ColorMainIconStart + 3 * Icon4Color_AddrShift,
+	_4ColorMainIconStart + 4 * Icon4Color_AddrShift,
+	_4ColorMainIconStart + 5 * Icon4Color_AddrShift,
+	'\0'
 };
 
-#define M4(x)	( _2ColorMainIconStart + x + 6 )
-
-BYTE code strOSDIcon[1][3] =
+BYTE code strColorTempIcon[7] =
 {
-	{M4(0x00), M4(0x01), 0}
+	_8ColorMainIconStart + 6 * Icon8Color_AddrShift,
+	_8ColorMainIconStart + 7 * Icon8Color_AddrShift,
+	_8ColorMainIconStart + 8 * Icon8Color_AddrShift,
+	_8ColorMainIconStart + 9 * Icon8Color_AddrShift,
+	_8ColorMainIconStart + 10 * Icon8Color_AddrShift,
+	_8ColorMainIconStart + 11 * Icon8Color_AddrShift,
+	'\0'
 };
 
-#define M5(x)	( _2ColorMainIconStart + x + 8)
-
-BYTE code strResetIcon[1][3] =
+BYTE code strOSDIcon[7] =
 {
-	{M5(0x00), M5(0x01), 0}
-
+	_8ColorMainIconStart + 12 * Icon8Color_AddrShift,
+	_8ColorMainIconStart + 13 * Icon8Color_AddrShift,
+	_8ColorMainIconStart + 14 * Icon8Color_AddrShift,
+	_8ColorMainIconStart + 15 * Icon8Color_AddrShift,
+	_8ColorMainIconStart + 16 * Icon8Color_AddrShift,
+	_8ColorMainIconStart + 17 * Icon8Color_AddrShift,
+	'\0'
 };
 
-#define M6(x)	( _2ColorMainIconStart + x + 10)
-
-BYTE code strMiscIcon[1][3] =
+BYTE code strResetIcon[7] =
 {
-	{M6(0x00), M6(0x01),0}
-
+	_4ColorMainIconStart + 6 * Icon4Color_AddrShift,
+	_4ColorMainIconStart + 7 * Icon4Color_AddrShift,
+	_4ColorMainIconStart + 8 * Icon4Color_AddrShift,
+	_4ColorMainIconStart + 9 * Icon4Color_AddrShift,
+	_4ColorMainIconStart + 10 * Icon4Color_AddrShift,
+	_4ColorMainIconStart + 11 * Icon4Color_AddrShift,
+	'\0'
 };
 
-
-
-
+BYTE code strMiscIcon[7] =
+{
+	_4ColorMainIconStart + 12 * Icon4Color_AddrShift,
+	_4ColorMainIconStart + 13 * Icon4Color_AddrShift,
+	_4ColorMainIconStart + 14 * Icon4Color_AddrShift,
+	_4ColorMainIconStart + 15 * Icon4Color_AddrShift,
+	_4ColorMainIconStart + 16 * Icon4Color_AddrShift,
+	_4ColorMainIconStart + 17 * Icon4Color_AddrShift,
+	'\0'
+};
 
 BYTE* BrightnessIcon(void)
 {
@@ -86,225 +591,206 @@ BYTE* MiscIcon(void)
 {
 	return strMiscIcon;
 }
-/////////////////////主菜单///////////////////////////////////
-//my
-BYTE* MainMenu_ColorsText(void)
-{
-	return strColorM0[UserPrefLanguage];
-}
-BYTE* MainMenu_BriContrastText(void)
-{
-	return strBriContrastM0[UserPrefLanguage];
-}
-BYTE* MainMenu_PictureText(void)
-{
-	return strPictureM0[UserPrefLanguage];
-}
-
-BYTE* MainMenu_Game_Pro_FeaturesText(void)
-{
-	return strGame_Pro_FeaturesM0[UserPrefLanguage];
-}
-
-BYTE* MainMenu_Menu_settingsText(void)
-{
-	return strMenu_settingsM0[UserPrefLanguage];
-}
-BYTE* MainMenu_Other_settingsText(void)
-{
-	return strOther_settingsM0[UserPrefLanguage];
-}
-//BYTE* MainMenu_Shortcut_KeyText(void)
-//{
-//	return strShortcut_KeysM0[UserPrefLanguage];
-//}
-
-///////////////////颜色二级菜单////////////////
-
-BYTE *WarmColorTempText( void )
-{
-	return strWarmColorTempText[UserPrefLanguage];
-}
-BYTE *CoolColorTempText( void )
-{
-	return strCoolColorTempText[UserPrefLanguage];
-}
-BYTE *ChromatictysText( void )
-{
-	return strChromatictysText[UserPrefLanguage];
-}
-
-BYTE *ColorSaturationtext( void )
-{
-	return strColorSaturationtext[UserPrefLanguage];
-}
-//亮度/对比度二级菜单////////////////////////////////////////////
-
-BYTE *BrightnesssText( void )
-{
-	return strWBrightnessText[UserPrefLanguage];
-}
-BYTE *ContrastRatioText( void )
-{
-	return strContrastRatioText[UserPrefLanguage];
-}
-BYTE *Dynamic_Contrast_RatioText( void )
-{
-	return strDynamic_Contrast_RatioText[UserPrefLanguage];
-}
-
-BYTE *Dynamic_Brightnesstext( void )
-{
-	return strDynamic_Brightnesstext[UserPrefLanguage];
-}
-//画面二级菜单
-BYTE *Scenario_ModeText( void )
-{
-	return strScenario_ModeText[UserPrefLanguage];
-}
-BYTE *Screen_ScaleText( void )
-{
-	return strScreen_ScaleText[UserPrefLanguage];
-}
-BYTE *GammaText( void )
-{
-	return strGammaText[UserPrefLanguage];
-}
-BYTE *Sharpnesstext( void )
-{
-	return strSharpnesstext[UserPrefLanguage];
-}
-BYTE *Low_Blue_LightText( void )
-{
-	return strLow_Blue_LightText[UserPrefLanguage];
-}
-BYTE *HDRtext( void )
-{
-	return strHDRtext[UserPrefLanguage];
-}
-BYTE *Dark_Balancetext( void )
-{
-	return strDark_Balancetext[UserPrefLanguage];
-}
-
-//游戏专业功能二级菜单
-
-BYTE *MPRTText( void )
-{
-	return strMPRTText[UserPrefLanguage];
-}
-BYTE *Adaptive_SyncText( void )
-{
-	return strSAdaptive_SyncText[UserPrefLanguage];
-}
-BYTE *Response_timeText( void )
-{
-	return strResponse_timeText[UserPrefLanguage];
-}
-BYTE *Refresh_ratetext( void )
-{
-	return strRefresh_ratetext[UserPrefLanguage];
-}
-BYTE *Game_alignmentText( void )
-{
-	return strGame_alignmentText[UserPrefLanguage];
-}
-BYTE *Game_Timingtext( void )
-{
-	return strGame_Timingtext[UserPrefLanguage];
-}
-BYTE *Ambient_lighttext( void )
-{
-	return strAmbient_lighttext[UserPrefLanguage];
-}
-//菜单设置二级菜单
-BYTE *LanguageeText( void )
-{
-	return strLanguageText[UserPrefLanguage];
-}
-BYTE *Show_TimeText( void )
-{
-	return strShow_TimeText[UserPrefLanguage];
-}
-BYTE *Horizontal_PositionText( void )
-{
-	return strHorizontal_PositionText[UserPrefLanguage];
-}
-BYTE *Vertical_Vositiontext( void )
-{
-	return strVertical_Vositiontext[UserPrefLanguage];
-}
-BYTE *Transparencytext( void )
-{
-	return strTransparencytext[UserPrefLanguage];
-}
-BYTE *Menu_Rotationtext( void )
-{
-	return strMenu_Rotationtext[UserPrefLanguage];
-}
-BYTE *Menu_LockText( void )
-{
-	return strMenu_LockText[UserPrefLanguage];
-}
-BYTE *Shortcut_OneText( void )
-{
-	return strShortcut_OneText[UserPrefLanguage];
-}
-BYTE *Shortcut_TwoText( void )
-{
-	return strShortcut_TwoText[UserPrefLanguage];
-}
-BYTE *Shortcut_Threetext( void )
-{
-	return strShortcut_Threetext[UserPrefLanguage];
-}
-BYTE *Shortcut_FourText( void )
-{
-	return strShortcut_FourText[UserPrefLanguage];
-}
-
-//其他设置二级菜单
-BYTE *Signal_Input_Text( void )
-{
-	return strSignalInput[UserPrefLanguage];
-}
-BYTE *Mute_Text( void )
-{
-	return strMute[UserPrefLanguage];
-}
-BYTE *Volume_Text( void )
-{
-	return strVolume[UserPrefLanguage];
-}
-BYTE *Auto_Power_Off_Text( void )
-{
-	return strAutoPowerOff[UserPrefLanguage];
-}
-
-BYTE *Eye_Protection_Reminder_text( void )
-{
-	return strEyeProtectionReminder[UserPrefLanguage];
-}
-BYTE *Reset_text( void )
-{
-	return strReset_test[UserPrefLanguage];
-}
-
-BYTE *Information_text( void )
-{
-	return strInformation_test[UserPrefLanguage];
-}
-BYTE *Audio_Input_text( void )
-{
-	return strAudioIput[UserPrefLanguage];
-}
 
 
-
-//////////////////////////////////////////////////////
 //----Eson Start----------------------------------
 //========= TEXT =========
-BYTE* MainMenu_BrightText(void)
+//-----------------------主菜单---------------------------
+BYTE* MainMenu_ColorSetUpText(void)
+{
+	return strMain_ColorM100[UserPrefLanguage];
+}
+BYTE* MainMenu_BrightnessSetUpText(void)
+{
+	return strMain_BrightnessM100[UserPrefLanguage];
+}
+BYTE* MainMenu_ScreenSetUpText(void)
+{
+	return strMain_ScreenM100[UserPrefLanguage];
+}
+BYTE* MainMenu_GameSetUpText(void)
+{
+	return strMain_GameFeaturesM100[UserPrefLanguage];
+}
+BYTE* MainMenu_MenuSetUpText(void)
+{
+	return strMain_MenuSettingsM100[UserPrefLanguage];
+}
+BYTE* MainMenu_OtherSetUpText(void)
+{
+	return strMain_OtherSettingsM100[UserPrefLanguage];
+}
+//-----------------------颜色菜单---------------------------
+BYTE* Menu2_WarmTemp_Text(void)
+{
+	return strWarmTempM101[UserPrefLanguage];
+}
+BYTE* Menu2_CoolTemp_Text(void)
+{
+	return strCoolTempM101[UserPrefLanguage];
+}
+BYTE* Menu2_Chromaticity_Text(void)
+{
+	return strChromaticityM101[UserPrefLanguage];
+}
+BYTE* Menu2_ColorSaturation_Text(void)
+{
+	return strColorSaturationM101[UserPrefLanguage];
+}
+//-----------------------亮度/对比度菜单---------------------------
+BYTE* Menu2_Brightness_Text(void)
+{
+	return strBrightnessM102[UserPrefLanguage];
+}
+BYTE* Menu2_Contrast_Text(void)
+{
+	return strContrastM102[UserPrefLanguage];
+}
+BYTE* Menu2_DynamicContrast_Text(void)
+{
+	return strDynamicContrastM102[UserPrefLanguage];
+}
+BYTE* Menu2_DynamicBrightness_Text(void)
+{
+	return strDynamicBrightnessM102[UserPrefLanguage];
+}
+//-----------------------画面菜单---------------------------
+BYTE* Menu2_ScenarioMode_Text(void)
+{
+	return strScenarioModeM103[UserPrefLanguage];
+}
+BYTE* Menu2_ScreenRatio_Text(void)
+{
+	return strScreenRatioM103[UserPrefLanguage];
+}
+BYTE* Menu2_Gamma_Text(void)
+{
+	return strGammaM103[UserPrefLanguage];
+}
+BYTE* Menu2_Sharpness_Text(void)
+{
+	return strSharpnessM103[UserPrefLanguage];
+}
+BYTE* Menu2_LowBlueLight_Text(void)
+{
+	return strLowBlueLightM103[UserPrefLanguage];
+}
+BYTE* Menu2_HDR_Text(void)
+{
+	return strHDRM103[UserPrefLanguage];
+}
+BYTE* Menu2_DarkBalance_Text(void)
+{
+	return strDarkBalanceM103[UserPrefLanguage];
+}
+//-----------------------游戏专用功能菜单---------------------------
+BYTE* Menu2_MPRT_Text(void)
+{
+	return strMPRTM104[UserPrefLanguage];
+}
+BYTE* Menu2_AdaptiveSync_Text(void)
+{
+	return strAdaptiveSyncM104[UserPrefLanguage];
+}
+BYTE* Menu2_ResponseTime_Text(void)
+{
+	return strResponseTimeM104[UserPrefLanguage];
+}
+BYTE* Menu2_RefreshRate_Text(void)
+{
+	return strRefreshRateM104[UserPrefLanguage];
+}
+BYTE* Menu2_GameAlignment_Text(void)
+{
+	return strGameAlignmentM104[UserPrefLanguage];
+}
+BYTE* Menu2_GameTiming_Text(void)
+{
+	return strGameTimingM104[UserPrefLanguage];
+}
+BYTE* Menu2_AmbientLight_Text(void)
+{
+	return strAmbientLightM104[UserPrefLanguage];
+}
+//-----------------------菜单设置---------------------------
+BYTE* Menu2_Language_Text(void)
+{
+	return strLanguageM105[UserPrefLanguage];
+}
+BYTE* Menu2_OSD_DisplayTime_Text(void)
+{
+	return strOSD_DisplayTimeM105[UserPrefLanguage];
+}
+BYTE* Menu2_OSD_HPosition_Text(void)
+{
+	return strOSD_HPositionM105[UserPrefLanguage];
+}
+BYTE* Menu2_OSD_VPostion_Text(void)
+{
+	return strOSD_VPostionM105[UserPrefLanguage];
+}
+BYTE* Menu2_MenuRotation_Text(void)
+{
+	return strMenuRotationM105[UserPrefLanguage];
+}
+BYTE* Menu2_MenuLock_Text(void)
+{
+	return strMenuLockM105[UserPrefLanguage];
+}
+BYTE* Menu2_ShortcutKey1_Text(void)
+{
+	return strShortcutKey1_M105[UserPrefLanguage];
+}
+BYTE* Menu2_ShortcutKey2_Text(void)
+{
+	return strShortcutkey2_M105[UserPrefLanguage];
+}
+BYTE* Menu2_ShortcutKey3_Text(void)
+{
+	return strShortcutkey3_M105[UserPrefLanguage];
+}
+BYTE* Menu2_ShortcutKey4_Text(void)
+{
+	return strShortcutkey4_M105[UserPrefLanguage];
+}
+//-----------------------其他设置---------------------------
+BYTE* Menu2_SignalInput_Text(void)
+{
+	return strSignalInputM106[UserPrefLanguage];
+}
+BYTE* Menu2_AudioInput_Text(void)
+{
+	return strAudioInputM106[UserPrefLanguage];
+}
+BYTE* Menu2_Mute_Text(void)
+{
+	return strMuteM106[UserPrefLanguage];
+}
+BYTE* Menu2_Volume_Text(void)
+{
+	return strVolumeM106[UserPrefLanguage];
+}
+BYTE* Menu2_AutoShutdown_Text(void)
+{
+	return strAutoShutdownM106[UserPrefLanguage];
+}
+BYTE* Menu2_EyeProtectionReminder_Text(void)
+{
+	return strEyeProtectionReminderM106[UserPrefLanguage];
+}
+BYTE* Menu2_Reset_Text(void)
+{
+	return strResetM106[UserPrefLanguage];
+}
+BYTE* Menu2_Information_Text(void)
+{
+	return strInformationM106[UserPrefLanguage];
+}
+
+//---------------------------------------------------------
+
+//---------------------------------
+/*BYTE* MainMenu_BrightText(void)
 {
 	return strLuminanceM7[UserPrefLanguage];
 }
@@ -330,6 +816,7 @@ BYTE* MainMenu_MiscText(void)
 {
 	return strExtraM7[UserPrefLanguage];
 }
+*/
 BYTE *Main_FText(void)
 {
 	return strFactory;
