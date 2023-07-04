@@ -1045,7 +1045,7 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 						if((MenuPageIndex == VolumeMenu) && (CurrentMenuItemFunc.AdjustFunction == AdjustVolume))
 						{
 							DrawOsdSubMenu( MuteMenu );
-
+							Osd_DrawContinuesChar( 1, 8, SpaceFont, 8);
 						}
 						#endif
 						#if AudioFunc && ENABLE_OSD_HotKeyVolume
@@ -1284,7 +1284,7 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 
 					Osd_Set256TextColor(COLOR_BLACK, Color_2);
 					Osd_DrawContinuesChar( 1, 6, SpaceFont, 20);
-
+					Osd_DrawContinuesChar( 1, 8, SpaceFont, 20);
 
 //					Osd_DrawContinuesChar( 0x19, 0x04, MonoSpace, 10);
 					MenuItemIndex = GetMenuItemIndex(PrevPage);
@@ -1808,6 +1808,8 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 				{
 					Clr_SaveSettingFlag();
 					ReadMonitorSetting();
+					Osd_Set256TextColor(COLOR_BLACK, Color_2);
+					Osd_DrawContinuesChar( 1, 8, SpaceFont, 20);
 				}
 				if (PowerOnFlag)
 				{
@@ -2034,6 +2036,8 @@ void DrawOsdMenu(void)
 	if(PrevPage == MainMenu && (MenuPageIndex >= OSD_BriContrastMenu && MenuPageIndex <= OSD_MiscMenu))
 		{
 			DrawOsdBackGround();
+			Osd_Set256TextColor(COLOR_BLACK, Color_2);
+			Osd_DrawContinuesChar( 1, 8, SpaceFont, 20);
 		}
 		//======================显示当前整个OSD界面======================
 	if((MenuPageIndex >= MainMenu && MenuPageIndex < ExitMenu) || MenuPageIndex == HotInputSelectMenu)
@@ -3719,6 +3723,7 @@ BYTE GetMenuItemIndex(BYTE menuPageIndex)
 		#if EANBLE_MUTE_ON_OFF
 		else if( menuPageIndex == MuteMenu )
 		{
+
 			return Misc_Mute_ITEM;
 		}
 		#endif
@@ -4184,6 +4189,8 @@ void DrawOsdBackGround(void)
 			Osd_DrawContinuesChar( 52, i, SpaceFont, 18);	
 		}
 		Osd_DrawContinuesChar( 1, 14, SpaceFont, 20);	
+		Osd_Set256TextColor(COLOR_BLACK, Color_2);
+		Osd_DrawContinuesChar( 1, 8, SpaceFont, 20);
 	}
 	
 
