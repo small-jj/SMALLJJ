@@ -699,7 +699,7 @@ typedef enum
 
 typedef enum
 {
-	#if 1//(INPUT_TYPE!=INPUT_1A) && (INPUT_TYPE!=INPUT_1H)
+	#if (INPUT_TYPE!=INPUT_1A) && (INPUT_TYPE!=INPUT_1H)
 	Misc_InputSource_ITEM,
 	#endif
 	#if AudioFunc

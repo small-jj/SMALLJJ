@@ -576,12 +576,12 @@ MenuItemType code ContrastMenuItems[] =
 {
 	// 0 Contrast
 	{
-		SUB_TEXT_XPOS, ( SUB_TEXT_YPOS-10 + IconShift * BriContrast_CONTRAST_ITEM), // XPos, YPos;
+		SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + IconShift * BriContrast_CONTRAST_ITEM), // XPos, YPos;
 			BLACK_WHITE, Color_2, // ForeColor, BackColor;
 			RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
 		OSD_BriContrastMenu,///NextMenuPage;
 		DWI_Text,// DrawMenuItemType;
-		NULL, // DisplayText;
+		ContrastText, // DisplayText;
 		AdjusterKeyEvent,
 		{
 			AdjustContrast,// AdjustFunction
@@ -601,7 +601,7 @@ MenuItemType code ContrastMenuItems[] =
 RadioTextType code DrawECOMenuText[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS + IconShift * BriContrast_ECO_ITEM),     ECOModeValue},
+	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + IconShift * BriContrast_ECO_ITEM),     ECOModeValue},
 };
 DrawRadioGroupType code DrawECOMenuIconRatioText[] =
 {
@@ -617,7 +617,7 @@ MenuItemType code ECOMODEMenuItems[] =
 			RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
 		OSD_BriContrastMenu,///NextMenuPage;
 		DWI_Text,// DrawMenuItemType;
-		NULL, // DisplayText;
+		ECOModeText, // DisplayText;
 		AdjusterKeyEvent,
 		{
 			AdjustECOMode,// AdjustFunction
@@ -639,7 +639,7 @@ MenuItemType code ECOMODEMenuItems[] =
 RadioTextType code DrawDcrMenuText[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS + IconShift * BriContrast_DCR_ITEM),     DcrValueText },
+	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + IconShift * BriContrast_DCR_ITEM),     DcrValueText },
 };
 DrawRadioGroupType code DrawDcrMenuIconRatioText[] =
 {
@@ -656,7 +656,7 @@ MenuItemType code DCRMenuItems[] =
 			RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
 		OSD_BriContrastMenu,      //NextMenuPage;
 		DWI_Text,// DrawMenuItemType;
-		NULL, // DisplayText;
+		DCRText, // DisplayText;
 		AdjusterKeyEvent,
 		{
 			AdjustDcrMode,// AdjustFunction
@@ -1162,7 +1162,7 @@ MenuItemType code ExpansionMenuItems[] =
 			RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
 		PictureMenu,///NextMenuPage;
 		DWI_Text,// DrawMenuItemType;
-		NULL, // DisplayText;
+		ExpansionText, // DisplayText;
 		AdjustNoExecKeyEvent,
 		{
 			AdjustExpansionMode,// AdjustFunction
@@ -2785,9 +2785,9 @@ RadioTextType code DrawInputSelect[] =
 {
 	#if HKC_INPUTSELECT_MODE
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS + IconShift * Misc_InputSource_ITEM),     InputTypeRationText},
+	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + IconShift * Misc_InputSource_ITEM-1),     InputTypeRationText},
 	#else
-	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS + IconShift * Misc_InputSource_ITEM),     InputSourceText},
+	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + IconShift * Misc_InputSource_ITEM-1),     InputSourceText},
 	#endif
 };
 DrawRadioGroupType code DrawInputSelectIconRatioText[] =
@@ -2803,7 +2803,7 @@ DrawRadioGroupType code DrawInputSelectIconRatioText[] =
 RadioTextType code DrawMute[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd,  SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS + IconShift * Misc_Mute_ITEM),  MuteValueText},
+	{dwiCenterArrowAlign | dwiEnd,  NumXposion+18, ( SUB_TEXT_YPOS + IconShift * Misc_Mute_ITEM-1 ),  MuteValueText},
 };
 DrawRadioGroupType code DrawMuteRatioText[] =
 {
@@ -2840,7 +2840,7 @@ DrawGuageType code DrawVolumeGuage[] =
 RadioTextType code DrawDDCCI[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd,  SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + IconShift * Misc_DDCCI_ITEM ),  DDCCIValueText},
+	{dwiCenterArrowAlign | dwiEnd,  NumXposion+15, ( SUB_TEXT_YPOS + IconShift * Misc_DDCCI_ITEM-1 ),  DDCCIValueText},
 };
 DrawRadioGroupType code DrawDDCCIIconRatioText[] =
 {
@@ -2853,7 +2853,7 @@ DrawRadioGroupType code DrawDDCCIIconRatioText[] =
 RadioTextType code DrawFreeSync[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd,   SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + IconShift * Misc_FreeSync_ITEM ),  FreeSyncValueText},
+	{dwiCenterArrowAlign | dwiEnd,   NumXposion+15, ( SUB_TEXT_YPOS + IconShift * Misc_FreeSync_ITEM-1 ),  FreeSyncValueText},
 };
 DrawRadioGroupType code DrawFreeSyncIconRatioText[] =
 {
@@ -2867,7 +2867,7 @@ DrawRadioGroupType code DrawFreeSyncIconRatioText[] =
 NumberType code DrawSharpnessMenu_SharpnessNum[] =
 {
 	// Flags,	XPos,	YPos,	GetValue
-	{dwiEnd, NumXposion+15, ( SUB_TEXT_YPOS + IconShift * Misc_Sharpness_ITEM),	GetSharpnessRealValue}
+	{dwiEnd, NumXposion+15, ( SUB_TEXT_YPOS + IconShift * Misc_Sharpness_ITEM-1),	GetSharpnessRealValue}
 };
 DrawNumberType code DrawSharpnessMenu_SharpnessNumber[] =
 {
@@ -2878,7 +2878,7 @@ DrawNumberType code DrawSharpnessMenu_SharpnessNumber[] =
 GaugeType code DrawSharpnessMenu_SharpnessGuagee[] =
 {
 	// Flags,	XPos,	YPos,	GetValue
-	{dwiEnd,	GaugeXPosition, ( SUB_TEXT_YPOS + IconShift * Misc_Sharpness_ITEM),	GetSharpnessValue}
+	{dwiEnd,	GaugeXPosition, ( SUB_TEXT_YPOS + IconShift * Misc_Sharpness_ITEM-1),	GetSharpnessValue}
 };
 DrawGuageType code DrawSharpnessMenu_SharpnessGuage[] =
 {
@@ -2894,33 +2894,7 @@ DrawGuageType code DrawSharpnessMenu_SharpnessGuage[] =
 
 MenuItemType code MiscMenuItems[] =
 {
-	{
-		SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + IconShift * Misc_InputSource_ITEM), // XPos, YPos;
-			BLACK_WHITE, Color_2, // ForeColor, BackColor;
-			RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
-
-		VolumeMenu, //NextMenuPage;
-		DWI_Text,// DrawMenuItemType;
-		Signal_Input_Text,// DisplayText;
-		NaviKeyEvent,// petit 20130929 for all scaler unify
-		{
-			NULL,// AdjustFunction
-			NULL,// ExecFunction
-		},
-		{
-			DrawVolumeNumber,// DrawNumberType
-			DrawVolumeGuage,// DrawGuageType
-			NULL,// DrawRadioGroupType
-		},
-		MenuPage06, //Font
-		mibSelectable // Flags
-//	#if Disable_VgaToAdjustVolume
-//		| mibAutioDisable
-//	#endif
-
-	},
-
-	#if 0//HKC_INPUTSELECT_MODE
+	#if HKC_INPUTSELECT_MODE
 // 0 InputSelect
 	{
 		SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + IconShift * Misc_InputSource_ITEM), // XPos, YPos;
@@ -2944,7 +2918,7 @@ MenuItemType code MiscMenuItems[] =
 		mibSelectable // Flags
 	},
 
-
+	#else
 	#if (INPUT_TYPE!=INPUT_1A) && (INPUT_TYPE!=INPUT_1H)
 	// 0 InputSelect
 	{
@@ -2970,34 +2944,9 @@ MenuItemType code MiscMenuItems[] =
 	},
 	#endif
 	#endif
-	{
-		SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + IconShift * Misc_Mute_ITEM), // XPos, YPos;
-			BLACK_WHITE, Color_2, // ForeColor, BackColor;
-			RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
-
-		VolumeMenu, //NextMenuPage;
-		DWI_Text,// DrawMenuItemType;
-		Audio_Input_text,// DisplayText;
-		NaviKeyEvent,// petit 20130929 for all scaler unify
-		{
-			NULL,// AdjustFunction
-			NULL,// ExecFunction
-		},
-		{
-			DrawVolumeNumber,// DrawNumberType
-			DrawVolumeGuage,// DrawGuageType
-			NULL,// DrawRadioGroupType
-		},
-		MenuPage06, //Font
-		mibSelectable // Flags
-	#if Disable_VgaToAdjustVolume
-		| mibAutioDisable
-	#endif
-
-	},
 
 	#if AudioFunc
-	#if 0//EANBLE_MUTE_ON_OFF
+	#if EANBLE_MUTE_ON_OFF
 
 	// 0 Mute
 	{
@@ -3322,7 +3271,7 @@ MenuItemType code MuteMenuItems[] =
 		{
 			NULL,// DrawNumberType
 			NULL,// DrawGuageType
-			NULL,//DrawMuteRatioText,// DrawRadioGroupType
+			DrawMuteRatioText,// DrawRadioGroupType
 		},
 		NULL, //Font
 		mibSelectable // Flags
@@ -4206,7 +4155,7 @@ DrawRadioGroupType code DrawInputTypeAutoRationText[] =
 RadioTextType code DrawInputTypeRation[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS, SUB_TEXT_YPOS,     InputTypeRationText},
+	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-10, SUB_TEXT_YPOS,     InputTypeRationText},
 };
 DrawRadioGroupType code DrawInputTypeRationText[] =
 {
