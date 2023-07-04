@@ -171,17 +171,6 @@ MenuFontType code MenuPage7[16] =
 // Total Menu Font Number = 1131
 
 #endif
-#if 1
-BYTE code MenuPage_ColorL1[5]=
-{ // Total fonts: 3
-  0xFF, 0x01, 0x7A, 0x03, 0x00 
-};
-MenuFontType code MenuPage_Color[1]=
-{
-  { MenuPage_ColorL1, 5 },
-};
-// Total Menu Font Number = 5
-#endif
 
 #if OD_Trans_Chinese
 
@@ -2904,7 +2893,6 @@ MenuFontType code MenuPage6[16] =
 #endif
 
 
-
 #if AdjustLanguageFunction
 
 BYTE code MenuPage8L1[9] =
@@ -3136,18 +3124,6 @@ MenuFontType code MenuPage10[16] =
 	{ MenuPage10L16, 13 },
 };
 // Total Menu Font Number = 214
-
-
-BYTE code MenuPage_ColorL1[5]=
-{ // Total fonts: 3
-  0xFF, 0x01, 0x7A, 0x03, 0x00 
-};
-MenuFontType code MenuPage_Color[1]=
-{
-  { MenuPage_ColorL1, 5 },
-};
-// Total Menu Font Number = 5
-
 
 #endif
 #if 1
@@ -4500,8 +4476,6 @@ MenuFontType code MenuPage69[16] =
 // Total Menu Font Number = 192
 
 #endif
-
-
 
 #endif
 

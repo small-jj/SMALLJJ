@@ -498,67 +498,126 @@ void Osd_DrawHex(BYTE xPos, BYTE yPos, WORD value)
 void LoadCommonFont(void)
 {
 	msWrite2ByteMask(OSD1_0A, 0x0200 + _4ColorFontStart, 0x03FF); // 4 color start
-	msWrite2ByteMask(OSD1_0C, 0x03FF, 0x03FF); // 8 color start  
-	//msWrite2ByteMask(OSD1_0C, 0x0200 + _8ColorFontStart, 0x03FF); // 8 color start
-	//msWrite2ByteMask(OSD1_0E, 0x03FF, 0x03FF);  // 16 color start
+	msWrite2ByteMask(OSD1_0C, 0x0200 + _8ColorFontStart, 0x03FF); // 8 color start
+	msWrite2ByteMask(OSD1_0E, 0x03FF, 0x03FF);  // 16 color start
 	LoadCompressColorFont(0, 0, 0); //xxxx
 	#if CHIP_ID>=CHIP_TSUM2
 	mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(MonoFontStart), tColor2FixFont, 0 );
-	mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(MonoNumberStart), tOSDNumberFont, 0 );	//2023.06.21
+	mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(MonoNumberStart), tOSDNumberFont, 0 );
 	mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(FfontStart), &tFontF, 0 );
 	#else
 	mStar_LoadCompressedFont( MonoFontStart, tColor2FixFont, 0 );
 	mStar_LoadCompressedFont( MonoNumberStart, tOSDNumberFont, 0 );
 	mStar_LoadCompressedFont( (FfontStart), &tFontF, 0 );
 	#endif
+	#if OsdHelpKeyType == OsdHelpKey_Under
+	mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(0x11), &HelpKeyIcon, 0 );
+	#elif 	OsdHelpKeyType == OsdHelpKey_Right
+	OSD_FONT_HI_ADDR_SET_BIT8();//0x100~0x1FF
+	mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(0x11), &HelpKeyIcon, 0 );
+	OSD_FONT_HI_ADDR_CLR_TO_0();
+	#endif
 	LoadLanguageStatusPropfont();
 	OSD_FONT_HI_ADDR_SET_BIT8();//0x100~0x1FF
-	OSD_WRITE_FONT_ADDRESS(0x00);
-	#if CHIP_ID>=CHIP_TSUM2
+	OSD_WRITE_FONT_ADDRESS(MonoGuageFontStar);
+#if CHIP_ID>=CHIP_TSUM2
 	mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(MonoGuageFontStar), tMonoGauge, 0 );
-	//================================2color LoadFont==============================
-	mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(_2ColorMainIconStart), tHomeMainMenu_2ColorFont, 0 );
-	#else
+	mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(_2ColorMainIconStart),tColor2MainFont,0);
+
+#else
 	mStar_LoadCompressedFont( MonoGuageFontStar, tMonoGauge, 0 );
-	#endif
+#endif
+	OSD_FONT_HI_ADDR_CLR_TO_0();
+	OSD_FONT_HI_ADDR_SET_BIT9();//0x200~0x2FF
+//	OSD_WRITE_FONT_ADDRESS(_4ColorMainIconStart);
+//	LoadCompressColorFont(&tMainMenuIcon4ColorFont, NULL, 18); // load osd fonts
+	
+	OSD_WRITE_FONT_ADDRESS(_8ColorMainIconStart);
+	Osd_Load8ColorFont( _8ColorMainIconStart, &tMainMenuIcon8ColorFont, sizeof( tMainMenuIcon8ColorFont ) );
 	OSD_FONT_HI_ADDR_CLR_TO_0();
 	Load256ColorPalette(0, 0, &tOSDColorPalette256, sizeof( tOSDColorPalette256 ) / sizeof(ColorPaletteType) );
 
-	//================================4color LoadFont==============================
+	/////////////////////////////////////////////////////////////////////// my
 	OSD_FONT_HI_ADDR_SET_BIT9();
-	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart));	//-------LT
-	LoadCompressColorFont(&tBackGroundLT_4ColorFont, NULL, 2);
-	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart+4));	//-------RT
-	LoadCompressColorFont(&tBackGroundRT_4ColorFont, NULL, 2);
-	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart+8));	//-------TOP02
-	LoadCompressColorFont(&tBackGroundTOP02_4ColorFont, NULL, 2);
-	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart+12));//-------buttom1	
-	LoadCompressColorFont(&tbuttom1_4ColorFont, NULL, 1);
-	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart+14));//-------buttom2
-	LoadCompressColorFont(&tbuttom2_4ColorFont, NULL, 5);
-	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart+24));//-------buttom3
-	LoadCompressColorFont(&tbuttom3_4ColorFont, NULL, 1);
-	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart+26));//-------TOP03
-	LoadCompressColorFont(&tBackGroundTOP03_4ColorFont, NULL, 2);
-	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart+30));//-------TOP06
-	LoadCompressColorFont(&tBackGroundTOP06_4ColorFont, NULL, 1);
-	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart+32));//-------TOP09
-	LoadCompressColorFont(&tBackGroundTOP09_4ColorFont, NULL, 2);
-	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart+36));//-------TOP10
-	LoadCompressColorFont(&tBackGroundTOP10_4ColorFont, NULL, 2);
-	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart+40));//-------TOP13
-	LoadCompressColorFont(&tBackGroundTOP13_4ColorFont, NULL, 2);
-	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart+44));//-------LD
-	LoadCompressColorFont(&tBackGround_LD_4ColorFont, NULL, 6);	
-	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart+56));//-------RD
-	LoadCompressColorFont(&tBackGround_RD_4ColorFont, NULL, 6);
-	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart+68));//-------刷新率
-	LoadCompressColorFont(&tBackGround_SXL_4ColorFont, NULL, 4);
-	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart+76));//-------分辨率
-	LoadCompressColorFont(&tBackGround_FBL_4ColorFont, NULL, 4);
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart));
+	LoadCompressColorFont(&t1_04ColorFont,NULL,2);
+	OSD_FONT_HI_ADDR_CLR_TO_0();
+
+	/////////////////////////////////////////////////////////////////////// my
+
+	OSD_FONT_HI_ADDR_SET_BIT9();
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +4));
+	LoadCompressColorFont(&tt24_13ColorFont,NULL,1);
+	OSD_FONT_HI_ADDR_CLR_TO_0();
+
+	/////////////////////////////////////////////////////////////////////// my
+	OSD_FONT_HI_ADDR_SET_BIT9();
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +6));
+	LoadCompressColorFont(&tt23_14ColorFont,NULL,5);
+	OSD_FONT_HI_ADDR_CLR_TO_0();
+
+
+	/////////////////////////////////////////////////////////////////////// my
+	OSD_FONT_HI_ADDR_SET_BIT9();
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +16));
+	LoadCompressColorFont(&tt24_15ColorFont,NULL,1);
+
+	OSD_FONT_HI_ADDR_CLR_TO_0();	
+	/////////////////////////////////////////////////////////////////////// my
+
+	/////////////////////////////////////////////////////////////////////// my
+	OSD_FONT_HI_ADDR_SET_BIT9();
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +18));
+	LoadCompressColorFont(&Bleft1ColorFont,NULL,1);
+	OSD_FONT_HI_ADDR_CLR_TO_0();
+	/////////////////////////////////////////////////////////////////////// my
+	OSD_FONT_HI_ADDR_SET_BIT9();
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +20));
+	LoadCompressColorFont(&Bleft2ColorFont,NULL,2);
+	OSD_FONT_HI_ADDR_CLR_TO_0();
+	/////////////////////////////////////////////////////////////////////// my
+	OSD_FONT_HI_ADDR_SET_BIT9();
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +24));
+	LoadCompressColorFont(&Bleft3ColorFont,NULL,1);
+	OSD_FONT_HI_ADDR_CLR_TO_0();
+	
+	OSD_FONT_HI_ADDR_SET_BIT9();
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +26));
+	LoadCompressColorFont(&Bright1ColorFont,NULL,1);	
+	OSD_FONT_HI_ADDR_CLR_TO_0();
+	/////////////////////////////////////////////////////////////////////// my
+	OSD_FONT_HI_ADDR_SET_BIT9();
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +28));
+	LoadCompressColorFont(&Bright2ColorFont,NULL,2);	
+	OSD_FONT_HI_ADDR_CLR_TO_0();
+	/////////////////////////////////////////////////////////////////////// my
+	OSD_FONT_HI_ADDR_SET_BIT9();
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +32));
+	LoadCompressColorFont(&Bright3ColorFont,NULL,1);	
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +34));
+	LoadCompressColorFont(&RT_4ColorFont,NULL,2);	
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +38));
+	LoadCompressColorFont(&t2a_0ColorFont,NULL,1);		
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +40));
+	LoadCompressColorFont(&t40_0ColorFont,NULL,2);
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +44));
+	LoadCompressColorFont(&t1b_0ColorFont,NULL,1);	
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +46));
+	LoadCompressColorFont(&t8_0ColorFont,NULL,2);
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +50));
+	LoadCompressColorFont(&t19_1ColorFont,NULL,2);
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +54));
+	LoadCompressColorFont(&tc_1ColorFont,NULL,2);
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +58));
+	LoadCompressColorFont(&t2d_1ColorFont,NULL,2);
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +62));
+	LoadCompressColorFont(&t3f_1ColorFont,NULL,2);
 
 	OSD_FONT_HI_ADDR_CLR_TO_0();
-  //=====================================================================	
+
+
+
+
 }
 
 #else
@@ -587,6 +646,11 @@ void LoadCommonFont(void)
 	msWriteByte( OSDCFHA, (msReadByte(OSDCFHA) & ~(BIT7 | BIT6)) | BIT6);
 	msWriteByte( OSD8CFFA, FONT_8COLOR_ICON_START );
 	msWriteByte( OSD2_AE, BIT6 );
+	OSD_WRITE_FONT_ADDRESS(_4ColorMainIconStart);
+	LoadCompressColorFont(&tMainMenuIcon4ColorFont, NULL, 18); // load osd fonts
+	OSD_WRITE_FONT_ADDRESS(_8ColorMainIconStart);
+	Osd_Load8ColorFont( _8ColorMainIconStart, &tMainMenuIcon8ColorFont, sizeof( tMainMenuIcon8ColorFont ) );
+	msWriteByte( OSD2_AE, 0 );
 	Load256ColorPalette(0, 0, &tOSDColorPalette256, sizeof( tOSDColorPalette256 ) / sizeof(ColorPaletteType) );
 	//drvOsdLoad256ColorPalette( 0x00, &tOSDColorPalette256, sizeof( tOSDColorPalette256 ), TRUE ); // load osd color
 }
@@ -789,7 +853,7 @@ void Osd_Set256TextColor(BYTE foreColor, BYTE backColor)
 #endif
 
 
-//Character Direct Write DisplayCode	字符直接写入显示代码
+//Character Direct Write DisplayCode
 void Osd_DrawCharDirect(BYTE xPos, BYTE yPos, BYTE ch)
 {
 	#if CHIP_ID>=CHIP_TSUMV

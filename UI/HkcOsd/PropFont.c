@@ -133,8 +133,8 @@ void LoadLanguageStatusPropfont( void )
 	if(MenuPageIndex != FactoryMenu)
 		Osd_DynamicLoadFont( PropFontAddress, MenuPage4[UserPrefLanguage].Fonts, MenuPage4[UserPrefLanguage].FontCount );
 	Osd_DynamicLoadFont( MainAddress, MenuPage7[UserPrefLanguage].Fonts, MenuPage7[UserPrefLanguage].FontCount );
-	Osd_DynamicLoadFont( MainAddress, MenuPage100[0].Fonts, MenuPage100[0].FontCount );
-//	Osd_DynamicLoadFont( PropFontAddress, MenuPage104[0].Fonts, MenuPage104[0].FontCount );
+	Osd_DynamicLoadFont( MainAddress, MenuPage0[UserPrefLanguage].Fonts, MenuPage0[UserPrefLanguage].FontCount );
+	
 	#if AdjustLanguageFunction
 	Osd_DynamicLoadFont( LanguageAddress, MenuPage8[UserPrefLanguage].Fonts, MenuPage8[UserPrefLanguage].FontCount );
 	#endif

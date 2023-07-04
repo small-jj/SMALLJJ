@@ -1,61 +1,73 @@
-//主菜单
-extern BYTE* MainMenu_ColorSetUpText(void);
-extern BYTE* MainMenu_BrightnessSetUpText(void);
-extern BYTE* MainMenu_ScreenSetUpText(void);
-extern BYTE* MainMenu_GameSetUpText(void);
-extern BYTE* MainMenu_MenuSetUpText(void);
-extern BYTE* MainMenu_PIP_PBPSetUpText(void);
-extern BYTE* MainMenu_OtherSetUpText(void);
-//颜色
-extern BYTE* Menu2_WarmTemp_Text(void);
-extern BYTE* Menu2_CoolTemp_Text(void);
-extern BYTE* Menu2_Chromaticity_Text(void);
-extern BYTE* Menu2_ColorSaturation_Text(void);
-//亮度
-extern BYTE* Menu2_Brightness_Text(void);
-extern BYTE* Menu2_Contrast_Text(void);
-extern BYTE* Menu2_DynamicContrast_Text(void);
-extern BYTE* Menu2_DynamicBrightness_Text(void);
-//画面
-extern BYTE* Menu2_ScenarioMode_Text(void);
-extern BYTE* Menu2_ScreenRatio_Text(void);
-extern BYTE* Menu2_Gamma_Text(void);
-extern BYTE* Menu2_Sharpness_Text(void);
-extern BYTE* Menu2_LowBlueLight_Text(void);
-extern BYTE* Menu2_HDR_Text(void);
-extern BYTE* Menu2_DarkBalance_Text(void);
-//游戏专用功能
-extern BYTE* Menu2_MPRT_Text(void);
-extern BYTE* Menu2_AdaptiveSync_Text(void);
-extern BYTE* Menu2_ResponseTime_Text(void);
-extern BYTE* Menu2_RefreshRate_Text(void);
-extern BYTE* Menu2_GameAlignment_Text(void);
-extern BYTE* Menu2_GameTiming_Text(void);
-extern BYTE* Menu2_AmbientLight_Text(void);
-//菜单设置
-extern BYTE* Menu2_Language_Text(void);
-extern BYTE* Menu2_OSD_DisplayTime_Text(void);
-extern BYTE* Menu2_OSD_HPosition_Text(void);
-extern BYTE* Menu2_OSD_VPostion_Text(void);
-extern BYTE* Menu2_MenuRotation_Text(void);
-extern BYTE* Menu2_MenuLock_Text(void);
-extern BYTE* Menu2_ShortcutKey1_Text(void);
-extern BYTE* Menu2_ShortcutKey2_Text(void);
-extern BYTE* Menu2_ShortcutKey3_Text(void);
-extern BYTE* Menu2_ShortcutKey4_Text(void);
-//其他设置
-extern BYTE* Menu2_SignalInput_Text(void);
-extern BYTE* Menu2_AudioInput_Text(void);
-extern BYTE* Menu2_Mute_Text(void);
-extern BYTE* Menu2_Volume_Text(void);
-extern BYTE* Menu2_AutoShutdown_Text(void);
-extern BYTE* Menu2_EyeProtectionReminder_Text(void);
-extern BYTE* Menu2_Reset_Text(void);
-extern BYTE* Menu2_Information_Text(void);
-
-//------------------------------------------------------------------
+///////////////////////////////////////////////
+//my
 
 
+
+extern BYTE* MainMenu_ColorsText(void);
+extern BYTE* MainMenu_BriContrastText(void);
+extern BYTE* MainMenu_PictureText(void);
+extern BYTE* MainMenu_Game_Pro_FeaturesText(void);
+extern BYTE* MainMenu_Menu_settingsText(void);
+extern BYTE* MainMenu_Other_settingsText(void);
+extern BYTE* MainMenu_Shortcut_KeyText(void);
+
+
+extern BYTE* WarmColorTempText(void);
+extern BYTE* CoolColorTempText(void);
+extern BYTE* ChromatictysText(void);
+extern BYTE* ColorSaturationtext(void);
+
+extern BYTE* BrightnesssText(void);
+extern BYTE* ContrastRatioText(void);
+extern BYTE* Dynamic_Contrast_RatioText(void);
+extern BYTE* Dynamic_Brightnesstext(void);
+
+extern BYTE* Scenario_ModeText(void);
+extern BYTE* Screen_ScaleText(void);
+extern BYTE* GammaText(void);
+extern BYTE* Sharpnesstext(void);
+extern BYTE* Low_Blue_LightText(void);
+extern BYTE *HDRtext( void );
+extern BYTE* Dark_Balancetext(void);
+
+extern BYTE *MPRTText( void );
+extern BYTE *Adaptive_SyncText( void );
+extern BYTE *Response_timeText( void );
+extern BYTE *Refresh_ratetext( void );
+extern BYTE *Game_alignmentText( void );
+extern BYTE *Game_Timingtext( void );
+extern BYTE *Ambient_lighttext( void );
+
+extern BYTE *LanguageeText( void );
+extern BYTE *Show_TimeText( void );
+extern BYTE *Horizontal_PositionText( void );
+extern BYTE *Vertical_Vositiontext( void );
+extern BYTE *Transparencytext( void );
+extern BYTE *Menu_Rotationtext( void );
+extern BYTE *Menu_LockText( void );
+extern BYTE *Shortcut_OneText( void );
+extern BYTE *Shortcut_TwoText( void );
+extern BYTE *Shortcut_Threetext( void );
+extern BYTE *Shortcut_FourText( void );
+
+extern BYTE *Signal_Input_Text( void );
+extern BYTE *Mute_Text( void );
+extern BYTE *Volume_Text( void );
+extern BYTE *Audio_Input_text( void );
+extern BYTE *Auto_Power_Off_Text( void );
+extern BYTE *Eye_Protection_Reminder_text( void );
+extern BYTE *Information_text( void );
+extern BYTE *Reset_text( void );
+
+
+
+
+
+
+
+
+
+/////////////////////////////////////////////////
 extern BYTE* MainMenu_BrightText(void);
 extern BYTE* MainMenu_ImageText(void);
 extern BYTE* MainMenu_ColorText(void);
@@ -81,75 +93,6 @@ extern BYTE *strTChineseText( void );
 extern BYTE *strSChineseText( void );
 extern BYTE *strJapanText( void );
 #endif
-
-//=============================================		//my
-extern BYTE* Color_Icon(void);				//0 颜色
-extern BYTE* BrightnessContrast_Icon(void);	//1 亮度 对比度
-extern BYTE* Screen_Icon(void);				//2 画面
-extern BYTE* GameProFeatures_Icon(void);		//3 游戏专业功能
-extern BYTE* MenuSettings_Icon(void);		//4 菜单功能
-extern BYTE* OtherSettings_Icon(void);		//5 其他功能
-
-//-----------------------------------------
-extern BYTE code strTOP01_2ColorFont[1][6];
-extern BYTE code strTOP04_2ColorFont[1][3];
-extern BYTE code strTOP05_2ColorFont[1][3];
-extern BYTE code strTOP07_2ColorFont[1][4];
-extern BYTE code strTOP08_2ColorFont[1][4];
-extern BYTE code strTOP11_2ColorFont[1][3];
-extern BYTE code strTOP12_2ColorFont[1][3];
-extern BYTE code strTOP13_4ColorFont[1][3];
-extern BYTE code strTOP14_2ColorFont[1][3];
-extern BYTE code strTOP15_2ColorFont[1][3];
-extern BYTE code strTOP16_2ColorFont[1][6];
-extern BYTE code strTOP17_2ColorFont[1][2];
-extern BYTE code strTOP18_2ColorFont[1][3];
-extern BYTE code strTOP19_2ColorFont[1][3];
-extern BYTE code strTOP20_2ColorFont[1][5];
-
-extern BYTE code str_LIGHT01_2ColorFont[1][3];
-extern BYTE code str_RIGHT01_2ColorFont[1][3];
-extern BYTE code str_LIGHT02_2ColorFont[1][2];
-extern BYTE code str_RIGHT02_2ColorFont[1][2];
-extern BYTE code str_LIGHT03_2ColorFont[1][2];
-extern BYTE code str_RIGHT03_2ColorFont[1][2];
-extern BYTE code str_LIGHT04_2ColorFont[1][2];
-extern BYTE code str_RIGHT04_2ColorFont[1][2];
-
-extern BYTE code strLT_4ColorFont[1][3];
-extern BYTE code strRT_4ColorFont[1][3];
-extern BYTE code str_LD_ColorFont[3][6];
-extern BYTE code str_RD_ColorFont[3][6];
-
-extern BYTE code str_bottom01_2ColorFont[2][2];
-extern BYTE code str_bottom02_2ColorFont[2][3];
-extern BYTE code str_bottom03_2ColorFont[1][2];
-extern BYTE code str_bottom04_2ColorFont[1][2];
-extern BYTE code str_bottom05_2ColorFont[1][2];
-extern BYTE code str_bottom06_2ColorFont[2][2];
-extern BYTE code str_bottom07_2ColorFont[3][2];
-extern BYTE code str_bottom08_2ColorFont[1][2];
-extern BYTE code str_bottom09_2ColorFont[2][2];
-extern BYTE code str_bottom10_2ColorFont[2][2];
-extern BYTE code str_bottom11_2ColorFont[3][2];
-extern BYTE code str_bottom12_2ColorFont[2][2];
-extern BYTE code str_bottom13_2ColorFont[3][2];
-extern BYTE code str_bottom14_2ColorFont[2][3];
-
-extern BYTE code strTOP02_4ColorFont[1][3];
-extern BYTE code strbu1_4ColorFont[1][2];
-extern BYTE code strbut2_4ColorFont[1][6];
-extern BYTE code strbu3_4ColorFont[1][2];
-extern BYTE code strTOP03_4ColorFont[1][3];
-extern BYTE code strTOP06_4ColorFont[1][2];
-extern BYTE code strTOP09_4ColorFont[1][3];
-extern BYTE code strTOP10_4ColorFont[1][3];
-
-extern BYTE code strSXL_4ColorFont[2][3];
-extern BYTE code strFBL_4ColorFont[2][3];
-extern BYTE code str_Title_2ColorFont[1][10];
-
-//=============================================
 
 extern BYTE* BrightnessIcon(void);
 extern BYTE* ImageIcon(void);

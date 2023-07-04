@@ -23,6 +23,21 @@
 #define Color_2G  0x07  //Gradual
 #define Color_8G  0x08  //Gradual
 
+#define	COLOR_DRAK_RED		1	//深红
+#define	COLOR_LIGHT_RED		2	//亮红
+#define	COLOR_RED			3	//红
+#define	COLOR_BLACK_RED		4	//黑红
+#define	COLOR_LIGHT_GREEN	5	//亮绿
+#define	COLOR_LIGHT_BLUE	6	//亮蓝
+#define	COLOR_BLACK			7	//黑
+#define	COLOR_LIGHT_GRAY	8	//亮灰
+#define	COLOR_WHITE			9	//白
+
+
+
+
+
+
 
 typedef enum
 {
@@ -58,7 +73,7 @@ typedef enum
 	OsdMenu, 					//  11
 	SettingMenu, 				//    13
 	OSD_MiscMenu,  			 // 	14
-
+//	OSD_ShortcutMenu,
 	ExitMenu,                             //15
 //-----------------------------------------------
 	BrightnessMenu,     //
@@ -393,10 +408,10 @@ typedef enum
 #define MonoFrame_LD        0x04
 #define MonoFrame_RD        0x05
 
-#define MenuFrame_TopSide		0x06
+#define MenuFrame_TopSide	0x06
 #define MenuFrame_BottomSide	0x07
-#define MenuFrame_LeftSide		0x08
-#define MenuFrame_RightSide		0x09
+#define MenuFrame_LeftSide	0x08
+#define MenuFrame_RightSide	0x09
 
 #define MenuFrame_LeftSide_1	0x0A
 #define MenuFrame_LeftSide_2	0x0B
@@ -414,48 +429,49 @@ typedef enum
 #define AutoMenuFrameRightSide_3		MenuFrame_RightSide_3
 #define AutoMenuFrameMide_Top			0x10
 #define AutoMenuFrameMide_Bottom		0x0F
-     
-#define MenuFrame_MinusSign	0x11
-#define MonoMark_Left		0x12
-#define MonoMark_Right 		0x13
-
-#define FfontStart                  0x14   //100907 aoivd overlap with arrow
 
 
-#define MonoNumberStart 	0x15			//数字符号的地址
-#define PropFontAddress		0x2C //0x1E		//文字符号的地址
-#define MainAddress			0xC0			//标题地址
+#define MonoMark_Left		0x1E
+#define MonoMark_Right 		0x1F
+
+#define FfontStart                  0x20   //100907 aoivd overlap with arrow
+
+
+#define MonoNumberStart 	0x21
+#define PropFontAddress		0x2C
+#define MainAddress			0xC0
 
 #define LanguageAddress		0xF8
 //=================================================page2
 
-#define MonoGuageFontStar           0x00//0x100		//进度条
+#define MonoGuageFontStar           0x00//0x100
 
 
-#define ResoulationAddress  0xEA//0x1EA		//分辨率地址
+#define ResoulationAddress  0x20//0x120
 
 
 //=================================================page3
-
-#define FONT_2COLOR_ICON_START 	0x000		//my
+#define FONT_2COLOR_ICON_START	0x000
 #define FONT_4COLOR_ICON_START 	0x000
 #define FONT_8COLOR_ICON_START	0x045//0x2E
 
-#define _2ColorFontStart		FONT_2COLOR_ICON_START		//my
-#define _4ColorFontStart		FONT_4COLOR_ICON_START//0x180
-#define _8ColorFontStart		FONT_8COLOR_ICON_START//0x200
+#define _2ColorFontStart            FONT_2COLOR_ICON_START
+#define _4ColorFontStart            FONT_4COLOR_ICON_START//0x180
+#define _8ColorFontStart            FONT_8COLOR_ICON_START//0x200
 
-#define _2ColorMainIconStart	0x13		//my
+#define _2ColorHotIconStart      _2ColorFontStart
 
-#define _4ColorHotIconStart		_4ColorFontStart
+#define _2ColorMainIconStart      _2ColorHotIconStart+30
 
-#define _4ColorMainIconStart	_4ColorHotIconStart+30
+#define _4ColorHotIconStart      _4ColorFontStart
 
-#define _8ColorMainIconStart	_8ColorFontStart
+#define _4ColorMainIconStart      _4ColorHotIconStart+30
 
-#define _8ColorHotIconStart		_8ColorFontStart+54
+#define _8ColorMainIconStart      _8ColorFontStart
 
-#define _2ColorBackGroundStart	     _2ColorMainIconStart+12                           
+#define _8ColorHotIconStart       _8ColorFontStart+54
+
+
 
 #if Hot_Corss_ColorSelect
 
@@ -481,18 +497,18 @@ typedef enum
 #define MAIN_MENU_H_SIZE            0x2D//1368 pixel
 #define MAIN_MENU_V_SIZE            0x10
 #else
-#define MAIN_MENU_H_SIZE            0x48//1368 pixel
-#define MAIN_MENU_V_SIZE            0x18
+//my
+#define MAIN_MENU_H_SIZE            0x48//1368 pixel//原29 12
+#define MAIN_MENU_V_SIZE            0x16
 #endif
 
-#define MainMenuIcon_DrawXPos		0x04
+#define MainMenuIcon_DrawXPos		0x03
 #define MainMenuIcon_DrawYPos		0x05
+				
 
-#define MainMenuText_DrawXPos		0x08
-#define MainMenuText_DrawYPos		0x05
-#define MainMenuText_Shift			0x02
+#define MainMenuText_XPos			9
 
-#define SUB_TEXT_XPOS		0x1B		//二级菜单起始坐标				//my
+#define SUB_TEXT_XPOS		0x1C
 #define SUB_TEXT_YPOS		0x05
 #define IconShift			0x02
 
@@ -505,14 +521,15 @@ typedef enum
 
 #define ItemShiftSpace      40
 
-#define GaugeXPosition       0x32		//三级菜单进度条的起始坐标				//my
-#define NumXposion           0x3A
+#define GaugeXPosition      0x37
+#define NumXposion           0x3E          //my 进度条的值的位置，原20
 #define DrawStarXPos		 0x0E
+#define NUMXPOSITION		8
 
 #define OFFTIMER_VALUE_XPOS 	26		// Jun 20130730
 
 #define CENTER_ALIGN_LEN            13
-#define CENTER_ALIGN_STARTPOS       (GaugeXPosition-8)//11		//三级菜单选框的起始坐标
+#define CENTER_ALIGN_STARTPOS       (GaugeXPosition-8)//11
 #define CENTER_ALIGN_ENDPOS         (CENTER_ALIGN_STARTPOS+CENTER_ALIGN_LEN-1)//23
 
 
@@ -523,8 +540,8 @@ typedef enum
 
 #endif
 
-#define HotIconXPos    10
-#define HotIconYPos    2
+#define HotIconXPos    10	//my
+#define HotIconYPos    2	//my
 
 
 
@@ -593,7 +610,7 @@ typedef enum
 	MAIN_Osd_ITEM,
 	MAIN_Setting_ITEM,
 	MAIN_Misc_ITEM,
-
+//	MAIN_Shortcut_ITEM,
 	MAIN_MAX_ITEM,
 } MainMenuItemsType;
 
@@ -624,9 +641,9 @@ typedef enum
 	Picture_VPOSITION_ITEM,
 	Picture_CLOCK_ITEM,
 	Picture_PHASE_ITEM,
-	/*#if Enable_Func_AdjExpansion
+	#if Enable_Func_AdjExpansion
 	Picture_IMAGERATIO_ITEM,
-	#endif*/
+	#endif
 	Picture_MAX_ITEM,
 } PictureMenuItemsType;
 
@@ -636,29 +653,26 @@ typedef enum
 	RGB_Red_Item,
 	RGB_Green_Item,
 	RGB_Blue_Item,
-	//#if LowBlueLightType==LowBlueLight_ColorTemp || LowBlueLightType==LowBlueLight_SharpFunc
+	#if LowBlueLightType==LowBlueLight_ColorTemp || LowBlueLightType==LowBlueLight_SharpFunc
 	RGB_LowBlueLigth_Item,
-	//#endif
+	#endif
 	HDR_Item,
-	DarkBalance_Item,
+	Dark_Balance_Item,
 	RGB_MAX_Item,
 } RGBMenuItemsType;
 
 
 typedef enum
 {
-	#if AdjustLanguageFunction
 	OSD_LANGUAGE_ITEM,
-	#endif 
-	MPRT_ITEM,
 	#if OsdAdjustHVPos_Enable
 	OSD_HPOSITION_ITEM,
 	OSD_VPOSITION_ITEM,
 	#endif
 	OSD_TIMEOUT_ITEM,
 	OSD_TRANSPARENCE_ITEM,
-	GAMETIMING_ITEM,
-	AMBIENTLIGHT_ITEM,
+	OSD_GAMETIME_ITEM,
+	OSD_LIGHT_ITEM,
 	OSD_MAX_ITEM,
 } OSDMenuItemsType;
 
@@ -669,6 +683,14 @@ typedef enum
 	Setting_AUTOCOLOR_ITEM,
 	#endif
 	Setting_RESTR_ITEM,
+	Vertical_Vosition_ITEM,
+	Transparency_ITEM,
+	Menu_Rotation_ITEM,
+	Menu_Lock_ITEM,
+	Shortcut_One_ITEM,
+	Shortcut_Two_ITEM,
+	Shortcut_Three_ITEM,
+	Shortcut_Four_ITEM,
 	#ifdef OffPower
 	Setting_OffPower_ITEM,
 	#endif
@@ -685,6 +707,12 @@ typedef enum
 	Misc_Mute_ITEM,
 	#endif
 	Misc_Volume_ITEM,
+
+	Audio_Input_ITEM,
+	Auto_Power_Off_ITEM,
+	Eye_Protection_Reminder_ITEM,
+	Reset_ITEM,
+	Information_ITEM,
 	#endif
 	#if Enable_Adjust_SharpnessMenu
 	Misc_Sharpness_ITEM,
