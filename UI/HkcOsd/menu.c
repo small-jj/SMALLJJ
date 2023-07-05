@@ -28,6 +28,65 @@
 #include "CommonLoadCPnCompressFont.h"
 #include "FactoryString.h"
 
+extern void mStar_LoadCompressedFont(BYTE u8Addr, WORD *pu16FontPtr, WORD u16Count);
+extern void LoadCompressColorFont(BYTE *pu8FontTbl, WORD *pu16MapPtr, BYTE countu8Count);
+BYTE i;
+
+
+extern BYTE code Centry_low_4[];
+extern WORD code Centry_low_2[];
+extern  BYTE code PalRGB[4][18];
+extern  WORD code strRGBWindow[4][18];
+
+extern WORD code stryyyWindow[3][5];
+extern 	WORD code Centry_low_2_2[];
+extern 	BYTE code Centry_low_4_2[];
+extern 	BYTE code Palyyy[3][5];
+
+extern WORD code stryyWindow[3][5];
+extern 	WORD code Centry_low_2_2_2[];
+extern 	BYTE code Centry_low_4_2_2[];
+extern 	BYTE code Palyy[3][5];
+
+extern 	BYTE code YouJiao_up_4[] ;/////两个角的四色
+extern 	BYTE code ZuoJiao_up_4[] ;/////两个角的四色
+
+extern WORD code UP_ICON_1[3][9];
+extern BYTE code UP_COLOR_1[3][9];
+extern BYTE code Centry_up_4_1[];
+extern WORD code Centry_up_2_1[];
+
+extern WORD code UP_ICON_1_left[3][9];
+extern BYTE code UP_COLOR_1_left[3][9];
+extern BYTE code Centry_up_4_1_left[];
+extern WORD code Centry_up_2_1_left[];
+
+extern BYTE code UP_COLOR_2[2][6];
+extern WORD  code UP_ICON_2[2][6];
+extern WORD code Centry_up_2_2[];
+extern BYTE code Centry_up_4_2[];
+
+
+extern BYTE code UP_COLOR_3[2][6];
+extern WORD  code UP_ICON_3[2][6];
+extern WORD code Centry_up_2_5[];
+extern BYTE code Centry_up_4_4[];
+
+
+extern BYTE code UP_COLOR_4[2][3];
+extern WORD  code UP_ICON_4[2][3];
+extern WORD code Centry_up_2_7[];
+extern BYTE code Centry_up_4_6[];
+
+extern BYTE code UP_COLOR_5[2][3];
+extern WORD  code UP_ICON_5[2][3];
+extern WORD code Centry_up_2_8[];
+extern BYTE code Centry_up_4_7[];
+
+
+ extern BYTE code strhhhWindow[2][12];
+
+
 #if	1//def ReduceDDC
 #include "ddc.h"
 #endif
@@ -48,83 +107,6 @@
 
 #include "Msflash.h"
 
-#define COLOR4_START_FLAG 0x200 //四色起始标志
-extern BYTE code str1_0Window[1][3];
-extern BYTE code Pal1_0[1][3];
-extern BYTE code Pal1_1[1][3];
-
-extern BYTE code str13Window[1][2];
-extern BYTE code Palt24_13[1][2];
-
-extern BYTE code str14Window[1][6];
-extern BYTE code Palt23_14[1][6];
-
-extern BYTE code str15Window[1][2];
-extern BYTE code Palt24_15[1][2];
-
-extern BYTE code str1f_12Window[2][4];
-extern BYTE code str1f_14Window[1][3];
-extern BYTE code str1e_15Window[1][4];
-extern BYTE code str1e_14Window[1][3];
-
-extern BYTE code str27_12Window[2][3];
-extern BYTE code str29_13Window[1][2];
-extern BYTE code str2a_14Window[1][3];
-extern BYTE code str28_14Window[1][3];
-extern BYTE code str2a_15Window[1][4];
-
-extern BYTE code strBottomWindow[1][2];
-
-
-extern BYTE code strBlef3Window[1][2];
-extern BYTE code PalBlef3[1][2];
-extern BYTE code strBlef2Window[2][2];
-extern BYTE code strBlef1Window[1][2];
-extern BYTE code PalBlef1[1][2];
-extern BYTE code strB_left4Window[1][2];
-
-extern BYTE code strB_right4Window[1][2];
-extern BYTE code strrig1Window[1][2];
-extern BYTE code PalBrig1[1][2];
-extern BYTE code PalBrig2[2][2];
-extern BYTE code strBrig2Window[2][2];
-extern BYTE code strBrig3Window[1][2];
-
-extern BYTE code strtop1Window [1][6];
-extern BYTE code strt28_0Window[1][3];
-
-extern BYTE code Palt2a_0[1][2];
-extern BYTE code Palt3b_0[1][30];
-extern BYTE code strtT2Window[1][3];
-extern BYTE code strtT41_0Window[1][4];
-extern BYTE code strtT1a_0Window [1][2];
-extern BYTE code strtT1c_1Window[1][3];
-extern BYTE code strtT8_1Window[1][4];
-extern BYTE code strtT1c_2Window[1][5];
-extern BYTE code strtT2a_1Window[1][3];
-extern BYTE code strtT40_1Window[1][5];
-extern BYTE code strtT3f_2Window[1][5];
-
-extern BYTE code strtTlr1Window[1][2];
-extern BYTE code strtTlr2Window[1][2];
-
-extern BYTE code strtTlr3Window[1][2];
-extern BYTE code strtTlr4Window[1][2];
-
-extern BYTE code strtTlr5Window[1][2];
-extern BYTE code strtTlr6Window[1][2];
-
-extern BYTE code strtTlr7Window[1][2];
-extern BYTE code strtTlr9Window[1][2];
-
-extern BYTE code strtTlraWindow[1][2];
-extern BYTE code strtTlrbWindow[1][2];
-
-extern BYTE code strtTlrcWindow[1][2];
-extern BYTE code strtTlrdWindow[1][2];
-
-extern BYTE code strtTlreWindow[1][2];
-extern BYTE code strtTlrfWindow[1][2];
 
 #if Hot_Corss_ColorSelect||Hot_Corss_FY_ColorSelect||Hot_Corss_FND_Select
 extern void DynamicLoadHotCorssIcon( BYTE Mode );
@@ -862,13 +844,17 @@ void Menu_OsdHandler(void)
 
 
 
+
 Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 {
+
 	Bool processEvent = TRUE;
 	BYTE xdata tempValue;
-	BYTE i;
+
 	while (processEvent)
 	{
+	
+						
 		processEvent = FALSE;
 		switch (menuAction)
 		{
@@ -876,6 +862,13 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 			case MIA_DecValue:
 				if (CurrentMenuItemFunc.AdjustFunction)
 				{
+				
+						DrawOsdBackGround();////刷新二级三级界面
+						for(i=0;i<MenuItemCount;i++)
+						{
+							DrawOsdMenuItem(i, &CurrentMenu.MenuItems[i]);
+						}
+						DrawOsdSubMenu(MenuPageIndex);
 					if((TurboKeyCounter > 0) && !(CurrentMenuItem.DisplayValue.DrawNumber) //071225 adjust value once if not release key
 					        && !(CurrentMenuItem.DisplayValue.DrawGuage))
 					{
@@ -908,63 +901,48 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 						if(CurrentMenu.Flags & mpbClrGroup)
 						{
 							// clear status Text
-							Osd_Set256TextColor( CPC_Background << 4 | CPC_Background, Color_2);
-							Osd_DrawContinuesChar(CurrentMenuItem.XPos + CENTER_ALIGN_STARTPOS + 1, CurrentMenuItem.YPos, SpaceFont, 11);
+							//Osd_Set256TextColor( CPC_Background << 4 | CPC_Background, Color_2);
+							//Osd_DrawContinuesChar(CurrentMenuItem.XPos + CENTER_ALIGN_STARTPOS + 1, CurrentMenuItem.YPos, SpaceFont, 11);
 						}
-						Osd_Set256TextColor(COLOR_BLACK, Color_2);
 						if( MenuPageIndex == ECOMenu
 						        || MenuPageIndex == DCRMenu )
 						{
-							Osd_DrawContinuesChar(SUB_TEXT_XPOS,SUB_TEXT_YPOS+BriContrast_ECO_ITEM*IconShift , SpaceFont, 11);
-							Osd_DrawContinuesChar(SUB_TEXT_XPOS ,SUB_TEXT_YPOS+BriContrast_DCR_ITEM*IconShift, SpaceFont, 11);
-							Osd_DrawContinuesChar(1,10,SpaceFont,20);
-							Osd_DrawContinuesChar(1,12,SpaceFont,20);
-							DrawOsdSubMenu( OSD_BriContrastMenu );
+							Osd_SetTextMonoColor(1, 1);
+							Osd_DrawContinuesChar(SUB_TEXT_XPOS+23,(SUB_TEXT_YPOS+BriContrast_ECO_ITEM*IconShift), SpaceFont,15);
+							Osd_DrawContinuesChar(SUB_TEXT_XPOS+23,(SUB_TEXT_YPOS+BriContrast_DCR_ITEM*IconShift), SpaceFont,15);
+							//DrawOsdSubMenu( ECOMenu );
+							//DrawOsdSubMenu( DCRMenu );
+							DrawOsdSubMenu( OSD_BriContrastMenu );///返回一级菜单重新刷新了界面
 						}
-							//my
-						#if Enable_Func_AdjExpansion
-							if(MenuPageIndex == ExpansionMenu)
-							{
-								Osd_DrawContinuesChar(1,14,SpaceFont,20);
-								DrawOsdSubMenu(PictureMenu);
-							}
-						#endif 
-							#if ENABLE_OSD_LowBlueLight
-							if(MenuPageIndex == LowBlueLightMenu)
-							{
-								
-									Osd_DrawContinuesChar(1,12 , SpaceFont, 15);
-							}
-							#endif 
-//						#if (INPUT_TYPE!=INPUT_1A) && (INPUT_TYPE!=INPUT_1H)
-							if(MenuPageIndex == InputSelectMenu)
-							{
-								Osd_DrawContinuesChar(1,6 , SpaceFont, 15);
-								Osd_DrawContinuesChar(1,6 , SpaceFont, 15);
-								
-							}
-//						#endif 
+						//以下5句为刘晨曦所加,作用是解决宽窄屏选项字体覆盖问题
+						else if( MenuPageIndex == ExpansionMenu )
+						{
+							Osd_SetTextMonoColor(1, 1);
+							Osd_DrawContinuesChar(SUB_TEXT_XPOS+23,(SUB_TEXT_YPOS+Picture_IMAGERATIO_ITEM*IconShift),SpaceFont,15);	
+							DrawOsdSubMenu( PictureMenu );	
+						}
 
+							//以下5句为刘晨曦所加,作用是解决color选项字体覆盖问题
+						else if( MenuPageIndex == ColorTempMenu )
+						{
+							Osd_SetTextMonoColor(1, 1);
+							Osd_DrawContinuesChar(SUB_TEXT_XPOS+23,(SUB_TEXT_YPOS+RGB_ColorTemp_Item*IconShift),SpaceFont,15);	
+							DrawOsdSubMenu( RGBColorMenu );	
+						}
 						#if LowBlueLightType == LowBlueLight_SharpFunc
 						else if( MenuPageIndex == ColorTempMenu )
 						{
-						
 							if(UserPrefColorTemp != CTEMP_LowBlue)
 							{
 								gTempLowBlueMode = LOW_BLUE_LIGHT_OFF;
-							//	Osd_DrawContinuesChar(CurrentMenuItem.XPos + CENTER_ALIGN_STARTPOS + 1, 12, SpaceFont, 11);
-								
+								Osd_DrawContinuesChar(CurrentMenuItem.XPos + CENTER_ALIGN_STARTPOS + 1, 12, SpaceFont, 11);
 							}
-				
-							Osd_DrawContinuesChar(1,6 , SpaceFont, 15);
 							DrawOsdSubMenu( RGBColorMenu );
 						}
 						else if( MenuPageIndex == LowBlueLightMenu )
 						{
-					
-					//	Osd_DrawContinuesChar(0x1,5, SpaceFont, 50);
-						DrawOsdSubMenu( RGBColorMenu );
-						 }
+							DrawOsdSubMenu( RGBColorMenu );
+						}
 						#else
 						else if( MenuPageIndex == ColorTempMenu
 					         #if ( LowBlueLightType==LowBlueLight_ColorTemp)
@@ -972,16 +950,17 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 					         #endif
 						       )
 						{
-						Osd_DrawContinuesChar(1,6 , SpaceFont, 15);
-						Osd_DrawContinuesChar(0x21-5,5, SpaceFont, 10);
-						DrawOsdSubMenu( RGBColorMenu );
+							DrawOsdSubMenu( RGBColorMenu );
 						}
 						#endif
 						#if AdjustLanguageFunction
 						else if( MenuPageIndex == LanguageMenu )
 						{
-		/*					for(tempValue = SUB_TEXT_YPOS; tempValue < 0x0F; tempValue += 2)
-							Osd_DrawContinuesChar( SUB_TEXT_XPOS, tempValue, SpaceFont, 0x27 - SUB_TEXT_XPOS);
+
+						
+							/*/刘晨曦----源代码
+							for(tempValue = SUB_TEXT_YPOS; tempValue < 0x0F; tempValue += 2)
+								Osd_DrawContinuesChar( SUB_TEXT_XPOS, tempValue, SpaceFont, 0x27 - SUB_TEXT_XPOS);
 							Osd_SetTextMonoColor(0x00, 0x06);
 							Osd_DrawContinuesChar( 2, 1, SpaceFont, 0x27);
 							LoadLanguageStatusPropfont();
@@ -990,23 +969,48 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 							DrawOsdMenuItemRadioGroup(MAIN_Osd_ITEM, CurrentMenuItems[MAIN_Osd_ITEM].DisplayValue.DrawRadioGroup);
 							DrawOsdSubMenu( OsdMenu );
 							MenuPageIndex = LanguageMenu;
-							MenuItemIndex = 0 ;	
-		*/				Osd_Set256TextColor(COLOR_BLACK,Color_2);	
-						Osd_DrawContinuesChar(25,4,SpaceFont,20);	
-						Osd_DrawContinuesChar(1,6,SpaceFont,20);
-						Osd_DrawContinuesChar(25,6,SpaceFont,20);						
-						Osd_DrawContinuesChar(25,8,SpaceFont,20);						
-						Osd_DrawContinuesChar(25,10,SpaceFont,20);						
-						Osd_DrawContinuesChar(25,12,SpaceFont,20);					
-						DrawOsdSubMenu(LanguageMenu);
-						
-						DrawOsdSubMenu(OsdMenu);
-						
-						LoadLanguageStatusPropfont();
-						
-						MenuPageIndex = LanguageMenu;
-						MenuItemIndex = 0;
+							MenuItemIndex = 0 ;
+							*///刘晨曦改动--作用:解决选中切换模式或者调节时出现白框的问题,文字重复
+							
+							//for(tempValue = SUB_TEXT_YPOS; tempValue < 0x0F; tempValue += 2)
+							
+							Osd_SetTextMonoColor(1,1);
+							
+							Osd_DrawContinuesChar(SUB_TEXT_XPOS-2,(SUB_TEXT_YPOS+OSD_LANGUAGE_ITEM*IconShift), SpaceFont,15);//刘晨曦---第一个参数应该是起始位置,中间的参数应该是绘画占据的长度,最后一个参数应该是一行的背景覆盖范围//重画空格----刘晨曦
+							Osd_DrawContinuesChar(SUB_TEXT_XPOS+27,(SUB_TEXT_YPOS+OSD_LANGUAGE_ITEM*IconShift), SpaceFont,15);//刘晨曦---第一个参数应该是起始位置,中间的参数应该是绘画占据的长度,最后一个参数应该是一行的背景覆盖范围//重画空格----刘晨曦
 
+							Osd_DrawContinuesChar(SUB_TEXT_XPOS-2,(SUB_TEXT_YPOS+OSD_HPOSITION_ITEM*IconShift),SpaceFont,15);
+							
+							Osd_DrawContinuesChar(SUB_TEXT_XPOS-2,(SUB_TEXT_YPOS+OSD_VPOSITION_ITEM*IconShift),SpaceFont,15);
+
+								
+							Osd_DrawContinuesChar(SUB_TEXT_XPOS-2,(SUB_TEXT_YPOS+OSD_TIMEOUT_ITEM*IconShift),SpaceFont,15);
+							Osd_DrawContinuesChar(SUB_TEXT_XPOS-2,(SUB_TEXT_YPOS+OSD_TRANSPARENCE_ITEM*IconShift),SpaceFont,15);
+
+							Osd_DrawContinuesChar(9,5,SpaceFont,12);
+							Osd_DrawContinuesChar(9,7,SpaceFont,12);
+							Osd_DrawContinuesChar(9,9,SpaceFont,12);
+							Osd_DrawContinuesChar(9,11,SpaceFont,12);
+							Osd_DrawContinuesChar(9,13,SpaceFont,12);
+							Osd_DrawContinuesChar(9,15,SpaceFont,12);
+							/////重画二级菜单----刘晨曦
+							
+							DrawOsdSubMenu(LanguageMenu);
+							DrawOsdSubMenu(OsdHPositionMenu);
+							DrawOsdSubMenu(OsdVPositionMenu);
+							DrawOsdSubMenu(OsdTimeOutMenu);
+							DrawOsdSubMenu(TransparenceMenu);
+							//LoadCommonFont();
+							//DynamicLoadFont(CurrentMenu.Fonts);
+							MenuPageIndex = MainMenu;////刘晨曦------返回的地方
+							MenuItemIndex = MAIN_Osd_ITEM;
+							DrawOsdSubMenu(MainMenu);
+							//DrawOsdMenuItemRadioGroup
+							LoadLanguageStatusPropfont();
+							
+					
+							MenuPageIndex = LanguageMenu;////刘晨曦------返回的地方
+							MenuItemIndex = 0;
 						}
 						#endif
 						#if FreeSyncMenu_Enable
@@ -1016,6 +1020,9 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 							menuAction = MIA_Exit;
 						}
 						#endif
+						
+						
+						
 						if ( MenuPageIndex == HotKeyECOMenu
 					        #if Hotkey_DCR_Enable
 						        || MenuPageIndex == HotKeyDCRMenu
@@ -1046,7 +1053,6 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 						if((MenuPageIndex == VolumeMenu) && (CurrentMenuItemFunc.AdjustFunction == AdjustVolume))
 						{
 							DrawOsdSubMenu( MuteMenu );
-						//其他设置三级菜单
 						}
 						#endif
 						#if AudioFunc && ENABLE_OSD_HotKeyVolume
@@ -1070,10 +1076,9 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 									else
 								#endif
 										if(MenuPageIndex == FactoryMenu)
-											Osd_SetTextMonoColor(COLOR_DRAK_RED, COLOR_BLACK_RED);
+											Osd_SetTextMonoColor(CP_RedColor, CP_BlueColor);
 										else
-											Osd_Set256TextColor( RED_DRAK_RED, Color_2 );
-						
+											Osd_Set256TextColor( CP_SelectItem, Color_2 );
 						DrawOsdMenuItemText(MenuItemIndex, &CurrentMenuItems[MenuItemIndex]);
 						DrawOsdMenuItemValue( MenuItemIndex, &CurrentMenuItem.DisplayValue );
 						Set_SaveSettingFlag();
@@ -1104,25 +1109,19 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 					#if 1
 					BYTE xdata TempIndex = 0;	//111223 Modify
 					#endif
-//					解决主菜单白框					
-//					if( MenuPageIndex == MainMenu )
-//					{
-//						Osd_SetTextMonoColor(COLOR_BLACK, COLOR_BLACK);
-//						Osd_DrawContinuesChar( 5, 5, SpaceFont, 0x18);
-//						Osd_DrawContinuesChar( 5, 7, SpaceFont, 0x18);
-//						Osd_DrawContinuesChar( 5, 9, SpaceFont, 0x18);
-//						Osd_DrawContinuesChar( 5, 11, SpaceFont, 0x18);
-//						Osd_DrawContinuesChar( 5, 13, SpaceFont, 0x18);
-//						Osd_DrawContinuesChar( 5, 15, SpaceFont, 0x18);
-//						Osd_DrawContinuesChar( 0x1c, 17, SpaceFont, 0x20);
-//						Osd_SetTextMonoColor(0x00, 0x07);
-//						for(tempValue = SUB_TEXT_YPOS; tempValue < 0x0F; tempValue += 2)
-//						{
-//							Osd_DrawContinuesChar( SUB_TEXT_XPOS, tempValue, SpaceFont, 0x27 - SUB_TEXT_XPOS);
-//						}
-//						tempValue = PrevMenuItemIndex;
-//					}
+					if( MenuPageIndex == MainMenu )
+					{
+						//Osd_SetTextMonoColor(0x00, 0x06);
+						//Osd_DrawContinuesChar( 6, 1, SpaceFont, 0x20);///////////////////////////////////////////解决上面出现的蓝框背景一条横杠问题
+						Osd_SetTextMonoColor(1, 1);
+						for(tempValue = SUB_TEXT_YPOS; tempValue < 0x0F+2; tempValue += 1)//////////////////////////////////改变选项选中后预画菜单出现的背景框问题
+						{
+							Osd_DrawContinuesChar( SUB_TEXT_XPOS-2, tempValue, SpaceFont, 0x27 - SUB_TEXT_XPOS+8);
 
+							Osd_DrawContinuesChar( 0x27+12, tempValue, SpaceFont, 0x27 - SUB_TEXT_XPOS+5);
+						}
+						tempValue = PrevMenuItemIndex;
+					}
 					#if Hot_Corss_FY_ColorSelect
 					if(MenuPageIndex == HotCorssMenu)
 					{
@@ -1150,24 +1149,16 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 					if (MenuPageIndex == InputSelectMenu)
 					{
 						// clear status Text
-						Osd_Set256TextColor(COLOR_BLACK, Color_2);
-						Osd_DrawContinuesChar( 1, 6, SpaceFont, 20);
+						Osd_Set256TextColor( CPC_Background << 4 | CPC_Background, Color_2);
+						Osd_DrawContinuesChar( CurrentMenuItem.XPos + CENTER_ALIGN_STARTPOS + 1, CurrentMenuItem.YPos, MonoSpace, 11);
 					}
 					#endif
 					DrawOsdMenuItem(MenuItemIndex, &CurrentMenuItem);
-//					屏蔽二级菜单
 					if( MenuPageIndex == MainMenu )
 					{
-					//解决在未选中主菜单Item的情况下，切换主菜单Item时，三级菜单内容重叠的问题
-						Osd_Set256TextColor( COLOR_BLACK, Color_2);
-						for(i=4; i<=16; i++)
-						{
-							Osd_DrawContinuesChar( SUB_TEXT_XPOS, i, SpaceFont, 16);
-							Osd_DrawContinuesChar( GaugeXPosition, i, SpaceFont, 16);
-						}
 						DrawOsdSubMenu( NextMenuPage );
-						//if( MenuItemIndex == MAIN_Misc_ITEM)
-							//DrawTimingInfo();
+						//if( MenuItemIndex == MAIN_Misc_ITEM)///切换到这个的时候就可以自动跳出分辨率,之后刷新,可以用在其它菜单跳出中
+						//	DrawTimingInfo();///////////////////////////分辨率显示
 					}
 					#if Hot_Corss_FY_ColorSelect || Hot_Corss_FND_Select
 					if(MenuPageIndex == HotCorssMenu)
@@ -1295,12 +1286,8 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 				else if (PrevPage == InputSelectMenu && MenuPageIndex == OSD_MiscMenu)
 				{
 					// clear status Text
-
-					Osd_Set256TextColor(COLOR_BLACK, Color_2);
-					Osd_DrawContinuesChar( 1, 6, SpaceFont, 20);
-					Osd_DrawContinuesChar( 1, 8, SpaceFont, 20);
-
-//					Osd_DrawContinuesChar( 0x19, 0x04, MonoSpace, 10);
+					Osd_Set256TextColor( CPC_Background << 4 | CPC_Background, Color_2);
+					Osd_DrawContinuesChar( 0x19, 0x04, MonoSpace, 10);
 					MenuItemIndex = GetMenuItemIndex(PrevPage);
 				}
 				#endif
@@ -1347,9 +1334,8 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 					CurrentMenu.ExecFunction();
 				#endif
 				DrawOsdMenu();
-//				屏蔽二级菜单
-//				if( MenuPageIndex == MainMenu )
-//					DrawOsdSubMenu( NextMenuPage );
+				if( MenuPageIndex == MainMenu )
+					DrawOsdSubMenu( NextMenuPage );
 				#if DDCCI_ENABLE && DDCCCIMenu_Enable
 				if (MenuPageIndex == DdcciInfoMenu)
 					Delay1ms(200);
@@ -1433,7 +1419,7 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 						LoadLanguageStatusPropfont();
 						MenuPageIndex = MainMenu;
 						Osd_SetTextMonoColor(0x00, 0x06);
-						Osd_DrawContinuesChar( 2, 1, SpaceFont, 0x27);
+						Osd_DrawContinuesChar( 5, 6, SpaceFont, 15);
 						MenuItemIndex = MAIN_Osd_ITEM;
 						DrawOsdMenuItemRadioGroup(MAIN_Osd_ITEM, CurrentMenuItems[MAIN_Osd_ITEM].DisplayValue.DrawRadioGroup);
 						MenuPageIndex = OsdMenu;
@@ -1499,9 +1485,6 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 						menuAction = MIA_GotoPrev;
 						MenuItemIndex = 0;
 						processEvent = TRUE;
-						Osd_Set256TextColor(COLOR_BLACK, Color_2);
-						Osd_DrawContinuesChar( 1, 6, SpaceFont, 20);
-		
 					}
 					else
 					#endif
@@ -1511,8 +1494,6 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 							MenuPageIndex = RootMenu;
 							MenuItemIndex = 0;
 							processEvent = FALSE;
-						Osd_Set256TextColor(COLOR_BLACK, Color_2);
-						Osd_DrawContinuesChar( 1, 6, SpaceFont, 20);
 						}
 						else
 					#endif
@@ -1822,8 +1803,6 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 				{
 					Clr_SaveSettingFlag();
 					ReadMonitorSetting();
-					Osd_Set256TextColor(COLOR_BLACK, Color_2);
-					Osd_DrawContinuesChar( 1, 8, SpaceFont, 20);
 				}
 				if (PowerOnFlag)
 				{
@@ -1844,8 +1823,8 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 		}
 	}
 	return TRUE;
-
 }
+
 //=========================================================================
 
 #if 0
@@ -2046,23 +2025,24 @@ void SelectItem(BYTE ucXPos, BYTE ucYPos, BYTE ucColor)
 void DrawOsdMenu(void)
 {
 	Bool redrawFlags;
-	//解决刷新二级菜单时，将整个背景刷新导致闪屏的问题
-	if(PrevPage == MainMenu && (MenuPageIndex >= OSD_BriContrastMenu && MenuPageIndex <= OSD_MiscMenu))
-		{
-			DrawOsdBackGround();
-			Osd_Set256TextColor(COLOR_BLACK, Color_2);
-			Osd_DrawContinuesChar( 1, 8, SpaceFont, 20);
-		}
-		//======================显示当前整个OSD界面======================
-	if((MenuPageIndex >= MainMenu && MenuPageIndex < ExitMenu) || MenuPageIndex == HotInputSelectMenu)
+	//以下是刷新本osd不需要
+	/*
+	if((MenuPageIndex>=MainMenu&&MenuPageIndex<ExitMenu)||MenuPageIndex==HotInputSelectMenu)
 	{
-		int i;
-		for(i=0; i<MenuItemCount; i++)
+	int i;
+		DrawOsdBackGround();////刷新二级三级界面
+		for(i=0;i<MenuItemCount;i++)
 		{
 			DrawOsdMenuItem(i, &CurrentMenu.MenuItems[i]);
 		}
+		DrawOsdSubMenu(MenuPageIndex);
+		if(!FactoryModeFlag)//////////////////////////////////////////////确定是否在工厂模式,如果不在工厂模式就把F屏蔽掉
+		{
+			Osd_SetTextMonoColor(5, 5);//上背景
+			Osd_DrawCharDirect(3, 0, SpaceFont);
+		}
 	}
-
+	*/
 	#if ENABLE_DEBUG
 	printData("MenuPageIndex       %d", MenuPageIndex);
 	#endif
@@ -2269,12 +2249,15 @@ void DrawOsdMenuItem(BYTE itemIndex, MenuItemType *menuItem)
 		DrawOsdMenuItemValue( itemIndex, &( menuItem->DisplayValue ) );
 	}
 	else if( MenuPageIndex > MainMenu && MenuPageIndex < ExitMenu)
-	{	
-		Osd_Set256TextColor(COLOR_BLACK, Color_2);
-		Osd_DrawContinuesChar(1,14,SpaceFont,20);		
-		Osd_Set256TextColor( menuItem->ForeColor, menuItem->BackColor );
-		DrawOsdMenuItemValue( itemIndex, &( menuItem->DisplayValue ) );
-	 }
+	{
+		if(PrevPage == MainMenu)
+			return;
+		else
+		{
+			Osd_Set256TextColor( menuItem->ForeColor, menuItem->BackColor );
+			DrawOsdMenuItemValue( itemIndex, &( menuItem->DisplayValue ) );
+		}
+	}
 	else
 	{
 		DrawOsdMenuItemValue( itemIndex, &( menuItem->DisplayValue ) );
@@ -2288,9 +2271,14 @@ void DrawOsdMenuItem(BYTE itemIndex, MenuItemType *menuItem)
 
 
 // draw menu item display text
+
+#define	BLAKE_GROUND	1//黑色
+#define	WHIRE_GROUND	2//白色
+#define RED_GROUND		3//红色
+
 void DrawOsdMenuItemText(BYTE itemIndex, MenuItemType *menuItem)
 {
-
+	
 	if (menuItem->DisplayText == NULL && menuItem->DrawItemMethod != DWI_Icon)
 	{
 		return ;
@@ -2298,7 +2286,6 @@ void DrawOsdMenuItemText(BYTE itemIndex, MenuItemType *menuItem)
 	if (menuItem->DrawItemMethod == DWI_Icon)
 	{
 		BYTE xdata i, j, *str;
-
 		#if 1//20130417-1
 		if(MenuPageIndex == MainMenu &&  MenuItemIndex == MAIN_MAX_ITEM && !FactoryModeFlag) // F item
 			return ;
@@ -2306,31 +2293,20 @@ void DrawOsdMenuItemText(BYTE itemIndex, MenuItemType *menuItem)
 		//printData("DWI_Icon[%d]",itemIndex);
 		if ( MenuPageIndex == MainMenu )
 		{
+			if(itemIndex == MenuItemIndex)
+				Osd_SetTextMonoColor(RED_GROUND, BLAKE_GROUND);//////////////////刘晨曦-----设置图标以外那个区域的背景,选中一个颜色,没选中一个颜色
+			else
+				Osd_SetTextMonoColor(WHIRE_GROUND, BLAKE_GROUND);
 			str = menuItem->DisplayText();
-			OSD_TEXT_HI_ADDR_SET_BIT8(); //enable bit 8
-
-			Osd_DrawCharDirect(menuItem->XPos, menuItem->YPos, str[0]);													//my
+			
+			//OSD_TEXT_HI_ADDR_SET_BIT8(); //enable bit 9//不用翻页了
+																		//////////刘晨曦-----绘画6个图标
+			Osd_DrawCharDirect(menuItem->XPos, menuItem->YPos, str[0]);
 			Osd_DrawCharDirect(menuItem->XPos + 1, menuItem->YPos, str[1]);
-
-			OSD_TEXT_HI_ADDR_CLR_TO_0();
-//			if(itemIndex == MenuItemIndex)
-//				Osd_SetTextMonoColor(0x03, 0x03);
-//			else
-//				Osd_SetTextMonoColor(0x03, 0x04);
-//			if(itemIndex == 5)
-//			{
-//				Osd_DrawCharDirect(0, 3 + 2 * itemIndex, MenuFrame_LeftSide_1);
-//				Osd_DrawCharDirect(0, 4 + 2 * itemIndex, MenuFrame_LeftSide_3);
-//				Osd_DrawCharDirect(4, 3 + 2 * itemIndex, MenuFrame_RightSide_1);
-//				Osd_DrawCharDirect(4, 4 + 2 * itemIndex, MenuFrame_RightSide_3);
-//			}
-//			else if(itemIndex >= 0 && itemIndex < 5)
-//			{
-//				Osd_DrawCharDirect(0, 3 + 2 * itemIndex, MenuFrame_LeftSide_1);
-//				Osd_DrawCharDirect(0, 4 + 2 * itemIndex, MenuFrame_LeftSide_2);
-//				Osd_DrawCharDirect(4, 3 + 2 * itemIndex, MenuFrame_RightSide_1);
-//				Osd_DrawCharDirect(4, 4 + 2 * itemIndex, MenuFrame_RightSide_2);
-//			}
+			
+			//OSD_TEXT_HI_ADDR_CLR_TO_0();
+			
+			
 		}
 		else
 		{
@@ -2390,7 +2366,6 @@ void DrawOsdMenuItemText(BYTE itemIndex, MenuItemType *menuItem)
 			}
 		}
 	}
-
 	#if Hot_Corss_ColorSelect
 	else if (menuItem->DrawItemMethod == DWI_8x5Icon)
 	{
@@ -2439,8 +2414,6 @@ void DrawOsdMenuItemText(BYTE itemIndex, MenuItemType *menuItem)
 	{
 		BYTE xPos;
 #define len itemIndex
-	
-
 		if (menuItem->DrawItemMethod == DWI_FullText)
 		{
 			xPos = menuItem->XPos;
@@ -2461,7 +2434,7 @@ void DrawOsdMenuItemText(BYTE itemIndex, MenuItemType *menuItem)
 			}
 			Osd_DrawPropStr(len, menuItem->YPos, menuItem->DisplayText());
 		}
-	 #undef len
+#undef len
 	}
 }
 //=========================================================================
@@ -2691,28 +2664,32 @@ void DrawOsdMenuItemRadioGroup(BYTE itemIndex, DrawRadioGroupType *radioItem)
 				{
 					Osd_DrawRealStr_F( xPos, drawItem->YPos, drawItem->DisplayText() );
 				}
-				//解决主菜单文本选中
-				else if(MenuPageIndex == MainMenu)                                                                       //my else if
+				else if(MenuPageIndex == MainMenu && (drawItem->Flags & dwiMainTitle))
 				{
+
+				/*
+					tmplength = *( drawItem->DisplayText() + 1 );
+					if(itemIndex != MenuItemIndex)
+						break;
+					xPos = (MAIN_MENU_H_SIZE - tmplength + 1) / 2;
+					Osd_DrawPropStr( xPos, drawItem->YPos, drawItem->DisplayText() );
+				
+					*/
+				///刘晨曦修改,主要作用就是为了使得图标和文字联系起来一起被选中
 					if(itemIndex == MenuItemIndex)
-					{
-						Osd_Set256TextColor(RED_DRAK_RED, Color_2);
-					}
+						Osd_Set256TextColor( 0x31, Color_2);//////////////////选中状态的主菜单图标文字的前景色和背景色//前景色白色
 					else
+						Osd_Set256TextColor( 0x21, Color_2);//////////////////未选中状态下的主菜单图标文字的前景色和背景
+					if(itemIndex>=0 && itemIndex<=5)
 					{
-						Osd_Set256TextColor(BLACK_WHITE,Color_2);
+						Osd_DrawContinuesChar(drawItem->XPos+10, drawItem->YPos,SpaceFont, 3);
+						Osd_DrawPropStr(drawItem->XPos+10, drawItem->YPos,drawItem->DisplayText());
 					}
-					if(itemIndex >= 0 && itemIndex <= 5)
-					{
-						Osd_DrawContinuesChar(drawItem->XPos,drawItem->YPos,SpaceFont,3);
-						Osd_DrawPropStr(drawItem->XPos,drawItem->YPos,drawItem->DisplayText());
-					}
-				}				
+				}
 				else
 				{
 					if( drawItem->Flags & dwiCenterArrowAlign )
 					{
-					
 						tmplength = *( drawItem->DisplayText() + 1 );
 						xPos = (drawItem->XPos + CENTER_ALIGN_STARTPOS) + (CENTER_ALIGN_LEN - tmplength + 1) / 2;
 						Osd_DrawCharDirect( drawItem->XPos + CENTER_ALIGN_STARTPOS, drawItem->YPos, MonoMark_Left);
@@ -2840,7 +2817,7 @@ Bool DrawTimingInfo(void)
 	WORD xdata FontWide = 0;
 	Osd_Set256TextColor( CP_UnselectItem, Color_2 );
 	OSD_FONT_HI_ADDR_SET_BIT8();//0x100~0x1FF
-	Osd_DynamicLoadFont(ResoulationAddress, ResolutionProp, 27); //20180109  �޸ķֱ����л���1152x864 60hz ���������
+//	Osd_DynamicLoadFont(ResoulationAddress, ResolutionProp, 27); //20180109  �޸ķֱ����л���1152x864 60hz ���������
 	OSD_FONT_HI_ADDR_CLR_TO_0();
 	for (Vnumber = 0; Vnumber < 8; Vnumber++)
 		VFreqProp[Vnumber] = 0x01; //space
@@ -3040,10 +3017,8 @@ Bool DrawTimingInfo(void)
 	OSD_FONT_HI_ADDR_CLR_TO_0();
 	ResolutionProp[0] = ResoulationAddress;
 	ResolutionProp[1] = FontWide - 1;
-	Osd_Set256TextColor(COLOR_BLACK, Color_2);
 	OSD_TEXT_HI_ADDR_SET_BIT8(); //enable bit 8
-	//my
-	Osd_DrawPropStr(49, 1, ResolutionProp);
+	Osd_DrawPropStr(50, 1, ResolutionProp);//////////////////屏幕刷新率显示坐标
 	OSD_TEXT_HI_ADDR_CLR_TO_0();
 	return TRUE;
 }
@@ -3393,7 +3368,11 @@ BYTE GetNextItem(MenuItemType *menuItem)
 #if 1
 BYTE GetMenuItemIndex(BYTE menuPageIndex)
 {
-	//�����˵��˳������˵�ʱ����Ӧ��ITEM
+
+
+
+	//�����˵��˳������˵�ʱ����Ӧ��ITEM
+	
 	if( MenuPageIndex == MainMenu )
 	{
 		if( menuPageIndex == OSD_BriContrastMenu )
@@ -3425,7 +3404,7 @@ BYTE GetMenuItemIndex(BYTE menuPageIndex)
 			return MAIN_Setting_ITEM;
 		}
 	}
-	//�����˵��˳��������˵�ʱ����Ӧ��ITEM
+	//�����˵��˳��������˵�ʱ����Ӧ��ITEM
 	else if( MenuPageIndex == OSD_BriContrastMenu )
 	{
 		if( UserPrefDcrMode )
@@ -3496,7 +3475,7 @@ BYTE GetMenuItemIndex(BYTE menuPageIndex)
 		if( SrcInputType == Input_Digital || SrcInputType == Input_Digital2 || SrcInputType == Input_Displayport )  //121128 Modify
 		#endif
 		{
-		//	return Picture_IMAGERATIO_ITEM;
+			return Picture_IMAGERATIO_ITEM;
 		}
 		else
 		#endif
@@ -3520,9 +3499,7 @@ BYTE GetMenuItemIndex(BYTE menuPageIndex)
 			#if Enable_Func_AdjExpansion
 			else if( menuPageIndex == ExpansionMenu )
 			{
-				
-			//	return Picture_IMAGERATIO_ITEM;
-				
+				return Picture_IMAGERATIO_ITEM;
 			}
 			#endif
 		}
@@ -3737,7 +3714,6 @@ BYTE GetMenuItemIndex(BYTE menuPageIndex)
 		#if EANBLE_MUTE_ON_OFF
 		else if( menuPageIndex == MuteMenu )
 		{
-
 			return Misc_Mute_ITEM;
 		}
 		#endif
@@ -3794,7 +3770,7 @@ BYTE GetMenuItemIndex(BYTE menuPageIndex)
 	#if !AdjustLanguageFunction
 	else if(MenuPageIndex == LanguageMenu)
 	{
-		return UserPrefLanguage;
+		return UserPrefLanguage;	
 	}
 	#endif
 	return 0;
@@ -3810,408 +3786,405 @@ BYTE GetMenuItemIndex(BYTE menuPageIndex)
 
 
 
-
-
-
 void DrawOsdBackGround(void)
 {
-	BYTE i,j,n=0;
-//	if( MenuPageIndex == MainMenu )
-//	{
-//		Osd_SetTextMonoColor(0x00,COLOR_BLACK);
-//	}
-//	for (i = 0; i <= OsdWindowHeight - 1; i++)
-//	{
-//		Osd_DrawContinuesChar( 0, i, SpaceFont, OsdWindowWidth);
-//	}
-	
-	if ( MenuPageIndex == MainMenu)
-	{
-			Osd_SetTextMonoColor(COLOR_BLACK, COLOR_BLACK);  //开始界面大背景着色
-			for (i = 0; i <= OsdWindowHeight - 1; i++)
-			{
-				Osd_DrawContinuesChar( 0, i, SpaceFont, OsdWindowWidth);//画大背景
-			}
-		
-		Osd_SetTextMonoColor(COLOR_RED,COLOR_BLACK);
-		for(i = 5; i <= CurrentMenu.YSize - 5;i++)// 画竖线
+	BYTE i,j;
+	if ( MenuPageIndex == MainMenu )
+	{	
+		Osd_SetTextMonoColor(1, 1);
+		for (i = 0; i <= OsdWindowHeight - 1; i++)
 		{
-			Osd_DrawCharDirect(MAIN_MENU_H_SIZE/3-1,i,0x0B);	//x,y轴，第三参数为竖线地址
-			Osd_DrawCharDirect(MAIN_MENU_H_SIZE/3*2+3,i,0x0B);		
+			Osd_DrawContinuesChar( 0, i, SpaceFont, OsdWindowWidth);
+		}	
+		//Osd_SetTextColor(3, 1);
+		//Osd_SetTextMonoColor(3,1);
+		for(i=0;i<4;i++)/////////////////////////////这两个循环是四色二色画下面中间的哪个区域
+		for(j=0;j<17;j++)
+		{
+		
+			if(PalRGB[i][j]>=0x08)
+			{
+				if(PalRGB[i][j]==0x08)
+					Osd_SetTextMonoColor(1, 5);
+				else
+					Osd_SetTextMonoColor(4, 5);	
+			}
+			else
+				Osd_Set256TextColor((PalRGB[i][j]+0x10)>>2, Color_4);
+			if(strRGBWindow[i][j]>0xFF)
+			{
+				OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1FF
+				Osd_DrawCharDirect(CurrentMenu.XSize/2-8+j, CurrentMenu.YSize-4+i, strRGBWindow[i][j]-0x200);
+				OSD_TEXT_HI_ADDR_CLR_TO_0();
+			}
+			else
+			{
+				OSD_TEXT_HI_ADDR_SET_BIT8();//0x100~0x1FF
+				Osd_DrawCharDirect(CurrentMenu.XSize/2-8+j,CurrentMenu.YSize-4+i, strRGBWindow[i][j]);
+				OSD_TEXT_HI_ADDR_CLR_TO_0();
+			}
+		}
+	Osd_SetTextMonoColor(5, 1);////最下面的横线			
+	for(i=0;i<24;i++)
+	{
+		Osd_DrawCharDirect(i+4,CurrentMenu.YSize-1, 0x09);
+		Osd_DrawCharDirect(i+4,CurrentMenu.YSize-2, 0x08);
+		Osd_DrawCharDirect(CurrentMenu.XSize/2+9+i,CurrentMenu.YSize-1, 0x09);
+		Osd_DrawCharDirect(CurrentMenu.XSize/2+9+i,CurrentMenu.YSize-2, 0x08);
+	}
+	for(i=0;i<3;i++)//////////////////////下面的两个四色角
+		for(j=0;j<4;j++)
+		{
+		
+			if(Palyyy[i][j]>=0x04)
+			{
+				if(Palyyy[i][j]==0x04)
+					Osd_SetTextMonoColor(2, 1);
+				else
+					Osd_SetTextMonoColor(5, 1); 
+			}
+			else
+				Osd_Set256TextColor((Palyyy[i][j]+0x1A)>>2, Color_4);
+			if(stryyyWindow[i][j]>0xFF)
+			{
+				OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1FF
+				Osd_DrawCharDirect(CurrentMenu.XSize-4+j, CurrentMenu.YSize-3+i, stryyyWindow[i][j]-0x200);
+				OSD_TEXT_HI_ADDR_CLR_TO_0();
+			}
+			else
+			{
+				Osd_DrawCharDirect(CurrentMenu.XSize-4+j, CurrentMenu.YSize-3+i, stryyyWindow[i][j]);
+			}
+		}
+	for(i=0;i<3;i++)/////////////////////////////下面的两个四色角
+		for(j=0;j<4;j++)
+		{
+			if(Palyy[i][j]>=0x04)
+			{
+				if(Palyy[i][j]==0x04)
+					Osd_SetTextMonoColor(5, 1);
+				else
+					Osd_SetTextMonoColor(2, 1); 
+			}
+			else
+				Osd_Set256TextColor((Palyy[i][j]+0x1A)>>2, Color_4);
+			if(stryyWindow[i][j]>0xFF)
+			{
+				OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1FF
+				Osd_DrawCharDirect(j, CurrentMenu.YSize-3+i, stryyWindow[i][j]-0x200);
+				OSD_TEXT_HI_ADDR_CLR_TO_0();
+			}
+			else
+			{
+				Osd_DrawCharDirect(j, CurrentMenu.YSize-3+i, stryyWindow[i][j]);
+			}
+		}
+	Osd_SetTextMonoColor(5, 1);
+	for(i=5;i<18;i++)
+	{
+		Osd_DrawCharDirect(23,i, 0x0A);
+		Osd_DrawCharDirect(46,i, 0x0A);
+		
+	}
+	for(i=0;i<4;i++)
+	{
+		Osd_DrawCharDirect(CurrentMenu.XSize-1,CurrentMenu.YSize-7+i, 0x0A);//右边竖线
+		Osd_DrawCharDirect(CurrentMenu.XSize-2,CurrentMenu.YSize-7+i, 0x0B);//右边空一行竖线
+		Osd_DrawCharDirect(1,CurrentMenu.YSize-7+i, 0x0F);//左边空一行竖线
+		Osd_DrawCharDirect(0,CurrentMenu.YSize-7+i, 0x0E);//左边竖线
+	}
+	Osd_SetTextMonoColor(1, 5);
+	Osd_DrawCharDirect(0,CurrentMenu.YSize-8, 0x16);
+	Osd_DrawCharDirect(CurrentMenu.XSize-1,CurrentMenu.YSize-8, 0x10);
+	Osd_SetTextMonoColor(5, 1);
+	for(i=0;i<9;i++){///循环左右两边外围隔一行竖线
+	Osd_DrawCharDirect(1,CurrentMenu.YSize-8-i, 0x0F);
+	Osd_DrawCharDirect(CurrentMenu.XSize-2,CurrentMenu.YSize-8-i, 0x0B);
+	//Osd_DrawCharDirect(1,CurrentMenu.YSize-10, 0x0F);
+	//Osd_DrawCharDirect(CurrentMenu.XSize-2,CurrentMenu.YSize-10, 0x0B);
+	//Osd_DrawCharDirect(1,CurrentMenu.YSize-11, 0x0F);
+	//Osd_DrawCharDirect(CurrentMenu.XSize-2,CurrentMenu.YSize-11, 0x0B);
+		}
+	Osd_SetTextMonoColor(5, 5);
+	Osd_DrawCharDirect(0,CurrentMenu.YSize-9, 0x16);
+	Osd_DrawCharDirect(CurrentMenu.XSize-1,CurrentMenu.YSize-9, 0x10);
+	Osd_DrawCharDirect(0,CurrentMenu.YSize-16, 0x16);
+	Osd_DrawCharDirect(CurrentMenu.XSize-1,CurrentMenu.YSize-16, 0x10);
+	Osd_DrawCharDirect(0,CurrentMenu.YSize-15, 0x16);
+	Osd_DrawCharDirect(CurrentMenu.XSize-1,CurrentMenu.YSize-15, 0x10);
+	
+	
+	Osd_SetTextMonoColor(2, 5);
+	Osd_DrawCharDirect(CurrentMenu.XSize-1,CurrentMenu.YSize-10, 0x15);
+	Osd_DrawCharDirect(0,CurrentMenu.YSize-10, 0x17);
+	Osd_DrawCharDirect(CurrentMenu.XSize-1,CurrentMenu.YSize-14, 0x18);
+	Osd_DrawCharDirect(0,CurrentMenu.YSize-14, 0x19);
+
+	
+	Osd_SetTextMonoColor(5, 2);
+	for(i=0;i<3;i++)
+	{
+		Osd_DrawCharDirect(CurrentMenu.XSize-1,CurrentMenu.YSize-11-i, 0x0E);//左边竖线
+		Osd_DrawCharDirect(0,CurrentMenu.YSize-11-i, 0x0A);//右边竖线
+	}
+	Osd_SetTextMonoColor(1, 5);
+	Osd_DrawCharDirect(CurrentMenu.XSize-1,CurrentMenu.YSize-17, 0x17);
+	Osd_DrawCharDirect(0,CurrentMenu.YSize-17, 0x15);
+	Osd_SetTextMonoColor(5, 1);
+	Osd_DrawCharDirect(CurrentMenu.XSize-1,4, 0x0A);//右边竖线
+	Osd_DrawCharDirect(0,4, 0x0E);//左边竖线
+	Osd_DrawCharDirect(CurrentMenu.XSize-1,3, 0x0A);//右边竖线
+	Osd_DrawCharDirect(0,3, 0x0E);//左边竖线
+	Osd_DrawCharDirect(CurrentMenu.XSize-1,2, 0x0A);//右边竖线
+	Osd_DrawCharDirect(0,2, 0x0E);//左边竖线
+	Osd_DrawCharDirect(CurrentMenu.XSize-1,1, 0x0A);//右边竖线
+	Osd_DrawCharDirect(0,1, 0x0E);//左边竖线
+	
+	OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1FF
+
+	for(i=0;i<2;i++)
+	{
+		Osd_Set256TextColor((0x1B+i*2)>>2, Color_4);
+		Osd_DrawCharDirect(CurrentMenu.XSize-1,0, _4ColorHotIconStart_3);/////右上角四色三角行形绘制
+		Osd_DrawCharDirect(0,0, _4ColorHotIconStart_3+2);/////左上角四色三角行形绘制
+	}
+	OSD_TEXT_HI_ADDR_CLR_TO_0();
+	
+
+	for(i=0;i<3;i++)/////////////////////////////上面的左边第一个绘制
+		for(j=0;j<8;j++)
+		{
+			if(UP_COLOR_1[i][j]>=0x04)
+			{
+				if(UP_COLOR_1[i][j]==0x04)
+					Osd_SetTextMonoColor(3, 1);
+				else
+					Osd_SetTextMonoColor(3, 5); 
+			}
+			else
+				Osd_Set256TextColor((UP_COLOR_1[i][j]+0x20)>>2, Color_4);
+			if(UP_ICON_1[i][j]>0xFF)
+			{
+				OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1FF
+				Osd_DrawCharDirect(j+5, i, UP_ICON_1[i][j]-0x200);
+				OSD_TEXT_HI_ADDR_CLR_TO_0();
+			}
+			else
+			{
+				Osd_DrawCharDirect(j+5, i, UP_ICON_1[i][j]);
+			}
 		}
 
-		//#define MAIN_MENU_H_SIZE            0x48//1368 pixel//原29 12
-		//#define MAIN_MENU_V_SIZE            0x16
-		//左上角
-		OSD_TEXT_HI_ADDR_SET_BIT9();
-		Osd_Set256TextColor(Pal1_0[0][0]>>2, Color_4);
-		Osd_DrawCharDirect(0, 0, str1_0Window[0][0]-COLOR4_START_FLAG);
-		Osd_Set256TextColor(Pal1_0[0][1]>>2, Color_4);
-		Osd_DrawCharDirect(1, 0, str1_0Window[0][1]-COLOR4_START_FLAG+0x00);
-		//右上角
-		Osd_Set256TextColor(Pal1_1[0][0]>>2, Color_4);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE-2,0,COLOR4_START_FLAG+0x22);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE-1,0,COLOR4_START_FLAG+0x24);
-		//中心按键
-		Osd_Set256TextColor(Palt24_13[0][0]>>2, Color_4);	
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2, MAIN_MENU_V_SIZE-3, str13Window[0][1]-COLOR4_START_FLAG+0x04);
+	for(i=0;i<3;i++)/////////////////////////////上面的右边第一个绘制
+		for(j=0;j<8;j++)
+		{
+			if(UP_COLOR_1_left[i][j]>=0x04)
+			{
+				if(UP_COLOR_1_left[i][j]==0x04)
+					Osd_SetTextMonoColor(3, 5);
+				else
+					Osd_SetTextMonoColor(3, 1); 
+			}
+			else
+				Osd_Set256TextColor((UP_COLOR_1_left[i][j]+0x20)>>2, Color_4);
+			if(UP_ICON_1_left[i][j]>0xFF)
+			{
+				OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1FF
+				Osd_DrawCharDirect(CurrentMenu.XSize/2+j+24, i, UP_ICON_1_left[i][j]-0x200);
+				OSD_TEXT_HI_ADDR_CLR_TO_0();
+			}
+			else
+			{
+				Osd_DrawCharDirect(CurrentMenu.XSize/2+j+24, i, UP_ICON_1_left[i][j]);
+			}
+		}
+
+/////////这个是横线四色图形
+	OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1FF
+	for(j=0;j<13;j++)
+	{
+		for(i=0;i<2;i++)
+		{
+			Osd_Set256TextColor((0x20+i*2)>>2, Color_4);
+			Osd_DrawCharDirect(CurrentMenu.XSize/2-23+j,2, _4ColorHotIconStart_4_up);
+			Osd_DrawCharDirect(CurrentMenu.XSize/2+23-j,2, _4ColorHotIconStart_4_up);
+		}
+	}
+	OSD_TEXT_HI_ADDR_CLR_TO_0();
+		
+	for(i=0;i<2;i++)/////////////////////////////上面左边第二个斜线
 		for(j=0;j<5;j++)
 		{
-			Osd_Set256TextColor(Palt23_14[0][j]>>2, Color_4);	
-			Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2-2+j, MAIN_MENU_V_SIZE-2, str14Window[0][j]-COLOR4_START_FLAG+0x04);	
-
-		}
-		Osd_Set256TextColor(Palt24_15[0][0]>>2, Color_4);	
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2, MAIN_MENU_V_SIZE-1, str15Window[0][1]-COLOR4_START_FLAG+0x10);
-
-		OSD_TEXT_HI_ADDR_CLR_TO_0();
-		Osd_SetTextMonoColor( 0x44,COLOR_BLACK);  
-		for(i=0;i<5;i++)
-		{
-			Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2-2+i,MAIN_MENU_V_SIZE-4,0x07);	//上横线
-		}
-	//	Osd_DrawCharDirect(MAIN_MENU_H_SIZE,MAIN_MENU_V_SIZE,0x07);	//上横线
-		//中心左边
-		OSD_TEXT_HI_ADDR_SET_BIT8();	
-		Osd_SetTextMonoColor( 0x44,COLOR_BLACK);  	
-			for(i = 0; i <= 2;i++)
-		{
-			Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2-5+i,MAIN_MENU_V_SIZE-4,str1f_12Window[0][i]);	
-			Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2-5+i,MAIN_MENU_V_SIZE-3,str1f_12Window[1][i]);		
-		}
-		
-			Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2-7,MAIN_MENU_V_SIZE-2,str1e_14Window[0][0]);	
-			Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2-6,MAIN_MENU_V_SIZE-2,str1e_14Window[0][1]);
-
-			
-		Osd_SetTextMonoColor(COLOR_BLACK, 0x44); 
-		
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2-5,MAIN_MENU_V_SIZE-2,str1f_14Window[0][0]);	
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2-4,MAIN_MENU_V_SIZE-2,str1f_14Window[0][1]);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2-8,MAIN_MENU_V_SIZE-1,str1e_15Window[0][0]);	
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2-7,MAIN_MENU_V_SIZE-1,str1e_15Window[0][1]);	
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2-6,MAIN_MENU_V_SIZE-1,str1e_15Window[0][2]);		
-
-		OSD_TEXT_HI_ADDR_CLR_TO_0();
-		Osd_SetTextMonoColor( 0x44,COLOR_BLACK); 
-	
-//		n = 0xc0;
-//				for (i=0x04; i<0x13; i+=2)
-//				{
-//					for(j=0x10; j<0x40; j+=2)
-//					{
-					//	if(n == 0x100)
-					//		break;
-//						Osd_SetTextMonoColor(COLOR_BLACK, 0x44);
-						//OSD_TEXT_HI_ADDR_SET_BIT9();
-//						Osd_DrawCharDirect(j, i, n);
-					//	OSD_TEXT_HI_ADDR_CLR_TO_0();
-//						n++;
-//					}
-//				}
-
-		Osd_SetTextMonoColor( 0x44,0x44); 
-		Osd_DrawContinuesChar(MAIN_MENU_H_SIZE/2-2,MAIN_MENU_V_SIZE-3,SpaceFont,2);
-		Osd_DrawContinuesChar(MAIN_MENU_H_SIZE/2+1,MAIN_MENU_V_SIZE-3,SpaceFont,2);
-		Osd_DrawContinuesChar(MAIN_MENU_H_SIZE/2+1,MAIN_MENU_V_SIZE-1,SpaceFont,5);
-		Osd_DrawContinuesChar(MAIN_MENU_H_SIZE/2-3,MAIN_MENU_V_SIZE-2,SpaceFont,1);
-		Osd_DrawContinuesChar(MAIN_MENU_H_SIZE/2-5,MAIN_MENU_V_SIZE-1,SpaceFont,5);
-		Osd_DrawContinuesChar(MAIN_MENU_H_SIZE/2+3,MAIN_MENU_V_SIZE-2,SpaceFont,1);
-		Osd_SetTextMonoColor( COLOR_WHITE,COLOR_WHITE); 
-		Osd_DrawContinuesChar(MAIN_MENU_H_SIZE/2-0x24,MAIN_MENU_V_SIZE-1,SpaceFont,1);
-		Osd_DrawContinuesChar(MAIN_MENU_H_SIZE-1,MAIN_MENU_V_SIZE-1,SpaceFont,1);	
-		
-		//中心右边
-		OSD_TEXT_HI_ADDR_SET_BIT8();
-		Osd_SetTextMonoColor( 0x44,COLOR_BLACK); 
-		for(i=0;i<=1;i++)
-		{
-			Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2+3+i,MAIN_MENU_V_SIZE-4,str27_12Window[0][i]);	
-			Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2+3+i,MAIN_MENU_V_SIZE-3,str27_12Window[1][i]);	
-		}
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2+5,MAIN_MENU_V_SIZE-3,str29_13Window[0][0]);	
-		//2a14
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2+6,MAIN_MENU_V_SIZE-2,str2a_14Window[0][0]);	
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2+7,MAIN_MENU_V_SIZE-2,str2a_14Window[0][1]);
-		
-
-		Osd_SetTextMonoColor(COLOR_BLACK, 0x44);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2+4,MAIN_MENU_V_SIZE-2,str28_14Window[0][0]);	
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2+5,MAIN_MENU_V_SIZE-2,str28_14Window[0][1]);	
-		for(i=0;i<=2;i++)
-		{
-			Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2+6+i,MAIN_MENU_V_SIZE-1,str2a_15Window[0][i]);		
-		}
-		//下直线
-		for(i=0;i<24;i++)
-		{
-			Osd_DrawCharDirect(i+3,MAIN_MENU_V_SIZE-1,strBottomWindow[0][0]);
-			Osd_DrawCharDirect(i+0x2c+1,MAIN_MENU_V_SIZE-1,strBottomWindow[0][0]);
-		}
-		Osd_DrawCharDirect(27,MAIN_MENU_V_SIZE-1,strBottomWindow[0][0]);	
-		OSD_TEXT_HI_ADDR_CLR_TO_0();
-			
-		//左下角	
-		OSD_TEXT_HI_ADDR_SET_BIT9();
-		Osd_Set256TextColor(PalBlef1[0][0]>>2, Color_4);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2-0x24, MAIN_MENU_V_SIZE-2, COLOR4_START_FLAG+0x012);
-		OSD_TEXT_HI_ADDR_CLR_TO_0();
-		
-		OSD_TEXT_HI_ADDR_SET_BIT9();
-		Osd_Set256TextColor(PalBlef3[0][0]>>2, Color_4);	
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2-0x23, MAIN_MENU_V_SIZE-2, COLOR4_START_FLAG+0x014);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2-0x23, MAIN_MENU_V_SIZE-1, COLOR4_START_FLAG+0x016);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2-0x22, MAIN_MENU_V_SIZE-1, COLOR4_START_FLAG+0x018);
-	//	for(i=0;i<3;i++)
-	//	{
-	//		for(j=0;j<4;j++)
-	//			{
-	//			Osd_DrawCharDirect(0x20+2*i, 10+2*j, COLOR4_START_FLAG+0x020+n*2);
-	//				n++;
-	//		}
-	//	}
-		OSD_TEXT_HI_ADDR_SET_BIT8();
-		Osd_SetTextMonoColor(0x44, COLOR_BLACK);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2-0x22,MAIN_MENU_V_SIZE-2,strB_left4Window[0][0]);
-		OSD_TEXT_HI_ADDR_CLR_TO_0();	
-		//右下角
-		OSD_TEXT_HI_ADDR_SET_BIT8();
-		Osd_SetTextMonoColor(0x44, COLOR_BLACK);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE-3,MAIN_MENU_V_SIZE-2,strB_right4Window[0][0]);
-		OSD_TEXT_HI_ADDR_CLR_TO_0();	
-		OSD_TEXT_HI_ADDR_SET_BIT9();
-		Osd_Set256TextColor(PalBrig1[0][0]>>2, Color_4);	
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE-3, MAIN_MENU_V_SIZE-1,COLOR4_START_FLAG+0x020);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE-2, MAIN_MENU_V_SIZE-1,COLOR4_START_FLAG+0x01E);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE-2, MAIN_MENU_V_SIZE-2,COLOR4_START_FLAG+0x01c);
-		Osd_Set256TextColor(PalBlef1[0][0]>>2, Color_4);	
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE-1, MAIN_MENU_V_SIZE-2,COLOR4_START_FLAG+0x01a);
-
-		OSD_TEXT_HI_ADDR_CLR_TO_0();
-		//上背景
-		//中心
-		Osd_SetTextMonoColor(COLOR_BLACK,COLOR_RED);
-		Osd_DrawContinuesChar(MAIN_MENU_H_SIZE/2-6,MAIN_MENU_V_SIZE-0x16,SpaceFont,12);
-		Osd_DrawContinuesChar(MAIN_MENU_H_SIZE/2-7,MAIN_MENU_V_SIZE-0x15,SpaceFont,14);
-
-		OSD_TEXT_HI_ADDR_SET_BIT8();
-		//中心右侧
-		//28,0;29,0
-		Osd_SetTextMonoColor(COLOR_BLACK,COLOR_RED );
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2+6,MAIN_MENU_V_SIZE-0x16,strt28_0Window[0][0]);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2+7,MAIN_MENU_V_SIZE-0x16,strt28_0Window[0][1]);
-		//3f,0
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2+0x1b,MAIN_MENU_V_SIZE-0x16,strtT2Window[0][0]);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2+0x1c,MAIN_MENU_V_SIZE-0x16,strtT2Window[0][1]);
-		//41,0
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2+0x1d,MAIN_MENU_V_SIZE-0x16,strtT41_0Window[0][0]);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2+0x1e,MAIN_MENU_V_SIZE-0x16,strtT41_0Window[0][1]);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2+0x1f,MAIN_MENU_V_SIZE-0x16,strtT41_0Window[0][2]);
-
-		
-		OSD_TEXT_HI_ADDR_CLR_TO_0();
-	//上背景图线
-		//2d-3f
-		Osd_SetTextMonoColor(COLOR_RED, COLOR_DRAK_RED);
-		for(i=0;i<18;i++)
+			if(UP_COLOR_2[i][j]>=0x04)
 			{
-				Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2+9+i,MAIN_MENU_V_SIZE-0x16,0x07);
+				if(UP_COLOR_2[i][j]==0x04)
+					Osd_SetTextMonoColor(3, 5);
+				else
+					Osd_SetTextMonoColor(3, 1); 
 			}
-	//	Osd_SetTextMonoColor(COLOR_DRAK_RED, COLOR_RED);
-		for(i=0;i<15;i++)
+			else
+				Osd_Set256TextColor((UP_COLOR_2[i][j]+0x20)>>2, Color_4);
+			if(UP_ICON_2[i][j]>0xFF)
 			{
-				Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2+9+i,MAIN_MENU_V_SIZE-0x15,0x06);
+				OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1FF
+				Osd_DrawCharDirect(CurrentMenu.XSize/2+j-10,i, UP_ICON_2[i][j]-0x200);
+				OSD_TEXT_HI_ADDR_CLR_TO_0();
 			}
-		Osd_SetTextMonoColor(COLOR_RED, COLOR_BLACK);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE-3,MAIN_MENU_V_SIZE-0x16,0x07);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE-4,MAIN_MENU_V_SIZE-0x16,0x07);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2-0x21,MAIN_MENU_V_SIZE-0x16,0x07);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2-0x22,MAIN_MENU_V_SIZE-0x16,0x07);
-
-
-
-		//2c,0
-		OSD_TEXT_HI_ADDR_SET_BIT9();
-		Osd_Set256TextColor(Palt2a_0[0][0]>>2, Color_4);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2+8, MAIN_MENU_V_SIZE-0x16, COLOR4_START_FLAG+0x26);
-		Osd_Set256TextColor(Palt3b_0[0][0]>>2, Color_4);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2+0x19, MAIN_MENU_V_SIZE-0x16, COLOR4_START_FLAG+0x28);
-		Osd_Set256TextColor(Palt3b_0[0][0]>>2, Color_4);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2+0x1a, MAIN_MENU_V_SIZE-0x16, COLOR4_START_FLAG+0x2a);	
-
-
-		OSD_TEXT_HI_ADDR_CLR_TO_0();
-
-	//中心左侧
-		Osd_SetTextMonoColor(COLOR_RED, COLOR_DRAK_RED);
-		for(i=0;i<16;i++)
-		Osd_DrawCharDirect(11+i,MAIN_MENU_V_SIZE-0x16,0x07);
-
-		OSD_TEXT_HI_ADDR_SET_BIT8();
-		//上背景左边图线
-		Osd_SetTextMonoColor(COLOR_BLACK,COLOR_RED );
-		//左上角右侧
-		for(i=0;i<=4;i++)
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2-0x20+i,MAIN_MENU_V_SIZE-0x16,strtop1Window[0][i]);
-		//1c,0
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2-8,MAIN_MENU_V_SIZE-0x16,strtT2Window[0][0]);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2-7,MAIN_MENU_V_SIZE-0x16,strtT2Window[0][1]);
-		Osd_SetTextMonoColor(COLOR_RED, COLOR_DRAK_RED);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2-10,MAIN_MENU_V_SIZE-0x16,strtT1a_0Window[0][0]);
-
-		OSD_TEXT_HI_ADDR_CLR_TO_0();
-
-		OSD_TEXT_HI_ADDR_SET_BIT9();
-		Osd_Set256TextColor(Palt3b_0[0][1]>>2, Color_4);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2-9, MAIN_MENU_V_SIZE-0x16, COLOR4_START_FLAG+0x2c);	
-		//8,0
-		Osd_Set256TextColor(Palt3b_0[0][2]>>2, Color_4);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2-0x1b, MAIN_MENU_V_SIZE-0x16, COLOR4_START_FLAG+0x2e);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2-0x1a, MAIN_MENU_V_SIZE-0x16, COLOR4_START_FLAG+0x30);
-		OSD_TEXT_HI_ADDR_CLR_TO_0();
-	//上背景第二行
-		OSD_TEXT_HI_ADDR_SET_BIT9();
-		Osd_Set256TextColor(Palt3b_0[0][2]>>2, Color_4);
-		
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2-11, MAIN_MENU_V_SIZE-0x15, COLOR4_START_FLAG+0x32);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2-10, MAIN_MENU_V_SIZE-0x15, COLOR4_START_FLAG+0x34);
-
-
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2-26, MAIN_MENU_V_SIZE-0x15, COLOR4_START_FLAG+0x36);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2-25, MAIN_MENU_V_SIZE-0x15, COLOR4_START_FLAG+0x38);
-		Osd_Set256TextColor(Palt3b_0[0][1]>>2, Color_4);
-
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2+9, MAIN_MENU_V_SIZE-0x15, COLOR4_START_FLAG+0x3a);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2+10, MAIN_MENU_V_SIZE-0x15, COLOR4_START_FLAG+0x3c);
-			//3f,1
-		//Osd_Set256TextColor(Palt3b_0[0][2]>>2, Color_4);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2+24, MAIN_MENU_V_SIZE-0x15, COLOR4_START_FLAG+0x3e);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2+25, MAIN_MENU_V_SIZE-0x15, COLOR4_START_FLAG+0x40);
-
-		OSD_TEXT_HI_ADDR_CLR_TO_0();
-
-		OSD_TEXT_HI_ADDR_SET_BIT8();
-		//1b,1
-		Osd_SetTextMonoColor(COLOR_BLACK,COLOR_RED );
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2-9,MAIN_MENU_V_SIZE-0x15,strtT1c_1Window[0][0]);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2-8,MAIN_MENU_V_SIZE-0x15,strtT1c_1Window[0][1]);
-
-		for(i=0;i<3;i++)
+			else
 			{
-			Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2-29+i,MAIN_MENU_V_SIZE-0x15,strtT8_1Window[0][i]);
-
+			OSD_TEXT_HI_ADDR_SET_BIT8();//0x100~0x1FF
+				Osd_DrawCharDirect(CurrentMenu.XSize/2+j-10,i, UP_ICON_2[i][j]);
+				OSD_TEXT_HI_ADDR_CLR_TO_0();
+			}
 		}
-		for(i=0;i<4;i++)
-			{
-			Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2-28+i,MAIN_MENU_V_SIZE-0x14,strtT1c_2Window[0][i]);
-
-		}	
-		//2a,1
-		Osd_SetTextMonoColor(COLOR_RED,COLOR_BLACK );
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2+7,MAIN_MENU_V_SIZE-0x15,strtT2a_1Window[0][0]);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2+8,MAIN_MENU_V_SIZE-0x15,strtT2a_1Window[0][1]);
-
-		for(i=0;i<4;i++)
-			{
-			Osd_DrawCharDirect(MAIN_MENU_H_SIZE-10+i,MAIN_MENU_V_SIZE-0x15,strtT40_1Window[0][i]);
-
-		}
-		Osd_SetTextMonoColor(COLOR_BLACK ,COLOR_RED);
-
-			for(i=0;i<4;i++)
-			{
-			Osd_DrawCharDirect(MAIN_MENU_H_SIZE-12+i,MAIN_MENU_V_SIZE-0x14,strtT3f_2Window[0][i]);
-
-		}
-		
-		OSD_TEXT_HI_ADDR_CLR_TO_0();
-
-		
-		Osd_SetTextMonoColor(COLOR_RED,COLOR_DRAK_RED );
-		for(i=0;i<13;i++)
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2-12-i,MAIN_MENU_V_SIZE-0x15,0x06);
-		
-		Osd_SetTextMonoColor(COLOR_RED, COLOR_BLACK);
-		//上背景下直线
-		for(i=0;i<0x28+8;i++)
-			{
-				Osd_DrawCharDirect(MAIN_MENU_H_SIZE/2-24+i,MAIN_MENU_V_SIZE-0x14,0x06);
-			}	
-	//左右侧
-
-		OSD_TEXT_HI_ADDR_SET_BIT8();
-		Osd_SetTextMonoColor( COLOR_RED,COLOR_BLACK);
-		for(i=0;i<3;i++)
-			{
-			Osd_DrawCharDirect(0,i+1,strtTlr1Window[0][0]);
-			Osd_DrawCharDirect(MAIN_MENU_H_SIZE-1,i+1,strtTlr2Window[0][0]);
-
-		}
-		for(i=0;i<5;i++)
-			{Osd_SetTextMonoColor(COLOR_RED,COLOR_BLACK );
-			
-			Osd_DrawCharDirect(0,i+15,strtTlrfWindow[0][0]);
-			Osd_SetTextMonoColor(COLOR_BLACK,COLOR_RED );
-			Osd_DrawCharDirect(MAIN_MENU_H_SIZE-1,i+15,strtTlreWindow[0][0]);
-
-		}
-		Osd_SetTextMonoColor(COLOR_BLACK,COLOR_RED );
-		Osd_DrawCharDirect(0,4,strtTlr3Window[0][0]);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE-1,4,strtTlr4Window[0][0]);
-		Osd_DrawCharDirect(0,14,strtTlrcWindow[0][0]);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE-1,14,strtTlrdWindow[0][0]);
-		
-		Osd_SetTextMonoColor(COLOR_WHITE,COLOR_RED );
-		Osd_DrawCharDirect(0,8,strtTlr5Window[0][0]);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE-1,8,strtTlr6Window[0][0]);
-
-		Osd_SetTextMonoColor(COLOR_RED, COLOR_WHITE);
-		Osd_DrawCharDirect(0,9,strtTlr7Window[0][0]);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE-1,9,strtTlr9Window[0][0]);
-		Osd_DrawCharDirect(0,10,strtTlr7Window[0][0]);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE-1,10,strtTlr9Window[0][0]);
-
-		
-		Osd_SetTextMonoColor( COLOR_WHITE,COLOR_RED);
-		Osd_DrawCharDirect(0,11,strtTlraWindow[0][0]);
-		Osd_DrawCharDirect(MAIN_MENU_H_SIZE-1,11,strtTlrbWindow[0][0]);
-
-
-
-		OSD_TEXT_HI_ADDR_CLR_TO_0();
-
-		Osd_SetTextMonoColor(COLOR_RED,COLOR_RED );
-		for(i=0;i<3;i++)
-			{
-			Osd_DrawContinuesChar(0,i+5,SpaceFont,1);
-			Osd_DrawContinuesChar(MAIN_MENU_H_SIZE-1,i+5,SpaceFont,1);
-
-		}
-		for(i=0;i<2;i++)
-			{
-			Osd_DrawContinuesChar(0,i+12,SpaceFont,1);
-			Osd_DrawContinuesChar(MAIN_MENU_H_SIZE-1,i+12,SpaceFont,1);
-
-		}
-	}
-	else if (MenuPageIndex >= OSD_BriContrastMenu && MenuPageIndex <= OSD_MiscMenu)
+	OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1FF////////////左右边边补斜边缺口色
+	for(i=0;i<2;i++)
 	{
-		Osd_SetTextMonoColor(COLOR_BLACK, COLOR_BLACK);
-		for (i = 5; i <= 17; i++)	
-		{
-			Osd_DrawContinuesChar( 25, i, SpaceFont, 20);	
-			Osd_DrawContinuesChar( 52, i, SpaceFont, 18);	
-		}
-		Osd_DrawContinuesChar( 1, 14, SpaceFont, 20);	
-		Osd_Set256TextColor(COLOR_BLACK, Color_2);
-		Osd_DrawContinuesChar( 1, 8, SpaceFont, 20);
+		Osd_Set256TextColor((0x20+i*2)>>2, Color_4);
+		Osd_DrawCharDirect(CurrentMenu.XSize/2-10,2, _4ColorHotIconStart_6);
+		Osd_DrawCharDirect(CurrentMenu.XSize/2+10,2, _4ColorHotIconStart_8);
 	}
+	OSD_TEXT_HI_ADDR_CLR_TO_0();
 	
+	Osd_SetTextMonoColor(3, 1);
+	OSD_TEXT_HI_ADDR_SET_BIT8();//0x100~0x1FF左右边边补斜边缺口色
+	Osd_DrawCharDirect(CurrentMenu.XSize/2-9,2, ICON_LCX_5);
+	Osd_DrawCharDirect(CurrentMenu.XSize/2+9,2, ICON_LCX_7);
+	OSD_TEXT_HI_ADDR_CLR_TO_0();
+	for(i=1;i<5;i++)//左右两边上角连阶的横线
+	{
+		Osd_DrawCharDirect(i,0, 0x1A);
+		Osd_DrawCharDirect(CurrentMenu.XSize-i-1,0, 0x1A);
+	}
+	for(i=CurrentMenu.XSize/2-8;i<CurrentMenu.XSize/2+9;i++)////最上面图形的下面二色横线
+	{	
+		Osd_DrawCharDirect(i,2, 0x1B);	
+	}
+	for(i=0;i<2;i++)/////////////////////////////上面右边第二个斜线
+		for(j=0;j<5;j++)
+		{
+			if(UP_COLOR_3[i][j]>=0x04)
+			{
+				if(UP_COLOR_3[i][j]==0x04)
+					Osd_SetTextMonoColor(3, 1);
+				else
+					Osd_SetTextMonoColor(3, 5); 
+			}
+			else
+				Osd_Set256TextColor((UP_COLOR_3[i][j]+0x20)>>2, Color_4);
+			if(UP_ICON_3[i][j]>0xFF)
+			{
+				OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1FF
+				Osd_DrawCharDirect(CurrentMenu.XSize/2+j+6,i, UP_ICON_3[i][j]-0x200);
+				OSD_TEXT_HI_ADDR_CLR_TO_0();
+			}
+			else
+			{
+				OSD_TEXT_HI_ADDR_SET_BIT8();//0x100~0x1FF
+				Osd_DrawCharDirect(CurrentMenu.XSize/2+j+6,i, UP_ICON_3[i][j]);
+				OSD_TEXT_HI_ADDR_CLR_TO_0();
+			}
+		}
+	for(i=0;i<2;i++)/////////////////////////////上面左边边第一个小图标
+		for(j=0;j<2;j++)
+		{
+			if(UP_COLOR_4[i][j]>=0x04)
+			{
+					Osd_SetTextMonoColor(2, 5);
+			}
+			else
+				Osd_Set256TextColor((UP_COLOR_4[i][j]+0x24)>>2, Color_4);
+			if(UP_ICON_4[i][j]>0xFF)
+			{
+				OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1FF
+				Osd_DrawCharDirect(15+j,i, UP_ICON_4[i][j]-0x200);
+				OSD_TEXT_HI_ADDR_CLR_TO_0();
+			}
+			else
+			{
+				OSD_TEXT_HI_ADDR_SET_BIT8();//0x100~0x1FF
+				Osd_DrawCharDirect(15+j,i, UP_ICON_4[i][j]);
+				OSD_TEXT_HI_ADDR_CLR_TO_0();
+			}
+		}
+	for(i=0;i<2;i++)/////////////////////////////上面右边边第一个小图标
+		for(j=0;j<2;j++)
+		{
+			if(UP_COLOR_5[i][j]>=0x04)
+			{
+					Osd_SetTextMonoColor(2, 5);
+			}
+			else
+				Osd_Set256TextColor((UP_COLOR_5[i][j]+0x24)>>2, Color_4);
+			if(UP_ICON_5[i][j]>0xFF)
+			{
+				OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1FF
+				Osd_DrawCharDirect(CurrentMenu.XSize/2+13+j,i, UP_ICON_5[i][j]-0x200);
+				OSD_TEXT_HI_ADDR_CLR_TO_0();
+			}
+			else
+			{
+				OSD_TEXT_HI_ADDR_SET_BIT8();//0x100~0x1FF
+				Osd_DrawCharDirect(CurrentMenu.XSize/2+13+j,i, UP_ICON_5[i][j]);
+				OSD_TEXT_HI_ADDR_CLR_TO_0();
+			}
+		}
+		Osd_SetTextMonoColor(3, 5);///////////////这个是补充最上面的图形色的
+		Osd_DrawCharDirect(14,0,0x1A);
+		Osd_DrawCharDirect(13,0,0x1A);
+		Osd_DrawCharDirect(CurrentMenu.XSize/2+12,0,0x1A);
+		Osd_DrawCharDirect(CurrentMenu.XSize/2+11,0,0x1A);
+		for(i=0;i<10;i++)
+		{
+			Osd_DrawCharDirect(17+i,0,0x1A);
+			Osd_DrawCharDirect(CurrentMenu.XSize/2+15+i,0,0x1A);
+		}
+		Osd_SetTextMonoColor(5, 5);///////////////这个是补充最上面的图形色的/////////注意,这个在以后可能会改变
+		for(i=0;i<9;i++)
+		{
+			Osd_DrawCharDirect(17+i,1,0x1A);
+			Osd_DrawCharDirect(CurrentMenu.XSize/2+15+i,1,0x1A);
+		}
+		Osd_SetTextMonoColor(5, 5);///////////////这个是补充最上面的图形色的
+		Osd_DrawCharDirect(14,1,0x1A);
+		Osd_DrawCharDirect(13,1,0x1A);
+		Osd_DrawCharDirect(CurrentMenu.XSize/2+12,1,0x1A);
+		Osd_DrawCharDirect(CurrentMenu.XSize/2+11,1,0x1A);
 
+		
+	Osd_SetTextMonoColor(2, 3);///////////////这个是补充最上面的图形色的
+
+	for(i=0;i<2;i++)/////////////////////////////上面右边边第一个小图标
+		for(j=0;j<11;j++)
+		{
+			OSD_TEXT_HI_ADDR_SET_BIT8();//0x100~0x1FF
+			Osd_DrawCharDirect(CurrentMenu.XSize/2-5+j,i,strhhhWindow[i][j]);
+			OSD_TEXT_HI_ADDR_CLR_TO_0();
+		}
+	//	DrawTimingInfo();//-----------------分辨率显示函数(里面内置坐标)
+	}
+	/////////////////////////////////////////////////////以下页面下方5个logo
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////
+	//////////////以下代码是其他界面,比如快捷菜单界面
+	////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	else if ( (MenuPageIndex >= HotKeyECOMenu && MenuPageIndex <= AutoMenu)
+	          || MenuPageIndex == InputInfoMenu
+          #ifdef OffPower
+	          || MenuPageIndex == OffPowerWarningMenu//20110310-98
+          #endif
+	          || MenuPageIndex < RootMenu )
+	{
+		Osd_SetTextMonoColor(1, 1);
+		for (i = 0; i <= OsdWindowHeight - 1; i++)
+		{
+			Osd_DrawContinuesChar( 0, i, SpaceFont, OsdWindowWidth);
+		}
+	}
 }
-
-
-
 
 
 

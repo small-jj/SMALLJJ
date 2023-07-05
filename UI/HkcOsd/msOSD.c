@@ -400,7 +400,7 @@ void Osd_Draw4Num(BYTE xPos, BYTE yPos, int value)
 #define GuageFont6_full	(MonoGuageFontStar+0x0C)
 
 #define GuageLevel		6
-void Osd_DrawGuage(BYTE xPos, BYTE yPos, BYTE length, BYTE value)
+void Osd_DrawGuage(BYTE xPos, BYTE yPos, BYTE length, BYTE value)//////////////////////画进度条的函数
 {
 	BYTE pLead;
 	BYTE ucLoop;
@@ -495,129 +495,118 @@ void Osd_DrawHex(BYTE xPos, BYTE yPos, WORD value)
 
 
 #if CHIP_ID>=CHIP_TSUMV
+
 void LoadCommonFont(void)
 {
 	msWrite2ByteMask(OSD1_0A, 0x0200 + _4ColorFontStart, 0x03FF); // 4 color start
-	msWrite2ByteMask(OSD1_0C, 0x0200 + _8ColorFontStart, 0x03FF); // 8 color start
-	msWrite2ByteMask(OSD1_0E, 0x03FF, 0x03FF);  // 16 color start
+	msWrite2ByteMask(OSD1_0C,0x03FF, 0x03FF); // 8 color start
+	//msWrite2ByteMask(OSD1_0E, 0x03FF, 0x03FF);  // 16 color start
 	LoadCompressColorFont(0, 0, 0); //xxxx
 	#if CHIP_ID>=CHIP_TSUM2
-	mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(MonoFontStart), tColor2FixFont, 0 );
-	mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(MonoNumberStart), tOSDNumberFont, 0 );
-	mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(FfontStart), &tFontF, 0 );
+	mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(MonoFontStart), tColor2FixFont, 0 );//0x00
+	mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(MonoNumberStart), tOSDNumberFont, 0 );//0x21
+	mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(FfontStart), &tFontF, 0 );//0x20
+	
+	//mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(ICON_LCX), Centry_low_2, 0 );////刘晨曦的二色地址	0x67+34///下面中心的一块区域
+	mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(ICON_LCX_1), Centry_low_2_2, 0 );////0x89---下面的角
+	mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(ICON_LCX_2), Centry_low_2_2_2, 0 );////0x89+6---下面的角
+	
+	mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(ICON_LCX_3), Centry_up_2_1, 0 );/////上面左边的图形
+	
+	mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(ICON_LCX_3_left), Centry_up_2_1_left, 0 );/////上面左边的图形
+	
+	//mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(ICON_LCX_4), Centry_up_2_2, 0 );/////////上面中间的斜线的图形
+	
 	#else
-	mStar_LoadCompressedFont( MonoFontStart, tColor2FixFont, 0 );
-	mStar_LoadCompressedFont( MonoNumberStart, tOSDNumberFont, 0 );
-	mStar_LoadCompressedFont( (FfontStart), &tFontF, 0 );
+	mStar_LoadCompressedFont( MonoFontStart, tColor2FixFont, 0 );//0x00
+	mStar_LoadCompressedFont( MonoNumberStart, tOSDNumberFont, 0 );//0x21
+	mStar_LoadCompressedFont( (FfontStart), &tFontF, 0 );//0x20
+	//mStar_LoadCompressedFont( (ICON_LCX), Centry_low_2, 0 );
+	mStar_LoadCompressedFont( (ICON_LCX_1), Centry_low_2_2, 0 );////
+	mStar_LoadCompressedFont( (ICON_LCX_2), Centry_low_2_2_2, 0 );////下面的角
+	
+	mStar_LoadCompressedFont( (ICON_LCX_3), Centry_up_2_1, 0 );/////上面左边的图形
+	mStar_LoadCompressedFont( (ICON_LCX_3_left), Centry_up_2_1_left, 0 );/////上面右边的图形
+	
 	#endif
-	#if OsdHelpKeyType == OsdHelpKey_Under
-	mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(0x11), &HelpKeyIcon, 0 );
-	#elif 	OsdHelpKeyType == OsdHelpKey_Right
-	OSD_FONT_HI_ADDR_SET_BIT8();//0x100~0x1FF
-	mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(0x11), &HelpKeyIcon, 0 );
-	OSD_FONT_HI_ADDR_CLR_TO_0();
-	#endif
+	
+	
+	
 	LoadLanguageStatusPropfont();
 	OSD_FONT_HI_ADDR_SET_BIT8();//0x100~0x1FF
 	OSD_WRITE_FONT_ADDRESS(MonoGuageFontStar);
-#if CHIP_ID>=CHIP_TSUM2
+	#if CHIP_ID>=CHIP_TSUM2
 	mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(MonoGuageFontStar), tMonoGauge, 0 );
-	mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(_2ColorMainIconStart),tColor2MainFont,0);
-
-#else
+	mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(ICON_LCX_4), Centry_up_2_2, 0 );/////////上面中间的斜线的图形
+	mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(ICON_LCX_5), Centry_up_2_4, 0 );/////上面中间的斜线的图形
+	mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(ICON_LCX_6), Centry_up_2_5, 0 );/////上面中间的斜线的图形
+	mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(ICON_LCX_7), Centry_up_2_6, 0 );/////上面中间的斜线的图形
+	mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(ICON_LCX_8), Centry_up_2_7, 0 );/////上面中间的斜线的图形
+	mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(ICON_LCX_9), Centry_up_2_8, 0 );/////上面中间的斜线的图形
+	mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(ICON_LCX_10), Centry_up_2_9, 0 );/////上面中间的斜线的图形
+	mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(ICON_LCX_down_centry), Centry_low_2, 0 );////刘晨曦的二色地址	//下面中心的一块区域
+	#else
 	mStar_LoadCompressedFont( MonoGuageFontStar, tMonoGauge, 0 );
-#endif
-	OSD_FONT_HI_ADDR_CLR_TO_0();
-	OSD_FONT_HI_ADDR_SET_BIT9();//0x200~0x2FF
-//	OSD_WRITE_FONT_ADDRESS(_4ColorMainIconStart);
-//	LoadCompressColorFont(&tMainMenuIcon4ColorFont, NULL, 18); // load osd fonts
+	mStar_LoadCompressedFont( (ICON_LCX_4), Centry_up_2_2, 0 );/////上面中间的斜线的图形
+	mStar_LoadCompressedFont( (ICON_LCX_5), Centry_up_2_4, 0 );/////上面中间的斜线的图形
+	mStar_LoadCompressedFont( (ICON_LCX_6), Centry_up_2_5, 0 );/////上面中间的斜线的图形
+	mStar_LoadCompressedFont( (ICON_LCX_7), Centry_up_2_6, 0 );/////上面中间的斜线的图形
+	mStar_LoadCompressedFont((ICON_LCX_8), Centry_up_2_7, 0 );/////上面中间的斜线的图形
+	mStar_LoadCompressedFont( (ICON_LCX_9), Centry_up_2_8, 0 );/////上面中间的斜线的图形
+	mStar_LoadCompressedFont( (ICON_LCX_10), Centry_up_2_9, 0 );/////上面中间的斜线的图形
 	
-	OSD_WRITE_FONT_ADDRESS(_8ColorMainIconStart);
-	Osd_Load8ColorFont( _8ColorMainIconStart, &tMainMenuIcon8ColorFont, sizeof( tMainMenuIcon8ColorFont ) );
+	mStar_LoadCompressedFont( (ICON_LCX_down_centry), Centry_low_2, 0 );////刘晨曦的二色地址	下面中心的一块区域
+	#endif
+		
+	OSD_FONT_HI_ADDR_CLR_TO_0();
+	
+	OSD_FONT_HI_ADDR_SET_BIT9();//0x200~0x2FF
+
+	
+	OSD_WRITE_FONT_ADDRESS(_4ColorHotIconStart);///下面中心的一块区域
+	LoadCompressColorFont(&Centry_low_4, NULL, 8); // load osd fonts
+
+	OSD_WRITE_FONT_ADDRESS(_4ColorHotIconStart_1);////////////下面两角的四色绘制
+	LoadCompressColorFont(&Centry_low_4_2, NULL, 6); // load osd fonts
+	OSD_WRITE_FONT_ADDRESS(_4ColorHotIconStart_2);////////////下面两角的四色绘制
+	LoadCompressColorFont(&Centry_low_4_2_2, NULL, 6); // load osd fonts
+	
+	OSD_WRITE_FONT_ADDRESS(_4ColorHotIconStart_3);////////////上面两角的四色绘制
+	LoadCompressColorFont(&YouJiao_up_4, NULL, 1); // load osd fonts
+	OSD_WRITE_FONT_ADDRESS(_4ColorHotIconStart_3+2);////////////上面两角的四色绘制
+	LoadCompressColorFont(&ZuoJiao_up_4, NULL, 1); // load osd fonts
+	
+	
+	OSD_WRITE_FONT_ADDRESS(_4ColorHotIconStart_4);////////////上面左边第一个图形绘制
+	LoadCompressColorFont(&Centry_up_4_1, NULL, 4); // load osd fonts
+		
+	OSD_WRITE_FONT_ADDRESS(_4ColorHotIconStart_4_left);////////////上面右边第一个图形绘制
+	LoadCompressColorFont(&Centry_up_4_1_left, NULL, 4); // load osd fonts
+	 	
+	OSD_WRITE_FONT_ADDRESS(_4ColorHotIconStart_4_up);////////////上面右边第一个图形绘制
+	LoadCompressColorFont(&up_up, NULL, 1); // load osd fonts
+	
+	OSD_WRITE_FONT_ADDRESS(_4ColorHotIconStart_5);////////////
+	LoadCompressColorFont(&Centry_up_4_2, NULL, 4); // load osd fonts
+
+	OSD_WRITE_FONT_ADDRESS(_4ColorHotIconStart_6);////////////斜边
+	LoadCompressColorFont(&Centry_up_4_3, NULL, 1); // load osd fonts
+
+	OSD_WRITE_FONT_ADDRESS(_4ColorHotIconStart_7);////////////
+	LoadCompressColorFont(&Centry_up_4_4, NULL, 4); // load osd fonts
+	OSD_WRITE_FONT_ADDRESS(_4ColorHotIconStart_8);////////////
+	LoadCompressColorFont(&Centry_up_4_5, NULL, 1); // load osd fonts
+	OSD_WRITE_FONT_ADDRESS(_4ColorHotIconStart_9);////////////
+	LoadCompressColorFont(&Centry_up_4_6, NULL, 2); // load osd fonts
+	OSD_WRITE_FONT_ADDRESS(_4ColorHotIconStart_10);////////////
+	LoadCompressColorFont(&Centry_up_4_7, NULL, 2); // load osd fonts
+
+
+	//OSD_WRITE_FONT_ADDRESS(_8ColorMainIconStart);
+	//Osd_Load8ColorFont( _8ColorMainIconStart, &tMainMenuIcon8ColorFont, sizeof( tMainMenuIcon8ColorFont ) );
 	OSD_FONT_HI_ADDR_CLR_TO_0();
 	Load256ColorPalette(0, 0, &tOSDColorPalette256, sizeof( tOSDColorPalette256 ) / sizeof(ColorPaletteType) );
-
-	/////////////////////////////////////////////////////////////////////// my
-	OSD_FONT_HI_ADDR_SET_BIT9();
-	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart));
-	LoadCompressColorFont(&t1_04ColorFont,NULL,2);
-	OSD_FONT_HI_ADDR_CLR_TO_0();
-
-	/////////////////////////////////////////////////////////////////////// my
-
-	OSD_FONT_HI_ADDR_SET_BIT9();
-	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +4));
-	LoadCompressColorFont(&tt24_13ColorFont,NULL,1);
-	OSD_FONT_HI_ADDR_CLR_TO_0();
-
-	/////////////////////////////////////////////////////////////////////// my
-	OSD_FONT_HI_ADDR_SET_BIT9();
-	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +6));
-	LoadCompressColorFont(&tt23_14ColorFont,NULL,5);
-	OSD_FONT_HI_ADDR_CLR_TO_0();
-
-
-	/////////////////////////////////////////////////////////////////////// my
-	OSD_FONT_HI_ADDR_SET_BIT9();
-	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +16));
-	LoadCompressColorFont(&tt24_15ColorFont,NULL,1);
-
-	OSD_FONT_HI_ADDR_CLR_TO_0();	
-	/////////////////////////////////////////////////////////////////////// my
-
-	/////////////////////////////////////////////////////////////////////// my
-	OSD_FONT_HI_ADDR_SET_BIT9();
-	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +18));
-	LoadCompressColorFont(&Bleft1ColorFont,NULL,1);
-	OSD_FONT_HI_ADDR_CLR_TO_0();
-	/////////////////////////////////////////////////////////////////////// my
-	OSD_FONT_HI_ADDR_SET_BIT9();
-	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +20));
-	LoadCompressColorFont(&Bleft2ColorFont,NULL,2);
-	OSD_FONT_HI_ADDR_CLR_TO_0();
-	/////////////////////////////////////////////////////////////////////// my
-	OSD_FONT_HI_ADDR_SET_BIT9();
-	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +24));
-	LoadCompressColorFont(&Bleft3ColorFont,NULL,1);
-	OSD_FONT_HI_ADDR_CLR_TO_0();
 	
-	OSD_FONT_HI_ADDR_SET_BIT9();
-	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +26));
-	LoadCompressColorFont(&Bright1ColorFont,NULL,1);	
-	OSD_FONT_HI_ADDR_CLR_TO_0();
-	/////////////////////////////////////////////////////////////////////// my
-	OSD_FONT_HI_ADDR_SET_BIT9();
-	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +28));
-	LoadCompressColorFont(&Bright2ColorFont,NULL,2);	
-	OSD_FONT_HI_ADDR_CLR_TO_0();
-	/////////////////////////////////////////////////////////////////////// my
-	OSD_FONT_HI_ADDR_SET_BIT9();
-	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +32));
-	LoadCompressColorFont(&Bright3ColorFont,NULL,1);	
-	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +34));
-	LoadCompressColorFont(&RT_4ColorFont,NULL,2);	
-	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +38));
-	LoadCompressColorFont(&t2a_0ColorFont,NULL,1);		
-	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +40));
-	LoadCompressColorFont(&t40_0ColorFont,NULL,2);
-	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +44));
-	LoadCompressColorFont(&t1b_0ColorFont,NULL,1);	
-	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +46));
-	LoadCompressColorFont(&t8_0ColorFont,NULL,2);
-	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +50));
-	LoadCompressColorFont(&t19_1ColorFont,NULL,2);
-	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +54));
-	LoadCompressColorFont(&tc_1ColorFont,NULL,2);
-	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +58));
-	LoadCompressColorFont(&t2d_1ColorFont,NULL,2);
-	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +62));
-	LoadCompressColorFont(&t3f_1ColorFont,NULL,2);
-
-	OSD_FONT_HI_ADDR_CLR_TO_0();
-
-
-
-
 }
 
 #else
