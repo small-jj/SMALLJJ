@@ -1,4 +1,73 @@
+///////////////////////////////////////////////
+//my
 
+
+
+extern BYTE* MainMenu_ColorsText(void);
+extern BYTE* MainMenu_BriContrastText(void);
+extern BYTE* MainMenu_PictureText(void);
+extern BYTE* MainMenu_Game_Pro_FeaturesText(void);
+extern BYTE* MainMenu_Menu_settingsText(void);
+extern BYTE* MainMenu_Other_settingsText(void);
+extern BYTE* MainMenu_Shortcut_KeyText(void);
+
+
+extern BYTE* WarmColorTempText(void);
+extern BYTE* CoolColorTempText(void);
+extern BYTE* ChromatictysText(void);
+extern BYTE* ColorSaturationtext(void);
+
+extern BYTE* BrightnesssText(void);
+extern BYTE* ContrastRatioText(void);
+extern BYTE* Dynamic_Contrast_RatioText(void);
+extern BYTE* Dynamic_Brightnesstext(void);
+
+extern BYTE* Scenario_ModeText(void);
+extern BYTE* Screen_ScaleText(void);
+extern BYTE* GammaText(void);
+extern BYTE* Sharpnesstext(void);
+extern BYTE* Low_Blue_LightText(void);
+extern BYTE *HDRtext( void );
+extern BYTE* Dark_Balancetext(void);
+
+extern BYTE *MPRTText( void );
+extern BYTE *Adaptive_SyncText( void );
+extern BYTE *Response_timeText( void );
+extern BYTE *Refresh_ratetext( void );
+extern BYTE *Game_alignmentText( void );
+extern BYTE *Game_Timingtext( void );
+extern BYTE *Ambient_lighttext( void );
+
+extern BYTE *LanguageeText( void );
+extern BYTE *Show_TimeText( void );
+extern BYTE *Horizontal_PositionText( void );
+extern BYTE *Vertical_Vositiontext( void );
+extern BYTE *Transparencytext( void );
+extern BYTE *Menu_Rotationtext( void );
+extern BYTE *Menu_LockText( void );
+extern BYTE *Shortcut_OneText( void );
+extern BYTE *Shortcut_TwoText( void );
+extern BYTE *Shortcut_Threetext( void );
+extern BYTE *Shortcut_FourText( void );
+
+extern BYTE *Signal_Input_Text( void );
+extern BYTE *Mute_Text( void );
+extern BYTE *Volume_Text( void );
+extern BYTE *Audio_Input_text( void );
+extern BYTE *Auto_Power_Off_Text( void );
+extern BYTE *Eye_Protection_Reminder_text( void );
+extern BYTE *Information_text( void );
+extern BYTE *Reset_text( void );
+
+
+
+
+
+
+
+
+
+/////////////////////////////////////////////////
 extern BYTE* MainMenu_BrightText(void);
 extern BYTE* MainMenu_ImageText(void);
 extern BYTE* MainMenu_ColorText(void);

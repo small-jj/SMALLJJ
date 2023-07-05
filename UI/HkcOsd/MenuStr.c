@@ -4,16 +4,16 @@
 #include "keypaddef.h"
 #include "menudef.h"
 
+
+
 #if PropFontNewData
 #include "menuTextProp_new.h"
 #else
 #include "menuTextProp.h"
 #endif
 
-
 #define Icon4Color_AddrShift   2
 #define Icon8Color_AddrShift   3
-
 //主界面图标
 #define M1(x)	( _2ColorMainIconStart + x )
 BYTE code strBrightnessIcon[1][3] =
@@ -59,6 +59,9 @@ BYTE code strMiscIcon[1][3] =
 };
 
 
+
+
+
 BYTE* BrightnessIcon(void)
 {
 	return strBrightnessIcon;
@@ -83,8 +86,222 @@ BYTE* MiscIcon(void)
 {
 	return strMiscIcon;
 }
+/////////////////////主菜单///////////////////////////////////
+//my
+BYTE* MainMenu_ColorsText(void)
+{
+	return strColorM0[UserPrefLanguage];
+}
+BYTE* MainMenu_BriContrastText(void)
+{
+	return strBriContrastM0[UserPrefLanguage];
+}
+BYTE* MainMenu_PictureText(void)
+{
+	return strPictureM0[UserPrefLanguage];
+}
+
+BYTE* MainMenu_Game_Pro_FeaturesText(void)
+{
+	return strGame_Pro_FeaturesM0[UserPrefLanguage];
+}
+
+BYTE* MainMenu_Menu_settingsText(void)
+{
+	return strMenu_settingsM0[UserPrefLanguage];
+}
+BYTE* MainMenu_Other_settingsText(void)
+{
+	return strOther_settingsM0[UserPrefLanguage];
+}
+//BYTE* MainMenu_Shortcut_KeyText(void)
+//{
+//	return strShortcut_KeysM0[UserPrefLanguage];
+//}
+
+///////////////////颜色二级菜单////////////////
+
+BYTE *WarmColorTempText( void )
+{
+	return strWarmColorTempText[UserPrefLanguage];
+}
+BYTE *CoolColorTempText( void )
+{
+	return strCoolColorTempText[UserPrefLanguage];
+}
+BYTE *ChromatictysText( void )
+{
+	return strChromatictysText[UserPrefLanguage];
+}
+
+BYTE *ColorSaturationtext( void )
+{
+	return strColorSaturationtext[UserPrefLanguage];
+}
+//亮度/对比度二级菜单////////////////////////////////////////////
+
+BYTE *BrightnesssText( void )
+{
+	return strWBrightnessText[UserPrefLanguage];
+}
+BYTE *ContrastRatioText( void )
+{
+	return strContrastRatioText[UserPrefLanguage];
+}
+BYTE *Dynamic_Contrast_RatioText( void )
+{
+	return strDynamic_Contrast_RatioText[UserPrefLanguage];
+}
+
+BYTE *Dynamic_Brightnesstext( void )
+{
+	return strDynamic_Brightnesstext[UserPrefLanguage];
+}
+//画面二级菜单
+BYTE *Scenario_ModeText( void )
+{
+	return strScenario_ModeText[UserPrefLanguage];
+}
+BYTE *Screen_ScaleText( void )
+{
+	return strScreen_ScaleText[UserPrefLanguage];
+}
+BYTE *GammaText( void )
+{
+	return strGammaText[UserPrefLanguage];
+}
+BYTE *Sharpnesstext( void )
+{
+	return strSharpnesstext[UserPrefLanguage];
+}
+BYTE *Low_Blue_LightText( void )
+{
+	return strLow_Blue_LightText[UserPrefLanguage];
+}
+BYTE *HDRtext( void )
+{
+	return strHDRtext[UserPrefLanguage];
+}
+BYTE *Dark_Balancetext( void )
+{
+	return strDark_Balancetext[UserPrefLanguage];
+}
+
+//游戏专业功能二级菜单
+
+BYTE *MPRTText( void )
+{
+	return strMPRTText[UserPrefLanguage];
+}
+BYTE *Adaptive_SyncText( void )
+{
+	return strSAdaptive_SyncText[UserPrefLanguage];
+}
+BYTE *Response_timeText( void )
+{
+	return strResponse_timeText[UserPrefLanguage];
+}
+BYTE *Refresh_ratetext( void )
+{
+	return strRefresh_ratetext[UserPrefLanguage];
+}
+BYTE *Game_alignmentText( void )
+{
+	return strGame_alignmentText[UserPrefLanguage];
+}
+BYTE *Game_Timingtext( void )
+{
+	return strGame_Timingtext[UserPrefLanguage];
+}
+BYTE *Ambient_lighttext( void )
+{
+	return strAmbient_lighttext[UserPrefLanguage];
+}
+//菜单设置二级菜单
+BYTE *LanguageeText( void )
+{
+	return strLanguageeText[UserPrefLanguage];
+}
+BYTE *Show_TimeText( void )
+{
+	return strShow_TimeText[UserPrefLanguage];
+}
+BYTE *Horizontal_PositionText( void )
+{
+	return strHorizontal_PositionText[UserPrefLanguage];
+}
+BYTE *Vertical_Vositiontext( void )
+{
+	return strVertical_Vositiontext[UserPrefLanguage];
+}
+BYTE *Transparencytext( void )
+{
+	return strTransparencytext[UserPrefLanguage];
+}
+BYTE *Menu_Rotationtext( void )
+{
+	return strMenu_Rotationtext[UserPrefLanguage];
+}
+BYTE *Menu_LockText( void )
+{
+	return strMenu_LockText[UserPrefLanguage];
+}
+BYTE *Shortcut_OneText( void )
+{
+	return strShortcut_OneText[UserPrefLanguage];
+}
+BYTE *Shortcut_TwoText( void )
+{
+	return strShortcut_TwoText[UserPrefLanguage];
+}
+BYTE *Shortcut_Threetext( void )
+{
+	return strShortcut_Threetext[UserPrefLanguage];
+}
+BYTE *Shortcut_FourText( void )
+{
+	return strShortcut_FourText[UserPrefLanguage];
+}
+
+//其他设置二级菜单
+BYTE *Signal_Input_Text( void )
+{
+	return strSignalInput[UserPrefLanguage];
+}
+BYTE *Mute_Text( void )
+{
+	return strMute[UserPrefLanguage];
+}
+BYTE *Volume_Text( void )
+{
+	return strVolume[UserPrefLanguage];
+}
+BYTE *Auto_Power_Off_Text( void )
+{
+	return strAutoPowerOff[UserPrefLanguage];
+}
+
+BYTE *Eye_Protection_Reminder_text( void )
+{
+	return strEyeProtectionReminder[UserPrefLanguage];
+}
+BYTE *Reset_text( void )
+{
+	return strReset_test[UserPrefLanguage];
+}
+
+BYTE *Information_text( void )
+{
+	return strInformation_test[UserPrefLanguage];
+}
+BYTE *Audio_Input_text( void )
+{
+	return strAudioIput[UserPrefLanguage];
+}
 
 
+
+//////////////////////////////////////////////////////
 //----Eson Start----------------------------------
 //========= TEXT =========
 BYTE* MainMenu_BrightText(void)
