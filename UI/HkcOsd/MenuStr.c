@@ -14,47 +14,50 @@
 #define Icon4Color_AddrShift   2
 #define Icon8Color_AddrShift   3
 
-BYTE code strBrightnessIcon[3] =////还是二色好看
+//主界面图标
+#define M1(x)	( _2ColorMainIconStart + x )
+BYTE code strBrightnessIcon[1][3] =
 {
-	FONT_2COLOR_ICON_START + 0x02,
-	FONT_2COLOR_ICON_START + 0x03,
-	'\0'
-};
-BYTE code strImageIcon[3] =
-{
-	FONT_2COLOR_ICON_START + 0x04,
-	FONT_2COLOR_ICON_START + 0x05,
-	
-	'\0'
+	{M1(0x00), M1(0x01), 0}
 };
 
-BYTE code strColorTempIcon[3] =
+#define M2(x)	( _2ColorMainIconStart + x + 2 )
+
+BYTE code strImageIcon[1][3] =
 {
-	FONT_2COLOR_ICON_START + 0x06,
-	FONT_2COLOR_ICON_START + 0x07,
-	'\0'
-};
-	
-BYTE code strOSDIcon[3] =
-{
-	FONT_2COLOR_ICON_START + 0x11,
-	FONT_2COLOR_ICON_START + 0x12,
-	'\0'
+	{M2(0x00), M2(0x01), 0}
 };
 
-BYTE code strResetIcon[3] =
+#define M3(x)	( _2ColorMainIconStart + x + 4 )
+
+BYTE code strColorTempIcon[1][3] =
 {
-	FONT_2COLOR_ICON_START + 0x0C,
-	FONT_2COLOR_ICON_START + 0x0D,
-	'\0'
+	{M3(0x00), M3(0x01), 0}
 };
 
-BYTE code strMiscIcon[3] =
+#define M4(x)	( _2ColorMainIconStart + x + 6 )
+
+BYTE code strOSDIcon[1][3] =
 {
-	FONT_2COLOR_ICON_START + 0x13,
-	FONT_2COLOR_ICON_START + 0x14,
-	'\0'
+	{M4(0x00), M4(0x01), 0}
 };
+
+#define M5(x)	( _2ColorMainIconStart + x + 8)
+
+BYTE code strResetIcon[1][3] =
+{
+	{M5(0x00), M5(0x01), 0}
+
+};
+
+#define M6(x)	( _2ColorMainIconStart + x + 10)
+
+BYTE code strMiscIcon[1][3] =
+{
+	{M6(0x00), M6(0x01),0}
+
+};
+
 
 BYTE* BrightnessIcon(void)
 {
