@@ -1416,12 +1416,8 @@ code BYTE t3f_1ColorFont[]=
 	// Total:  [0x064(100)]
 	// Orginial Total:	2 fonts ,  Size:(108)]
 
-
-
-
 	}	 ;
 
-	
 //中心左边
 
 #define  M_1(x) (_2ColorMainIconStart + x + 12)
@@ -1716,6 +1712,7 @@ BYTE code strtTlrfWindow[1][2]=
 	 0}
 
 };
+
 
 BYTE code tMainMenuIcon4ColorFont[] =
 {

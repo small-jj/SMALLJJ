@@ -18,7 +18,7 @@ WORD code tFactoryFont1[] =
 	0x0000
 };
 
-WORD code tFactoryFont_Number[] =
+WORD code tFactoryFont_Number[] =////////////数字
 {
 	// 0x000(0) : 0  [0x000(0)]
 	0x4000, 0x11F8, 0x130C, 0x231C, 0x132C, 0x136C, 0x134C, 0x238C, 0x130C, 0x11F8, 0x3000,
@@ -46,7 +46,7 @@ WORD code tFactoryFont_Number[] =
 
 };
 
-WORD code tFactoryFont_EnglishBig[] =
+WORD code tFactoryFont_EnglishBig[] =////////////////英文字母
 {
 	// 0x000(0) :   [0x000(0)]
 	0x4000, 0x11F8, 0x430C, 0x13FC, 0x530C, 0x3000,
@@ -106,7 +106,7 @@ WORD code tFactoryFont_EnglishBig[] =
 
 };
 
-WORD code tFactoryFont_EnglishSmall[] =
+WORD code tFactoryFont_EnglishSmall[] =////////////////英文小写字母
 {
 	// 0x000(0) :   [0x000(0)]
 	0x6000, 0x11F8, 0x120C, 0x100C, 0x11FC, 0x430C, 0x11FC, 0x3000,

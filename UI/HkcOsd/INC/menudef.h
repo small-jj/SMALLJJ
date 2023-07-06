@@ -33,12 +33,6 @@
 #define	COLOR_LIGHT_GRAY	8	//亮灰
 #define	COLOR_WHITE			9	//白
 
-
-
-
-
-
-
 typedef enum
 {
 	CP_WhiteColor = 0x07,
@@ -73,7 +67,7 @@ typedef enum
 	OsdMenu, 					//  11
 	SettingMenu, 				//    13
 	OSD_MiscMenu,  			 // 	14
-//	OSD_ShortcutMenu,
+
 	ExitMenu,                             //15
 //-----------------------------------------------
 	BrightnessMenu,     //
@@ -187,7 +181,6 @@ typedef enum
 
 
 	MaxMenu
-
 } MenuPageIndexType;
 
 typedef enum
@@ -253,12 +246,9 @@ typedef enum
 	#endif
 	CTEMP_Nums
 } ColorTempType;
-
+//////////////////////////////////////以下为刘晨曦改动----作用:使得页面当前语言为汉语
 typedef enum
 {
-	DISP_LANG_English,
-	DISP_LANG_France,
-	DISP_LANG_Spanish,
 	DISP_LANG_Portugues,
 	DISP_LANG_German,
 	DISP_LANG_Italian,
@@ -272,13 +262,16 @@ typedef enum
 	DISP_LANG_TChina,
 	DISP_LANG_SChina,
 	DISP_LANG_Japan,
-	DISP_LANG_Nums
+	DISP_LANG_Nums,
+
+	DISP_LANG_English,
+	DISP_LANG_France,
+	DISP_LANG_Spanish
+	
+	
 } DisplayLanguageType;		//120322 Modify
 typedef enum
 {
-	LANG_English,
-	LANG_France,
-	LANG_Spanish,
 	LANG_Portugues,
 	LANG_German,
 	LANG_Italian,
@@ -292,7 +285,12 @@ typedef enum
 	LANG_TChina,
 	LANG_SChina,
 	LANG_Japan,
-	LANG_Nums
+	LANG_Nums,
+
+	LANG_English,
+	LANG_France,
+	LANG_Spanish
+	
 } LanguageType;
 
 
@@ -439,14 +437,15 @@ typedef enum
 
 
 #define MonoNumberStart 	0x21
+
 #define PropFontAddress		0x2C
+
 #define MainAddress			0xC0
 
 #define LanguageAddress		0xF8
 //=================================================page2
 
 #define MonoGuageFontStar           0x00//0x100
-
 
 
 #define ResoulationAddress  0x20//0x120
@@ -456,6 +455,7 @@ typedef enum
 #define FONT_2COLOR_ICON_START	0x000
 #define FONT_4COLOR_ICON_START 	0x000
 #define FONT_8COLOR_ICON_START	0x045//0x2E
+
 
 #define _2ColorFontStart            FONT_2COLOR_ICON_START
 #define _4ColorFontStart            FONT_4COLOR_ICON_START//0x180
@@ -468,6 +468,15 @@ typedef enum
 #define _4ColorHotIconStart      _4ColorFontStart
 
 #define _4ColorMainIconStart      _4ColorHotIconStart+30
+
+
+//#define _2ColorMainIconStart			0x14
+
+
+//#define _4ColorHotIconStart      _4ColorFontStart
+
+
+
 
 #define _8ColorMainIconStart      _8ColorFontStart
 
@@ -499,20 +508,16 @@ typedef enum
 #define MAIN_MENU_H_SIZE            0x2D//1368 pixel
 #define MAIN_MENU_V_SIZE            0x10
 #else
-//my
-#define MAIN_MENU_H_SIZE            0x48//1368 pixel//原29 12
+#define MAIN_MENU_H_SIZE            0x48//1368 pixel
 #define MAIN_MENU_V_SIZE            0x16
 #endif
 
-#define MainMenuIcon_DrawXPos		0x03
+#define MainMenuIcon_DrawXPos		0x07
 #define MainMenuIcon_DrawYPos		0x05
-				
-
-#define MainMenuText_XPos			9
 
 #define SUB_TEXT_XPOS		0x1C
-#define SUB_TEXT_YPOS		0x05
-#define IconShift			0x02
+#define SUB_TEXT_YPOS		0x04
+#define IconShift			0x03
 
 
 #define HOT_MENU_H_SIZE            0x18
@@ -521,17 +526,16 @@ typedef enum
 #define IconXPos    4
 #define IconFristXPos    IconXPos	// Jun 20130730
 
-#define ItemShiftSpace      40
+#define ItemShiftSpace      40////最上面背景长条距离
 
-#define GaugeXPosition      0x37
-#define NumXposion           0x3E          //my 进度条的值的位置，原20
-#define DrawStarXPos		 0x0E
-#define NUMXPOSITION		8
+#define GaugeXPosition      55/////三级菜单的进度条的位置
+#define NumXposion           63//三级菜单的数字开始地址
+#define DrawStarXPos		 0x0E///三级菜单
 
 #define OFFTIMER_VALUE_XPOS 	26		// Jun 20130730
 
 #define CENTER_ALIGN_LEN            13
-#define CENTER_ALIGN_STARTPOS       (GaugeXPosition-8)//11
+#define CENTER_ALIGN_STARTPOS       26/////三级菜单哪个左右切换选项的位置调节
 #define CENTER_ALIGN_ENDPOS         (CENTER_ALIGN_STARTPOS+CENTER_ALIGN_LEN-1)//23
 
 
@@ -542,8 +546,8 @@ typedef enum
 
 #endif
 
-#define HotIconXPos    10	//my
-#define HotIconYPos    2	//my
+#define HotIconXPos    10
+#define HotIconYPos    2
 
 
 
@@ -658,8 +662,6 @@ typedef enum
 	#if LowBlueLightType==LowBlueLight_ColorTemp || LowBlueLightType==LowBlueLight_SharpFunc
 	RGB_LowBlueLigth_Item,
 	#endif
-	HDR_Item,
-	Dark_Balance_Item,
 	RGB_MAX_Item,
 } RGBMenuItemsType;
 
@@ -673,8 +675,6 @@ typedef enum
 	#endif
 	OSD_TIMEOUT_ITEM,
 	OSD_TRANSPARENCE_ITEM,
-	OSD_GAMETIME_ITEM,
-	OSD_LIGHT_ITEM,
 	OSD_MAX_ITEM,
 } OSDMenuItemsType;
 
@@ -685,14 +685,6 @@ typedef enum
 	Setting_AUTOCOLOR_ITEM,
 	#endif
 	Setting_RESTR_ITEM,
-	Vertical_Vosition_ITEM,
-	Transparency_ITEM,
-	Menu_Rotation_ITEM,
-	Menu_Lock_ITEM,
-	Shortcut_One_ITEM,
-	Shortcut_Two_ITEM,
-	Shortcut_Three_ITEM,
-	Shortcut_Four_ITEM,
 	#ifdef OffPower
 	Setting_OffPower_ITEM,
 	#endif
@@ -701,7 +693,7 @@ typedef enum
 
 typedef enum
 {
-	#if 1//(INPUT_TYPE!=INPUT_1A) && (INPUT_TYPE!=INPUT_1H)
+	#if (INPUT_TYPE!=INPUT_1A) && (INPUT_TYPE!=INPUT_1H)
 	Misc_InputSource_ITEM,
 	#endif
 	#if AudioFunc
@@ -709,12 +701,6 @@ typedef enum
 	Misc_Mute_ITEM,
 	#endif
 	Misc_Volume_ITEM,
-
-	Audio_Input_ITEM,
-	Auto_Power_Off_ITEM,
-	Eye_Protection_Reminder_ITEM,
-	Reset_ITEM,
-	Information_ITEM,
 	#endif
 	#if Enable_Adjust_SharpnessMenu
 	Misc_Sharpness_ITEM,

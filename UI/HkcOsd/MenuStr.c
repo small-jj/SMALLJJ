@@ -4,88 +4,86 @@
 #include "keypaddef.h"
 #include "menudef.h"
 
-
-
 #if PropFontNewData
 #include "menuTextProp_new.h"
 #else
 #include "menuTextProp.h"
 #endif
 
+
 #define Icon4Color_AddrShift   2
 #define Icon8Color_AddrShift   3
+
 //主界面图标
+
 #define M1(x)	( _2ColorMainIconStart + x )
 BYTE code strBrightnessIcon[1][3] =
 {
 	{M1(0x00), M1(0x01), 0}
 };
 
-#define M2(x)	( _2ColorMainIconStart + x + 2 )
+#define M2(x)	( _2ColorMainIconStart + x + 2)
 
 BYTE code strImageIcon[1][3] =
 {
 	{M2(0x00), M2(0x01), 0}
 };
 
+	
 #define M3(x)	( _2ColorMainIconStart + x + 4 )
-
-BYTE code strColorTempIcon[1][3] =
-{
-	{M3(0x00), M3(0x01), 0}
-};
-
+	
+	BYTE code strColorTempIcon[1][3] =
+	{
+		{M3(0x00), M3(0x01), 0}
+	};
+	
 #define M4(x)	( _2ColorMainIconStart + x + 6 )
-
-BYTE code strOSDIcon[1][3] =
-{
-	{M4(0x00), M4(0x01), 0}
-};
-
+	
+	BYTE code strOSDIcon[1][3] =
+	{
+		{M4(0x00), M4(0x01), 0}
+	};
+	
 #define M5(x)	( _2ColorMainIconStart + x + 8)
-
-BYTE code strResetIcon[1][3] =
-{
-	{M5(0x00), M5(0x01), 0}
-
-};
-
+	
+	BYTE code strResetIcon[1][3] =
+	{
+		{M5(0x00), M5(0x01), 0}
+	
+	};
+	
 #define M6(x)	( _2ColorMainIconStart + x + 10)
-
-BYTE code strMiscIcon[1][3] =
-{
-	{M6(0x00), M6(0x01),0}
-
-};
-
-
-
-
-
-BYTE* BrightnessIcon(void)
-{
-	return strBrightnessIcon;
-}
-BYTE* ImageIcon(void)
-{
-	return strImageIcon;
-}
-BYTE* ColorTempIcon(void)
-{
-	return strColorTempIcon;
-}
-BYTE* OSDIcon(void)
-{
-	return strOSDIcon;
-}
-BYTE* ResetIcon(void)
-{
-	return strResetIcon;
-}
-BYTE* MiscIcon(void)
-{
-	return strMiscIcon;
-}
+	
+	BYTE code strMiscIcon[1][3] =
+	{
+		{M6(0x00), M6(0x01),0}
+	
+	};
+	BYTE* BrightnessIcon(void)
+	{
+		return strBrightnessIcon;
+	}
+	BYTE* ImageIcon(void)
+	{
+		return strImageIcon;
+	}
+	BYTE* ColorTempIcon(void)
+	{
+		return strColorTempIcon;
+	}
+	BYTE* OSDIcon(void)
+	{
+		return strOSDIcon;
+	}
+	BYTE* ResetIcon(void)
+	{
+		return strResetIcon;
+	}
+	BYTE* MiscIcon(void)
+	{
+		return strMiscIcon;
+	}
+	
 /////////////////////主菜单///////////////////////////////////
 //my
 BYTE* MainMenu_ColorsText(void)
@@ -117,7 +115,7 @@ BYTE* MainMenu_Other_settingsText(void)
 //BYTE* MainMenu_Shortcut_KeyText(void)
 //{
 //	return strShortcut_KeysM0[UserPrefLanguage];
-//}
+//}	
 
 ///////////////////颜色二级菜单////////////////
 
@@ -301,7 +299,6 @@ BYTE *Audio_Input_text( void )
 
 
 
-//////////////////////////////////////////////////////
 //----Eson Start----------------------------------
 //========= TEXT =========
 BYTE* MainMenu_BrightText(void)
