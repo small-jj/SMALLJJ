@@ -50,3 +50,6 @@ extern MenuFontType code MenuPage04[];
 extern MenuFontType code MenuPage05[];
 extern MenuFontType code MenuPage06[];
 
+
+
+

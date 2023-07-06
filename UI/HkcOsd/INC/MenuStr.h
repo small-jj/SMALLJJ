@@ -1,3 +1,7 @@
+///////////////////////////////////////////////
+//my
+
+
 
 extern BYTE* MainMenu_ColorsText(void);
 extern BYTE* MainMenu_BriContrastText(void);
@@ -6,6 +10,7 @@ extern BYTE* MainMenu_Game_Pro_FeaturesText(void);
 extern BYTE* MainMenu_Menu_settingsText(void);
 extern BYTE* MainMenu_Other_settingsText(void);
 extern BYTE* MainMenu_Shortcut_KeyText(void);
+
 
 extern BYTE* WarmColorTempText(void);
 extern BYTE* CoolColorTempText(void);
@@ -62,23 +67,7 @@ extern BYTE *Reset_text( void );
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/////////////////////////////////////////////////
 extern BYTE* MainMenu_BrightText(void);
 extern BYTE* MainMenu_ImageText(void);
 extern BYTE* MainMenu_ColorText(void);
