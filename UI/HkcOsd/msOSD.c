@@ -402,6 +402,77 @@ void Osd_Draw4Num(BYTE xPos, BYTE yPos, int value)
 #define GuageLevel		6
 void Osd_DrawGuage(BYTE xPos, BYTE yPos, BYTE length, BYTE value)
 {
+	BYTE pLead=1 ;
+	BYTE num,n;
+	if (value > 100)
+		value = 100;
+	
+	OSD_TEXT_HI_ADDR_SET_BIT9();
+	 num = value % 10;
+	 value = value/10;
+	 Osd_Set256TextColor(left_right1[0][0]>>2,Color_4 );
+	 Osd_DrawCharDirect(xPos ,yPos,_4ColorFontStart+66 );
+	 Osd_DrawCharDirect(xPos+11 ,yPos,_4ColorFontStart+68 );
+	 Osd_Set256TextColor(Paltmmidle[0][0]>>2,Color_4 );
+	 
+
+	 if(1<=value&&value<=9)
+	 {
+	 
+	  Osd_DrawCharDirect(xPos+value ,yPos,_4ColorFontStart+90 );
+		 for(pLead=1;pLead<value;pLead++)
+		 {
+			 
+			 Osd_DrawCharDirect(xPos+pLead ,yPos,_4ColorFontStart+90 );
+		 }
+		 Osd_DrawCharDirect(xPos+pLead+1,yPos,_4ColorFontStart+70+num*2 );
+		 length = xPos+pLead+1;
+		
+		 for(n=10-value-1;n>0;n--)
+		 {
+			 Osd_DrawCharDirect(length+n ,yPos,_4ColorFontStart+70 );
+		 }
+	 }
+	 
+	 else if(value==0)
+	 {
+		 if(num==0)
+		 {
+			for(n=1;n<=10;n++)
+			{
+			 	Osd_DrawCharDirect(xPos+n ,yPos,_4ColorFontStart+70 );
+		 	}
+
+		 }
+		 
+		 else if(num!=0)
+		{
+			 for(n=1;n<=num;n++)
+			{
+				 Osd_DrawCharDirect(xPos+1 ,yPos,_4ColorFontStart+70+n*2 +4);
+			}
+			 for(n=1;n<=9;n++)
+			{
+				 Osd_DrawCharDirect(xPos+n+1 ,yPos,_4ColorFontStart+70 );
+			}
+
+		 }
+	  }
+	else if (value ==10)
+	{
+		for(num=1;num<=10;num++)
+		 {
+			 Osd_DrawCharDirect(xPos+num ,yPos,_4ColorFontStart+90 );
+	 	}	
+	}
+//	Osd_DrawCharDirect(xPos+value ,yPos,_4ColorFontStart+90 );
+	
+		OSD_TEXT_HI_ADDR_CLR_TO_0();	
+
+}
+#if 0
+void Osd_DrawGuage(BYTE xPos, BYTE yPos, BYTE length, BYTE value)
+{
 	BYTE pLead;
 	BYTE ucLoop;
 	if (value > 100)
@@ -465,7 +536,7 @@ void Osd_DrawGuage(BYTE xPos, BYTE yPos, BYTE length, BYTE value)
 	}
 	OSD_TEXT_HI_ADDR_CLR_TO_0();
 }
-
+#endif
 // ============================
 // Draw Hex for Debug
 BYTE Hex2ASCII(WORD Num)
@@ -498,8 +569,8 @@ void Osd_DrawHex(BYTE xPos, BYTE yPos, WORD value)
 void LoadCommonFont(void)
 {
 	msWrite2ByteMask(OSD1_0A, 0x0200 + _4ColorFontStart, 0x03FF); // 4 color start
-	msWrite2ByteMask(OSD1_0C, 0x0200 + _8ColorFontStart, 0x03FF); // 8 color start
-	msWrite2ByteMask(OSD1_0E, 0x03FF, 0x03FF);  // 16 color start
+//	msWrite2ByteMask(OSD1_0C, 0x0200 + _8ColorFontStart, 0x03FF); // 8 color start
+	msWrite2ByteMask(OSD1_0C, 0x03FF, 0x03FF);  // 16 color start
 	LoadCompressColorFont(0, 0, 0); //xxxx
 	#if CHIP_ID>=CHIP_TSUM2
 	mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(MonoFontStart), tColor2FixFont, 0 );
@@ -520,19 +591,115 @@ void LoadCommonFont(void)
 	LoadLanguageStatusPropfont();
 	OSD_FONT_HI_ADDR_SET_BIT8();//0x100~0x1FF
 	OSD_WRITE_FONT_ADDRESS(MonoGuageFontStar);
-	#if CHIP_ID>=CHIP_TSUM2
+#if CHIP_ID>=CHIP_TSUM2
 	mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(MonoGuageFontStar), tMonoGauge, 0 );
-	#else
+	mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(_2ColorMainIconStart),tColor2MainFont,0);
+
+#else
 	mStar_LoadCompressedFont( MonoGuageFontStar, tMonoGauge, 0 );
-	#endif
+#endif
 	OSD_FONT_HI_ADDR_CLR_TO_0();
 	OSD_FONT_HI_ADDR_SET_BIT9();//0x200~0x2FF
-	OSD_WRITE_FONT_ADDRESS(_4ColorMainIconStart);
-	LoadCompressColorFont(&tMainMenuIcon4ColorFont, NULL, 18); // load osd fonts
-	OSD_WRITE_FONT_ADDRESS(_8ColorMainIconStart);
-	Osd_Load8ColorFont( _8ColorMainIconStart, &tMainMenuIcon8ColorFont, sizeof( tMainMenuIcon8ColorFont ) );
+//	OSD_WRITE_FONT_ADDRESS(_4ColorMainIconStart);
+//	LoadCompressColorFont(&tMainMenuIcon4ColorFont, NULL, 18); // load osd fonts
+	
+//	OSD_WRITE_FONT_ADDRESS(_8ColorMainIconStart);
+//	Osd_Load8ColorFont( _8ColorMainIconStart, &tMainMenuIcon8ColorFont, sizeof( tMainMenuIcon8ColorFont ) );
 	OSD_FONT_HI_ADDR_CLR_TO_0();
 	Load256ColorPalette(0, 0, &tOSDColorPalette256, sizeof( tOSDColorPalette256 ) / sizeof(ColorPaletteType) );
+
+	/////////////////////////////////////////////////////////////////////// my
+	OSD_FONT_HI_ADDR_SET_BIT9();
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart));
+	LoadCompressColorFont(&t1_04ColorFont,NULL,2);
+	OSD_FONT_HI_ADDR_CLR_TO_0();
+
+	/////////////////////////////////////////////////////////////////////// my
+
+	OSD_FONT_HI_ADDR_SET_BIT9();
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +4));
+	LoadCompressColorFont(&tt24_13ColorFont,NULL,1);
+	OSD_FONT_HI_ADDR_CLR_TO_0();
+
+	/////////////////////////////////////////////////////////////////////// my
+	OSD_FONT_HI_ADDR_SET_BIT9();
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +6));
+	LoadCompressColorFont(&tt23_14ColorFont,NULL,5);
+	OSD_FONT_HI_ADDR_CLR_TO_0();
+
+
+	/////////////////////////////////////////////////////////////////////// my
+	OSD_FONT_HI_ADDR_SET_BIT9();
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +16));
+	LoadCompressColorFont(&tt24_15ColorFont,NULL,1);
+
+	OSD_FONT_HI_ADDR_CLR_TO_0();	
+	/////////////////////////////////////////////////////////////////////// my
+
+	/////////////////////////////////////////////////////////////////////// my
+	OSD_FONT_HI_ADDR_SET_BIT9();
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +18));
+	LoadCompressColorFont(&Bleft1ColorFont,NULL,1);
+	OSD_FONT_HI_ADDR_CLR_TO_0();
+	/////////////////////////////////////////////////////////////////////// my
+	OSD_FONT_HI_ADDR_SET_BIT9();
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +20));
+	LoadCompressColorFont(&Bleft2ColorFont,NULL,2);
+	OSD_FONT_HI_ADDR_CLR_TO_0();
+	/////////////////////////////////////////////////////////////////////// my
+	OSD_FONT_HI_ADDR_SET_BIT9();
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +24));
+	LoadCompressColorFont(&Bleft3ColorFont,NULL,1);
+	OSD_FONT_HI_ADDR_CLR_TO_0();
+	
+	OSD_FONT_HI_ADDR_SET_BIT9();
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +26));
+	LoadCompressColorFont(&Bright1ColorFont,NULL,1);	
+	OSD_FONT_HI_ADDR_CLR_TO_0();
+	/////////////////////////////////////////////////////////////////////// my
+	OSD_FONT_HI_ADDR_SET_BIT9();
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +28));
+	LoadCompressColorFont(&Bright2ColorFont,NULL,2);	
+	OSD_FONT_HI_ADDR_CLR_TO_0();
+	/////////////////////////////////////////////////////////////////////// my
+	OSD_FONT_HI_ADDR_SET_BIT9();
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +32));
+	LoadCompressColorFont(&Bright3ColorFont,NULL,1);	
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +34));
+	LoadCompressColorFont(&RT_4ColorFont,NULL,2);	
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +38));
+	LoadCompressColorFont(&t2a_0ColorFont,NULL,1);		
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +40));
+	LoadCompressColorFont(&t40_0ColorFont,NULL,2);
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +44));
+	LoadCompressColorFont(&t1b_0ColorFont,NULL,1);	
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +46));
+	LoadCompressColorFont(&t8_0ColorFont,NULL,2);
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +50));
+	LoadCompressColorFont(&t19_1ColorFont,NULL,2);
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +54));
+	LoadCompressColorFont(&tc_1ColorFont,NULL,2);
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +58));
+	LoadCompressColorFont(&t2d_1ColorFont,NULL,2);
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +62));
+	LoadCompressColorFont(&t3f_1ColorFont,NULL,2);
+//进度条
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +66));
+	LoadCompressColorFont(&leftColorFont,NULL,1);
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +68));
+	LoadCompressColorFont(&rightColorFont,NULL,1);
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +70));
+	LoadCompressColorFont(&middleColorFont,NULL,11);
+//选中文本框
+	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +92));
+	LoadCompressColorFont(&TextbookColorFont,NULL,45);
+
+
+	OSD_FONT_HI_ADDR_CLR_TO_0();
+
+
+
+
 }
 
 #else

@@ -5,7 +5,7 @@ typedef struct
 	BYTE u8Red;
 	BYTE u8Green;
 	BYTE u8Blue;
-}ColorType;
+} ColorType;
 
 #if defined(BRI_PRO_MIN_VALUE)
 #define BRIGHTNESS_PWM_MIN_VALUE				 BRI_PRO_MIN_VALUE

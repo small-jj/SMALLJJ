@@ -1251,7 +1251,10 @@ extern BYTE xdata g_bACPowerOn_CheckVCOM;
 #if Enable_Expansion
 #define UserprefExpansionMode        MonitorSetting.ExpansionMode
 #endif
+#if 1
+#define WarmColorTemp         MonitorSetting.POWER
 
+#endif
 
 
 //#define MonitorBackLightTime				MonitorSetting.BackLightTime

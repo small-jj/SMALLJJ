@@ -1,6 +1,7 @@
 
 
 
+
 //----Eson Start----------------------------------
 BYTE code strFactory[2] =
 {
@@ -8,6 +9,9 @@ BYTE code strFactory[2] =
 };
 
 #if 1
+
+
+
 
 
 BYTE code strLuminanceM7[16][2] =
@@ -189,7 +193,7 @@ BYTE code strEcoModeM1[16][2] =
 };
 BYTE code strTextM1[16][2] =
 {
-	{ 0x3D, 0x03 },
+	{ 0x36, 0x03 },
 	{ 0x39, 0x04 },
 	{ 0x38, 0x04 },
 	{ 0x3B, 0x04 },
@@ -1050,7 +1054,7 @@ BYTE code strDCRM1[16][2] =
 };
 BYTE code strOffM1[16][2] =
 {
-	{ 0x5B, 0x03 },
+	{ 0x37, 0x01 },
 	{ 0x54, 0x03 },
 	{ 0x58, 0x04 },
 	{ 0x5A, 0x05 },
@@ -1069,7 +1073,7 @@ BYTE code strOffM1[16][2] =
 };
 BYTE code strOnM1[16][2] =
 {
-	{ 0x5E, 0x02 },
+	{ 0x39, 0x02 },
 	{ 0x57, 0x03 },
 	{ 0x5C, 0x05 },
 	{ 0x5F, 0x03 },

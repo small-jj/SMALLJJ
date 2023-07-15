@@ -2468,7 +2468,7 @@ Bool AdjustInputSource(MenuItemActionType action)
 	return TRUE;
 }
 #endif
-#if AdjustLanguageFunction
+#if 1//AdjustLanguageFunction
 Bool AdjustLanguage(MenuItemActionType action)
 {
 	BYTE temp;
