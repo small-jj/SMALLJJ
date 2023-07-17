@@ -690,11 +690,8 @@ void LoadCommonFont(void)
 	LoadCompressColorFont(&rightColorFont,NULL,1);
 	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +70));
 	LoadCompressColorFont(&middleColorFont,NULL,11);
-//选中文本框
-	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +92));
-	LoadCompressColorFont(&TextbookColorFont,NULL,9);
-	OSD_WRITE_FONT_ADDRESS(LOBYTE(_4ColorFontStart +110));
-	LoadCompressColorFont(&IconColorFonts,NULL,17);
+
+
 
 	OSD_FONT_HI_ADDR_CLR_TO_0();
 

@@ -302,7 +302,7 @@ MenuItemType code MainMenuItems[] =
 NumberType code BrightnessNumber[] =
 {
 	// Flags,   XPos,   YPos,   GetValue
-	{dwiEnd,          NumXposion, ( SUB_TEXT_YPOS + 0 ), GetBrightnessValue},
+	{dwiEnd,          NumXposion, ( SUB_TEXT_YPOS + BriContrast_BRIGHTNESS_ITEM * IconShift ), GetBrightnessValue},
 };
 DrawNumberType code DrawBrightnessNumber[] =
 {
@@ -314,7 +314,7 @@ DrawNumberType code DrawBrightnessNumber[] =
 GaugeType code BrightnessGuage[] =
 {
 	// Flags, ForeColor,    BackColor,  Length,     GetValue
-	{dwiEnd,         GaugeXPosition, ( SUB_TEXT_YPOS + 0),  GetBrightnessValue},
+	{dwiEnd,         GaugeXPosition, ( SUB_TEXT_YPOS + BriContrast_BRIGHTNESS_ITEM * IconShift ),  GetBrightnessValue},
 };
 DrawGuageType code DrawBrightnessGuage[] =
 {
@@ -325,7 +325,7 @@ DrawGuageType code DrawBrightnessGuage[] =
 RadioTextType code DrawWarmColorRatioText[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, NumXposion, ( SUB_TEXT_YPOS + 0 ),     ECOModeValue},
+	{dwiCenterArrowAlign | dwiEnd, NumXposion, ( SUB_TEXT_YPOS + BriContrast_BRIGHTNESS_ITEM * IconShift ),     ECOModeValue},
 };
 DrawRadioGroupType code DrawWarmColorIconRatioText[] =
 {
@@ -337,7 +337,7 @@ DrawRadioGroupType code DrawWarmColorIconRatioText[] =
 NumberType code ContrastNumber[] =
 {
 	// Flags,   XPos,   YPos,   GetValue
-	{dwiEnd,          NumXposion, ( SUB_TEXT_YPOS + 0 ), GetContrastValue},
+	{dwiEnd,          NumXposion, ( SUB_TEXT_YPOS + BriContrast_CONTRAST_ITEM * IconShift ), GetContrastValue},
 };
 DrawNumberType code DrawContrastNumber[] =
 {
@@ -348,7 +348,7 @@ DrawNumberType code DrawContrastNumber[] =
 GaugeType code ContrastGuage[] =
 {
 	// Flags, ForeColor,    BackColor,  Length,     GetValue
-	{dwiEnd,             GaugeXPosition, ( SUB_TEXT_YPOS + 0 ),  GetContrastValue},
+	{dwiEnd,             GaugeXPosition, ( SUB_TEXT_YPOS + BriContrast_CONTRAST_ITEM * IconShift ),  GetContrastValue},
 };
 DrawGuageType code DrawContrastGuage[] =
 {
@@ -359,7 +359,7 @@ DrawGuageType code DrawContrastGuage[] =
 RadioTextType code DrawECOText[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, NUMXPOSITION, ( SUB_TEXT_YPOS + 0 ),     ECOModeValue},
+	{dwiCenterArrowAlign | dwiEnd, NUMXPOSITION, ( SUB_TEXT_YPOS + BriContrast_ECO_ITEM * IconShift ),     ECOModeValue},
 };
 DrawRadioGroupType code DrawECOIconRatioText[] =
 {
@@ -370,7 +370,7 @@ DrawRadioGroupType code DrawECOIconRatioText[] =
 RadioTextType code DrawDcr[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, NUMXPOSITION, ( SUB_TEXT_YPOS + 0 ),     DcrValueText},
+	{dwiCenterArrowAlign | dwiEnd, NUMXPOSITION, ( SUB_TEXT_YPOS + BriContrast_DCR_ITEM * IconShift ),     DcrValueText},
 };
 DrawRadioGroupType code DrawDcrIconRatioText[] =
 {
@@ -589,7 +589,7 @@ MenuItemType code BriContrastMenuItems[] =
 	RadioTextType code DrawDcrMenu1_2_1RatioText[] =
 	{
 		// Flags,			 XPos,	YPos,	DisplayText
-		{dwiCenterArrowAlign | dwiEnd, NUMXPOSITION, ( SUB_TEXT_YPOS + 0 ), 	Menu_1_2_1ValueText},
+		{dwiCenterArrowAlign | dwiEnd, NUMXPOSITION, ( SUB_TEXT_YPOS + 2 ), 	Menu_1_2_1ValueText},
 	};
 	DrawRadioGroupType code DrawDcrMenu1_2_1IconRatioText[] =
 	{
@@ -599,7 +599,7 @@ MenuItemType code BriContrastMenuItems[] =
 	RadioTextType code DrawDcrMenu1_2_2RatioText[] =
 	{
 		// Flags,			 XPos,	YPos,	DisplayText
-		{dwiCenterArrowAlign | dwiEnd, NUMXPOSITION, ( SUB_TEXT_YPOS + 1 ), 	Menu_1_2_2ValueText},
+		{dwiCenterArrowAlign | dwiEnd, NUMXPOSITION, ( SUB_TEXT_YPOS + 3 ), 	Menu_1_2_2ValueText},
 	};
 	DrawRadioGroupType code DrawDcrMenu1_2_2IconRatioText[] =
 	{
@@ -611,7 +611,7 @@ MenuItemType code BriContrastMenuItems[] =
 		RadioTextType code DrawDcrMenu1_3_1RatioText[] =
 	{
 		// Flags,			 XPos,	YPos,	DisplayText
-		{dwiCenterArrowAlign | dwiEnd, 1, ( SUB_TEXT_YPOS + 0 ), 	Menu_1_3_1ValueText},
+		{dwiCenterArrowAlign | dwiEnd, 1, ( SUB_TEXT_YPOS + 4 ), 	Menu_1_3_1ValueText},
 	};
 	DrawRadioGroupType code DrawDcrMenu1_3_1IconRatioText[] =
 	{
@@ -621,7 +621,7 @@ MenuItemType code BriContrastMenuItems[] =
 	RadioTextType code DrawDcrMenu1_3_2RatioText[] =
 	{
 		// Flags,			 XPos,	YPos,	DisplayText
-		{dwiCenterArrowAlign | dwiEnd, 1, ( SUB_TEXT_YPOS + 1 ), 	Menu_1_3_2ValueText},
+		{dwiCenterArrowAlign | dwiEnd, 1, ( SUB_TEXT_YPOS + 5 ), 	Menu_1_3_2ValueText},
 	};
 	DrawRadioGroupType code DrawDcrMenu1_3_2IconRatioText[] =
 	{
@@ -631,7 +631,7 @@ MenuItemType code BriContrastMenuItems[] =
 	RadioTextType code DrawDcrMenu1_3_3RatioText[] =
 	{
 		// Flags,			 XPos,	YPos,	DisplayText
-		{dwiCenterArrowAlign | dwiEnd, 1, ( SUB_TEXT_YPOS + 2 ), 	Menu_1_3_3ValueText},
+		{dwiCenterArrowAlign | dwiEnd, 1, ( SUB_TEXT_YPOS + 6 ), 	Menu_1_3_3ValueText},
 	};
 	DrawRadioGroupType code DrawDcrMenu1_3_3IconRatioText[] =
 	{
@@ -642,7 +642,7 @@ MenuItemType code BriContrastMenuItems[] =
 NumberType code UserColorRedNumber[] =
 {
 	// Flags,   XPos,   YPos,   GetValue
-	{dwiEnd,           NumXposion, ( SUB_TEXT_YPOS + 0),  GetRedColorValue},
+	{dwiEnd,           NumXposion, ( SUB_TEXT_YPOS + 4),  GetRedColorValue},
 };
 DrawNumberType code DrawUserColorRedNumber[] =
 {
@@ -653,7 +653,7 @@ DrawNumberType code DrawUserColorRedNumber[] =
 GaugeType code UserColorRedGuage[] =
 {
 	// Flags, ForeColor,    BackColor,  Length,     GetValue
-	{dwiEnd,              GaugeXPosition, ( SUB_TEXT_YPOS + 0),   GetRedColorValue},
+	{dwiEnd,              GaugeXPosition, ( SUB_TEXT_YPOS + 4),   GetRedColorValue},
 };
 DrawGuageType code DrawUserColorRedGuage[] =
 {
@@ -665,7 +665,7 @@ DrawGuageType code DrawUserColorRedGuage[] =
 NumberType code UserColorGreenNumber[] =
 {
 	// Flags,   XPos,   YPos,   GetValue
-	{dwiEnd,           NumXposion, ( SUB_TEXT_YPOS + 1),  GetGreenColorValue},
+	{dwiEnd,           NumXposion, ( SUB_TEXT_YPOS + 5),  GetGreenColorValue},
 };
 DrawNumberType code DrawUserColorGreenNumber[] =
 {
@@ -676,7 +676,7 @@ DrawNumberType code DrawUserColorGreenNumber[] =
 GaugeType code UserColorGreenGuage[] =
 {
 	// Flags, ForeColor,    BackColor,  Length,     GetValue
-	{dwiEnd,              GaugeXPosition, ( SUB_TEXT_YPOS + 1),   GetGreenColorValue},
+	{dwiEnd,              GaugeXPosition, ( SUB_TEXT_YPOS + 5),   GetGreenColorValue},
 };
 DrawGuageType code DrawUserColorGreenGuage[] =
 {
@@ -688,7 +688,7 @@ DrawGuageType code DrawUserColorGreenGuage[] =
 NumberType code UserColorBlueNumber[] =
 {
 	// Flags,   XPos,   YPos,   GetValue
-	{dwiEnd,           NumXposion, ( SUB_TEXT_YPOS + 2), GetBlueColorValue},
+	{dwiEnd,           NumXposion, ( SUB_TEXT_YPOS + 6), GetBlueColorValue},
 };
 DrawNumberType code DrawUserColorBlueNumber[] =
 {
@@ -699,7 +699,7 @@ DrawNumberType code DrawUserColorBlueNumber[] =
 GaugeType code UserColorBlueGuage[] =
 {
 	// Flags, ForeColor,    BackColor,  Length,     GetValue
-	{dwiEnd,             GaugeXPosition, ( SUB_TEXT_YPOS + 2),  GetBlueColorValue},
+	{dwiEnd,             GaugeXPosition, ( SUB_TEXT_YPOS + 6),  GetBlueColorValue},
 };
 DrawGuageType code DrawUserColorBlueGuage[] =
 {
@@ -1109,7 +1109,7 @@ MenuItemType code GammaMenuItems[] =
 NumberType code HPositionNumber[] =
 {
 	// Flags,   XPos,   YPos,   GetValue
-	{dwiEnd,       NumXposion, ( SUB_TEXT_YPOS + 0 ), GetHPositionValue},
+	{dwiEnd,       NumXposion, ( SUB_TEXT_YPOS + IconShift * Picture_HPOSITION_ITEM ), GetHPositionValue},
 };
 DrawNumberType code DrawHPositionNumber[] =
 {
@@ -1120,7 +1120,7 @@ DrawNumberType code DrawHPositionNumber[] =
 GaugeType code HPositionGuage[] =
 {
 	// Flags, ForeColor,    BackColor,  Length,     GetValue
-	{dwiEnd,    GaugeXPosition, ( SUB_TEXT_YPOS + 0 ),   GetHPositionValue},
+	{dwiEnd,    GaugeXPosition, ( SUB_TEXT_YPOS + IconShift * Picture_HPOSITION_ITEM ),   GetHPositionValue},
 };
 DrawGuageType code DrawHPositionGuage[] =
 {
@@ -1132,7 +1132,7 @@ DrawGuageType code DrawHPositionGuage[] =
 NumberType code VPositionNumber[] =
 {
 	// Flags,   XPos,   YPos,   GetValue
-	{dwiEnd,       NumXposion, ( SUB_TEXT_YPOS + 0),    GetVPositionValue},
+	{dwiEnd,       NumXposion, ( SUB_TEXT_YPOS + IconShift * Picture_VPOSITION_ITEM),    GetVPositionValue},
 };
 DrawNumberType code DrawVPositionNumber[] =
 {
@@ -1143,7 +1143,7 @@ DrawNumberType code DrawVPositionNumber[] =
 GaugeType code VPositionGuage[] =
 {
 	// Flags, ForeColor,    BackColor,  Length,     GetValue
-	{dwiEnd,   GaugeXPosition, (SUB_TEXT_YPOS + 0),  GetVPositionValue},
+	{dwiEnd,   GaugeXPosition, (SUB_TEXT_YPOS + IconShift * Picture_VPOSITION_ITEM),  GetVPositionValue},
 };
 DrawGuageType code DrawVPositionGuage[] =
 {
@@ -1211,7 +1211,7 @@ DrawRadioGroupType code DrawExpansionText[] =
 RadioTextType code DrawDcrMenu_2_3_1Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS +0),     Menu_2_3_1ValueText },
+	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS +4),     Menu_2_3_1ValueText },
 };
 DrawRadioGroupType code DrawDcrMenu_2_3_1IconRatioText[] =
 {
@@ -1221,7 +1221,7 @@ DrawRadioGroupType code DrawDcrMenu_2_3_1IconRatioText[] =
 	RadioTextType code DrawDcrMenu2_3_2Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS + 1),     Menu_2_3_2ValueText },
+	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS + 5),     Menu_2_3_2ValueText },
 };
 DrawRadioGroupType code DrawDcrMenu2_3_2IconRatioText[] =
 {
@@ -1231,7 +1231,7 @@ DrawRadioGroupType code DrawDcrMenu2_3_2IconRatioText[] =
 	RadioTextType code DrawDcrMenu2_3_3Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS + 2),     Menu_2_3_3ValueText },
+	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS + 6),     Menu_2_3_3ValueText },
 };
 DrawRadioGroupType code DrawDcrMenu2_3_3IconRatioText[] =
 {
@@ -1242,7 +1242,7 @@ DrawRadioGroupType code DrawDcrMenu2_3_3IconRatioText[] =
 RadioTextType code DrawMenu2_4_1Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS + 0),     Menu_2_4_1ValueText },
+	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS + 8),     Menu_2_4_1ValueText },
 };
 DrawRadioGroupType code DrawMenu2_4_1IconRatioText[] =
 {
@@ -1252,7 +1252,7 @@ DrawRadioGroupType code DrawMenu2_4_1IconRatioText[] =
 	RadioTextType code DrawMenu2_4_2Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS + 1),     Menu_2_4_2ValueText },
+	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS + 9),     Menu_2_4_2ValueText },
 };
 DrawRadioGroupType code DrawMenu2_4_2IconRatioText[] =
 {
@@ -1262,7 +1262,7 @@ DrawRadioGroupType code DrawMenu2_4_2IconRatioText[] =
 	RadioTextType code DrawMenu2_4_3Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS + 2),     Menu_2_4_3ValueText },
+	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS + 10),     Menu_2_4_3ValueText },
 };
 DrawRadioGroupType code DrawMenu2_4_3IconRatioText[] =
 {
@@ -1272,7 +1272,7 @@ DrawRadioGroupType code DrawMenu2_4_3IconRatioText[] =
 	RadioTextType code DrawMenu2_4_4Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS + 3),     Menu_2_4_4ValueText },
+	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS + 11),     Menu_2_4_4ValueText },
 };
 DrawRadioGroupType code DrawMenu2_4_4IconRatioText[] =
 {
@@ -1300,8 +1300,8 @@ MenuItemType code PictureMenuItems[] =
 			NULL,// ExecFunction
 		},
 		{
-			NULL,// DrawNumberType
-			NULL,// DrawGuageType
+			DrawBrightnessNumber,// DrawNumberType
+			DrawBrightnessGuage,// DrawGuageType
 			NULL,// DrawRadioGroupType
 		},
 		NULL, //FontMenuPage
@@ -1321,8 +1321,8 @@ MenuItemType code PictureMenuItems[] =
 			NULL,// ExecFunction
 		},
 		{
-			NULL,// DrawNumberType
-			NULL,// DrawGuageType
+			DrawContrastNumber,// DrawNumberType
+			DrawContrastGuage,// DrawGuageType
 			NULL,// DrawRadioGroupType
 		},
 		NULL, //FontMenuPage
@@ -1405,7 +1405,7 @@ MenuItemType code HPositionMenuItems[] =
 		SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + IconShift * Picture_HPOSITION_ITEM), // XPos, YPos;
 			BLACK_WHITE, Color_2, // ForeColor, BackColor;
 			RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
-		PictureMenu,///NextMenuPage;
+		OSD_BriContrastMenu,///NextMenuPage;
 		DWI_Text,// DrawMenuItemType;
 		HPositionText, // DisplayText;
 		AdjusterKey1Event,
@@ -1431,7 +1431,7 @@ MenuItemType code VPositionMenuItems[] =
 		SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + IconShift * Picture_VPOSITION_ITEM), // XPos, YPos;
 			BLACK_WHITE, Color_2, // ForeColor, BackColor;
 			RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
-		PictureMenu,///NextMenuPage;
+		OSD_BriContrastMenu,///NextMenuPage;
 		DWI_Text,// DrawMenuItemType;
 		VPositionText, // DisplayText;
 		AdjusterKey1Event,
@@ -1458,7 +1458,7 @@ MenuItemType code ClockMenuItems[] =
 		SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + 4), // XPos, YPos;
 		BLACK_WHITE, Color_2, // ForeColor, BackColor;
 		RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
-		PictureMenu,///NextMenuPage;
+		OSD_BriContrastMenu,///NextMenuPage;
 		DWI_Text,// DrawMenuItemType;
 		NULL, // DisplayText;
 		NaviKeyEvent,
@@ -1479,7 +1479,7 @@ MenuItemType code ClockMenuItems[] =
 		SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + 5), // XPos, YPos;
 			BLACK_WHITE, Color_2, // ForeColor, BackColor;
 			RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
-		PictureMenu,///NextMenuPage;
+		ClockMenu,///NextMenuPage;
 		DWI_Text,// DrawMenuItemType;
 		NULL, // DisplayText;
 		NaviKeyEvent,
@@ -1500,7 +1500,7 @@ MenuItemType code ClockMenuItems[] =
 		SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + 6), // XPos, YPos;
 			BLACK_WHITE, Color_2, // ForeColor, BackColor;
 			RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
-		PictureMenu,///NextMenuPage;
+		ClockMenu,///NextMenuPage;
 		DWI_Text,// DrawMenuItemType;
 		NULL, // DisplayText;
 		NaviKeyEvent,
@@ -1526,7 +1526,7 @@ MenuItemType code FocusMenuItems[] =
 		SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + 8), // XPos, YPos;
 			BLACK_WHITE, Color_2, // ForeColor, BackColor;
 			RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
-		PictureMenu,///NextMenuPage;
+		FocusMenu,///NextMenuPage;
 		DWI_Text,// DrawMenuItemType;
 		NULL, // DisplayText;
 		NaviKeyEvent,
@@ -1548,7 +1548,7 @@ MenuItemType code FocusMenuItems[] =
 		SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + IconShift * 9), // XPos, YPos;
 			BLACK_WHITE, Color_2, // ForeColor, BackColor;
 			RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
-		PictureMenu,///NextMenuPage;
+		FocusMenu,///NextMenuPage;
 		DWI_Text,// DrawMenuItemType;
 		NULL, // DisplayText;
 		NaviKeyEvent,
@@ -1570,7 +1570,7 @@ MenuItemType code FocusMenuItems[] =
 		SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + IconShift * 10), // XPos, YPos;
 			BLACK_WHITE, Color_2, // ForeColor, BackColor;
 			RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
-		PictureMenu,///NextMenuPage;
+		FocusMenu,///NextMenuPage;
 		DWI_Text,// DrawMenuItemType;
 		NULL, // DisplayText;
 		NaviKeyEvent,
@@ -1591,7 +1591,7 @@ MenuItemType code FocusMenuItems[] =
 		SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + IconShift * 11), // XPos, YPos;
 			BLACK_WHITE, Color_2, // ForeColor, BackColor;
 			RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
-		PictureMenu,///NextMenuPage;
+		FocusMenu,///NextMenuPage;
 		DWI_Text,// DrawMenuItemType;
 		NULL, // DisplayText;
 		NaviKeyEvent,
@@ -1849,7 +1849,7 @@ MenuItemType code RGBMenuItems[] =
 		SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + IconShift * RGB_LowBlueLigth_Item), // XPos, YPos;
 			BLACK_WHITE, Color_2, // ForeColor, BackColor;
 			RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
-		LowBlueLight_Menu,//NextMenuPage;
+		BlueMenu,//NextMenuPage;
 		DWI_Text,// DrawMenuItemType;
 		Low_Blue_LightText,// DisplayText;
 		NaviKeyEvent,
@@ -1866,7 +1866,7 @@ MenuItemType code RGBMenuItems[] =
 		mibSelectable  // Flags
 	},
 		{
-		SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + IconShift * HDR_Item-2), // XPos, YPos;
+		SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + IconShift * HDR_Item), // XPos, YPos;
 			BLACK_WHITE, Color_2, // ForeColor, BackColor;
 			RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
 		HDRMenu,///NextMenuPage;
@@ -1885,12 +1885,11 @@ MenuItemType code RGBMenuItems[] =
 		NULL, //FontMenuPage
 		mibSelectable  // Flags
 	},
-	#if 0
 	{
 		SUB_TEXT_XPOS+10, ( SUB_TEXT_YPOS + IconShift * RGB_ColorTemp_Item), // XPos, YPos;
 			BLACK_WHITE, Color_2, // ForeColor, BackColor;
 			RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
-		DrakBalanceMenu,///NextMenuPage;
+		BlueMenu,///NextMenuPage;
 		DWI_Text,// DrawMenuItemType;
 		Dark_Balancetext, // DisplayText;
 		NaviKeyEvent,
@@ -1906,7 +1905,7 @@ MenuItemType code RGBMenuItems[] =
 		NULL, //FontMenuPage
 		mibSelectable  // Flags
 	},
-	#endif
+
 };
 //三级·画面
 #if 1
@@ -1954,7 +1953,7 @@ DrawRadioGroupType code Draw_3_1_4IconRatioText[] =
 RadioTextType code Draw_3_2_1SelectText[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS + 0),     Menu_3_2_1ValueText},
+	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS + 4),     Menu_3_2_1ValueText},
 };
 DrawRadioGroupType code Draw_3_2_1IconRatioText[] =
 {
@@ -1964,7 +1963,7 @@ DrawRadioGroupType code Draw_3_2_1IconRatioText[] =
 	RadioTextType code Draw_3_2_2SelectText[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-20, ( SUB_TEXT_YPOS + 1),     Menu_3_2_2ValueText},
+	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-20, ( SUB_TEXT_YPOS + 5),     Menu_3_2_2ValueText},
 };
 DrawRadioGroupType code Draw_3_2_2IconRatioText[] =
 {
@@ -1974,7 +1973,7 @@ DrawRadioGroupType code Draw_3_2_2IconRatioText[] =
 	RadioTextType code Draw_3_2_3SelectText[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-20, ( SUB_TEXT_YPOS + 2),     Menu_3_2_3ValueText},
+	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-20, ( SUB_TEXT_YPOS + 6),     Menu_3_2_3ValueText},
 };
 DrawRadioGroupType code Draw_3_2_3IconRatioText[] =
 {
@@ -1984,7 +1983,7 @@ DrawRadioGroupType code Draw_3_2_3IconRatioText[] =
 	RadioTextType code Draw_3_2_4SelectText[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS + 3),     Menu_3_2_4ValueText},
+	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS + 7),     Menu_3_2_4ValueText},
 };
 DrawRadioGroupType code Draw_3_2_4IconRatioText[] =
 {
@@ -2428,30 +2427,6 @@ MenuItemType code UserColorBlueMenuItems[] =
 	},
 	
 };
-	MenuItemType code UserLowBlueLight_MenuItems[] =
-{
-	
-	{
-		SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + 0), // XPos, YPos;
-		BLACK_WHITE, Color_2, // ForeColor, BackColor;
-		RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
-		RGBColorMenu,///NextMenuPage;
-		DWI_Text,// DrawMenuItemType;
-		NULL, // DisplayText;
-		NaviKeyEvent,
-		{
-			NULL,// AdjustFunction
-			NULL,// ExecFunction
-		},
-		{
-			DrawMenu3_4_1Number,// DrawNumberType
-			DrawMenu3_4_1Guage,// DrawGuageType
-			NULL,// DrawRadioGroupType
-		},
-		NULL, //Font
-		mibSelectable // Flags
-	},
-};
 //HDR
 MenuItemType code UserHDRMenuItems[] =
 {
@@ -2498,8 +2473,7 @@ MenuItemType code UserHDRMenuItems[] =
 	},
 	
 };
-			
-	//暗部平衡
+	//锐利度	
 NumberType code Menu3_6_1Number[] =
 {
 	// Flags,   XPos,   YPos,   GetValue
@@ -2545,30 +2519,130 @@ DrawGuageType code DrawMenu3_6_1Guage[] =
 		mibSelectable // Flags
 	},
 };
-		MenuItemType code LowBlueLightMenuItems[] =
+#if 0	
+NumberType code Menu3_4_2Number[] =
 {
-	
+	// Flags,   XPos,   YPos,   GetValue
+	{ dwiEnd,      NumXposion, ( SUB_TEXT_YPOS + 0),  GetClockValue},
+};
+DrawNumberType code DrawMenu3_4_2Number[] =
+{
+	// F ForeColor, BackColor,  GetValue
+	RED_DRAK_RED, Color_2,     Menu3_4_2Number
+};
+
+GaugeType code  Menu3_4_2Guage[] =
+{
+	// Flags, ForeColor,    BackColor,  Length,     GetValue
+	{dwiEnd,   GaugeXPosition, ( SUB_TEXT_YPOS + 0 ),   GetClockValue},
+};
+DrawGuageType code DrawMenu3_4_2Guage[] =
+{
+	//  ForeColor,  BackColor,  Length,,    GetValue
+	RED_DRAK_RED,  Color_4,    9,  Menu3_4_2Guage
+};
+#endif
+#if 1//LowBlueLightType==LowBlueLight_ColorTemp
+//============ LowBlueLight MenuItem==============
+
+MenuItemType code LowBlueLightMenuItems[] =
+{
 	{
-		SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + 0), // XPos, YPos;
+		SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + IconShift * RGB_LowBlueLigth_Item), // XPos, YPos;
 		BLACK_WHITE, Color_2, // ForeColor, BackColor;
 		RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
-		RGBColorMenu,///NextMenuPage;
+		RGBColorMenu,//NextMenuPage;
 		DWI_Text,// DrawMenuItemType;
 		NULL, // DisplayText;
 		NaviKeyEvent,
 		{
-			NULL,// AdjustFunction
+			AdjustLowBlueLight, //,// AdjustFunction
 			NULL,// ExecFunction
 		},
 		{
-			DrawMenu3_6_1Number,// DrawNumberType
-			DrawMenu3_6_1Guage,// DrawGuageType
-			NULL,// DrawRadioGroupType
+			DrawLowBlueLightMenu_LowBlueLightNumber,// DrawNumberType
+			DrawLowBlueLightMenu_LowBlueLightGuage,// DrawGuageType
+			NULL,//DrawMenuRadioGroup,
 		},
 		NULL, //Font
 		mibSelectable // Flags
 	},
 };
+#elif LowBlueLightType==LowBlueLight_SharpFunc
+//============ LowBlueLight MenuItem==============
+
+MenuItemType code LowBlueLightMenuItems[] =
+{
+	{
+		SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + IconShift * RGB_LowBlueLigth_Item), // XPos, YPos;
+				BLACK_WHITE, Color_2, // ForeColor, BackColor;
+			RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
+		RGBColorMenu,//NextMenuPage;
+		DWI_Text,// DrawMenuItemType;
+		NULL, // DisplayText;
+		AdjusterKeyEvent,
+		{
+			AdjustLowBlueLight, //,// AdjustFunction
+			NULL,// ExecFunction
+		},
+		{
+			NULL,// DrawNumberType
+			NULL,// DrawGuageType
+			DrawLowBlueLightMenuIconRatioText,//DrawMenuRadioGroup,
+		},
+		NULL, //Font
+		mibSelectable // Flags
+	},
+};
+#elif LowBlueLightType==LowBlueLight_Misc_Guage
+MenuItemType code LowBlueLightMenuItems[] =
+{
+	{
+		SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + IconShift * Misc_LowBlueLigth_Item), // XPos, YPos;
+				BLACK_WHITE, Color_2, // ForeColor, BackColor;
+			RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
+		OSD_MiscMenu,//NextMenuPage;
+		DWI_Text,// DrawMenuItemType;
+		NULL, // DisplayText;
+		AdjusterKeyEvent,
+		{
+			AdjustLowBlueLight, //,// AdjustFunction
+			NULL,// ExecFunction
+		},
+		{
+			DrawLowBlueLightMenu_LowBlueLightNumber,// DrawNumberType
+			DrawLowBlueLightMenu_LowBlueLightGuage,// DrawGuageType
+			NULL,//DrawMenuRadioGroup,
+		},
+		NULL, //Font
+		mibSelectable // Flags
+	},
+};
+#elif LowBlueLightType==LowBlueLight_Misc_Group
+MenuItemType code LowBlueLightMenuItems[] =
+{
+	{
+		SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + IconShift * Misc_LowBlueLigth_Item), // XPos, YPos;
+				BLACK_WHITE, Color_2, // ForeColor, BackColor;
+			RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
+		OSD_MiscMenu,//NextMenuPage;
+		DWI_Text,// DrawMenuItemType;
+		NULL, // DisplayText;
+		AdjusterKeyEvent,
+		{
+			AdjustLowBlueLight, //,// AdjustFunction
+			NULL,// ExecFunction
+		},
+		{
+			NULL,// DrawNumberType
+			NULL,// DrawGuageType
+			DrawLowBlueLightMenuIconRatioText,//DrawMenuRadioGroup,
+		},
+		NULL, //Font
+		mibSelectable // Flags
+	},
+};
+#endif
 
 //游戏专业功能
 
@@ -2729,9 +2803,9 @@ MenuItemType code OSDMenuItems[] =
 		NULL, //FontMenuPage
 		mibSelectable // Flags
 	},
-#if 0	
+#if 1	
 	{
-		SUB_TEXT_XPOS + 10, ( SUB_TEXT_YPOS + IconShift * OSD_LANGUAGE_ITEM), // XPos, YPos;
+		SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + IconShift * OSD_LIGHT_ITEM), // XPos, YPos;
 			BLACK_WHITE, Color_2, // ForeColor, BackColor;
 			RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
 		Ambient_lightMenu,///NextMenuPage;
@@ -3835,27 +3909,6 @@ MenuItemType code GameTimingMenuItems[] =
 	
 };
 //氛围灯
-RadioTextType code DrawMenu_4_7_1Text[] =
-{
-	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS - 1),     Menu_4_7_1ValueText},
-};
-DrawRadioGroupType code DrawMenu_4_7_1IconRatioText[] =
-{
-	//ForeColor,    BackColor,  GetValue    RadioText
-	{RED_DRAK_RED,   Color_2, NULL, DrawMenu_4_7_1Text}
-};
-
-RadioTextType code DrawMenu_4_7_2Text[] =
-{
-	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 0),     Menu_4_7_2ValueText},
-};
-DrawRadioGroupType code DrawMenu_4_7_2IconRatioText[] =
-{
-	//ForeColor,    BackColor,  GetValue    RadioText
-	{RED_DRAK_RED,   Color_2, NULL, DrawMenu_4_7_2Text}
-};
 RadioTextType code DrawMenu_4_7_3Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
@@ -3884,7 +3937,7 @@ DrawRadioGroupType code DrawMenu_4_7_3IconRatioText[] =
 		{
 			NULL,// DrawNumberType
 			NULL,// DrawGuageType
-			DrawMenu_4_7_1IconRatioText // DrawRadioGroupType
+			DrawMenu_4_1_1IconRatioText // DrawRadioGroupType
 		},
 		NULL, //Font
 		mibSelectable // Flags
@@ -3905,7 +3958,7 @@ DrawRadioGroupType code DrawMenu_4_7_3IconRatioText[] =
 		{
 			NULL,// DrawNumberType
 			NULL,// DrawGuageType
-			DrawMenu_4_7_2IconRatioText // DrawRadioGroupType
+			DrawMenu_4_1_2IconRatioText // DrawRadioGroupType
 		},
 		NULL, //Font
 		mibSelectable // Flags
@@ -4011,7 +4064,7 @@ MenuItemType code SettingMenuItems[] =
 			BLACK_WHITE, Color_2, // ForeColor, BackColor;
 			RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
 
-		HorizontalPositionMenu,//NextMenuPage;  OsdHPositionMenu
+		HorizontalPositionMenu,//NextMenuPage;
 		DWI_Text,// DrawMenuItemType;
 		Horizontal_PositionText,// DisplayText;
 		AdjustExecKeyEvent,
@@ -4091,7 +4144,7 @@ MenuItemType code SettingMenuItems[] =
 		NULL, //FontMenuPage
 		mibSelectable // Flags
 	},
-	#if 0
+	#if 1
 		{
 		SUB_TEXT_XPOS+10, ( SUB_TEXT_YPOS + IconShift * Setting_AUTOCONFIG_ITEM), // XPos, YPos;
 			BLACK_WHITE, Color_2, // ForeColor, BackColor;
@@ -4251,7 +4304,7 @@ MenuItemType code OffTimerMenuItems[] =
 	},
 };
 #endif
-#if 1//AdjustLanguageFunction
+#if AdjustLanguageFunction
 
 RadioTextType code DrawLanguageText[] =
 {
@@ -4355,17 +4408,17 @@ DrawGuageType code DrawTransparenceGuage[] =
 	6, Color_4, 9,  TransparenceGuage
 };
 	//三级菜单菜单设置
-#if 1//AdjustLanguageFunction
+#if AdjustLanguageFunction
 	MenuItemType code LanguageMenuItems1[] =
 	{
 		// 0 LanguageMemu
 		{
-			SUB_TEXT_XPOS+30, ( SUB_TEXT_YPOS + 0), // XPos, YPos;
+			SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + 0), // XPos, YPos;
 			BLACK_WHITE, Color_2, // ForeColor, BackColor;
 			RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
 			SettingMenu,///NextMenuPage;
 			DWI_Text,// DrawMenuItemType;
-			LanguageStatusText, // DisplayText;
+			NULL, // DisplayText;
 			AdjusterKeyEvent,
 			{
 				AdjustLanguage,// AdjustFunction
@@ -4743,13 +4796,13 @@ MenuItemType code MiscMenuItems[] =
 		mibSelectable// Flags
 	},
 
-	#if 0
+	#if 1
 		{
 			SUB_TEXT_XPOS+10, ( SUB_TEXT_YPOS + IconShift * Misc_InputSource_ITEM), // XPos, YPos;
 			BLACK_WHITE, Color_2, // ForeColor, BackColor;
 			RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
 	
-			Reset_testMenu, //NextMenuPage;
+			SignalInputMenu, //NextMenuPage;
 			DWI_Text,// DrawMenuItemType;
 			Reset_text,// DisplayText;
 			NaviKeyEvent,// petit 20130929 for all scaler unify
@@ -4774,7 +4827,7 @@ MenuItemType code MiscMenuItems[] =
 				BLACK_WHITE, Color_2, // ForeColor, BackColor;
 				RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
 	
-			Information_testMenu, //NextMenuPage;
+			SignalInputMenu, //NextMenuPage;
 			DWI_Text,// DrawMenuItemType;
 			Information_text,// DisplayText;
 			NaviKeyEvent,// petit 20130929 for all scaler unify
@@ -4832,7 +4885,7 @@ MenuItemType code MiscMenuItems[] =
 RadioTextType code DrawMenu_6_1_1Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, NumXposion+17, ( SUB_TEXT_YPOS -1),     Menu_6_1_1ValueText},
+	{dwiCenterArrowAlign | dwiEnd, NumXposion+17, ( SUB_TEXT_YPOS ),     Menu_6_1_1ValueText},
 };
 DrawRadioGroupType code DrawMenu_6_1_1IconRatioText[] =
 {
@@ -4853,7 +4906,7 @@ DrawRadioGroupType code DrawMenu_6_1_2IconRatioText[] =
 RadioTextType code DrawMenu_6_1_3Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 3),     Menu_6_1_3ValueText},
+	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 2),     Menu_6_1_3ValueText},
 };
 DrawRadioGroupType code DrawMenu_6_1_3IconRatioText[] =
 {
@@ -4863,7 +4916,7 @@ DrawRadioGroupType code DrawMenu_6_1_3IconRatioText[] =
 	RadioTextType code DrawMenu_6_1_4Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 5),     Menu_6_1_4ValueText},
+	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 3),     Menu_6_1_4ValueText},
 };
 DrawRadioGroupType code DrawMenu_6_1_4IconRatioText[] =
 {
@@ -4873,7 +4926,7 @@ DrawRadioGroupType code DrawMenu_6_1_4IconRatioText[] =
 RadioTextType code DrawMenu_6_1_5Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 7),     Menu_6_1_5ValueText},
+	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 4),     Menu_6_1_5ValueText},
 };
 DrawRadioGroupType code DrawMenu_6_1_5IconRatioText[] =
 {
@@ -4883,7 +4936,7 @@ DrawRadioGroupType code DrawMenu_6_1_5IconRatioText[] =
 	RadioTextType code DrawMenu_6_1_6Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, NumXposion+20, ( SUB_TEXT_YPOS + 9),     Menu_6_1_6ValueText},
+	{dwiCenterArrowAlign | dwiEnd, NumXposion+20, ( SUB_TEXT_YPOS + 5),     Menu_6_1_6ValueText},
 };
 DrawRadioGroupType code DrawMenu_6_1_6IconRatioText[] =
 {
@@ -5023,7 +5076,7 @@ MenuItemType code MuteMenuItems[] =
 RadioTextType code DrawMenu_6_3_1Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, NumXposion+20, ( SUB_TEXT_YPOS - 1),     Menu_6_3_1ValueText},
+	{dwiCenterArrowAlign | dwiEnd, NumXposion+20, ( SUB_TEXT_YPOS + 0),     Menu_6_3_1ValueText},
 };
 
 DrawRadioGroupType code DrawMenu_6_3_1IconRatioText[] =
@@ -5196,7 +5249,7 @@ MenuItemType code Audio_InputItems[] =
 NumberType code VolumeNumber[] =
 {
 	// Flags,   XPos,   YPos,   GetValue
-	{dwiEnd,          NumXposion, ( SUB_TEXT_YPOS + 0), GetVolumeValue},
+	{dwiEnd,          NumXposion, ( SUB_TEXT_YPOS + IconShift * Misc_Volume_ITEM), GetVolumeValue},
 };
 DrawNumberType code DrawVolumeNumber[] =
 {
@@ -5207,7 +5260,7 @@ DrawNumberType code DrawVolumeNumber[] =
 GaugeType code VolumeGuage[] =
 {
 	// Flags    XPos,   YPos,   GetValue
-	{dwiEnd,   GaugeXPosition, ( SUB_TEXT_YPOS + 0),      GetVolumeValue},
+	{dwiEnd,   GaugeXPosition, ( SUB_TEXT_YPOS + IconShift * Misc_Volume_ITEM),      GetVolumeValue},
 };
 DrawGuageType code DrawVolumeGuage[] =
 {
@@ -5241,7 +5294,7 @@ MenuItemType code VolumeMenu1Items[] =
 	RadioTextType code DrawMenu_6_5_3Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, NumXposion+20, ( SUB_TEXT_YPOS + 3),     Menu_6_5_3ValueText},
+	{dwiCenterArrowAlign | dwiEnd, NumXposion+20, ( SUB_TEXT_YPOS + 2),     Menu_6_5_3ValueText},
 };
 DrawRadioGroupType code DrawMenu_6_5_3IconRatioText[] =
 {
@@ -5356,197 +5409,6 @@ MenuItemType code EyeProtectionReminderMenuItems[] =
 		},
 };
 	
-//复位
-RadioTextType code DrawMenu_6_7_1Text[] =
-{
-	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, NumXposion+20, ( SUB_TEXT_YPOS - 1),     Menu_6_7_1ValueText},
-};
-
-DrawRadioGroupType code DrawMenu_6_7_1IconRatioText[] =
-{
-	//ForeColor,    BackColor,  GetValue    RadioText
-	{RED_DRAK_RED,   Color_2, NULL, DrawMenu_6_7_1Text}
-};
-RadioTextType code DrawMenu_6_7_2Text[] =
-{
-	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, NumXposion+19, ( SUB_TEXT_YPOS + 1),     Menu_6_7_2ValueText},
-};
-DrawRadioGroupType code DrawMenu_6_7_2IconRatioText[] =
-{
-	//ForeColor,    BackColor,  GetValue    RadioText
-	{RED_DRAK_RED,   Color_2, NULL, DrawMenu_6_7_2Text}
-};
-MenuItemType code Reset_testMenuItems[] =
-{
-	{
-			SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + 0), // XPos, YPos;
-			BLACK_WHITE, Color_2, // ForeColor, BackColor;
-				RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
-			OSD_MiscMenu, //NextMenuPage;
-			DWI_Text,// DrawMenuItemType;
-			NULL,// DisplayText;
-			NaviKeyEvent,// petit 20130929 for all scaler unify
-			{
-				NULL,// AdjustFunction
-				NULL,// ExecFunction
-			},
-			{
-				NULL,// DrawNumberType
-				NULL,// DrawGuageType
-				DrawMenu_6_7_1IconRatioText,// DrawRadioGroupType
-			},
-			NULL, //Font
-			mibSelectable // Flags
-		},
-		{
-			SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + 1), // XPos, YPos;
-			BLACK_WHITE, Color_2, // ForeColor, BackColor;
-				RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
-			OSD_MiscMenu, //NextMenuPage;
-			DWI_Text,// DrawMenuItemType;
-			NULL,// DisplayText;
-			NaviKeyEvent,// petit 20130929 for all scaler unify
-			{
-				NULL,// AdjustFunction
-				NULL,// ExecFunction
-			},
-			{
-				NULL,// DrawNumberType
-				NULL,// DrawGuageType
-				DrawMenu_6_7_2IconRatioText,// DrawRadioGroupType
-			},
-			NULL, //Font
-			mibSelectable // Flags
-		},
-};	
-	//信息
-RadioTextType code DrawMenu_6_8_1Text[] =
-{
-	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, NumXposion+19, ( SUB_TEXT_YPOS - 1),     Menu_6_8_1ValueText},
-};
-
-DrawRadioGroupType code DrawMenu_6_8_1IconRatioText[] =
-{
-	//ForeColor,    BackColor,  GetValue    RadioText
-	{RED_DRAK_RED,   Color_2, NULL, DrawMenu_6_8_1Text}
-};
-RadioTextType code DrawMenu_6_8_2Text[] =
-{
-	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, NumXposion+19, ( SUB_TEXT_YPOS + 1),     Menu_6_8_2ValueText},
-};
-DrawRadioGroupType code DrawMenu_6_8_2IconRatioText[] =
-{
-	//ForeColor,    BackColor,  GetValue    RadioText
-	{RED_DRAK_RED,   Color_2, NULL, DrawMenu_6_8_2Text}
-};
-	RadioTextType code DrawMenu_6_8_3Text[] =
-{
-	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, NumXposion+19, ( SUB_TEXT_YPOS + 3),     Menu_6_8_3ValueText},
-};
-
-DrawRadioGroupType code DrawMenu_6_8_3IconRatioText[] =
-{
-	//ForeColor,    BackColor,  GetValue    RadioText
-	{RED_DRAK_RED,   Color_2, NULL, DrawMenu_6_8_3Text}
-};
-RadioTextType code DrawMenu_6_8_4Text[] =
-{
-	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, NumXposion+19, ( SUB_TEXT_YPOS + 5),     Menu_6_8_4ValueText},
-};
-DrawRadioGroupType code DrawMenu_6_8_4IconRatioText[] =
-{
-	//ForeColor,    BackColor,  GetValue    RadioText
-	{RED_DRAK_RED,   Color_2, NULL, DrawMenu_6_8_4Text}
-};
-	MenuItemType code Information_testMenuItems[] =
-{
-	{
-			SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + 0), // XPos, YPos;
-			BLACK_WHITE, Color_2, // ForeColor, BackColor;
-				RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
-			OSD_MiscMenu, //NextMenuPage;
-			DWI_Text,// DrawMenuItemType;
-			NULL,// DisplayText;
-			NaviKeyEvent,// petit 20130929 for all scaler unify
-			{
-				NULL,// AdjustFunction
-				NULL,// ExecFunction
-			},
-			{
-				NULL,// DrawNumberType
-				NULL,// DrawGuageType
-				DrawMenu_6_8_1IconRatioText,// DrawRadioGroupType
-			},
-			NULL, //Font
-			mibSelectable // Flags
-		},
-		{
-			SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + 1), // XPos, YPos;
-			BLACK_WHITE, Color_2, // ForeColor, BackColor;
-				RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
-			OSD_MiscMenu, //NextMenuPage;
-			DWI_Text,// DrawMenuItemType;
-			NULL,// DisplayText;
-			NaviKeyEvent,// petit 20130929 for all scaler unify
-			{
-				NULL,// AdjustFunction
-				NULL,// ExecFunction
-			},
-			{
-				NULL,// DrawNumberType
-				NULL,// DrawGuageType
-				DrawMenu_6_8_2IconRatioText,// DrawRadioGroupType
-			},
-			NULL, //Font
-			mibSelectable // Flags
-		},
-		{
-			SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + 2), // XPos, YPos;
-			BLACK_WHITE, Color_2, // ForeColor, BackColor;
-				RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
-			OSD_MiscMenu, //NextMenuPage;
-			DWI_Text,// DrawMenuItemType;
-			NULL,// DisplayText;
-			NaviKeyEvent,// petit 20130929 for all scaler unify
-			{
-				NULL,// AdjustFunction
-				NULL,// ExecFunction
-			},
-			{
-				NULL,// DrawNumberType
-				NULL,// DrawGuageType
-				DrawMenu_6_8_3IconRatioText,// DrawRadioGroupType
-			},
-			NULL, //Font
-			mibSelectable // Flags
-		},
-		{
-			SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + 3), // XPos, YPos;
-			BLACK_WHITE, Color_2, // ForeColor, BackColor;
-				RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
-			OSD_MiscMenu, //NextMenuPage;
-			DWI_Text,// DrawMenuItemType;
-			NULL,// DisplayText;
-			NaviKeyEvent,// petit 20130929 for all scaler unify
-			{
-				NULL,// AdjustFunction
-				NULL,// ExecFunction
-			},
-			{
-				NULL,// DrawNumberType
-				NULL,// DrawGuageType
-				DrawMenu_6_8_4IconRatioText,// DrawRadioGroupType
-			},
-			NULL, //Font
-			mibSelectable // Flags
-		},
-};
 
 
 
@@ -7330,33 +7192,6 @@ MenuPageType code tblMenus[] =
 		NULL, // Fonts
 		mpbStay | mpbClrGroup //	 Flags;
 	},
-	{
-		MAIN_MENU_H_SIZE/*29*/, MAIN_MENU_V_SIZE, //  XSize, YSize;
-		RGBColorMenu,// PrevMenuPage;
-		UserLowBlueLight_MenuItems, // MenuItems;
-		sizeof( UserLowBlueLight_MenuItems ) / sizeof( MenuItemType ), // MenuItemCount;
-		NULL, // ExecFunction;
-		NULL, // Fonts
-		mpbStay  //   Flags;
-	},
-		{
-		MAIN_MENU_H_SIZE/*29*/, MAIN_MENU_V_SIZE, //  XSize, YSize;
-		RGBColorMenu,// PrevMenuPage;
-		UserHDRMenuItems, // MenuItems;
-		sizeof( UserHDRMenuItems ) / sizeof( MenuItemType ), // MenuItemCount;
-		NULL, // ExecFunction;
-		NULL, // Fonts
-		mpbStay  //   Flags;
-	},
-	{
-		MAIN_MENU_H_SIZE/*29*/, MAIN_MENU_V_SIZE, //  XSize, YSize;
-		RGBColorMenu,// PrevMenuPage;
-		UserDrakBalanceMenuItems, // MenuItems;
-		sizeof( UserDrakBalanceMenuItems ) / sizeof( MenuItemType ), // MenuItemCount;
-		NULL, // ExecFunction;
-		NULL, // Fonts
-		mpbStay  //   Flags;
-	},
 	#endif
 ////=================================================================/////
 	#if AdjustLanguageFunction
@@ -7427,25 +7262,6 @@ MenuPageType code tblMenus[] =
 		NULL, // Fonts
 		mpbStay  //   Flags;
 	},
-	{
-		MAIN_MENU_H_SIZE/*29*/, MAIN_MENU_V_SIZE, //  XSize, YSize;
-		OsdMenu,// PrevMenuPage;
-		GameTimingMenuItems, // MenuItems;
-		sizeof( GameTimingMenuItems ) / sizeof( MenuItemType ), // MenuItemCount;
-		NULL, // ExecFunction;
-		NULL, // Fonts
-		mpbStay  //   Flags;
-	},
-	{
-		MAIN_MENU_H_SIZE/*29*/, MAIN_MENU_V_SIZE, //  XSize, YSize;
-		OsdMenu,// PrevMenuPage;
-		Ambient_lightMenuItems, // MenuItems;
-		sizeof( Ambient_lightMenuItems ) / sizeof( MenuItemType ), // MenuItemCount;
-		NULL, // ExecFunction;
-		NULL, // Fonts
-		mpbStay  //   Flags;
-	},
-	
 ////=====================================================================
 	#ifdef OffPower
 	//43 OffTimerMenu,
@@ -7459,15 +7275,6 @@ MenuPageType code tblMenus[] =
 		mpbStay | mpbClrGroup //   Flags;
 	},
 	#endif
-	{
-		MAIN_MENU_H_SIZE/*29*/, MAIN_MENU_V_SIZE, //  XSize, YSize;
-		SettingMenu,// PrevMenuPage;
-		LanguageMenuItems1, // MenuItems;
-		sizeof( LanguageMenuItems1 ) / sizeof( MenuItemType ), // MenuItemCount;
-		NULL, // ExecFunction;
-		NULL, // Fonts
-		mpbStay  //   Flags;
-	},
 ////=================================================================/////
 	#if (INPUT_TYPE!=INPUT_1A) && (INPUT_TYPE!=INPUT_1H)
 	//41 InputSelectMenu,
@@ -7541,25 +7348,7 @@ MenuPageType code tblMenus[] =
 		NULL, // Fonts
 		mpbStay //   Flags;
 	},
-	{
-		MAIN_MENU_H_SIZE/*29*/, MAIN_MENU_V_SIZE, //  XSize, YSize;
-		OSD_MiscMenu, // MainMenu,// PrevMenuPage;
-		Reset_testMenuItems, // MenuItems;
-		sizeof( Reset_testMenuItems ) / sizeof( MenuItemType ), // MenuItemCount;
-		NULL, // ExecFunction;
-		NULL, // Fonts
-		mpbStay //   Flags;
-	},	
-	
-	{
-		MAIN_MENU_H_SIZE/*29*/, MAIN_MENU_V_SIZE, //  XSize, YSize;
-		OSD_MiscMenu, // MainMenu,// PrevMenuPage;
-		Information_testMenuItems, // MenuItems;
-		sizeof( Information_testMenuItems ) / sizeof( MenuItemType ), // MenuItemCount;
-		NULL, // ExecFunction;
-		NULL, // Fonts
-		mpbStay //   Flags;
-	},
+		
 	#endif
 
 	#if Enable_Adjust_SharpnessMenu
@@ -7837,9 +7626,51 @@ MenuPageType code tblMenus[] =
 		mpbStay | mpbCenter | mpbRedraw //   Flags;	//110408 Modify
 	},
 	#endif
-	
-	
-	
+		{
+		MAIN_MENU_H_SIZE/*29*/, MAIN_MENU_V_SIZE, //  XSize, YSize;
+		RGBColorMenu,// PrevMenuPage;
+		UserHDRMenuItems, // MenuItems;
+		sizeof( UserHDRMenuItems ) / sizeof( MenuItemType ), // MenuItemCount;
+		NULL, // ExecFunction;
+		NULL, // Fonts
+		mpbStay  //   Flags;
+	},
+	{
+		MAIN_MENU_H_SIZE/*29*/, MAIN_MENU_V_SIZE, //  XSize, YSize;
+		RGBColorMenu,// PrevMenuPage;
+		UserDrakBalanceMenuItems, // MenuItems;
+		sizeof( UserDrakBalanceMenuItems ) / sizeof( MenuItemType ), // MenuItemCount;
+		NULL, // ExecFunction;
+		NULL, // Fonts
+		mpbStay  //   Flags;
+	},
+	{
+		MAIN_MENU_H_SIZE/*29*/, MAIN_MENU_V_SIZE, //  XSize, YSize;
+		OsdMenu,// PrevMenuPage;
+		GameTimingMenuItems, // MenuItems;
+		sizeof( GameTimingMenuItems ) / sizeof( MenuItemType ), // MenuItemCount;
+		NULL, // ExecFunction;
+		NULL, // Fonts
+		mpbStay  //   Flags;
+	},
+	{
+		MAIN_MENU_H_SIZE/*29*/, MAIN_MENU_V_SIZE, //  XSize, YSize;
+		OsdMenu,// PrevMenuPage;
+		Ambient_lightMenuItems, // MenuItems;
+		sizeof( Ambient_lightMenuItems ) / sizeof( MenuItemType ), // MenuItemCount;
+		NULL, // ExecFunction;
+		NULL, // Fonts
+		mpbStay  //   Flags;
+	},
+	{
+		MAIN_MENU_H_SIZE/*29*/, MAIN_MENU_V_SIZE, //  XSize, YSize;
+		SettingMenu,// PrevMenuPage;
+		LanguageMenuItems1, // MenuItems;
+		sizeof( LanguageMenuItems1 ) / sizeof( MenuItemType ), // MenuItemCount;
+		NULL, // ExecFunction;
+		NULL, // Fonts
+		mpbStay  //   Flags;
+	},
 	
 	{
 		MAIN_MENU_H_SIZE/*29*/, MAIN_MENU_V_SIZE, //  XSize, YSize;

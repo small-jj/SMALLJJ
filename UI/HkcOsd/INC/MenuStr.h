@@ -130,8 +130,6 @@ extern BYTE *Menu_4_6_4ValueText(void);
 extern BYTE *Menu_4_6_5ValueText(void);
 extern BYTE *Menu_4_6_6ValueText(void);
 //氛围灯
-extern BYTE *Menu_4_7_1ValueText(void);
-extern BYTE *Menu_4_7_2ValueText(void);
 extern BYTE *Menu_4_7_3ValueText(void);
 
 
@@ -148,13 +146,7 @@ extern BYTE *Menu_6_3_2ValueText(void);
 
 extern BYTE *Menu_6_5_3ValueText(void);
 
-extern BYTE *Menu_6_7_1ValueText(void);
-extern BYTE *Menu_6_7_2ValueText(void);
 
-extern BYTE *Menu_6_8_1ValueText(void);
-extern BYTE *Menu_6_8_2ValueText(void);
-extern BYTE *Menu_6_8_3ValueText(void);
-extern BYTE *Menu_6_8_4ValueText(void);
 
 
 

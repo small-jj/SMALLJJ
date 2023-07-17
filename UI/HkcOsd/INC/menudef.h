@@ -100,9 +100,6 @@ typedef enum
 	ColorTempMenu, RedMenu, GreenMenu, BlueMenu,    // 21,22,23,24
 	#if 1//ENABLE_OSD_LowBlueLight
 	LowBlueLightMenu,
-	LowBlueLight_Menu,
-	HDRMenu,
-	DrakBalanceMenu,
 	#endif
 //-----------------------------------------------
 	LanguageMenu,
@@ -111,13 +108,10 @@ typedef enum
 	#endif
 	OsdTimeOutMenu, //35,36,37,38
 	TransparenceMenu,   //39
-	Game_TimingMenu,
-	Ambient_lightMenu,
 //------------------------------------------------
 	#ifdef OffPower
 	OffTimerMenu,
 	#endif
-	Language_Menu,
 //-----------------------------------------------
 	#if 1//(INPUT_TYPE!=INPUT_1A) && (INPUT_TYPE!=INPUT_1H)
 	InputSelectMenu,
@@ -132,8 +126,6 @@ typedef enum
 	VolumeMenu1,
 	AutoPowerOffMenu,
 	EyeProtectionReminderMenu,
-	Reset_testMenu,
-	Information_testMenu,
 	#endif
 	#if 1//Enable_Adjust_SharpnessMenu
 	SharpnessMenu,
@@ -198,10 +190,12 @@ typedef enum
 	OffPowerWarningMenu,
 	#endif
 	
+	HDRMenu,
+	DrakBalanceMenu,
+	Game_TimingMenu,
+	Ambient_lightMenu,
 	
-	
-	
-	
+	Language_Menu,
 	ShowTimeMenu,
 	HorizontalPositionMenu,
 	VerticalVositionMenu,
@@ -222,7 +216,6 @@ typedef enum
 //	,
 //	Reset_testMenu,
 //	Information_testMenu,
-	NextMenu,
 	MaxMenu,
 //	DiBlueLightMenu,
 	
@@ -705,7 +698,6 @@ typedef enum
 	RGB_Blue_Item,
 	#if 1//LowBlueLightType==LowBlueLight_ColorTemp || LowBlueLightType==LowBlueLight_SharpFunc
 	RGB_LowBlueLigth_Item,
-	LowBlueLight_Item,
 	#endif
 	//RGB_LowBlueLigth_Item,
 	HDR_Item,
