@@ -876,6 +876,7 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 	while (processEvent)
 	{
 		processEvent = FALSE;
+		#if 1
 	if(MenuPageIndex == OSD_BriContrastMenu && menuAction == MIA_GotoNext)
 		{
 			if(MenuItemIndex==0)
@@ -953,7 +954,7 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 				DrawOsdSubMenu( Information_testMenu);
 
 	}
-	
+	#endif
 		switch (menuAction)
 		{
 			case MIA_IncValue:
@@ -1238,8 +1239,7 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 						{
 							Osd_DrawContinuesChar( SUB_TEXT_XPOS-2, i, SpaceFont, 16);
 							Osd_DrawContinuesChar( GaugeXPosition-1, i, SpaceFont, 16);
-							
-					
+
 						}
 						DrawOsdSubMenu( NextMenuPage );
 				//	if	( MenuItemIndex == MAIN_Misc_ITEM)
@@ -3150,7 +3150,7 @@ Bool DrawTimingInfo(void)
 	BYTE xdata TempPropData[5];
 	BYTE xdata number, i, j, Vnumber;
 	WORD xdata FontWide = 0;
-	Osd_Set256TextColor( COLOR_RED, Color_2 );
+	Osd_Set256TextColor( CP_UnselectItem, Color_2 );
 	OSD_FONT_HI_ADDR_SET_BIT8();//0x100~0x1FF
 	Osd_DynamicLoadFont(ResoulationAddress, ResolutionProp, 27); //20180109  修改分辨率切换到1152x864 60hz 会出现乱码
 	OSD_FONT_HI_ADDR_CLR_TO_0();
