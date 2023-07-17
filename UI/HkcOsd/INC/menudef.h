@@ -117,7 +117,7 @@ typedef enum
 	#ifdef OffPower
 	OffTimerMenu,
 	#endif
-	
+	Language_Menu,
 //-----------------------------------------------
 	#if 1//(INPUT_TYPE!=INPUT_1A) && (INPUT_TYPE!=INPUT_1H)
 	InputSelectMenu,
@@ -201,7 +201,7 @@ typedef enum
 	
 	
 	
-	Language_Menu,
+	
 	ShowTimeMenu,
 	HorizontalPositionMenu,
 	VerticalVositionMenu,

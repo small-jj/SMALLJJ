@@ -1885,6 +1885,7 @@ MenuItemType code RGBMenuItems[] =
 		NULL, //FontMenuPage
 		mibSelectable  // Flags
 	},
+	#if 0
 	{
 		SUB_TEXT_XPOS+10, ( SUB_TEXT_YPOS + IconShift * RGB_ColorTemp_Item), // XPos, YPos;
 			BLACK_WHITE, Color_2, // ForeColor, BackColor;
@@ -1905,7 +1906,7 @@ MenuItemType code RGBMenuItems[] =
 		NULL, //FontMenuPage
 		mibSelectable  // Flags
 	},
-
+	#endif
 };
 //三级·画面
 #if 1
@@ -2728,7 +2729,7 @@ MenuItemType code OSDMenuItems[] =
 		NULL, //FontMenuPage
 		mibSelectable // Flags
 	},
-#if 1	
+#if 0	
 	{
 		SUB_TEXT_XPOS + 10, ( SUB_TEXT_YPOS + IconShift * OSD_LANGUAGE_ITEM), // XPos, YPos;
 			BLACK_WHITE, Color_2, // ForeColor, BackColor;
@@ -4010,7 +4011,7 @@ MenuItemType code SettingMenuItems[] =
 			BLACK_WHITE, Color_2, // ForeColor, BackColor;
 			RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
 
-		HorizontalPositionMenu,//NextMenuPage;
+		HorizontalPositionMenu,//NextMenuPage;  OsdHPositionMenu
 		DWI_Text,// DrawMenuItemType;
 		Horizontal_PositionText,// DisplayText;
 		AdjustExecKeyEvent,
@@ -4090,7 +4091,7 @@ MenuItemType code SettingMenuItems[] =
 		NULL, //FontMenuPage
 		mibSelectable // Flags
 	},
-	#if 1
+	#if 0
 		{
 		SUB_TEXT_XPOS+10, ( SUB_TEXT_YPOS + IconShift * Setting_AUTOCONFIG_ITEM), // XPos, YPos;
 			BLACK_WHITE, Color_2, // ForeColor, BackColor;
@@ -4359,12 +4360,12 @@ DrawGuageType code DrawTransparenceGuage[] =
 	{
 		// 0 LanguageMemu
 		{
-			SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + 0), // XPos, YPos;
+			SUB_TEXT_XPOS+30, ( SUB_TEXT_YPOS + 0), // XPos, YPos;
 			BLACK_WHITE, Color_2, // ForeColor, BackColor;
 			RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
 			SettingMenu,///NextMenuPage;
 			DWI_Text,// DrawMenuItemType;
-			NULL, // DisplayText;
+			LanguageStatusText, // DisplayText;
 			AdjusterKeyEvent,
 			{
 				AdjustLanguage,// AdjustFunction
@@ -4742,7 +4743,7 @@ MenuItemType code MiscMenuItems[] =
 		mibSelectable// Flags
 	},
 
-	#if 1
+	#if 0
 		{
 			SUB_TEXT_XPOS+10, ( SUB_TEXT_YPOS + IconShift * Misc_InputSource_ITEM), // XPos, YPos;
 			BLACK_WHITE, Color_2, // ForeColor, BackColor;
@@ -7458,6 +7459,15 @@ MenuPageType code tblMenus[] =
 		mpbStay | mpbClrGroup //   Flags;
 	},
 	#endif
+	{
+		MAIN_MENU_H_SIZE/*29*/, MAIN_MENU_V_SIZE, //  XSize, YSize;
+		SettingMenu,// PrevMenuPage;
+		LanguageMenuItems1, // MenuItems;
+		sizeof( LanguageMenuItems1 ) / sizeof( MenuItemType ), // MenuItemCount;
+		NULL, // ExecFunction;
+		NULL, // Fonts
+		mpbStay  //   Flags;
+	},
 ////=================================================================/////
 	#if (INPUT_TYPE!=INPUT_1A) && (INPUT_TYPE!=INPUT_1H)
 	//41 InputSelectMenu,
@@ -7829,15 +7839,7 @@ MenuPageType code tblMenus[] =
 	#endif
 	
 	
-	{
-		MAIN_MENU_H_SIZE/*29*/, MAIN_MENU_V_SIZE, //  XSize, YSize;
-		SettingMenu,// PrevMenuPage;
-		LanguageMenuItems1, // MenuItems;
-		sizeof( LanguageMenuItems1 ) / sizeof( MenuItemType ), // MenuItemCount;
-		NULL, // ExecFunction;
-		NULL, // Fonts
-		mpbStay  //   Flags;
-	},
+	
 	
 	{
 		MAIN_MENU_H_SIZE/*29*/, MAIN_MENU_V_SIZE, //  XSize, YSize;
