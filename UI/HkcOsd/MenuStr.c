@@ -161,6 +161,7 @@ BYTE *Dynamic_Brightnesstext( void )
 //画面二级菜单
 BYTE *Scenario_ModeText( void )
 {
+	
 	return strScenario_ModeText[UserPrefLanguage];
 }
 BYTE *Screen_ScaleText( void )
@@ -573,6 +574,17 @@ BYTE *Menu_4_6_6ValueText(void)
 
 }
 //氛围灯
+BYTE *Menu_4_7_1ValueText(void)
+{
+	return strMenu_4_7_1Value[UserPrefLanguage];
+
+}
+BYTE *Menu_4_7_2ValueText(void)
+{
+	return strMenu_4_7_2Value[UserPrefLanguage];
+
+}
+
 BYTE *Menu_4_7_3ValueText(void)
 {
 	return strMenu_4_7_3Value[UserPrefLanguage];
@@ -623,6 +635,38 @@ BYTE *Menu_6_3_2ValueText(void)
 BYTE *Menu_6_5_3ValueText(void)
 {
 	return strMenu_6_5_3Value[UserPrefLanguage];
+
+}
+
+BYTE *Menu_6_7_1ValueText(void)
+{
+	return strMenu_6_7_1Value[UserPrefLanguage];
+
+}
+BYTE *Menu_6_7_2ValueText(void)
+{
+	return strMenu_6_7_2Value[UserPrefLanguage];
+
+}
+//信息
+BYTE *Menu_6_8_1ValueText(void)
+{
+	return strMenu_6_8_1Value[UserPrefLanguage];
+
+}
+BYTE *Menu_6_8_2ValueText(void)
+{
+	return strMenu_6_8_2Value[UserPrefLanguage];
+
+}
+BYTE *Menu_6_8_3ValueText(void)
+{
+	return strMenu_6_8_3Value[UserPrefLanguage];
+
+}
+BYTE *Menu_6_8_4ValueText(void)
+{
+	return strMenu_6_8_4Value[UserPrefLanguage];
 
 }
 

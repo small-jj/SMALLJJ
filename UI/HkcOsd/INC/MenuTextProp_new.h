@@ -3671,6 +3671,16 @@ BYTE code strMenu_4_6_6Value[16][2] =
 	{ 0x32 , 0x03 },
 };
 //氛围灯
+BYTE code strMenu_4_7_1Value[16][2] =
+{
+	{ 0x7b , 0x01 },
+	{ 0x32 , 0x03 },
+};
+BYTE code strMenu_4_7_2Value[16][2] =
+{
+	{ 0x7c , 0x01 },
+	{ 0x32 , 0x03 },
+};
 BYTE code strMenu_4_7_3Value[16][2] =
 {
 	{ 0x7d , 0x04 },
@@ -4059,7 +4069,38 @@ BYTE code strMenu_6_5_3Value[16][2] =
 	{ 0x6e , 0x04 },
 	{ 0x32 , 0x03 },
 };
-
+//复位·
+BYTE code strMenu_6_7_1Value[16][2] =
+{
+	{ 0x7a , 0x03 },
+	{ 0x30 , 0x02 },
+};
+BYTE code strMenu_6_7_2Value[16][2] =
+{
+	{ 0x7d , 0x02 },
+	{ 0x32 , 0x03 },
+};
+	//信息
+BYTE code strMenu_6_8_1Value[16][2] =
+{
+	{ 0x81 , 0x04 },
+	{ 0x30 , 0x02 },
+};
+BYTE code strMenu_6_8_2Value[16][2] =
+{
+	{ 0x85 , 0x04 },
+	{ 0x32 , 0x03 },
+};
+BYTE code strMenu_6_8_3Value[16][2] =
+{
+	{ 0x89 , 0x03 },
+	{ 0x30 , 0x02 },
+};
+BYTE code strMenu_6_8_4Value[16][2] =
+{
+	{ 0x8c , 0x03 },
+	{ 0x32 , 0x03 },
+};
 //其他设置二级菜单
 
 BYTE code strSignalInput[2][2]=
@@ -4095,6 +4136,7 @@ BYTE code strInformation_test[2][2]=
 { { 0x7f , 0x02 },
   { 0xc6 , 0x07 }
 };
+
 
 #if PresetMode_Enable
 
