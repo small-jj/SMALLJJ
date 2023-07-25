@@ -97,12 +97,15 @@ typedef enum
 	#endif
 //-----------------------------------------------
 
-	ColorTempMenu, RedMenu, GreenMenu, BlueMenu,    // 21,22,23,24
-	#if 1//ENABLE_OSD_LowBlueLight
-	LowBlueLightMenu,
+	ColorTempMenu, 
+	RedMenu, 
+	GreenMenu, 
+	BlueMenu,    
 	LowBlueLight_Menu,
 	HDRMenu,
 	DrakBalanceMenu,
+	#if ENABLE_OSD_LowBlueLight
+	LowBlueLightMenu,
 	#endif
 //-----------------------------------------------
 	LanguageMenu,
@@ -115,18 +118,25 @@ typedef enum
 	Ambient_lightMenu,
 //------------------------------------------------
 	#ifdef OffPower
+	
 	OffTimerMenu,
 	#endif
 	Language_Menu,
-//-----------------------------------------------
-	#if 1//(INPUT_TYPE!=INPUT_1A) && (INPUT_TYPE!=INPUT_1H)
-	InputSelectMenu,
-	#endif
-	#if 1//AudioFunc
-	#if 1//EANBLE_MUTE_ON_OFF
-	MuteMenu,
-	#endif
+	ShowTimeMenu,
+	HorizontalPositionMenu,
+	VerticalVositionMenu,
+	Transparency_Menu,
 	
+//	MenuRotationMenu,
+//	MenuLockMenu,
+//	ShortcutOneMenu,
+//	ShortcutTwoMenu,
+//	ShortcutThreeMenu,
+//	ShortcutFourMenu,
+//-----------------------------------------------
+	InputSelectMenu,
+
+	MuteMenu,
 	VolumeMenu, // 55
 	AudioIputMenu,
 	VolumeMenu1,
@@ -134,8 +144,8 @@ typedef enum
 	EyeProtectionReminderMenu,
 	Reset_testMenu,
 	Information_testMenu,
-	#endif
-	#if 1//Enable_Adjust_SharpnessMenu
+
+	#if Enable_Adjust_SharpnessMenu
 	SharpnessMenu,
 	#endif
 
@@ -197,36 +207,10 @@ typedef enum
 	#ifdef OffPower
 	OffPowerWarningMenu,
 	#endif
-	
-	
-	
-	
-	
-	ShowTimeMenu,
-	HorizontalPositionMenu,
-	VerticalVositionMenu,
-	Transparency_Menu,
-//	MenuRotationMenu,
-//	MenuLockMenu,
-//	ShortcutOneMenu,
-//	ShortcutTwoMenu,
-//	ShortcutThreeMenu,
-//	ShortcutFourMenu,
 
-	//其他设置
-	SignalInputMenu,
-//	AudioIputMenu,
-//	Mute_Menu,
-//	Volume_Menu,
-//	,
-//	,
-//	Reset_testMenu,
-//	Information_testMenu,
-	NextMenu,
-	MaxMenu,
-//	DiBlueLightMenu,
-	
-	
+
+	MaxMenu
+
 } MenuPageIndexType;
 
 typedef enum
@@ -237,12 +221,6 @@ typedef enum
 	COLORBOOST_Nums
 
 } ColorBoostType;
-//typedef enum
-//{
-//	Color_ON,
-//	Color_OFF,
-	
-//} Warm_Color_Type;
 
 
 
@@ -260,10 +238,7 @@ typedef enum
 	#if	PresetMode_Enable
 	ECO_Preset,
 	#endif
-	Color_ON,
-	Color_OFF,
 	ECO_Nums
-
 
 } ECOModeType;
 
@@ -703,11 +678,7 @@ typedef enum
 	RGB_Red_Item,
 	RGB_Green_Item,
 	RGB_Blue_Item,
-	#if 1//LowBlueLightType==LowBlueLight_ColorTemp || LowBlueLightType==LowBlueLight_SharpFunc
 	RGB_LowBlueLigth_Item,
-	LowBlueLight_Item,
-	#endif
-	//RGB_LowBlueLigth_Item,
 	HDR_Item,
 	Dark_Balance_Item,
 	RGB_MAX_Item,
@@ -727,7 +698,7 @@ typedef enum
 	OSD_LIGHT_ITEM,
 	OSD_MAX_ITEM,
 } OSDMenuItemsType;
-//菜单设置位置枚举
+
 typedef enum
 {
 	#if 1//AboutDSUBFunc_Enable
@@ -761,7 +732,6 @@ typedef enum
 	Misc_Volume_ITEM,
 
 	Audio_Input_ITEM,
-	
 	Auto_Power_Off_ITEM,
 	Eye_Protection_Reminder_ITEM,
 	Reset_ITEM,
@@ -789,7 +759,6 @@ typedef enum
 	Misc_FreeSync_ITEM,
 	#endif
 	Misc_MAX_ITEM,
-
 } MiscMenuItemsType;
 
 

@@ -1,5 +1,5 @@
 
-#if 1//AudioFunc
+#if AudioFunc
 extern Bool AdjustVolume(MenuItemActionType action);
 extern WORD GetVolumeValue(void);
 #if EANBLE_MUTE_ON_OFF
@@ -121,7 +121,7 @@ extern Bool AdjustBlueEnhanceMode(MenuItemActionType action);
 extern Bool AdjustAutoDetectMode(MenuItemActionType action);
 
 
-#if 1//LowBlueLightType==LowBlueLight_Misc_Guage|| LowBlueLightType==LowBlueLight_SharpFunc
+#if LowBlueLightType==LowBlueLight_Misc_Guage|| LowBlueLightType==LowBlueLight_SharpFunc
 extern WORD GetLowBlueLightValue( void );
 #endif
 

@@ -735,10 +735,10 @@ BYTE *ECOModeValue( void )
 	{
 		return strGameM1[UserPrefLanguage];
 	}
-	else if( UserPrefECOMode == Color_ON )
-	{
-		return strWarmColorTempValue1[UserPrefLanguage];
-	}
+//	else if( UserPrefECOMode == Color_ON )
+//	{
+//		return strWarmColorTempValue1[UserPrefLanguage];
+//	}
 	#if ENABLE_FPS_RTS
 	else if( UserPrefECOMode == ECO_FPS )
 	{

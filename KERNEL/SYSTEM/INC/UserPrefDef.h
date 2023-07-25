@@ -213,8 +213,6 @@ typedef struct
 	// 2006/11/6 5:33PM by Emily   BYTE  CompareRange;
 	// 2006/11/6 5:34PM by Emily   BYTE  DiffHvalue;
 	BYTE checksum; //1c
-	BYTE POWER;
-	
 } MonitorSettingType;
 
 typedef struct
