@@ -46,7 +46,7 @@ RadioTextType code DrawBrightnessTextRatio[] =
 DrawRadioGroupType code DrawBrightnessTextRatioGroup[] =
 {
 	//ForeColor,				BackColor,				GetValue	RadioText
-	{RED_DRAK_RED, Color_2, NULL,		DrawBrightnessTextRatio}
+	{DRAK_RED, Color_2, NULL,		DrawBrightnessTextRatio}
 };
 //----------
 RadioTextType code DrawImageTextRatio[] =
@@ -57,7 +57,7 @@ RadioTextType code DrawImageTextRatio[] =
 DrawRadioGroupType code DrawImageTextRatioGroup[] =
 {
 	//ForeColor,				BackColor,				GetValue	RadioText
-	{RED_DRAK_RED, Color_2, NULL,		DrawImageTextRatio}
+	{DRAK_RED, Color_2, NULL,		DrawImageTextRatio}
 };
 //----------
 RadioTextType code DrawColorTextRatio[] =
@@ -68,7 +68,7 @@ RadioTextType code DrawColorTextRatio[] =
 DrawRadioGroupType code DrawColorTextRatioGroup[] =
 {
 	//ForeColor,				BackColor,				GetValue	RadioText
-	{RED_DRAK_RED, Color_2, NULL,		DrawColorTextRatio}
+	{DRAK_RED, Color_2, NULL,		DrawColorTextRatio}
 };
 //----------
 RadioTextType code DrawOSDTextRatio[] =
@@ -79,7 +79,7 @@ RadioTextType code DrawOSDTextRatio[] =
 DrawRadioGroupType code DrawOSDTextRatioGroup[] =
 {
 	//ForeColor,				BackColor,				GetValue	RadioText
-	{RED_DRAK_RED, Color_2, NULL,		DrawOSDTextRatio}
+	{DRAK_RED, Color_2, NULL,		DrawOSDTextRatio}
 };
 //----------
 RadioTextType code DrawResetTextRatio[] =
@@ -90,7 +90,7 @@ RadioTextType code DrawResetTextRatio[] =
 DrawRadioGroupType code DrawResetTextRatioGroup[] =
 {
 	//ForeColor,				BackColor,				GetValue	RadioText
-	{RED_DRAK_RED, Color_2, NULL,		DrawResetTextRatio}
+	{DRAK_RED, Color_2, NULL,		DrawResetTextRatio}
 };
 //----------
 RadioTextType code DrawMiscTextRatio[] =
@@ -101,7 +101,7 @@ RadioTextType code DrawMiscTextRatio[] =
 DrawRadioGroupType code DrawMiscTextRatioGroup[] =
 {
 	//ForeColor,				BackColor,				GetValue	RadioText
-	{RED_DRAK_RED, Color_2, NULL,		DrawMiscTextRatio}
+	{DRAK_RED, Color_2, NULL,		DrawMiscTextRatio}
 };
 //=========== MainMenuItems ================================
 MenuItemType code MainMenuItems[] =
@@ -110,7 +110,7 @@ MenuItemType code MainMenuItems[] =
 	{
 		MainMenuIcon_DrawXPos, MainMenuIcon_DrawYPos + 2 * MAIN_BriContrast_ITEM,		// XPos, YPos;
 		BLACK_WHITE,Color_2,
-		RED_DRAK_RED,Color_2,    
+		DRAK_RED,Color_2,    
 		OSD_BriContrastMenu,///NextMenuPage;
 		DWI_Icon,// DrawMenuItemType;
 		BrightnessIcon, // DisplayText;
@@ -131,7 +131,7 @@ MenuItemType code MainMenuItems[] =
 	{
 		MainMenuIcon_DrawXPos, MainMenuIcon_DrawYPos + 2 * MAIN_Picture_ITEM,		// XPos, YPos;
 			BLACK_WHITE,Color_2,
-			RED_DRAK_RED,Color_2, 
+			DRAK_RED,Color_2, 
 
 		PictureMenu,///NextMenuPage;
 		DWI_Icon,// DrawMenuItemType;
@@ -156,7 +156,7 @@ MenuItemType code MainMenuItems[] =
 	{
 		MainMenuIcon_DrawXPos, MainMenuIcon_DrawYPos + 2 * MAIN_RGBColor_ITEM,		// XPos, YPos;
 		BLACK_WHITE,Color_2,
-		RED_DRAK_RED,Color_2,  
+		DRAK_RED,Color_2,  
 
 		RGBColorMenu,///NextMenuPage;
 		DWI_Icon,// DrawMenuItemType;
@@ -178,7 +178,7 @@ MenuItemType code MainMenuItems[] =
 	{
 		MainMenuIcon_DrawXPos, MainMenuIcon_DrawYPos + 2 * MAIN_Osd_ITEM,		// XPos, YPos;
 		BLACK_WHITE,Color_2,
-		RED_DRAK_RED,Color_2,  
+		DRAK_RED,Color_2,  
 		OsdMenu,///NextMenuPage;
 		DWI_Icon,// DrawMenuItemType;
 		OSDIcon, // DisplayText;
@@ -199,7 +199,7 @@ MenuItemType code MainMenuItems[] =
 	{
 		MainMenuIcon_DrawXPos, MainMenuIcon_DrawYPos + 2 * MAIN_Setting_ITEM,		// XPos, YPos;
 			BLACK_WHITE,Color_2,
-			RED_DRAK_RED,Color_2, 
+			DRAK_RED,Color_2, 
 
 		SettingMenu,///NextMenuPage;
 		DWI_Icon,// DrawMenuItemType;
@@ -221,7 +221,7 @@ MenuItemType code MainMenuItems[] =
 	{
 		MainMenuIcon_DrawXPos, MainMenuIcon_DrawYPos + 2 * MAIN_Misc_ITEM,		// XPos, YPos;
 			BLACK_WHITE,Color_2,
-			RED_DRAK_RED,Color_2, 
+			DRAK_RED,Color_2, 
 
 		OSD_MiscMenu,///NextMenuPage;
 		DWI_Icon,// DrawMenuItemType;

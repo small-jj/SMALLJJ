@@ -1048,7 +1048,7 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 										if(MenuPageIndex == FactoryMenu)
 											Osd_SetTextMonoColor(COLOR_DRAK_RED, COLOR_BLACK_RED);
 										else
-											Osd_Set256TextColor( RED_DRAK_RED, Color_2 );
+											Osd_Set256TextColor( DRAK_RED, Color_2 );
 						
 						DrawOsdMenuItemText(MenuItemIndex, &CurrentMenuItems[MenuItemIndex]);
 						DrawOsdMenuItemValue( MenuItemIndex, &CurrentMenuItem.DisplayValue );
@@ -1212,25 +1212,32 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 						Osd_Set256TextColor( COLOR_BLACK, Color_2);
 						for(i=4; i<=17; i++)
 						{
-							Osd_DrawContinuesChar( SUB_TEXT_XPOS, i, SpaceFont, 16);
-							Osd_DrawContinuesChar( GaugeXPosition, i, SpaceFont, 16);
+							Osd_DrawContinuesChar( SUB_TEXT_XPOS - 2, i, SpaceFont, 16);
+							Osd_DrawContinuesChar( GaugeXPosition - 1, i, SpaceFont, 16);
 							
 					
 						}
-						DrawOsdSubMenu( NextMenuPage );
-						//if( MenuItemIndex == MAIN_Misc_ITEM)
-							//DrawTimingInfo();
-							
-						Osd_Set256TextColor( COLOR_BLACK, Color_2);
-						for(i=0;i<=5;i++)
-						{
-							Osd_DrawContinuesChar( 1, 5+2*i, SpaceFont, 16);
-						}
-							//Osd_DrawContinuesChar( 0x1c, 17, SpaceFont, 16);
-							
-							DrawOsdSubMenu(MainMenu);
-						
+							Osd_SetTextMonoColor(COLOR_BLACK,COLOR_BLACK);
 
+							if(MenuItemIndex==0 || MenuItemIndex==1)
+							{
+								for(j=0;j<15;j++)
+									{
+										Osd_DrawContinuesChar(25,3+j, SpaceFont,20);
+									}
+								DrawOsdSubMenu(MainMenu + MenuItemIndex +1);
+							}
+
+							else if(MenuItemIndex==2 || MenuItemIndex==3 ||MenuItemIndex==4 ||MenuItemIndex== 5)
+							{
+								for(j=0;j<15;j++)
+								{
+									Osd_DrawContinuesChar(25,3+j, SpaceFont,20);
+								}
+								DrawOsdSubMenu_My(MainMenu + MenuItemIndex +1);
+
+							}
+							
 					}
 	
 
@@ -3245,7 +3252,7 @@ void DrawOsdMenuItemRadioGroup(BYTE itemIndex, DrawRadioGroupType *radioItem)
 				{
 					if(itemIndex == MenuItemIndex)
 					{
-						Osd_Set256TextColor(RED_DRAK_RED, Color_2);
+						Osd_Set256TextColor(DRAK_RED, Color_2);
 					}
 					else
 					{
