@@ -326,7 +326,7 @@
 //When Released Plesease Remember To Set DEBUG Flags To Be 0!!!!!!!!!
 #define ENable_LoadEDIDSelectPort  1
 
-//#define  DEBUG_EN
+#define  DEBUG_EN
 #ifdef DEBUG_EN
 #define ENABLE_DEBUG        	1
 #message "Please remember to disable the debug function!"//Zhifeng.Wu Please don't canel it,just only a message to remind you to disable it ,thanks.

@@ -30,7 +30,8 @@
 #define TONMING_COLOR		0x30
 
 #define BLACK_WHITE			0x97	//前景色：黑，后景色：白
-#define RED_DRAK_RED		0x31	//前景色：红，后景色：深红   				注：不能重复定义
+#define RED_DRAK_RED		0x37	//前景色：红，后景色：黑·   				注：不能重复定义
+#define DRAK_RED		   0x31	    //前景色：红，后景色：深红   				注：不能重复定义
 
 
 
@@ -44,7 +45,7 @@ RadioTextType code DrawBrightnessTextRatio[] =
 DrawRadioGroupType code DrawBrightnessTextRatioGroup[] =
 {
 	//ForeColor,				BackColor,				GetValue	RadioText
-	{RED_DRAK_RED, Color_2, NULL,		DrawBrightnessTextRatio}
+	{DRAK_RED, Color_2, NULL,		DrawBrightnessTextRatio}
 };
 //----------
 RadioTextType code DrawImageTextRatio[] =
@@ -55,7 +56,7 @@ RadioTextType code DrawImageTextRatio[] =
 DrawRadioGroupType code DrawImageTextRatioGroup[] =
 {
 	//ForeColor,				BackColor,				GetValue	RadioText
-	{RED_DRAK_RED, Color_2, NULL,		DrawImageTextRatio}
+	{DRAK_RED, Color_2, NULL,		DrawImageTextRatio}
 };
 //----------
 RadioTextType code DrawColorTextRatio[] =
@@ -66,7 +67,7 @@ RadioTextType code DrawColorTextRatio[] =
 DrawRadioGroupType code DrawColorTextRatioGroup[] =
 {
 	//ForeColor,				BackColor,				GetValue	RadioText
-	{RED_DRAK_RED, Color_2, NULL,		DrawColorTextRatio}
+	{DRAK_RED, Color_2, NULL,		DrawColorTextRatio}
 };
 //----------
 RadioTextType code DrawOSDTextRatio[] =
@@ -77,7 +78,7 @@ RadioTextType code DrawOSDTextRatio[] =
 DrawRadioGroupType code DrawOSDTextRatioGroup[] =
 {
 	//ForeColor,				BackColor,				GetValue	RadioText
-	{RED_DRAK_RED, Color_2, NULL,		DrawOSDTextRatio}
+	{DRAK_RED, Color_2, NULL,		DrawOSDTextRatio}
 };
 //----------
 RadioTextType code DrawResetTextRatio[] =
@@ -88,7 +89,7 @@ RadioTextType code DrawResetTextRatio[] =
 DrawRadioGroupType code DrawResetTextRatioGroup[] =
 {
 	//ForeColor,				BackColor,				GetValue	RadioText
-	{RED_DRAK_RED, Color_2, NULL,		DrawResetTextRatio}
+	{DRAK_RED, Color_2, NULL,		DrawResetTextRatio}
 };
 //----------
 RadioTextType code DrawMiscTextRatio[] =
@@ -99,7 +100,7 @@ RadioTextType code DrawMiscTextRatio[] =
 DrawRadioGroupType code DrawMiscTextRatioGroup[] =
 {
 	//ForeColor,				BackColor,				GetValue	RadioText
-	{RED_DRAK_RED, Color_2, NULL,		DrawMiscTextRatio}
+	{DRAK_RED, Color_2, NULL,		DrawMiscTextRatio}
 };
 //RadioTextType code DrawShortcutTextRatio[] =
 //{
@@ -119,7 +120,7 @@ MenuItemType code MainMenuItems[] =
 	{
 		MainMenuIcon_DrawXPos, MainMenuIcon_DrawYPos + 2 * MAIN_BriContrast_ITEM,		// XPos, YPos;
 		BLACK_WHITE,Color_2,
-		RED_DRAK_RED,Color_2,    
+		DRAK_RED,Color_2,    
 		OSD_BriContrastMenu,///NextMenuPage;
 		DWI_Icon,// DrawMenuItemType;
 		BrightnessIcon, // DisplayText;
@@ -140,7 +141,7 @@ MenuItemType code MainMenuItems[] =
 	{
 		MainMenuIcon_DrawXPos, MainMenuIcon_DrawYPos + 2 * MAIN_Picture_ITEM,		// XPos, YPos;
 			BLACK_WHITE,Color_2,
-			RED_DRAK_RED,Color_2, 
+			DRAK_RED,Color_2, 
 
 		PictureMenu,///NextMenuPage;
 		DWI_Icon,// DrawMenuItemType;
@@ -165,7 +166,7 @@ MenuItemType code MainMenuItems[] =
 	{
 		MainMenuIcon_DrawXPos, MainMenuIcon_DrawYPos + 2 * MAIN_RGBColor_ITEM,		// XPos, YPos;
 		BLACK_WHITE,Color_2,
-		RED_DRAK_RED,Color_2,  
+		DRAK_RED,Color_2,  
 
 		RGBColorMenu,///NextMenuPage;
 		DWI_Icon,// DrawMenuItemType;
@@ -187,7 +188,7 @@ MenuItemType code MainMenuItems[] =
 	{
 		MainMenuIcon_DrawXPos, MainMenuIcon_DrawYPos + 2 * MAIN_Osd_ITEM,		// XPos, YPos;
 		BLACK_WHITE,Color_2,
-		RED_DRAK_RED,Color_2,  
+		DRAK_RED,Color_2,  
 		OsdMenu,///NextMenuPage;
 		DWI_Icon,// DrawMenuItemType;
 		OSDIcon, // DisplayText;
@@ -208,7 +209,7 @@ MenuItemType code MainMenuItems[] =
 	{
 		MainMenuIcon_DrawXPos, MainMenuIcon_DrawYPos + 2 * MAIN_Setting_ITEM,		// XPos, YPos;
 			BLACK_WHITE,Color_2,
-			RED_DRAK_RED,Color_2, 
+			DRAK_RED,Color_2, 
 
 		SettingMenu,///NextMenuPage;
 		DWI_Icon,// DrawMenuItemType;
@@ -230,7 +231,7 @@ MenuItemType code MainMenuItems[] =
 	{
 		MainMenuIcon_DrawXPos, MainMenuIcon_DrawYPos + 2 * MAIN_Misc_ITEM,		// XPos, YPos;
 			BLACK_WHITE,Color_2,
-			RED_DRAK_RED,Color_2, 
+			DRAK_RED,Color_2, 
 
 		OSD_MiscMenu,///NextMenuPage;
 		DWI_Icon,// DrawMenuItemType;
@@ -577,7 +578,7 @@ MenuItemType code BriContrastMenuItems[] =
 	RadioTextType code DrawDcrMenu1_1_2RatioText[] =
 	{
 			// Flags,			 XPos,	YPos,	DisplayText
-		{dwiCenterArrowAlign | dwiEnd, NUMXPOSITION, ( SUB_TEXT_YPOS + 1 ),    Menu_1_1_2ValueText},
+		{dwiCenterArrowAlign | dwiEnd, NUMXPOSITION, ( SUB_TEXT_YPOS + 2 ),    Menu_1_1_2ValueText},
 	};
 	DrawRadioGroupType code DrawDcrMenu1_1_2IconRatioText[] =
 	{
@@ -599,7 +600,7 @@ MenuItemType code BriContrastMenuItems[] =
 	RadioTextType code DrawDcrMenu1_2_2RatioText[] =
 	{
 		// Flags,			 XPos,	YPos,	DisplayText
-		{dwiCenterArrowAlign | dwiEnd, NUMXPOSITION, ( SUB_TEXT_YPOS + 1 ), 	Menu_1_2_2ValueText},
+		{dwiCenterArrowAlign | dwiEnd, NUMXPOSITION, ( SUB_TEXT_YPOS + 2 ), 	Menu_1_2_2ValueText},
 	};
 	DrawRadioGroupType code DrawDcrMenu1_2_2IconRatioText[] =
 	{
@@ -621,7 +622,7 @@ MenuItemType code BriContrastMenuItems[] =
 	RadioTextType code DrawDcrMenu1_3_2RatioText[] =
 	{
 		// Flags,			 XPos,	YPos,	DisplayText
-		{dwiCenterArrowAlign | dwiEnd, 1, ( SUB_TEXT_YPOS + 1 ), 	Menu_1_3_2ValueText},
+		{dwiCenterArrowAlign | dwiEnd, 1, ( SUB_TEXT_YPOS + 2 ), 	Menu_1_3_2ValueText},
 	};
 	DrawRadioGroupType code DrawDcrMenu1_3_2IconRatioText[] =
 	{
@@ -631,7 +632,7 @@ MenuItemType code BriContrastMenuItems[] =
 	RadioTextType code DrawDcrMenu1_3_3RatioText[] =
 	{
 		// Flags,			 XPos,	YPos,	DisplayText
-		{dwiCenterArrowAlign | dwiEnd, 1, ( SUB_TEXT_YPOS + 2 ), 	Menu_1_3_3ValueText},
+		{dwiCenterArrowAlign | dwiEnd, 1, ( SUB_TEXT_YPOS + 4 ), 	Menu_1_3_3ValueText},
 	};
 	DrawRadioGroupType code DrawDcrMenu1_3_3IconRatioText[] =
 	{
@@ -665,7 +666,7 @@ DrawGuageType code DrawUserColorRedGuage[] =
 NumberType code UserColorGreenNumber[] =
 {
 	// Flags,   XPos,   YPos,   GetValue
-	{dwiEnd,           NumXposion, ( SUB_TEXT_YPOS + 1),  GetGreenColorValue},
+	{dwiEnd,           NumXposion, ( SUB_TEXT_YPOS + 2),  GetGreenColorValue},
 };
 DrawNumberType code DrawUserColorGreenNumber[] =
 {
@@ -676,7 +677,7 @@ DrawNumberType code DrawUserColorGreenNumber[] =
 GaugeType code UserColorGreenGuage[] =
 {
 	// Flags, ForeColor,    BackColor,  Length,     GetValue
-	{dwiEnd,              GaugeXPosition, ( SUB_TEXT_YPOS + 1),   GetGreenColorValue},
+	{dwiEnd,              GaugeXPosition, ( SUB_TEXT_YPOS + 2),   GetGreenColorValue},
 };
 DrawGuageType code DrawUserColorGreenGuage[] =
 {
@@ -688,7 +689,7 @@ DrawGuageType code DrawUserColorGreenGuage[] =
 NumberType code UserColorBlueNumber[] =
 {
 	// Flags,   XPos,   YPos,   GetValue
-	{dwiEnd,           NumXposion, ( SUB_TEXT_YPOS + 2), GetBlueColorValue},
+	{dwiEnd,           NumXposion, ( SUB_TEXT_YPOS + 4), GetBlueColorValue},
 };
 DrawNumberType code DrawUserColorBlueNumber[] =
 {
@@ -699,7 +700,7 @@ DrawNumberType code DrawUserColorBlueNumber[] =
 GaugeType code UserColorBlueGuage[] =
 {
 	// Flags, ForeColor,    BackColor,  Length,     GetValue
-	{dwiEnd,             GaugeXPosition, ( SUB_TEXT_YPOS + 2),  GetBlueColorValue},
+	{dwiEnd,             GaugeXPosition, ( SUB_TEXT_YPOS + 4),  GetBlueColorValue},
 };
 DrawGuageType code DrawUserColorBlueGuage[] =
 {
@@ -1221,7 +1222,7 @@ DrawRadioGroupType code DrawDcrMenu_2_3_1IconRatioText[] =
 	RadioTextType code DrawDcrMenu2_3_2Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS + 1),     Menu_2_3_2ValueText },
+	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS + 2),     Menu_2_3_2ValueText },
 };
 DrawRadioGroupType code DrawDcrMenu2_3_2IconRatioText[] =
 {
@@ -1231,7 +1232,7 @@ DrawRadioGroupType code DrawDcrMenu2_3_2IconRatioText[] =
 	RadioTextType code DrawDcrMenu2_3_3Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS + 2),     Menu_2_3_3ValueText },
+	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS + 4),     Menu_2_3_3ValueText },
 };
 DrawRadioGroupType code DrawDcrMenu2_3_3IconRatioText[] =
 {
@@ -1252,7 +1253,7 @@ DrawRadioGroupType code DrawMenu2_4_1IconRatioText[] =
 	RadioTextType code DrawMenu2_4_2Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS + 1),     Menu_2_4_2ValueText },
+	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS + 2),     Menu_2_4_2ValueText },
 };
 DrawRadioGroupType code DrawMenu2_4_2IconRatioText[] =
 {
@@ -1262,7 +1263,7 @@ DrawRadioGroupType code DrawMenu2_4_2IconRatioText[] =
 	RadioTextType code DrawMenu2_4_3Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS + 2),     Menu_2_4_3ValueText },
+	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS + 4),     Menu_2_4_3ValueText },
 };
 DrawRadioGroupType code DrawMenu2_4_3IconRatioText[] =
 {
@@ -1272,7 +1273,7 @@ DrawRadioGroupType code DrawMenu2_4_3IconRatioText[] =
 	RadioTextType code DrawMenu2_4_4Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS + 3),     Menu_2_4_4ValueText },
+	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS + 6),     Menu_2_4_4ValueText },
 };
 DrawRadioGroupType code DrawMenu2_4_4IconRatioText[] =
 {
@@ -1448,6 +1449,7 @@ MenuItemType code VPositionMenuItems[] =
 		mibSelectable //| mibDVIDisable // Flags
 	},
 };
+
 
 //动态对比度
 //============ Clock MenuItem==============
@@ -1923,7 +1925,7 @@ DrawRadioGroupType code Draw_3_1_1IconRatioText[] =
 	RadioTextType code Draw_3_1_2SelectText[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-18, ( SUB_TEXT_YPOS + 1),     Menu_3_1_2ValueText},
+	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-18, ( SUB_TEXT_YPOS + 2),     Menu_3_1_2ValueText},
 };
 DrawRadioGroupType code Draw_3_1_2IconRatioText[] =
 {
@@ -1933,7 +1935,7 @@ DrawRadioGroupType code Draw_3_1_2IconRatioText[] =
 	RadioTextType code Draw_3_1_3SelectText[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-18, ( SUB_TEXT_YPOS + 2),     Menu_3_1_3ValueText},
+	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-18, ( SUB_TEXT_YPOS + 4),     Menu_3_1_3ValueText},
 };
 DrawRadioGroupType code Draw_3_1_3IconRatioText[] =
 {
@@ -1943,7 +1945,7 @@ DrawRadioGroupType code Draw_3_1_3IconRatioText[] =
 	RadioTextType code Draw_3_1_4SelectText[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS + 3),     Menu_3_1_4ValueText},
+	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS + 6),     Menu_3_1_4ValueText},
 };
 DrawRadioGroupType code Draw_3_1_4IconRatioText[] =
 {
@@ -1964,7 +1966,7 @@ DrawRadioGroupType code Draw_3_2_1IconRatioText[] =
 	RadioTextType code Draw_3_2_2SelectText[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-20, ( SUB_TEXT_YPOS + 1),     Menu_3_2_2ValueText},
+	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-20, ( SUB_TEXT_YPOS + 2),     Menu_3_2_2ValueText},
 };
 DrawRadioGroupType code Draw_3_2_2IconRatioText[] =
 {
@@ -1974,7 +1976,7 @@ DrawRadioGroupType code Draw_3_2_2IconRatioText[] =
 	RadioTextType code Draw_3_2_3SelectText[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-20, ( SUB_TEXT_YPOS + 2),     Menu_3_2_3ValueText},
+	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-20, ( SUB_TEXT_YPOS + 4),     Menu_3_2_3ValueText},
 };
 DrawRadioGroupType code Draw_3_2_3IconRatioText[] =
 {
@@ -1984,7 +1986,7 @@ DrawRadioGroupType code Draw_3_2_3IconRatioText[] =
 	RadioTextType code Draw_3_2_4SelectText[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS + 3),     Menu_3_2_4ValueText},
+	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS + 6),     Menu_3_2_4ValueText},
 };
 DrawRadioGroupType code Draw_3_2_4IconRatioText[] =
 {
@@ -2005,7 +2007,7 @@ DrawRadioGroupType code Draw_3_3_1IconRatioText[] =
 	RadioTextType code Draw_3_3_2SelectText[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-20, ( SUB_TEXT_YPOS + 1),     Menu_3_3_2ValueText},
+	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-20, ( SUB_TEXT_YPOS + 2),     Menu_3_3_2ValueText},
 };
 DrawRadioGroupType code Draw_3_3_2IconRatioText[] =
 {
@@ -2015,7 +2017,7 @@ DrawRadioGroupType code Draw_3_3_2IconRatioText[] =
 	RadioTextType code Draw_3_3_3SelectText[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-20, ( SUB_TEXT_YPOS + 2),     Menu_3_3_3ValueText},
+	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-20, ( SUB_TEXT_YPOS + 4),     Menu_3_3_3ValueText},
 };
 DrawRadioGroupType code Draw_3_3_3IconRatioText[] =
 {
@@ -2025,7 +2027,7 @@ DrawRadioGroupType code Draw_3_3_3IconRatioText[] =
 	RadioTextType code Draw_3_3_4SelectText[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-20, ( SUB_TEXT_YPOS + 3),     Menu_3_3_4ValueText},
+	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-20, ( SUB_TEXT_YPOS + 6),     Menu_3_3_4ValueText},
 };
 DrawRadioGroupType code Draw_3_3_4IconRatioText[] =
 {
@@ -2035,7 +2037,7 @@ DrawRadioGroupType code Draw_3_3_4IconRatioText[] =
 RadioTextType code Draw_3_3_5SelectText[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-20, ( SUB_TEXT_YPOS + 4),     Menu_3_3_5ValueText},
+	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-20, ( SUB_TEXT_YPOS + 8),     Menu_3_3_5ValueText},
 };
 DrawRadioGroupType code Draw_3_3_5IconRatioText[] =
 {
@@ -2045,7 +2047,7 @@ DrawRadioGroupType code Draw_3_3_5IconRatioText[] =
 RadioTextType code Draw_3_3_6SelectText[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS + 5),     Menu_3_3_6ValueText},
+	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-19, ( SUB_TEXT_YPOS + 10),     Menu_3_3_6ValueText},
 };
 DrawRadioGroupType code Draw_3_3_6IconRatioText[] =
 {
@@ -2070,7 +2072,7 @@ DrawRadioGroupType code Draw_3_6_1IconRatioText[] =
 RadioTextType code Draw_3_6_2SelectText[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-20, ( SUB_TEXT_YPOS + 1),     Menu_3_6_2ValueText},
+	{dwiCenterArrowAlign | dwiEnd, SUB_TEXT_XPOS-20, ( SUB_TEXT_YPOS + 2),     Menu_3_6_2ValueText},
 };
 DrawRadioGroupType code Draw_3_6_2IconRatioText[] =
 {
@@ -2729,9 +2731,9 @@ MenuItemType code OSDMenuItems[] =
 		NULL, //FontMenuPage
 		mibSelectable // Flags
 	},
-#if 0	
+#if 1	
 	{
-		SUB_TEXT_XPOS + 10, ( SUB_TEXT_YPOS + IconShift * OSD_LANGUAGE_ITEM), // XPos, YPos;
+		SUB_TEXT_XPOS , ( SUB_TEXT_YPOS + IconShift * OSD_LANGUAGE_ITEM), // XPos, YPos;
 			BLACK_WHITE, Color_2, // ForeColor, BackColor;
 			RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
 		Ambient_lightMenu,///NextMenuPage;
@@ -2767,7 +2769,7 @@ DrawRadioGroupType code DrawMenu_4_1_1IconRatioText[] =
 RadioTextType code DrawMenu_4_1_2Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 0),     Menu_4_1_2ValueText},
+	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 1),     Menu_4_1_2ValueText},
 };
 DrawRadioGroupType code DrawMenu_4_1_2IconRatioText[] =
 {
@@ -3216,7 +3218,7 @@ DrawRadioGroupType code DrawMenu_4_2_1IconRatioText[] =
 RadioTextType code DrawMenu_4_2_2Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 0),     Menu_4_2_2ValueText},
+	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 1),     Menu_4_2_2ValueText},
 };
 DrawRadioGroupType code DrawMenu_4_2_2IconRatioText[] =
 {
@@ -3226,7 +3228,7 @@ DrawRadioGroupType code DrawMenu_4_2_2IconRatioText[] =
 	RadioTextType code DrawMenu_4_2_3Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 1),     Menu_4_2_3ValueText},
+	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 3),     Menu_4_2_3ValueText},
 };
 DrawRadioGroupType code DrawMenu_4_2_3IconRatioText[] =
 {
@@ -3236,7 +3238,7 @@ DrawRadioGroupType code DrawMenu_4_2_3IconRatioText[] =
 RadioTextType code DrawMenu_4_2_4Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 2),     Menu_4_2_4ValueText},
+	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 5),     Menu_4_2_4ValueText},
 };
 DrawRadioGroupType code DrawMenu_4_2_4IconRatioText[] =
 {
@@ -3341,7 +3343,7 @@ MenuItemType code OsdVPositionMenuItems[] =
 RadioTextType code DrawMenu_4_3_3Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 1),     Menu_4_3_3ValueText},
+	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 3),     Menu_4_3_3ValueText},
 };
 DrawRadioGroupType code DrawMenu_4_3_3IconRatioText[] =
 {
@@ -3432,7 +3434,7 @@ DrawRadioGroupType code DrawMenu_4_5_1IconRatioText[] =
 RadioTextType code DrawMenu_4_5_2Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS  ),     Menu_4_5_2ValueText},
+	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS +1  ),     Menu_4_5_2ValueText},
 };
 DrawRadioGroupType code DrawMenu_4_5_2IconRatioText[] =
 {
@@ -3442,7 +3444,7 @@ DrawRadioGroupType code DrawMenu_4_5_2IconRatioText[] =
 RadioTextType code DrawMenu_4_5_3Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 1),     Menu_4_5_3ValueText},
+	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 3),     Menu_4_5_3ValueText},
 };
 DrawRadioGroupType code DrawMenu_4_5_3IconRatioText[] =
 {
@@ -3452,7 +3454,7 @@ DrawRadioGroupType code DrawMenu_4_5_3IconRatioText[] =
 	RadioTextType code DrawMenu_4_5_4Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 2),     Menu_4_5_4ValueText},
+	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 5),     Menu_4_5_4ValueText},
 };
 DrawRadioGroupType code DrawMenu_4_5_4IconRatioText[] =
 {
@@ -3462,7 +3464,7 @@ DrawRadioGroupType code DrawMenu_4_5_4IconRatioText[] =
 RadioTextType code DrawMenu_4_5_5Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 3),     Menu_4_5_5ValueText},
+	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 7),     Menu_4_5_5ValueText},
 };
 DrawRadioGroupType code DrawMenu_4_5_5IconRatioText[] =
 {
@@ -3472,7 +3474,7 @@ DrawRadioGroupType code DrawMenu_4_5_5IconRatioText[] =
 	RadioTextType code DrawMenu_4_5_6Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 4),     Menu_4_5_6ValueText},
+	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 9),     Menu_4_5_6ValueText},
 };
 DrawRadioGroupType code DrawMenu_4_5_6IconRatioText[] =
 {
@@ -3482,7 +3484,7 @@ DrawRadioGroupType code DrawMenu_4_5_6IconRatioText[] =
 RadioTextType code DrawMenu_4_5_7Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 5),     Menu_4_5_7ValueText},
+	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 11),     Menu_4_5_7ValueText},
 };
 DrawRadioGroupType code DrawMenu_4_5_7IconRatioText[] =
 {
@@ -3619,6 +3621,7 @@ MenuItemType code TransparenceMenuItems[] =
 		NULL, //Font
 		mibSelectable // Flags
 	},
+	#if 0
 	{
 		SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + 6), // XPos, YPos;
 			BLACK_WHITE, Color_2, // ForeColor, BackColor;
@@ -3640,6 +3643,7 @@ MenuItemType code TransparenceMenuItems[] =
 		NULL, //Font
 		mibSelectable // Flags
 	},
+	#endif
 };
 //游戏计时
 RadioTextType code DrawMenu_4_6_1Text[] =
@@ -3656,7 +3660,7 @@ DrawRadioGroupType code DrawMenu_4_6_1IconRatioText[] =
 RadioTextType code DrawMenu_4_6_2Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS  ),     Menu_4_6_2ValueText},
+	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 1 ),     Menu_4_6_2ValueText},
 };
 DrawRadioGroupType code DrawMenu_4_6_2IconRatioText[] =
 {
@@ -3666,7 +3670,7 @@ DrawRadioGroupType code DrawMenu_4_6_2IconRatioText[] =
 RadioTextType code DrawMenu_4_6_3Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 1),     Menu_4_6_3ValueText},
+	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 3),     Menu_4_6_3ValueText},
 };
 DrawRadioGroupType code DrawMenu_4_6_3IconRatioText[] =
 {
@@ -3676,7 +3680,7 @@ DrawRadioGroupType code DrawMenu_4_6_3IconRatioText[] =
 	RadioTextType code DrawMenu_4_6_4Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 2),     Menu_4_6_4ValueText},
+	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 5),     Menu_4_6_4ValueText},
 };
 DrawRadioGroupType code DrawMenu_4_6_4IconRatioText[] =
 {
@@ -3686,7 +3690,7 @@ DrawRadioGroupType code DrawMenu_4_6_4IconRatioText[] =
 RadioTextType code DrawMenu_4_6_5Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 3),     Menu_4_6_5ValueText},
+	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 7),     Menu_4_6_5ValueText},
 };
 DrawRadioGroupType code DrawMenu_4_6_5IconRatioText[] =
 {
@@ -3696,7 +3700,7 @@ DrawRadioGroupType code DrawMenu_4_6_5IconRatioText[] =
 	RadioTextType code DrawMenu_4_6_6Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, NumXposion+17, ( SUB_TEXT_YPOS + 4),     Menu_4_6_6ValueText},
+	{dwiCenterArrowAlign | dwiEnd, NumXposion+17, ( SUB_TEXT_YPOS + 9),     Menu_4_6_6ValueText},
 };
 DrawRadioGroupType code DrawMenu_4_6_6IconRatioText[] =
 {
@@ -3849,7 +3853,7 @@ DrawRadioGroupType code DrawMenu_4_7_1IconRatioText[] =
 RadioTextType code DrawMenu_4_7_2Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 0),     Menu_4_7_2ValueText},
+	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 1),     Menu_4_7_2ValueText},
 };
 DrawRadioGroupType code DrawMenu_4_7_2IconRatioText[] =
 {
@@ -3859,7 +3863,7 @@ DrawRadioGroupType code DrawMenu_4_7_2IconRatioText[] =
 RadioTextType code DrawMenu_4_7_3Text[] =
 {
 	// Flags,            XPos,  YPos,   DisplayText
-	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 1),     Menu_4_7_3ValueText},
+	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 3),     Menu_4_7_3ValueText},
 };
 DrawRadioGroupType code DrawMenu_4_7_3IconRatioText[] =
 {
@@ -3962,7 +3966,7 @@ DrawNumberType code DrawOffTimerNumber[] =
 //=========== SettingMenuItems ================================
 
 MenuItemType code SettingMenuItems[] =
-{
+{	
 	#if AdjustLanguageFunction
 	{
 		SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + IconShift * Setting_AUTOCONFIG_ITEM), // XPos, YPos;
@@ -4091,9 +4095,10 @@ MenuItemType code SettingMenuItems[] =
 		NULL, //FontMenuPage
 		mibSelectable // Flags
 	},
-	#if 0
+	#endif
+	#if 1
 		{
-		SUB_TEXT_XPOS+10, ( SUB_TEXT_YPOS + IconShift * Setting_AUTOCONFIG_ITEM), // XPos, YPos;
+		SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + IconShift * Setting_AUTOCONFIG_ITEM), // XPos, YPos;
 			BLACK_WHITE, Color_2, // ForeColor, BackColor;
 			RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
 
@@ -4114,7 +4119,7 @@ MenuItemType code SettingMenuItems[] =
 		mibSelectable // Flags
 	},
 		{
-		SUB_TEXT_XPOS+10, ( SUB_TEXT_YPOS + IconShift * Setting_AUTOCOLOR_ITEM), // XPos, YPos;
+		SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + IconShift * Setting_AUTOCOLOR_ITEM), // XPos, YPos;
 			BLACK_WHITE, Color_2, // ForeColor, BackColor;
 			RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
 
@@ -4135,7 +4140,7 @@ MenuItemType code SettingMenuItems[] =
 		mibSelectable // Flags
 	},
 		{
-		SUB_TEXT_XPOS+10, ( SUB_TEXT_YPOS + IconShift * Setting_RESTR_ITEM), // XPos, YPos;
+		SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + IconShift * Setting_RESTR_ITEM), // XPos, YPos;
 			BLACK_WHITE, Color_2, // ForeColor, BackColor;
 			RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
 
@@ -4156,7 +4161,7 @@ MenuItemType code SettingMenuItems[] =
 		mibSelectable // Flags
 	},
 		{
-		SUB_TEXT_XPOS+10, ( SUB_TEXT_YPOS + IconShift * Vertical_Vosition_ITEM), // XPos, YPos;
+		SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + IconShift * Vertical_Vosition_ITEM), // XPos, YPos;
 			BLACK_WHITE, Color_2, // ForeColor, BackColor;
 			RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
 
@@ -4177,7 +4182,7 @@ MenuItemType code SettingMenuItems[] =
 		mibSelectable // Flags
 	},
 		{
-		SUB_TEXT_XPOS+10, ( SUB_TEXT_YPOS + IconShift * Transparency_ITEM), // XPos, YPos;
+		SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + IconShift * Transparency_ITEM), // XPos, YPos;
 			BLACK_WHITE, Color_2, // ForeColor, BackColor;
 			RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
 
@@ -4743,9 +4748,9 @@ MenuItemType code MiscMenuItems[] =
 		mibSelectable// Flags
 	},
 
-	#if 0
+	#if 1
 		{
-			SUB_TEXT_XPOS+10, ( SUB_TEXT_YPOS + IconShift * Misc_InputSource_ITEM), // XPos, YPos;
+			SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + IconShift * Misc_InputSource_ITEM), // XPos, YPos;
 			BLACK_WHITE, Color_2, // ForeColor, BackColor;
 			RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
 	
@@ -4770,7 +4775,7 @@ MenuItemType code MiscMenuItems[] =
 	
 		},
 			{
-			SUB_TEXT_XPOS+10, ( SUB_TEXT_YPOS + IconShift * Misc_Mute_ITEM), // XPos, YPos;
+			SUB_TEXT_XPOS, ( SUB_TEXT_YPOS + IconShift * Misc_Mute_ITEM), // XPos, YPos;
 				BLACK_WHITE, Color_2, // ForeColor, BackColor;
 				RED_DRAK_RED, Color_2, // SelForeColor, SelBackColor;
 	
@@ -4890,7 +4895,57 @@ DrawRadioGroupType code DrawMenu_6_1_6IconRatioText[] =
 	//ForeColor,    BackColor,  GetValue    RadioText
 	{RED_DRAK_RED,   Color_2, NULL, DrawMenu_6_1_6Text}
 };
-	
+//音频输入
+RadioTextType code DrawMenu_6_2_1Text[] =
+{
+	// Flags,            XPos,  YPos,   DisplayText
+	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS -1 ),     Menu_6_1_2ValueText},
+};
+DrawRadioGroupType code DrawMenu_6_2_1IconRatioText[] =
+{
+	//ForeColor,    BackColor,  GetValue    RadioText
+	{RED_DRAK_RED,   Color_2, NULL, DrawMenu_6_2_1Text}
+};
+RadioTextType code DrawMenu_6_2_2Text[] =
+{
+	// Flags,            XPos,  YPos,   DisplayText
+	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 1),     Menu_6_1_3ValueText},
+};
+DrawRadioGroupType code DrawMenu_6_2_2IconRatioText[] =
+{
+	//ForeColor,    BackColor,  GetValue    RadioText
+	{RED_DRAK_RED,   Color_2, NULL, DrawMenu_6_2_2Text}
+};
+	RadioTextType code DrawMenu_6_2_3Text[] =
+{
+	// Flags,            XPos,  YPos,   DisplayText
+	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 3),     Menu_6_1_4ValueText},
+};
+DrawRadioGroupType code DrawMenu_6_2_3IconRatioText[] =
+{
+	//ForeColor,    BackColor,  GetValue    RadioText
+	{RED_DRAK_RED,   Color_2, NULL, DrawMenu_6_2_3Text}
+};
+RadioTextType code DrawMenu_6_2_4Text[] =
+{
+	// Flags,            XPos,  YPos,   DisplayText
+	{dwiCenterArrowAlign | dwiEnd, NumXposion+18, ( SUB_TEXT_YPOS + 5),     Menu_6_1_5ValueText},
+};
+DrawRadioGroupType code DrawMenu_6_2_4IconRatioText[] =
+{
+	//ForeColor,    BackColor,  GetValue    RadioText
+	{RED_DRAK_RED,   Color_2, NULL, DrawMenu_6_2_4Text}
+};
+	RadioTextType code DrawMenu_6_2_5Text[] =
+{
+	// Flags,            XPos,  YPos,   DisplayText
+	{dwiCenterArrowAlign | dwiEnd, NumXposion+20, ( SUB_TEXT_YPOS + 7),     Menu_6_1_6ValueText},
+};
+DrawRadioGroupType code DrawMenu_6_2_5IconRatioText[] =
+{
+	//ForeColor,    BackColor,  GetValue    RadioText
+	{RED_DRAK_RED,   Color_2, NULL, DrawMenu_6_2_5Text}
+};	
 
 
 #if 1
@@ -5060,7 +5115,7 @@ MenuItemType code VolumeMenuItems[] =
 		{
 			NULL,// DrawNumberType
 			NULL,// DrawGuageType
-			DrawMenu_6_1_2IconRatioText,// DrawRadioGroupType
+			DrawMenu_6_2_1IconRatioText,// DrawRadioGroupType
 		},
 		NULL, //Font
 		mibSelectable // Flags
@@ -5080,7 +5135,7 @@ MenuItemType code VolumeMenuItems[] =
 		{
 			NULL,// DrawNumberType
 			NULL,// DrawGuageType
-			DrawMenu_6_1_3IconRatioText,// DrawRadioGroupType
+			DrawMenu_6_2_2IconRatioText,// DrawRadioGroupType
 		},
 		NULL, //Font
 		mibSelectable // Flags
@@ -5100,7 +5155,7 @@ MenuItemType code VolumeMenuItems[] =
 		{
 			NULL,// DrawNumberType
 			NULL,// DrawGuageType
-			DrawMenu_6_1_4IconRatioText,// DrawRadioGroupType
+			DrawMenu_6_2_3IconRatioText,// DrawRadioGroupType
 		},
 		NULL, //Font
 		mibSelectable // Flags
@@ -5120,7 +5175,7 @@ MenuItemType code VolumeMenuItems[] =
 		{
 			NULL,// DrawNumberType
 			NULL,// DrawGuageType
-			DrawMenu_6_1_5IconRatioText,// DrawRadioGroupType
+			DrawMenu_6_2_4IconRatioText,// DrawRadioGroupType
 		},
 		NULL, //Font
 		mibSelectable // Flags
@@ -5140,7 +5195,7 @@ MenuItemType code VolumeMenuItems[] =
 		{
 			NULL,// DrawNumberType
 			NULL,// DrawGuageType
-			DrawMenu_6_1_6IconRatioText,// DrawRadioGroupType
+			DrawMenu_6_2_5IconRatioText,// DrawRadioGroupType
 		},
 		NULL, //Font
 		mibSelectable // Flags

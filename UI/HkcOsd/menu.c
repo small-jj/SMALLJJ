@@ -126,10 +126,10 @@ extern BYTE code strtTlrdWindow[1][2];
 extern BYTE code strtTlreWindow[1][2];
 extern BYTE code strtTlrfWindow[1][2];
 extern BYTE code Paltmmidle[1][2];
-extern BYTE code PaltTextBook[1][2];
+
+extern BYTE code PaltTextBook[1][3];
 extern BYTE code PaltIconColorFont[1][2];
 extern BYTE code strTextBookWindow[3][15];
-
 
 
 #if Hot_Corss_ColorSelect||Hot_Corss_FY_ColorSelect||Hot_Corss_FND_Select
@@ -138,10 +138,10 @@ extern void DynamicLoadHotCorssIcon( BYTE Mode );
 
 
 extern void DynamicLoadHotIconFont( void );
+
 void DrawOsdSubMenu( BYTE menupage );
-
-
-
+void DrawOsdSubMenu_My( BYTE menupage );
+void DrawOsdSubMenu_You( BYTE menupage );
 
 
 extern void printData(char *str, WORD value);
@@ -192,6 +192,9 @@ BYTE GetNextItem(MenuItemType *menuItem);
 
 Bool ExecuteKeyEvent(MenuItemActionType menuAction);
 void DrawOsdMenu(void);
+void DrawOsdMenu_My(void);
+void DrawOsdSubMenu_You(void); 
+
 
 void DrawOsdMenuItem(BYTE drawIndex, MenuItemType *menuItem);
 void DrawOsdMenuItemText(BYTE itemIndex, MenuItemType *menuItem);
@@ -881,116 +884,19 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 	while (processEvent)
 	{
 		processEvent = FALSE;
-		#if 1
-/*
-		if(MenuPageIndex == MainMenu&&(menuAction== MIA_NextItem||menuAction== MIA_PrevItem))
-		{Osd_SetTextMonoColor(COLOR_BLACK,COLOR_BLACK);
-			for(i=0;i<20;i++)
-				for(j=0;j<13;j++)
-					Osd_DrawCharDirect(i+2,j+4,SpaceFont);
-			DrawOsdSubMenu(MainMenu);
-
-		}
-		*/
-		Osd_Set256TextColor(COLOR_BLACK,Color_2);
-	if(MenuPageIndex == OSD_BriContrastMenu && menuAction == MIA_GotoNext)
-		{
-			if(MenuItemIndex == 0 )
-			//	{
-			//	for(i=0;i<12;i++)
-			//		{
-			//		Osd_DrawContinuesChar(0x1c,5+i , SpaceFont, 20);
-			//		Osd_DrawContinuesChar(NumXposion-2,5+i , SpaceFont, 20);
-			//	}
-				DrawOsdSubMenu( BrightnessMenu);
-			
-			else if(MenuItemIndex==1)
-				DrawOsdSubMenu( ContrastMenu);
-			
-			else if(MenuItemIndex==2)
-				DrawOsdSubMenu( ECOMenu);
-			else
-				DrawOsdSubMenu( DCRMenu);
-	}
-	if(MenuPageIndex == PictureMenu && menuAction == MIA_GotoNext)
-		{
-			if(MenuItemIndex==0)
-				DrawOsdSubMenu(HPositionMenu);
-			else if(MenuItemIndex==1)
-				DrawOsdSubMenu( VPositionMenu);
-			else if(MenuItemIndex==2)
-				DrawOsdSubMenu( FocusMenu);
-			else
-				DrawOsdSubMenu( ClockMenu);
-	}
-	if(MenuPageIndex == RGBColorMenu && menuAction == MIA_GotoNext)
-		{
-			if(MenuItemIndex==0)
-				DrawOsdSubMenu( ColorTempMenu);
-			else if(MenuItemIndex==1)
-				DrawOsdSubMenu( RedMenu);
-			else if(MenuItemIndex==2)
-				DrawOsdSubMenu( GreenMenu);
-			else if(MenuItemIndex==3)
-				DrawOsdSubMenu( BlueMenu);
-			else if(MenuItemIndex==4)
-				DrawOsdSubMenu( LowBlueLight_Menu);
-			else if(MenuItemIndex==5)
-				DrawOsdSubMenu( HDRMenu);
-			else if(MenuItemIndex==6)
-				DrawOsdSubMenu( DrakBalanceMenu);
-	}
-
-	if(MenuPageIndex == OsdMenu && menuAction == MIA_GotoNext)
-		{
-			if(MenuItemIndex==0)
-				DrawOsdSubMenu( LanguageMenu);
-			else if(MenuItemIndex==1)
-				DrawOsdSubMenu( OsdHPositionMenu);
-			else if(MenuItemIndex==2)
-				DrawOsdSubMenu( OsdVPositionMenu);
-			else if(MenuItemIndex==3)
-				DrawOsdSubMenu( OsdTimeOutMenu);
-			else if(MenuItemIndex==4)
-				DrawOsdSubMenu( TransparenceMenu);
-			else if(MenuItemIndex==5)
-				DrawOsdSubMenu( Game_TimingMenu);
-			else if(MenuItemIndex==6)
-				DrawOsdSubMenu( Ambient_lightMenu);
-	}
-	if(MenuPageIndex == OSD_MiscMenu && menuAction == MIA_GotoNext)
-		{
-			if(MenuItemIndex==0)
-				DrawOsdSubMenu( MuteMenu);
-			else if(MenuItemIndex==1)
-				DrawOsdSubMenu( VolumeMenu);
-			else if(MenuItemIndex==2)
-				DrawOsdSubMenu( AudioIputMenu);
-			else if(MenuItemIndex==3)
-				DrawOsdSubMenu( VolumeMenu1);
-			else if(MenuItemIndex==4)
-				DrawOsdSubMenu( AutoPowerOffMenu);
-			else if(MenuItemIndex==5)
-				DrawOsdSubMenu( EyeProtectionReminderMenu);
-			else if(MenuItemIndex==6)
-				DrawOsdSubMenu( Reset_testMenu);
-			else if(MenuItemIndex==7)
-				DrawOsdSubMenu( Information_testMenu);
-
-	}
-	#endif
+	
 		switch (menuAction)
 		{
 			case MIA_IncValue:
 			case MIA_DecValue:
 				if (CurrentMenuItemFunc.AdjustFunction)
 				{
-				//	DrawOsdBackGround();////刷新二级三级界面
-				//		for(i=0;i<MenuItemCount;i++)
-				//		{
-				//			DrawOsdMenuItem(i, &CurrentMenu.MenuItems[i]);
-				//		}
-				//		DrawOsdSubMenu(MenuPageIndex);
+//					DrawOsdBackGround();////刷新二级三级界面
+//						for(i=0;i<MenuItemCount;i++)
+//						{
+//							DrawOsdMenuItem(i, &CurrentMenu.MenuItems[i]);
+//						}
+//						DrawOsdSubMenu(MenuPageIndex);
 					if((TurboKeyCounter > 0) && !(CurrentMenuItem.DisplayValue.DrawNumber) //071225 adjust value once if not release key
 					        && !(CurrentMenuItem.DisplayValue.DrawGuage))
 					{
@@ -1051,13 +957,13 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 							}
 				
 							Osd_DrawContinuesChar(1,6 , SpaceFont, 15);
-							//DrawOsdSubMenu( RGBColorMenu );
+							DrawOsdSubMenu_My( RGBColorMenu );
 						}
 						else if( MenuPageIndex == LowBlueLightMenu )
 						{
 					
 					//	Osd_DrawContinuesChar(0x1,5, SpaceFont, 50);
-						DrawOsdSubMenu( RGBColorMenu );
+						DrawOsdSubMenu_You( RGBColorMenu );
 						 }
 						#else
 						else if( MenuPageIndex == ColorTempMenu
@@ -1068,52 +974,22 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 						{
 						Osd_DrawContinuesChar(1,6 , SpaceFont, 15);
 						Osd_DrawContinuesChar(0x21-5,5, SpaceFont, 10);
-						DrawOsdSubMenu( RGBColorMenu );
+						DrawOsdSubMenu_My( RGBColorMenu );
 						}
 						#endif
 						#if AdjustLanguageFunction
 						else if( MenuPageIndex == LanguageMenu )
 						{
-		/*					for(tempValue = SUB_TEXT_YPOS; tempValue < 0x0F; tempValue += 2)
-							Osd_DrawContinuesChar( SUB_TEXT_XPOS, tempValue, SpaceFont, 0x27 - SUB_TEXT_XPOS);
-							Osd_SetTextMonoColor(0x00, 0x06);
-							Osd_DrawContinuesChar( 2, 1, SpaceFont, 0x27);
-							LoadLanguageStatusPropfont();
-							MenuPageIndex = MainMenu;
-							MenuItemIndex = MAIN_Osd_ITEM;
-							DrawOsdMenuItemRadioGroup(MAIN_Osd_ITEM, CurrentMenuItems[MAIN_Osd_ITEM].DisplayValue.DrawRadioGroup);
-							DrawOsdSubMenu( OsdMenu );
-							MenuPageIndex = LanguageMenu;
-							MenuItemIndex = 0 ;	
-		*/				Osd_Set256TextColor(COLOR_BLACK,Color_2);	
+					Osd_Set256TextColor(COLOR_BLACK,Color_2);	
 						Osd_DrawContinuesChar(25,4,SpaceFont,20);	
 						Osd_DrawContinuesChar(1,6,SpaceFont,20);
-						Osd_DrawContinuesChar(25,6,SpaceFont,20);		
-						
+					//	Osd_DrawContinuesChar(25,6,SpaceFont,20);						
 						Osd_DrawContinuesChar(25,8,SpaceFont,20);						
 						Osd_DrawContinuesChar(25,10,SpaceFont,20);						
-						Osd_DrawContinuesChar(25,12,SpaceFont,20);	
-						
+						Osd_DrawContinuesChar(25,12,SpaceFont,20);					
 						DrawOsdSubMenu(LanguageMenu);
-						if( MenuPageIndex == OsdMenu)
-						{
-							Osd_DrawContinuesChar(25,7,SpaceFont,20);
-							DrawOsdSubMenu(OsdMenu);
-						}
-						#if 0
-						if( MenuPageIndex == MainMenu && (MenuItemIndex >= MAIN_BriContrast_ITEM)  && (MenuItemIndex < MAIN_MAX_ITEM) )
-						{
-							MenuItemIndex = MenuItemIndex - MAIN_BriContrast_ITEM;
-							DrawOsdBackGround();
-								for(i=0;i<12;i++)
-									{							
-										Osd_DrawContinuesChar(25,5+i,SpaceFont,20);
-									}														
-								DrawOsdSubMenu(MenuPageIndex + MenuItemIndex + 1);							
-						}
+						DrawOsdSubMenu_My(OsdMenu);
 
-						
-						#endif
 						LoadLanguageStatusPropfont();
 						
 						MenuPageIndex = LanguageMenu;
@@ -1157,7 +1033,7 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 						#if AudioFunc
 						if((MenuPageIndex == VolumeMenu) && (CurrentMenuItemFunc.AdjustFunction == AdjustVolume))
 						{
-							DrawOsdSubMenu( MuteMenu );
+							DrawOsdSubMenu_My( MuteMenu );
 						//其他设置三级菜单
 						}
 						#endif
@@ -1184,7 +1060,7 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 										if(MenuPageIndex == FactoryMenu)
 											Osd_SetTextMonoColor(COLOR_DRAK_RED, COLOR_BLACK_RED);
 										else
-											Osd_Set256TextColor( RED_DRAK_RED, Color_2 );
+											Osd_Set256TextColor( DRAK_RED, Color_2 );
 						
 						DrawOsdMenuItemText(MenuItemIndex, &CurrentMenuItems[MenuItemIndex]);
 						DrawOsdMenuItemValue( MenuItemIndex, &CurrentMenuItem.DisplayValue );
@@ -1231,20 +1107,37 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 						}
 						tempValue = PrevMenuItemIndex;
 					}
-			#if 1	//二级菜单选项味选中时去掉文本框
-					if( PrevPage == OSD_BriContrastMenu || PrevPage == PictureMenu || 
-						PrevPage ==RGBColorMenu || PrevPage ==OsdMenu || 
-						PrevPage ==SettingMenu  || PrevPage ==OSD_MiscMenu)
+			#if 1	//二级菜单选项未选中时去掉文本框
+					if(  MenuPageIndex == PictureMenu  || MenuPageIndex == OSD_BriContrastMenu ||
+						 MenuPageIndex == RGBColorMenu || MenuPageIndex == OsdMenu || 
+						 MenuPageIndex == SettingMenu  || MenuPageIndex == OSD_MiscMenu)
 						{
-							tempValue = PrevMenuItemIndex;
-						for(j = 0; j <16; j++)	
+							if(PrevMenuItemIndex<=5)
 							{
-								for (i = 0; i < 3; i++)
+								tempValue = PrevMenuItemIndex;	
+								for(j = 0; j <16; j++)	
 								{
-									Osd_DrawCharDirect(0x1b+j,(5+(tempValue*IconShift)+i-1),SpaceFont);
+									for (i = 0; i < 3; i++)
+									{
+										Osd_DrawCharDirect(0x1b+j,(5+(tempValue*IconShift)+i-1),SpaceFont);
+									}
 								}
+							//	DrawOsdSubMenu_My( PrevPage );
+							}	
+							if(PrevMenuItemIndex > 5)
+							{
+								tempValue = PrevMenuItemIndex - 6;
+								for(j = 0; j <16; j++)	
+								{
+									for (i = 0; i < 3; i++)
+									{
+										Osd_DrawCharDirect(0x1b+j,(5+(tempValue*IconShift)+i-1),SpaceFont);
+									}
+								}
+								
+							//	DrawOsdSubMenu_You( PrevPage );
 							}
-							DrawOsdSubMenu( PrevPage );
+							
 						}
 					//主菜单选项味选中时去掉文本框	
 					Osd_SetTextMonoColor(COLOR_BLACK,COLOR_BLACK);
@@ -1258,9 +1151,38 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 									Osd_DrawCharDirect(2+j,(5+(tempValue*IconShift)+i-1),SpaceFont);
 								}
 							}
-						DrawOsdSubMenu( PrevPage );
+					//	DrawOsdSubMenu( PrevPage );
 					}
-				
+					
+			#endif
+			#if 1
+			//三级菜单去掉文本框
+			Osd_SetTextMonoColor(COLOR_BLACK,COLOR_BLACK);
+		
+				if( MenuPageIndex == BrightnessMenu     || MenuPageIndex == ContrastMenu               || 
+					MenuPageIndex  == FocusMenu         || MenuPageIndex  == ClockMenu	               ||
+					MenuPageIndex  == ColorTempMenu     || MenuPageIndex  == RedMenu                   || 
+					MenuPageIndex  == GreenMenu         || MenuPageIndex  == HDRMenu                   || 
+					MenuPageIndex  == LanguageMenu      || MenuPageIndex  == OsdHPositionMenu          || 
+					MenuPageIndex  == OsdVPositionMenu  || MenuPageIndex  == OsdTimeOutMenu            ||
+					MenuPageIndex  == TransparenceMenu  || MenuPageIndex  == Game_TimingMenu           || 
+					MenuPageIndex  == Ambient_lightMenu || MenuPageIndex  == VolumeMenu                ||         
+					MenuPageIndex  == MuteMenu          || MenuPageIndex  == Information_testMenu      ||
+					MenuPageIndex  == AudioIputMenu     || MenuPageIndex  == AutoPowerOffMenu          || 
+					MenuPageIndex  == Reset_testMenu    || MenuPageIndex  == EyeProtectionReminderMenu
+					)
+				{
+					tempValue = PrevMenuItemIndex;	
+					for(j = 0; j <16; j++)	
+					{
+						for (i = 0; i < 3; i++)
+						{
+							Osd_DrawCharDirect(GaugeXPosition+j+2,(5+(tempValue*IconShift)+i-1),SpaceFont);
+						}
+					}	
+					
+				}
+
 			#endif
 					#if Hot_Corss_FY_ColorSelect
 					if(MenuPageIndex == HotCorssMenu)
@@ -1303,27 +1225,12 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 						{
 							Osd_DrawContinuesChar( SUB_TEXT_XPOS-2, i, SpaceFont, 16);
 							Osd_DrawContinuesChar( GaugeXPosition-1, i, SpaceFont, 16);
-
 						}
-						DrawOsdSubMenu( NextMenuPage );
-				//	if	( MenuItemIndex == MAIN_Misc_ITEM)
-				//			DrawTimingInfo();
-				//			Osd_Set256TextColor( COLOR_RED, Color_2);
-				//			Osd_DrawContinuesChar( 5, 15, SpaceFont, 2);
-							
-				//		Osd_Set256TextColor( COLOR_BLACK, Color_2);
-				//		for(i=0;i<=5;i++)
-				//		{
-				//			Osd_DrawContinuesChar( 1, 5+2*i, SpaceFont, 16);
-				//		}
-							//Osd_DrawContinuesChar( 0x1c, 17, SpaceFont, 16);
-							
-				//			DrawOsdSubMenu(MainMenu);
-						
-
+						if(NextMenuPage == OSD_BriContrastMenu)
+							DrawOsdSubMenu( NextMenuPage );	
+						else
+							DrawOsdSubMenu_My( NextMenuPage );	
 					}
-	
-					
 					#if Hot_Corss_FY_ColorSelect || Hot_Corss_FND_Select
 					if(MenuPageIndex == HotCorssMenu)
 					{
@@ -1446,6 +1353,15 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 					else
 						MenuItemIndex = 0;
 				}
+		
+			
+			
+
+
+
+
+
+				
 				#if (INPUT_TYPE!=INPUT_1A) && (INPUT_TYPE!=INPUT_1H)
 				else if (PrevPage == InputSelectMenu && MenuPageIndex == OSD_MiscMenu)
 				{
@@ -1997,11 +1913,8 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 				return FALSE;
 				break;
 		}
-
-
-		
 	}
-	#if 0
+	#if 1
 	Osd_SetTextMonoColor(COLOR_BLACK,COLOR_BLACK);
 	
 	if(MenuPageIndex==MainMenu&&menuAction ==MIA_GotoPrev)////退出时候刷新
@@ -2021,47 +1934,13 @@ Bool ExecuteKeyEvent(MenuItemActionType menuAction)
 				{
 					Osd_DrawContinuesChar(25,3+j, SpaceFont,20);
 				}
-				DrawOsdSubMenu(MainMenu + MenuItemIndex +1);
+				DrawOsdSubMenu_My(MainMenu + MenuItemIndex +1);
 
 			}
 			
 		}
-	
-	else if(MenuPageIndex == RGBColorMenu && menuAction == MIA_NextItem)//////////这个是picture菜单选项翻页
-		{	
-			if(MenuItemIndex == 6)
-			{				
-				for(j=0;j<11;j++)
-				{
-					Osd_DrawContinuesChar(25,5+j, SpaceFont,20);
-				}
-				
-				DrawOsdSubMenu(RGBColorMenu);
-			}
-			else if(MenuItemIndex==0)
-			{
-				DrawOsdSubMenu(RGBColorMenu);
-			}
-		}
-	#if 0
-	else if(MenuPageIndex == RGBColorMenu && menuAction == MIA_PrevItem)
-		{
-			if(MenuItemIndex == 5)
-			{	
-				DrawOsdSubMenu_3_4_YOU(RGBColorMenu);
-			}
-			else if(MenuItemIndex == 6)
-			{
-				
-				for(j=0;j<11;j++)
-				{
-					Osd_DrawContinuesChar(25,5+j, SpaceFont,20);
-				}
-				DrawOsdSubMenu_3_4_ZUO(RGBColorMenu);
-			}
-		}
 	#endif
-	#endif
+
 	return TRUE;
 
 }	
@@ -2268,28 +2147,23 @@ void DrawOsdMenu(void)
 	Bool redrawFlags;
 	int i;
 	//解决刷新二级菜单时，将整个背景刷新导致闪屏的问题
-	//if(PrevPage == MainMenu && (MenuPageIndex >= OSD_BriContrastMenu && MenuPageIndex <= OSD_MiscMenu))
-	//	{
-	//		DrawOsdBackGround();
-	//		Osd_Set256TextColor(COLOR_BLACK, Color_2);
-	//		Osd_DrawContinuesChar( 1, 8, SpaceFont, 20);
-	//	}
-	#if 1
-	
-	if((PrevPage >= BrightnessMenu && PrevPage <= MaxMenu)&&(MenuPageIndex >= OSD_BriContrastMenu && MenuPageIndex <= OSD_MiscMenu))
-		{
-			DrawOsdBackGround();
-			Osd_SetTextMonoColor(COLOR_BLACK, COLOR_BLACK);
-			for(i = 5; i <= CurrentMenu.YSize - 5;i++)
+#if 1
+		
+		if((PrevPage >= BrightnessMenu && PrevPage <= MaxMenu)&&(MenuPageIndex >= OSD_BriContrastMenu && MenuPageIndex <= OSD_MiscMenu))
 			{
-				Osd_DrawContinuesChar(MAIN_MENU_H_SIZE/3*2+3,i,SpaceFont,20);
-				
+				DrawOsdBackGround();
+				Osd_SetTextMonoColor(COLOR_BLACK, COLOR_BLACK);
+				for(i = 5; i <= CurrentMenu.YSize - 5;i++)
+				{
+					Osd_DrawContinuesChar(MAIN_MENU_H_SIZE/3*2+3,i,SpaceFont,20);
+					
+				}
+					
 			}
-				
-		}
-	
+		
 #endif
-//======================不需要一个个的点击显示当前整个OSD界面======================
+
+		//======================不需要一个个的点击显示当前整个OSD界面======================
 	if((MenuPageIndex >= MainMenu && MenuPageIndex < ExitMenu) || MenuPageIndex == HotInputSelectMenu)
 	{
 		int i;
@@ -2474,12 +2348,14 @@ void DrawOsdMenuItem(BYTE itemIndex, MenuItemType *menuItem)
 	if( &CurrentMenuItem == menuItem && menuItem->Flags & mibSelectable )
 	{
 	}
-		Osd_Set256TextColor(PaltTextBook[0][0]>>2,Color_4);
+	Osd_Set256TextColor(PaltTextBook[0][0]>>2,Color_4);
 	OSD_TEXT_HI_ADDR_SET_BIT9();
+	//主菜单画框
+    #if 1
 	if(MenuPageIndex == MainMenu && itemIndex == MenuItemIndex)
 	{
 
-	#if 1
+	
 		if(MenuItemIndex == MAIN_BriContrast_ITEM ||MenuItemIndex == MAIN_Picture_ITEM ||
 			MenuItemIndex == MAIN_RGBColor_ITEM|| MenuItemIndex == MAIN_Osd_ITEM||
 			MenuItemIndex == MAIN_Setting_ITEM ||MenuItemIndex == MAIN_Misc_ITEM)
@@ -2496,15 +2372,23 @@ void DrawOsdMenuItem(BYTE itemIndex, MenuItemType *menuItem)
 			}
 		
 		}
-	#endif
-	
 	}
+	#endif
+	//二级菜单画框
 	#if 1
+	Osd_Set256TextColor(PaltTextBook[0][1]>>2,Color_4);
 	if(MenuPageIndex == OSD_BriContrastMenu && itemIndex == MenuItemIndex)
 		{
 			if(MenuItemIndex >= BriContrast_BRIGHTNESS_ITEM && MenuItemIndex <= BriContrast_DCR_ITEM)
-				{
+			{
+				if(MenuItemIndex >= 0 && MenuItemIndex <= 5)
+			{
 				k=MenuItemIndex;
+			}
+			else
+			{
+				k = MenuItemIndex - 6;
+			}
 				for(j =0; j < 15;j++)		
 				{
 					for(i = 0;i < 3; i++)
@@ -2521,7 +2405,14 @@ void DrawOsdMenuItem(BYTE itemIndex, MenuItemType *menuItem)
 		{
 			if(MenuItemIndex >= Picture_HPOSITION_ITEM && MenuItemIndex <= Picture_PHASE_ITEM)
 				{
+				if(MenuItemIndex >= 0 && MenuItemIndex <= 5)
+			{
 				k=MenuItemIndex;
+			}
+			else
+			{
+				k = MenuItemIndex - 6;
+			}
 				for(j =0; j < 15;j++)		
 				{
 					for(i = 0;i < 3; i++)
@@ -2556,7 +2447,14 @@ void DrawOsdMenuItem(BYTE itemIndex, MenuItemType *menuItem)
 		{
 			if(MenuItemIndex >= OSD_LANGUAGE_ITEM && MenuItemIndex <= OSD_MAX_ITEM)
 				{
-				k=MenuItemIndex;
+					if(MenuItemIndex >= 0 && MenuItemIndex <= 5)
+					{
+						k=MenuItemIndex;
+					}
+					else
+					{
+						k = MenuItemIndex - 6;
+					}
 				for(j =0; j < 15;j++)		
 				{
 					for(i = 0;i < 3; i++)
@@ -2572,9 +2470,14 @@ void DrawOsdMenuItem(BYTE itemIndex, MenuItemType *menuItem)
 		}
 		if(MenuPageIndex == SettingMenu && itemIndex == MenuItemIndex)
 		{
-			if(MenuItemIndex >= Setting_AUTOCONFIG_ITEM && MenuItemIndex <= Setting_MAX_ITEM)
+			if(MenuItemIndex >= 0 && MenuItemIndex <= 5)
 				{
-				k=MenuItemIndex;
+					k=MenuItemIndex;
+				}
+				else
+				{
+					k = MenuItemIndex - 6;
+				}
 				for(j =0; j < 15;j++)		
 				{
 					for(i = 0;i < 3; i++)
@@ -2585,9 +2488,9 @@ void DrawOsdMenuItem(BYTE itemIndex, MenuItemType *menuItem)
 					}
 					
 				}
-			}
-			
 		}
+			
+		
 		if(MenuPageIndex == OSD_MiscMenu && itemIndex == MenuItemIndex)
 		{
 			if(MenuItemIndex >= 0 && MenuItemIndex <= 5)
@@ -2598,90 +2501,313 @@ void DrawOsdMenuItem(BYTE itemIndex, MenuItemType *menuItem)
 			{
 				k = MenuItemIndex - 6;
 			}
+			for(j =0; j < 15;j++)		
+			{
+				for(i = 0;i < 3; i++)
+				{
+
+					Osd_DrawCharDirect(SUB_TEXT_XPOS+j-1,(SUB_TEXT_YPOS+(Misc_InputSource_ITEM*IconShift + 2*k)+i-1) ,strTextBookWindow[i][j]- COLOR4_START_FLAG);
+						
+				}
+					
+			}
+		}
+			
+	
+		
+	#endif
+	//三级菜单画框
+	#if 1
+	if((MenuPageIndex == BrightnessMenu     || MenuPageIndex == ContrastMenu               || 
+		MenuPageIndex  == FocusMenu         || MenuPageIndex  == ClockMenu	               ||
+		MenuPageIndex  == ColorTempMenu     || MenuPageIndex  == RedMenu                   || 
+		MenuPageIndex  == GreenMenu         || MenuPageIndex  == HDRMenu                   || 
+		MenuPageIndex  == LanguageMenu      || MenuPageIndex  == OsdHPositionMenu          || 
+		MenuPageIndex  == OsdVPositionMenu  || MenuPageIndex  == OsdTimeOutMenu            ||
+		MenuPageIndex  == TransparenceMenu  || MenuPageIndex  == Game_TimingMenu           || 
+		MenuPageIndex  == Ambient_lightMenu || MenuPageIndex  == VolumeMenu                ||         
+		MenuPageIndex  == MuteMenu          || MenuPageIndex  == Information_testMenu      ||
+		MenuPageIndex  == AudioIputMenu     || MenuPageIndex  == AutoPowerOffMenu          || 
+		MenuPageIndex  == Reset_testMenu    || MenuPageIndex  == EyeProtectionReminderMenu   ) 
+					&& itemIndex == MenuItemIndex)
+		{
+			if(MenuItemIndex >= 0 && MenuItemIndex <= 6)
+			{
+				k=MenuItemIndex;
+		
 				for(j =0; j < 15;j++)		
 				{
 					for(i = 0;i < 3; i++)
 					{
-
-						Osd_DrawCharDirect(SUB_TEXT_XPOS+j-1,(SUB_TEXT_YPOS+(Misc_InputSource_ITEM*IconShift + 2*k)+i-1) ,strTextBookWindow[i][j]- COLOR4_START_FLAG);
+						Osd_DrawCharDirect(GaugeXPosition+j+2,(SUB_TEXT_YPOS+2*k+i-1) ,strTextBookWindow[i][j]- COLOR4_START_FLAG);
 						
 					}
 					
 				}
 			}
 			
-	
-		OSD_TEXT_HI_ADDR_CLR_TO_0();
-		#endif
-		//护眼-》复位
-		#if 0
-		if(MenuPageIndex == OSD_MiscMenu && MenuItemIndex >= 6)
-		{
-			if(MenuItemIndex == Reset_ITEM && PrevMenuItemIndex == EyeProtectionReminderMenu)
-			{
-				for(j = 0;j < 20;j++)
-				{
-					for(i = 0; i < 10; i++)
-					{
-						Osd_DrawCharDirect(SUB_TEXT_XPOS + j-1,(SUB_TEXT_YPOS+(5 * IconShift)+i),SpaceFont);
-					}
-				}
-				DrawOsdSubMenu(OSD_MiscMenu);
-			}			
 		}
-		else if (MenuItemIndex == Information_ITEM && PrevMenuItemIndex == Misc_InputSource_ITEM )
-			{
-				for(j = 0; j <20; j++)	
-				{
-					for (i = 0; i < 2; i++)
-					{
-						Osd_DrawCharDirect( SUB_TEXT_XPOS+j-1, (SUB_TEXT_YPOS+( Misc_InputSource_ITEM *IconShift)+i-1 ), SpaceFont);
-					}
-				}
-				for(j = 0; j <20; j++)	
-				{
-					for (i = 0; i < 10; i++)
-					{
-						Osd_DrawCharDirect( SUB_TEXT_XPOS+j-1, (SUB_TEXT_YPOS+( Misc_Mute_ITEM *IconShift)+i ), SpaceFont);
-					}
-				}
-				DrawOsdSubMenu(OSD_MiscMenu);
-			}	
-		
-		else if ( MenuPageIndex == OSD_MiscMenu && MenuItemIndex < 6)
+	
+	#endif
+	OSD_TEXT_HI_ADDR_CLR_TO_0();
+	//二级菜单翻页		
+	#if 1
+	Osd_SetTextMonoColor(COLOR_BLACK,COLOR_BLACK );
+	if (MenuPageIndex == RGBColorMenu )
+	{
+		 if(MenuItemIndex >= 0 && MenuItemIndex <= 5 )
 		{
-			if(MenuItemIndex == Misc_InputSource_ITEM && PrevPage == MainMenu )
+			DrawOsdSubMenu_My(RGBColorMenu);
+		}
+		else
+		{
+			for(i=0;i<9;i++)
 			{
-			#if 0
-				for(j = 0; j <5; j++)	
-				{
-					Osd_DrawCharDirect( SUB_TEXT_XPOS+j, (SUB_TEXT_YPOS+( Misc_Mute_ITEM *IconShift) ), SpaceFont);
-				}
-				DrawOsdSubMenu(OSD_MiscMenu);
-				#endif
+				Osd_DrawContinuesChar(SUB_TEXT_XPOS,7+i, SpaceFont,20);
 			}
-			
-			//	 "复位" >> "护眼提醒" 
-			if(MenuItemIndex == EyeProtectionReminderMenu && PrevMenuItemIndex == Reset_ITEM )
+			DrawOsdSubMenu_You(RGBColorMenu);	
+		}
+	}
+	#endif
+	#if 1
+	Osd_SetTextMonoColor(COLOR_BLACK, COLOR_BLACK);
+	if (MenuPageIndex == OsdMenu )
+	{
+		if(MenuItemIndex == OSD_LIGHT_ITEM)
+		{
+			for(i=0;i<9;i++)
 			{
-				for(j = 0; j <5; j++)	
-				{
-					Osd_DrawCharDirect( SUB_TEXT_XPOS+j, (SUB_TEXT_YPOS+( Misc_InputSource_ITEM *IconShift) ), SpaceFont);
-				}
-				DrawOsdSubMenu(OSD_MiscMenu);
+				Osd_DrawContinuesChar(SUB_TEXT_XPOS,7+i, SpaceFont,20);
 			}
-			// "信息" >> "信号输入"  
-			else if (MenuItemIndex == Misc_InputSource_ITEM  && PrevMenuItemIndex ==Information_ITEM )
-			{
-				for(j = 0; j <5; j++)	
-				{
-					Osd_DrawCharDirect( SUB_TEXT_XPOS+j, (SUB_TEXT_YPOS+( Misc_Mute_ITEM *IconShift) ), SpaceFont);
-				}
-				DrawOsdSubMenu(OSD_MiscMenu);
-			}	
-		}		   
+			DrawOsdSubMenu_You(OsdMenu);
+		}
+		if(MenuItemIndex >= 0 && MenuItemIndex <= 5 )
+		{
+			DrawOsdSubMenu_My(OsdMenu);
+		}
+	}
 	#endif
 	
+	#if 1
+		Osd_SetTextMonoColor(COLOR_BLACK, COLOR_BLACK);
+		if (MenuPageIndex == SettingMenu && MenuItemIndex >=6)
+		{
+			if(MenuItemIndex == Menu_Lock_ITEM  )
+			{
+						//	Osd_DrawCharDirect(SUB_TEXT_XPOS+j-1,(0x05+i), SpaceFont);
+						Osd_DrawContinuesChar(SUB_TEXT_XPOS,15, SpaceFont,4);
+						Osd_DrawContinuesChar(SUB_TEXT_XPOS+4,13, SpaceFont,4);
+						Osd_DrawContinuesChar(SUB_TEXT_XPOS+4,11, SpaceFont,4);
+						Osd_DrawContinuesChar(SUB_TEXT_XPOS+4,9, SpaceFont,4);
+						Osd_DrawContinuesChar(SUB_TEXT_XPOS+4,7, SpaceFont,4);					
+				DrawOsdSubMenu_You(SettingMenu);
+			}
+			   if  (MenuItemIndex == Shortcut_Four_ITEM )
+			{
+				
+						//	Osd_DrawCharDirect(SUB_TEXT_XPOS+j-1,(0x05+i), SpaceFont);
+						Osd_DrawContinuesChar(SUB_TEXT_XPOS,15, SpaceFont,4);
+						
+						Osd_DrawContinuesChar(SUB_TEXT_XPOS+4,11, SpaceFont,4);
+						Osd_DrawContinuesChar(SUB_TEXT_XPOS+4,9, SpaceFont,4);
+						Osd_DrawContinuesChar(SUB_TEXT_XPOS+4,7, SpaceFont,4);
+					
+				DrawOsdSubMenu_You(SettingMenu);
+			}
+			   if(MenuItemIndex == Shortcut_One_ITEM )
+			{
+						Osd_DrawContinuesChar(SUB_TEXT_XPOS,15, SpaceFont,4);
+						Osd_DrawContinuesChar(SUB_TEXT_XPOS+4,13, SpaceFont,4);
+						Osd_DrawContinuesChar(SUB_TEXT_XPOS+4,11, SpaceFont,4);
+						Osd_DrawContinuesChar(SUB_TEXT_XPOS+4,9, SpaceFont,4);
+				DrawOsdSubMenu_You(SettingMenu);
+			}
+			   if(
+			   MenuItemIndex == Shortcut_Two_ITEM )
+			{
+				
+						//	Osd_DrawCharDirect(SUB_TEXT_XPOS+j-1,(0x05+i), SpaceFont);
+						Osd_DrawContinuesChar(SUB_TEXT_XPOS,15, SpaceFont,4);
+						Osd_DrawContinuesChar(SUB_TEXT_XPOS+4,13, SpaceFont,4);
+						Osd_DrawContinuesChar(SUB_TEXT_XPOS+4,11, SpaceFont,4);
+					
+						Osd_DrawContinuesChar(SUB_TEXT_XPOS+4,7, SpaceFont,4);
+					
+				DrawOsdSubMenu_You(SettingMenu);
+			}
+			   if( MenuItemIndex == Shortcut_Three_ITEM )
+			{
+				
+						//	Osd_DrawCharDirect(SUB_TEXT_XPOS+j-1,(0x05+i), SpaceFont);
+						Osd_DrawContinuesChar(SUB_TEXT_XPOS,15, SpaceFont,4);
+						Osd_DrawContinuesChar(SUB_TEXT_XPOS+4,13, SpaceFont,4);
+						
+						Osd_DrawContinuesChar(SUB_TEXT_XPOS+4,9, SpaceFont,4);
+						Osd_DrawContinuesChar(SUB_TEXT_XPOS+4,7, SpaceFont,4);
+					
+				DrawOsdSubMenu_You(SettingMenu);
+			}
+		}
+		else if(MenuPageIndex == SettingMenu && MenuItemIndex < 6)
+		{
+		    if(MenuItemIndex == 0  )
+		    {
+				
+				DrawOsdSubMenu_My(SettingMenu);
+			}
+				
+			if(MenuItemIndex > 0 && MenuItemIndex <= 5 )
+			{
+				DrawOsdSubMenu_My(SettingMenu);
+				Osd_DrawContinuesChar(SUB_TEXT_XPOS+2,5, SpaceFont,1);
+						
+			}
+				
+			
+		}
+	#endif
+	
+	#if 1
+		 
+//------------------------ 二级菜单其它设置翻页 -------------------------------------------//
+			Osd_SetTextMonoColor(COLOR_BLACK, COLOR_BLACK);
+			if (MenuPageIndex == OSD_MiscMenu && MenuItemIndex >=6)
+			{
+				if (MenuItemIndex == Reset_ITEM )
+				{
+					for(j = 0; j < 20;j++)
+					{
+						for(i = 0;i<7;i++)
+						{
+							Osd_DrawCharDirect(SUB_TEXT_XPOS+j-1,(0x05+(Misc_Mute_ITEM*IconShift)+i+2), SpaceFont);
+						}
+					}
+					Osd_DrawContinuesChar(SUB_TEXT_XPOS+2,7, SpaceFont,2);
+					DrawOsdSubMenu_You(OSD_MiscMenu);
+				}
+				if (MenuItemIndex == Information_ITEM)
+				{
+					for(j = 0; j < 20;j++)
+					{
+						for(i = 0;i<7;i++)
+						{
+							Osd_DrawCharDirect(SUB_TEXT_XPOS+j-1,(0x05+(Misc_Mute_ITEM*IconShift)+i+2), SpaceFont);
+						}
+					}
+					Osd_DrawContinuesChar(SUB_TEXT_XPOS+2,5, SpaceFont,2);
+					DrawOsdSubMenu_You(OSD_MiscMenu);
+				}
+			}
+			 
+			else if( MenuPageIndex == OSD_MiscMenu && MenuItemIndex < 6)
+			{					
+				if(MenuItemIndex >= 0 && MenuItemIndex <= 5 )
+				{
+					
+					DrawOsdSubMenu_My(OSD_MiscMenu);
+				}
+				
+			}
+	#endif
+	//预画三级菜单
+	#if 1
+	Osd_Set256TextColor(COLOR_BLACK,Color_2);
+	if(MenuPageIndex >= OSD_BriContrastMenu && MenuPageIndex <= OSD_MiscMenu && itemIndex == MenuItemIndex)
+	{
+		Osd_SetTextMonoColor(COLOR_BLACK,COLOR_BLACK);
+		for(i=0;i<15;i++)
+		{
+			Osd_DrawContinuesChar(GaugeXPosition-1,4+i, SpaceFont,20);	
+		}
+	}
+	if(MenuPageIndex == OSD_BriContrastMenu )
+		{
+		
+			if(MenuItemIndex == 0 )
+			//	{
+			//	for(i=0;i<12;i++)
+			//		{
+			//		Osd_DrawContinuesChar(0x1c,5+i , SpaceFont, 20);
+			//		Osd_DrawContinuesChar(NumXposion-2,5+i , SpaceFont, 20);
+			//	}
+				DrawOsdSubMenu( BrightnessMenu);
+			
+			else if(MenuItemIndex==1)
+				DrawOsdSubMenu( ContrastMenu);
+			
+			else if(MenuItemIndex==2)
+				DrawOsdSubMenu( ECOMenu);
+			else
+				DrawOsdSubMenu( DCRMenu);
+	}
+	if(MenuPageIndex == PictureMenu)
+		{
+			if(MenuItemIndex==0)
+				DrawOsdSubMenu(HPositionMenu);
+			else if(MenuItemIndex==1)
+				DrawOsdSubMenu( VPositionMenu);
+			else if(MenuItemIndex==2)
+				DrawOsdSubMenu( ClockMenu);
+			else
+				DrawOsdSubMenu(FocusMenu );
+	}
+	if(MenuPageIndex == RGBColorMenu )
+		{
+			if(MenuItemIndex==0)
+				DrawOsdSubMenu( ColorTempMenu);
+			else if(MenuItemIndex==1)
+				DrawOsdSubMenu( RedMenu);
+			else if(MenuItemIndex==2)
+				DrawOsdSubMenu( GreenMenu);
+			else if(MenuItemIndex==3)
+				DrawOsdSubMenu( BlueMenu);
+			else if(MenuItemIndex==4)
+				DrawOsdSubMenu( LowBlueLight_Menu);
+			else if(MenuItemIndex==5)
+				DrawOsdSubMenu( HDRMenu);
+			else if(MenuItemIndex==6)
+				DrawOsdSubMenu( DrakBalanceMenu);
+	}
+
+	if(MenuPageIndex == OsdMenu )
+		{
+			if(MenuItemIndex==0)
+				DrawOsdSubMenu( LanguageMenu);
+			else if(MenuItemIndex==1)
+				DrawOsdSubMenu( OsdHPositionMenu);
+			else if(MenuItemIndex==2)
+				DrawOsdSubMenu( OsdVPositionMenu);
+			else if(MenuItemIndex==3)
+				DrawOsdSubMenu( OsdTimeOutMenu);
+			else if(MenuItemIndex==4)
+				DrawOsdSubMenu( TransparenceMenu);
+			else if(MenuItemIndex==5)
+				DrawOsdSubMenu( Game_TimingMenu);
+			else if(MenuItemIndex==6)
+				DrawOsdSubMenu( Ambient_lightMenu);
+	}
+	if(MenuPageIndex == OSD_MiscMenu )
+		{
+			if(MenuItemIndex==0)
+				DrawOsdSubMenu( MuteMenu);
+			else if(MenuItemIndex==1)
+				DrawOsdSubMenu( VolumeMenu);
+			else if(MenuItemIndex==2)
+				DrawOsdSubMenu( AudioIputMenu);
+			else if(MenuItemIndex==3)
+				DrawOsdSubMenu( VolumeMenu1);
+			else if(MenuItemIndex==4)
+				DrawOsdSubMenu( AutoPowerOffMenu);
+			else if(MenuItemIndex==5)
+				DrawOsdSubMenu( EyeProtectionReminderMenu);
+			else if(MenuItemIndex==6)
+				DrawOsdSubMenu( Reset_testMenu);
+			else if(MenuItemIndex==7)
+				DrawOsdSubMenu( Information_testMenu);
+
+	}
+	#endif	
+		
 	if( menuItem->Flags & mibSelectable && itemIndex == MenuItemIndex )
 	{
 		if( MenuPageIndex == FactoryMenu
@@ -2708,7 +2834,6 @@ void DrawOsdMenuItem(BYTE itemIndex, MenuItemType *menuItem)
 			Osd_Set256TextColor( menuItem->ForeColor, menuItem->BackColor );
 		}
 	}
-	
 	DrawOsdMenuItemText( itemIndex, menuItem );
 	if( MenuPageIndex == MainMenu && itemIndex == MenuItemIndex )
 	{
@@ -2744,22 +2869,7 @@ void DrawOsdMenuItemText(BYTE itemIndex, MenuItemType *menuItem)
 	if (menuItem->DrawItemMethod == DWI_Icon)
 	{
 		BYTE xdata i, j, *str;
-		#if 	0
-		if(itemIndex == MenuItemIndex)
-			Osd_SetTextMonoColor(COLOR_BLACK,COLOR_BLACK);
-		else
-		{
-		//	Osd_SetTextMonoColor(COLOR_BLACK,COLOR_BLACK);
-			for(i = 0;i < 3; i++)
-			{
-				for(j =0; j < 16;j++)
-				{
-					Osd_DrawCharDirect(menuItem->XPos+j,menuItem->YPos+i-1 , SpaceFont);
-				}				
-			}	
-	
-		}
-		#endif
+
 		#if 1//20130417-1
 		if(MenuPageIndex == MainMenu &&  MenuItemIndex == MAIN_MAX_ITEM && !FactoryModeFlag) // F item
 			return ;
@@ -2771,10 +2881,9 @@ void DrawOsdMenuItemText(BYTE itemIndex, MenuItemType *menuItem)
 			OSD_TEXT_HI_ADDR_SET_BIT8(); //enable bit 8
 
 			Osd_DrawCharDirect(menuItem->XPos+2, menuItem->YPos, str[0]);													//my
-			Osd_DrawCharDirect(menuItem->XPos + 3, menuItem->YPos, str[1]);
+			Osd_DrawCharDirect(menuItem->XPos + 1+2, menuItem->YPos, str[1]);
 
 			OSD_TEXT_HI_ADDR_CLR_TO_0();
-		
 		}
 		else
 		{
@@ -3140,7 +3249,7 @@ void DrawOsdMenuItemRadioGroup(BYTE itemIndex, DrawRadioGroupType *radioItem)
 				{
 					if(itemIndex == MenuItemIndex)
 					{
-						Osd_Set256TextColor(RED_DRAK_RED, Color_2);
+						Osd_Set256TextColor(DRAK_RED, Color_2);
 					}
 					else
 					{
@@ -3264,68 +3373,37 @@ void DrawOsdSubMenu( BYTE menupage )
 	BYTE i;
 	if( CurrentMenuItem.Flags & mibFactoryItem ) // Do not Display Factory Menu
 		return;
-	if(MenuItemIndex < 6)
-	{
-		for( i = 0; i < 6; i++ )
+	
+	for( i = 0; i < tblMenus[menupage].ItemCount; i++ )
 		DrawOsdSubMenuItem( i, &tblMenus[menupage].MenuItems[i] );
-	}
-	else
-	{
-		for( i = 6; i < tblMenus[menupage].ItemCount; i++ )
-		DrawOsdSubMenuItem( i, &tblMenus[menupage].MenuItems[i] );
-	}
-}
-#if 0
-void DrawOsdSubMenu_1_2(BYTE menupage )
-{
-	BYTE i;
-	if( CurrentMenuItem.Flags & mibFactoryItem ) // Do not Display Factory Menu
-		return;
-	if(MenuItemIndex < 6)
-	{
-		for( i = 0; i < 6; i++ )
-		DrawOsdSubMenuItem( i, &tblMenus[menupage].MenuItems[i] );
-	}
-	else
-	{
-		for( i = 6; i < tblMenus[menupage].ItemCount; i++ )
-		DrawOsdSubMenuItem( i, &tblMenus[menupage].MenuItems[i] );
-	}
 }
 
-void DrawOsdSubMenu_3_4_YOU(BYTE menupage )
+void DrawOsdSubMenu_My( BYTE menupage )
 {
 	BYTE i;
 	if( CurrentMenuItem.Flags & mibFactoryItem ) // Do not Display Factory Menu
 		return;
 	
-}
-void DrawOsdSubMenu_3_4_ZUO(BYTE menupage )
-{
-	BYTE i;
-	if( CurrentMenuItem.Flags & mibFactoryItem ) // Do not Display Factory Menu
-		return;
+	
+		for( i = 0; i < 6; i++ )
+		DrawOsdSubMenuItem( i, &tblMenus[menupage].MenuItems[i] );
 	
 }
-void DrawOsdSubMenu_5_6_YOU(BYTE menupage )
+void DrawOsdSubMenu_You( BYTE menupage )
 {
 	BYTE i;
-	if( CurrentMenuItem.Flags & mibFactoryItem ) // Do not Display Factory Menu
-		return;
-	for( i = 0; i <6; i++ )
-		DrawOsdSubMenuItem( i, &tblMenus[menupage].MenuItems[i] );
+		if( CurrentMenuItem.Flags & mibFactoryItem ) // Do not Display Factory Menu
+			return;
+
+	
+			for( i = 6; i < tblMenus[menupage].ItemCount; i++ )
+			DrawOsdSubMenuItem( i, &tblMenus[menupage].MenuItems[i] );
+		
+
+
 }
 
-void DrawOsdSubMenu_5_6_ZUO(BYTE menupage )
-{
-	BYTE i;
-	if( CurrentMenuItem.Flags & mibFactoryItem ) // Do not Display Factory Menu
-		return;
-	for( i = 6; i < tblMenus[menupage].ItemCount; i++ )
-		DrawOsdSubMenuItem( i, &tblMenus[menupage].MenuItems[i] );
-}
 
-#endif
 
 
 Bool DrawTimingInfo(void)
@@ -3340,7 +3418,7 @@ Bool DrawTimingInfo(void)
 	WORD xdata FontWide = 0;
 	Osd_Set256TextColor( CP_UnselectItem, Color_2 );
 	OSD_FONT_HI_ADDR_SET_BIT8();//0x100~0x1FF
-	Osd_DynamicLoadFont(ResoulationAddress, ResolutionProp, 27); //20180109  �޸ķֱ����л���1152x864 60hz ���������
+	Osd_DynamicLoadFont(ResoulationAddress, ResolutionProp, 27); //20180109  ўلؖҦÊȐۻս1152x864 60hz ܡԶЖÒë
 	OSD_FONT_HI_ADDR_CLR_TO_0();
 	for (Vnumber = 0; Vnumber < 8; Vnumber++)
 		VFreqProp[Vnumber] = 0x01; //space
@@ -3887,13 +3965,14 @@ BYTE GetNextItem(MenuItemType *menuItem)
 
 
 
+
 #if 1//20121105 Move MENUTEMP.c
 // menuPageIndex => prev page index
 // MenuPageIndex => current page index
 #if 1
 BYTE GetMenuItemIndex(BYTE menuPageIndex)
 {
-	//�����˵��˳������˵�ʱ����Ӧ��ITEM
+	//�����˵��˳������˵�ʱ����Ӧ��ITEM
 	if( MenuPageIndex == MainMenu )
 	{
 		if( menuPageIndex == OSD_BriContrastMenu )
@@ -3922,7 +4001,7 @@ BYTE GetMenuItemIndex(BYTE menuPageIndex)
 		}
 	
 	}
-	//�����˵��˳��������˵�ʱ����Ӧ��ITEM
+	//�����˵��˳��������˵�ʱ����Ӧ��ITEM
 	else if( MenuPageIndex == OSD_BriContrastMenu )
 	{
 		
@@ -4271,7 +4350,7 @@ BYTE GetMenuItemIndex(BYTE menuPageIndex)
 //			return Misc_InputSource_ITEM;
 //		}
 		#if 1//(INPUT_TYPE!=INPUT_1A) && (INPUT_TYPE!=INPUT_1H)
-		if( menuPageIndex == InputSelectMenu )
+		if( menuPageIndex == MuteMenu )
 		{
 			return Misc_InputSource_ITEM;
 		}
@@ -4282,7 +4361,7 @@ BYTE GetMenuItemIndex(BYTE menuPageIndex)
 		else if( menuPageIndex == MuteMenu )
 		{
 
-			return Misc_InputSource_ITEM;
+			return Misc_Mute_ITEM;
 		}
 		#endif
 		
@@ -4376,7 +4455,6 @@ BYTE GetMenuItemIndex(BYTE menuPageIndex)
 #else
 #define underBlankFontWide		3
 #endif
-
 
 
 
@@ -4791,8 +4869,8 @@ void DrawOsdBackGround(void)
 		}
 	}
 	
-	#if 0
-	else if ( (MenuPageIndex >= HotKeyECOMenu && MenuPageIndex <= AutoMenu)
+	#if 1
+		else if ( (MenuPageIndex >= HotKeyECOMenu && MenuPageIndex <= AutoMenu)
 	          || MenuPageIndex == InputInfoMenu
           #ifdef OffPower
 	          || MenuPageIndex == OffPowerWarningMenu//20110310-98
@@ -4831,9 +4909,8 @@ void DrawOsdBackGround(void)
 			Osd_DrawCharDirect(i, CurrentMenu.YSize - 2, AutoMenuFrameMide_Bottom);
 		}
 	}
-			  #endif
+	 #endif
 }
-
 
 
 

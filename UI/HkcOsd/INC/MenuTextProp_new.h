@@ -838,7 +838,7 @@ BYTE code strEcoModeM1[16][2] =
 	{ 0x33, 0x05 },
 	{ 0x34, 0x05 }
 };
-//2   Standard Óë Internet ×÷½»»»
+//2   Standard ï¿½ï¿½ Internet ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 BYTE code strStandardM1[16][2] =
 {
 	{ 0x3E, 0x02 },
@@ -1795,7 +1795,7 @@ BYTE code strRTSM1[16][2] =
 	{ 0x68, 0x03 },
 	{ 0x67, 0x03 }
 };
-#elif 1 //2Öð²½µ¼Èë
+#elif 1 //2ï¿½ð²½µï¿½ï¿½ï¿½
 BYTE code strWarmColorTempValue1[16][2]=
 {
 	{ 0x2f , 0x01 },
@@ -6867,7 +6867,7 @@ BYTE code strEcoModeM1[16][2] =
 	{ 0x33, 0x05 },
 	{ 0x34, 0x05 }
 };
-//2   Standard Óë Internet ×÷½»»»
+//2   Standard ï¿½ï¿½ Internet ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 BYTE code strStandardM1[16][2] =
 {
 	{ 0x3E, 0x02 },
@@ -7824,7 +7824,7 @@ BYTE code strRTSM1[16][2] =
 	{ 0x68, 0x03 },
 	{ 0x67, 0x03 }
 };
-#elif 1 //2Öð²½µ¼Èë
+#elif 1 //2ï¿½ð²½µï¿½ï¿½ï¿½
 
 
 

@@ -150,11 +150,10 @@ ColorPaletteType code tOSDColorPalette256[] =
 	{0xe9, 0xe9, 0xe9,  CP_COLORKEY_F},  // 0
 	{0xFe, 0xFe, 0xFe,  CP_COLORKEY_F},  // 0
 	{0xA7, 0x09, 0x23,	CP_COLORKEY_F},  // 0
-//===========hotkeyMenu color Palette=//
-//HotKeyDCROnMenu		//0x60
-	{0xF0, 0xF0, 0xF0,  CP_COLORKEY_F},  // 0
+//二三级菜单框颜色
 	{0x00, 0x00, 0x00,  CP_COLORKEY_F},  // 0
-	{0x00, 0x50, 0xA0,  CP_COLORKEY_F},  // 0
+	{0xF0, 0x17, 0x12,  CP_COLORKEY_F}, // 0
+	{0x00, 0x00, 0x00,  CP_COLORKEY_F},  // 0
 	{0x80, 0x90, 0xC0,  CP_COLORKEY_F},  // 0
 //HotKeyDCROffMenu		//0x64
 	{0xF0, 0xF0, 0xF0,  CP_COLORKEY_F},  // 0
@@ -1452,9 +1451,9 @@ code BYTE TextbookColorFont[]={
 		 Tex(0x07), Tex(0x07), Tex(0x07), Tex(0x07), Tex(0x07), Tex(0x07), Tex(0x08), 
 	 }
 };
-	 BYTE code PaltTextBook[1][2]=
+	 BYTE code PaltTextBook[1][3]=
 	{
-		{	0x58,
+		{	0x58,0x64,
 		 0}
 	};
 	
