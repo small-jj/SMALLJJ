@@ -24,7 +24,7 @@
 #define _BOARD_H
 //****************************************************************
 #ifndef ModelName
-#define  ModelName      JRY_L58CDT9_GV2//Debug Mode need define
+#define  ModelName      JRY_TESTBOARD_C_BOARD//Debug Mode need define
 //#define  ModelName        JRY_TESTBOARD_C_BOARD																		//my
 
 #endif
@@ -246,6 +246,7 @@
 #elif (ModelName==HH_BOARD_DEMO_Project)//20140103
 	#include"HH_BOARD_DEMO_Project.h"		
 
+#endif
 
 
 
