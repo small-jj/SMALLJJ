@@ -3,7 +3,7 @@
 // Create date  :   20120104
 // Modifications:   20120402
 // Version      :   IT7230_0006
-// Definitions  :
+// Definitions  : 
 // Copyright (c) 2009 ITE Tech. Inc. All Rights Reserved.
 // ****************************************************************************
 #ifndef _IT7230_TouchKey_H
@@ -13,10 +13,10 @@
 
 typedef struct InitCapSReg
 {
-	BYTE  page;
-	BYTE  reg;
-	WORD   value;
-} sInitCapSReg;
+    BYTE  page;    
+    BYTE  reg;     
+    WORD   value;   
+} sInitCapSReg; 
 
 //--- Calibration Engine (Page number = 0) ---//
 #define CAPS_CE_Base                0x00
@@ -338,7 +338,7 @@ typedef struct InitCapSReg
 #define CAPS_GPIOICR                (CAPS_CE_Base+0x45)
 #define CAPS_GPIOCR0                (CAPS_CE_Base+0x46)
 #define CAPS_GPIOCR1                (CAPS_CE_Base+0x47)
-#define CAPS_GPIOCR2                (CAPS_CE_Base+0x48)
+#define CAPS_GPIOCR2                (CAPS_CE_Base+0x48)       
 
 //--- Interrupt Controller (Page number = 0) ---//
 
@@ -350,9 +350,9 @@ typedef struct InitCapSReg
 #define CAPS_SXCLRIER               (CAPS_INTC_Base+0x04)
 #define CAPS_SXCIER                 (CAPS_INTC_Base+0x05)
 
-//--- General Purpose I/O Port (Page number = 1) ---//
+//--- General Purpose I/O Port (Page number = 1) ---// 
 
-#define CAPS_GPIO_Base              0x50
+#define CAPS_GPIO_Base              0x50                
 #define CAPS_GPIOMSR                (CAPS_GPIO_Base+0x00)
 #define CAPS_GPIODR                 (CAPS_GPIO_Base+0x01)
 #define CAPS_GPIOIR                 (CAPS_GPIO_Base+0x02)
@@ -363,7 +363,7 @@ typedef struct InitCapSReg
 #define CAPS_GPIOISR                (CAPS_GPIO_Base+0x07)
 #define CAPS_GPIOIMR                (CAPS_GPIO_Base+0x08)
 #define CAPS_GPIOPCR                (CAPS_GPIO_Base+0x09)
-#define CAPS_GPIONPCR               (CAPS_GPIO_Base+0x0A)
+#define CAPS_GPIONPCR               (CAPS_GPIO_Base+0x0A)                   
 #define CAPS_LEDCMR0                (CAPS_GPIO_Base+0x0B)
 #define CAPS_LEDCMR1                (CAPS_GPIO_Base+0x0C)
 #define CAPS_LEDCMR2                (CAPS_GPIO_Base+0x0D)
@@ -405,7 +405,7 @@ typedef struct InitCapSReg
 #define Page_0_Stop_Addr            0x80
 #define Page_1_Stop_Addr            0x81
 /////////////////////////////////////////////////////////////////////////////////
-//--------------------------Define stage type ---------------------------------//
+//--------------------------Define stage type ---------------------------------// 
 /////////////////////////////////////////////////////////////////////////////////
 // Stage type
 #define NONE        0x00
@@ -415,7 +415,7 @@ typedef struct InitCapSReg
 #define SW_SLD_0    0x40
 #define SW_SLD_1    0x50
 /////////////////////////////////////////////////////////////////////////////////
-//--------------------------Define common flags--------------------------------//
+//--------------------------Define common flags--------------------------------// 
 /////////////////////////////////////////////////////////////////////////////////
 #define PAGE_0          0x00
 #define PAGE_1          0x01
@@ -453,11 +453,11 @@ typedef struct InitCapSReg
 #endif
 
 #ifdef IT7230_AFN
-#undef IT7230BFN
+    #undef IT7230BFN
 #endif
 
 #ifdef IT7230BFN
-#undef IT7230AFN
+    #undef IT7230AFN
 #endif
 
 #if MainBoardType == MainBoard_5276_M0A		//121122 Modify
@@ -506,7 +506,7 @@ typedef struct InitCapSReg
 
 
 void IT7230_CheckPage(BYTE page);
-WORD IT7230_CapS_Read_Reg(BYTE page, BYTE addr_byte);
+WORD IT7230_CapS_Read_Reg(BYTE page, BYTE addr_byte);   
 void IT7230_CapS_Write_Reg(BYTE page, BYTE addr_byte, WORD data_word);
 void IT7230_Init_CapS_Table(void);
 BYTE IT7230_GetKeyStatus(void);

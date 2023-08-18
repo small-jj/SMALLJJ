@@ -85,7 +85,7 @@
 
 #define EarphoneDet_Enable          1
 
-#define  EANBLE_NEW_DCR_Functing       1
+#define  EANBLE_NEW_DCR_Functing       1 
 
 
 

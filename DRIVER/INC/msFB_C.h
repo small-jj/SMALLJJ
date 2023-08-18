@@ -23,30 +23,30 @@
 
 enum
 {
-	_SDR        = 0x00,
-	_DDR        = BIT0,
-	_DDR2       = BIT1,
-	_DDR3       = BIT0 | BIT1,
+    _SDR        = 0x00,
+    _DDR        = BIT0,
+    _DDR2       = BIT1,
+    _DDR3       = BIT0|BIT1,
 };
 
 enum
 {
-	_1PICS      = 0x00,
-	_2PICS      = BIT2,
+    _1PICS      = 0x00,
+    _2PICS      = BIT2,
 };
 
 enum
 {
-	_2BK        = 0x00,
-	_4BK        = BIT4,
-	_8BK        = BIT5,
+    _2BK        = 0x00,
+    _4BK        = BIT4,
+    _8BK        = BIT5,
 };
 
 enum
 {
-	_8COL       = 0x00,
-	_9COL       = BIT6,
-	_10COL      = BIT7,
+    _8COL       = 0x00,
+    _9COL       = BIT6,
+    _10COL      = BIT7,
 };
 
 
@@ -142,30 +142,30 @@ enum
 
 enum
 {
-	MIU_PROTECT_0 = BIT0,
-	MIU_PROTECT_1 = BIT1,
-	MIU_PROTECT_2 = BIT2,
-	MIU_PROTECT_3 = BIT3,
+    MIU_PROTECT_0 = BIT0,
+    MIU_PROTECT_1 = BIT1,
+    MIU_PROTECT_2 = BIT2,
+    MIU_PROTECT_3 = BIT3,
 };
 
 enum
 {
-	MIU_ID_MIU_CMD      = BIT0,
-	MIU_ID_MIU_HK_CPU   = BIT1,
-	MIU_ID_MIU_R2_CPU_I = BIT2,
-	MIU_ID_MIU_R2_CPU_D = BIT3,
-	MIU_ID_MIU_BDMA     = BIT4,
-	MIU_ID_MIU_USB_MAC  = BIT5,
-	MIU_ID_MIU_JPD_LL   = BIT6,
-	MIU_ID_MIU_T3D_DD   = BIT7,
-	MIU_ID_MIU_T3D_DR   = BIT8,
-	MIU_ID_MIU_JPD_S    = BIT9,
-	MIU_ID_MIU_MRW_W    = BIT10,
-	MIU_ID_MIU_MRW_R    = BIT11,
-	MIU_ID_MIU_OD_R     = BIT12,
-	MIU_ID_MIU_OD_W     = BIT13,
-	MIU_ID_MIU_USB_PHY  = BIT14,
-	MIU_ID_MIU_MIU_TEST = BIT15,
+    MIU_ID_MIU_CMD      = BIT0,
+    MIU_ID_MIU_HK_CPU   = BIT1,
+    MIU_ID_MIU_R2_CPU_I = BIT2,
+    MIU_ID_MIU_R2_CPU_D = BIT3,
+    MIU_ID_MIU_BDMA     = BIT4,
+    MIU_ID_MIU_USB_MAC  = BIT5,
+    MIU_ID_MIU_JPD_LL   = BIT6,
+    MIU_ID_MIU_T3D_DD   = BIT7,
+    MIU_ID_MIU_T3D_DR   = BIT8,
+    MIU_ID_MIU_JPD_S    = BIT9,
+    MIU_ID_MIU_MRW_W    = BIT10,
+    MIU_ID_MIU_MRW_R    = BIT11,
+    MIU_ID_MIU_OD_R     = BIT12,
+    MIU_ID_MIU_OD_W     = BIT13,
+    MIU_ID_MIU_USB_PHY  = BIT14,
+    MIU_ID_MIU_MIU_TEST = BIT15,
 };
 
 ///////////////////////////////////////////////////////////////////////////

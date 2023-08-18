@@ -2,19 +2,19 @@
 #define _MSOVD_F_H_
 
 #ifdef _MSOVD_F_C_
-#define _MSOVDDEC_F_
+  #define _MSOVDDEC_F_
 #else
-#define _MSOVDDEC_F_ extern
+  #define _MSOVDDEC_F_ extern
 #endif
 
 #define TunePhaseByHistrogram 0
 #define DebugPhaseToggle (0 && TunePhaseByHistrogram)
 
 #if TunePhaseByHistrogram
-extern BYTE xdata u8Motion, u8Motion_V;
+extern BYTE xdata u8Motion,u8Motion_V;
 #endif
 #if DebugPhaseToggle
-extern DWORD xdata g_u32EvenSim_H, g_u32OddSim_H, g_u32EvenSim_V, g_u32OddSim_V;
+extern DWORD xdata g_u32EvenSim_H,g_u32OddSim_H,g_u32EvenSim_V,g_u32OddSim_V;
 #endif
 #define reg_phase_cur0_pre0_histogram_read_back   		REG_3640
 #define reg_phase_cur1_pre1_histogram_read_back			REG_364C

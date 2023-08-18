@@ -19,7 +19,7 @@
 
 
 //
-#define SB358X_HOST
+#define SB358X_HOST      
 #define SB358x_SMBus_addr       		0x80        //SB358x SMBus device address.
 #define SB358x_write_word_cmd   	0x00        //SB358x SMBus write word command.
 #define SB358x_write_byte_cmd   		0x01        //SB358x SMBus write byte command.   
@@ -66,14 +66,14 @@
 extern  Bool ENE_I2C_ReadByte(WORD wAddr, BYTE *buffer );
 extern void ENE_I2C_WriteByte(WORD wAddr, BYTE ucValue);
 extern Bool appCapkeyEneReadTbl(BYTE ucAddrH, BYTE ucAddrL, BYTE* buffer, BYTE ucBufLen);
-extern void ENE_I2C_WriteBlock(WORD wAddr, BYTE ucBufLen, BYTE* buffer);
+extern void ENE_I2C_WriteBlock(WORD wAddr,BYTE ucBufLen, BYTE* buffer);
 
 #if ENE_LED_TYPE == ENE_LED_GPIO
 extern void GPIO_Init(WORD GPIOPort, WORD GPIOOutput);
 extern void GPIO_LED_ON(WORD GPIOOutput);
 extern void GPIO_LED_OFF(WORD GPIOOutput);
 #else
-extern void PWM_LED_LEVEL_Setting(BYTE ucLevel);
+extern void PWM_LED_LEVEL_Setting(BYTE ucLevel); 
 extern void PWM_LED_LEVEL_ON(WORD PWMPort);
 extern void PWM_LED_LEVEL_OFF(WORD PWMPort);
 #endif

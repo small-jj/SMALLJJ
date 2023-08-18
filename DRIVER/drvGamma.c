@@ -22,6 +22,6 @@
 BYTE code msGammaNullData[] = {0};
 void msGammaDummy(void)
 {
-	BYTE xdata i = msGammaNullData[0];
+    BYTE xdata i = msGammaNullData[0];
 }
 #endif

@@ -5,7 +5,7 @@
 #define CHIP_TSUMB      2
 #define CHIP_TSUMY      3
 #define CHIP_TSUMV      4
-#define CHIP_TSUM2      5
+#define CHIP_TSUM2      5 
 #define CHIP_TSUMC      6
 #define CHIP_TSUMD      7
 #define CHIP_TSUMJ      8
@@ -24,7 +24,9 @@
 #define _BOARD_H
 //****************************************************************
 #ifndef ModelName
-#define  ModelName      JRY_TESTBOARD_C_BOARD//Debug Mode need define
+#define  ModelName      JRY_L58CDT9_GV2//Debug Mode need define
+//#define  ModelName        JRY_TESTBOARD_C_BOARD																		//my
+
 #endif
 
 #include "LOGO_DEFINE.H"
@@ -57,7 +59,7 @@
 #define INPUT_1H           14 // 20160907  Alpha
 #define INPUT_1A2H1DP      15
 #define INPUT_1D1H1DP      16
-
+          
 
 #define PANEL_17						0
 #define PANEL_17_WIDE					1
@@ -78,7 +80,7 @@
 #define All13Language					3	//gy:090824:for 13 Language(Add ASIS and EUROPE Together)
 //English,German,France,Italian,Spanish,Swedish,Polish,Czech,Russia,Portugues,Korea,TChina,SChina
 
-#define All14Language_AddJap			4
+#define All14Language_AddJap			4	
 //English,German,France,Italian,Spanish,Swedish,Polish,Czech,Russia,Portugues,Korea,TChina,SChina,Japan
 //*****************************************************************
 
@@ -104,19 +106,19 @@
 #define EEPROM_24C32        2
 //*****************************************************************
 //=================================================================
-//1 进工厂模式
+					//1 进工厂模式
 #define FEnter_AC_MENU	   					0
 #define FEnter_POWER_MENU	  				1
 #define FEnter_POWER_EXIT	  				2
 //==================================================================
-//1 低蓝光模式
+					//1 低蓝光模式
 #define LowBlueLight_Off						0		//3关闭低蓝光			
 #define LowBlueLight_ColorTemp				1		//3低蓝光在色温下
 #define LowBlueLight_Misc_Guage				2		//3 低蓝光在其他菜单下
 #define LowBlueLight_Misc_Group				3		//3 低蓝光在其他菜单下
 #define LowBlueLight_SharpFunc				4		//3SHARP低蓝光调节方式
 //==================================================================
-//2 导航键显示
+					//2 导航键显示
 
 #define	OsdHelpKey_Off							0
 #define	OsdHelpKey_Under						1
@@ -128,122 +130,123 @@
 
 
 #if(ModelName==TSUMXXV_DEMO)
-#include"TSUMXXV_DEMO.h"
+	#include"TSUMXXV_DEMO.h"
 #elif(ModelName==TSUMXXB_DEMO)
-#include"TSUMXXB_DEMO.h"
+    #include"TSUMXXB_DEMO.h"    
 #elif(ModelName==TSUMXX2_DEMO)
-#include"TSUMXX2_DEMO.h"
+    #include"TSUMXX2_DEMO.h"
 
 
 
 //====new chip demo define ===//
 #elif(ModelName==TSUMXXC_DEMO)
-#include"TSUMXXC_DEMO.h"
+	#include"TSUMXXC_DEMO.h"	
 #elif(ModelName==TSUMXXD_DEMO)
-#include"TSUMXXD_DEMO.h"
+	#include"TSUMXXD_DEMO.h"	
 #elif(ModelName==TSUMXX9_DEMO)
-#include"TSUMXX9_DEMO.h"
+	#include"TSUMXX9_DEMO.h"
 #elif(ModelName==TSUMXXF_DEMO)
-#include"TSUMXXF_DEMO.h"
+	#include"TSUMXXF_DEMO.h"
 #elif (ModelName == AOC_SY_T4017C)
-#include "AOC_SY_T4017C.h"
+	#include "AOC_SY_T4017C.h"
 
 #elif (ModelName==HKC_W8787_BV1)
-#include "HKC_W8787_BV1.h"
-//====new chip demo define ===//
+    #include "HKC_W8787_BV1.h"		
+//====new chip demo define ===//   
 #elif (ModelName==SPT_CNC_O38CDMT9_GV1)
-#include"SPT_CNC_O38CDMT9_GV1.h"
+	#include"SPT_CNC_O38CDMT9_GV1.h"  
 #elif (ModelName==SPT_CNC_JRY_L8787_BV1)
-#include"SPT_CNC_JRY_L8787_BV1.h"
+	#include"SPT_CNC_JRY_L8787_BV1.h"	
 #elif (ModelName==LEYI_JRY_LQ570S_BV1)
-#include"LEYI_JRY_LQ570S_BV1.h"
+	#include"LEYI_JRY_LQ570S_BV1.h"	
 #elif (ModelName==HKC_L58CDT9_NV1)
-#include"HKC_L58CDT9_NV1.h"
+	#include"HKC_L58CDT9_NV1.h" 
 #elif (ModelName==HKC_O587HT9_NV1)
-#include"HKC_O587HT9_NV1.h"
+	#include"HKC_O587HT9_NV1.h" 
 #elif (ModelName==YWPK_L58CDT9_NV1)
-#include"YWPK_L58CDT9_NV1.h"
+	#include"YWPK_L58CDT9_NV1.h" 	
 #elif (ModelName==JRY_L58VHN_GV3)//20140103
-#include"JRY_L58VHN_GV3.h"
+	#include"JRY_L58VHN_GV3.h"
 #elif (ModelName==JRY_L58CDT9_GV3)//20140103
-#include"JRY_L58CDT9_GV3.h"
+	#include"JRY_L58CDT9_GV3.h"
 #elif (ModelName==JRY_L58CDT9_EV1)//20140103
-#include"JRY_L58CDT9_EV1.h"
+	#include"JRY_L58CDT9_EV1.h"	
 #elif (ModelName==JRY_L58CDT9_PV1)//20140103
-#include"JRY_L58CDT9_PV1.h"
+	#include"JRY_L58CDT9_PV1.h"
 #elif (ModelName==JRY_L58CDT9_KV1)//20140103
-#include"JRY_L58CDT9_KV1.h"
+	#include"JRY_L58CDT9_KV1.h"	
 #elif (ModelName==JRY_L58CDT9_AV6)//20140103
-#include"JRY_L58CDT9_AV6.h"
+	#include"JRY_L58CDT9_AV6.h"
 #elif (ModelName==JuFeng_Project)//20140103
-#include"JuFeng_Project.h"
+	#include"JuFeng_Project.h"	
 #elif (ModelName==HUNTKEY_F2272WHS)//20140103
-#include"HUNTKEY_F2272WHS.h"
+	#include"HUNTKEY_F2272WHS.h"
 #elif (ModelName==JRY_L58CDT9_GV2)
-#include"JRY_L58CDT9_GV2.h"
+	#include"JRY_L58CDT9_GV2.h"
+	
 #elif (ModelName==HJP07BF2_Project)//20140103
-#include"HJP07BF2_Project.h"
+	#include"HJP07BF2_Project.h"	
 #elif (ModelName==MODEL_HJP400MA_CDHS)//20140103
-#include"MODEL_HJP400MA_CDHS.h"
+	#include"MODEL_HJP400MA_CDHS.h"	
 #elif (ModelName==MODEL_HJP220MA_CDHS)//20140103
-#include"MODEL_HJP220MA_CDHS.h"
-
+	#include"MODEL_HJP220MA_CDHS.h"		
+	
 #elif (ModelName==HH_TCL_T27N1_Project)//20140103
-#include"HH_TCL_T27N1_Project.h"
+	#include"HH_TCL_T27N1_Project.h"	
 #elif (ModelName==HH_TCL_T27N1_F_Project)//20140103
-#include"HH_TCL_T27N1_F_Project.h"
+	#include"HH_TCL_T27N1_F_Project.h"	
 #elif (ModelName==HH_TSY_KF270F075P_F_Project)//20140103
-#include"HH_TSY_KF270F075P_F_Project.h"
+	#include"HH_TSY_KF270F075P_F_Project.h"		
 #elif (ModelName==HH_HKC_27P630Q_U_Project)//20140103
-#include"HH_HKC_27P630Q_U_Project.h"
+	#include"HH_HKC_27P630Q_U_Project.h"	
 #elif (ModelName==HH_HKC_T32M8C_C_Project)//20140103
-#include"HH_HKC_T32M8C_C_Project.h"
+	#include"HH_HKC_T32M8C_C_Project.h"	
 #elif (ModelName==X_STAR_NX2410F)//20140103
-#include"X_STAR_NX2410F.h"
+	#include"X_STAR_NX2410F.h"		
 #elif (ModelName==TOPSYNC_KF238F075P_Y)//20140103
-#include"TOPSYNC_KF238F075P_Y.h"
+	#include"TOPSYNC_KF238F075P_Y.h"	
 #elif (ModelName==TOPSYNC_KF270W075P)//20140103
-#include"TOPSYNC_KF270W075P.h"
+	#include"TOPSYNC_KF270W075P.h"	
 #elif (ModelName==MODEL_HS245HFB)//20140103
-#include"MODEL_HS245HFB.h"
+	#include"MODEL_HS245HFB.h"	
 #elif (ModelName==MODEL_GF238F060P_Y)//20140103
-#include"MODEL_GF238F060P_Y.h"
+	#include"MODEL_GF238F060P_Y.h"	
 #elif (ModelName==MODEL_NM2400W)//20140103
-#include"MODEL_NM2400W.h"
+	#include"MODEL_NM2400W.h"		
 #elif (ModelName==MODEL_HS225HFB)//20140103
-#include"MODEL_HS225HFB.h"
+	#include"MODEL_HS225HFB.h"
 #elif (ModelName==MODEL_HS275HFB)//20140103
-#include"MODEL_HS275HFB.h"
+	#include"MODEL_HS275HFB.h"	
 
 #elif (ModelName==MODEL_24P630F_CHD)//20140103
-#include"MODEL_24P630F_CHD.h"
+	#include"MODEL_24P630F_CHD.h"	
 #elif (ModelName==JRY_TESTBOARD_F_BOARD)//20140103
-#include"JRY_TESTBOARD_F_BOARD.h"
+	#include"JRY_TESTBOARD_F_BOARD.h"		
 #elif (ModelName==JRY_TESTBOARD_C_BOARD)//20140103
-#include"JRY_TESTBOARD_C_BOARD.h"
+	#include"JRY_TESTBOARD_C_BOARD.h"	
 #elif (ModelName==JRY_TESTBOARD_9_BOARD)//20140103
-#include"JRY_TESTBOARD_9_BOARD.h"
+	#include"JRY_TESTBOARD_9_BOARD.h"	
 
-
+	
 #elif (ModelName==MODEL_FZ22LVD_FND)//20140103
-#include"MODEL_FZ22LVD_FND.h"
+	#include"MODEL_FZ22LVD_FND.h"	
 
 #elif (ModelName==MODEL_T24_TCL)//20140103
-#include"MODEL_T24_TCL.h"
+	#include"MODEL_T24_TCL.h"
 #elif (ModelName==MODEL_T24N2_TCL)//20140103
-#include"MODEL_T24N2_TCL.h"
+	#include"MODEL_T24N2_TCL.h"	
 #elif (ModelName==HH_HKC_XXXXX_U_Project)//20140103
-#include"HH_HKC_XXXXX_U_Project.h"
+	#include"HH_HKC_XXXXX_U_Project.h"
 #elif (ModelName==HH_HKC_XXXXX_U2_Project)//20140103
-#include"HH_HKC_XXXXX_U2_Project.h"
+	#include"HH_HKC_XXXXX_U2_Project.h"	
 #elif (ModelName==HH_HKC_KF270F144P_Project)//20140103
-#include"HH_HKC_KF270F144P_Project.h"
+	#include"HH_HKC_KF270F144P_Project.h"	
 #elif (ModelName==HH_TCL_DEMO_Project)//20140103
-#include"HH_TCL_DEMO_Project.h"
+	#include"HH_TCL_DEMO_Project.h"	
 #elif (ModelName==HH_BOARD_DEMO_Project)//20140103
-#include"HH_BOARD_DEMO_Project.h"
+	#include"HH_BOARD_DEMO_Project.h"		
 
-#endif
+
 
 
 #include "DefaultUserRequestOption.h"
@@ -269,13 +272,13 @@
 
 
 
-#if AudioFunc && (CHIP_ID==CHIP_TSUMU || CHIP_ID == CHIP_TSUMB|| CHIP_ID == CHIP_TSUM2||CHIP_ID==CHIP_TSUMC||CHIP_ID==CHIP_TSUMD||CHIP_ID == CHIP_TSUM9||CHIP_ID == CHIP_TSUMF)//20131022 JUN Follow Demo Code For VGA Linein No Audio
-#define MS_DAC				1
-#define InitialDACByISR                 1&MS_DAC
-#define CheckInitialDACTime             0&MS_DAC
-#define DAC_support_LineoutOnly         0&MS_DAC
+#if AudioFunc && (CHIP_ID==CHIP_TSUMU || CHIP_ID == CHIP_TSUMB|| CHIP_ID == CHIP_TSUM2||CHIP_ID==CHIP_TSUMC||CHIP_ID==CHIP_TSUMD||CHIP_ID == CHIP_TSUM9||CHIP_ID == CHIP_TSUMF)//20131022 JUN Follow Demo Code For VGA Linein No Audio	
+	#define MS_DAC				1
+    #define InitialDACByISR                 1&MS_DAC
+    #define CheckInitialDACTime             0&MS_DAC
+    #define DAC_support_LineoutOnly         0&MS_DAC
 #else
-#define MS_DAC				0
+	#define MS_DAC				0
 #endif
 
 
@@ -313,28 +316,28 @@
 
 //*****************************************************************
 
-#define CompressPropFont		1
+    #define CompressPropFont		1
 
 
 //*****************************************************************
 #if DisplayLogo==NoBrand
-#define DisplayPowerOnLogo 		0
+    #define DisplayPowerOnLogo 		0
 #else
-#define DisplayPowerOnLogo   	1
+    #define DisplayPowerOnLogo   	1
 #endif
 //*****************************************************************
 //When Released Plesease Remember To Set DEBUG Flags To Be 0!!!!!!!!!
 #define ENable_LoadEDIDSelectPort  1
 
-#define  DEBUG_EN
+#define  DEBUG_EN 
 #ifdef DEBUG_EN
-#define ENABLE_DEBUG        	1
-#message "Please remember to disable the debug function!"//Zhifeng.Wu Please don't canel it,just only a message to remind you to disable it ,thanks.
+    #define ENABLE_DEBUG        	1
+    #message "Please remember to disable the debug function!"//Zhifeng.Wu Please don't canel it,just only a message to remind you to disable it ,thanks.
 #else
-#define ENABLE_DEBUG			0
-#if 0//ENABLE_DEBUG
-#message "Please remember to disable the debug function!"
-#endif
+ 	#define ENABLE_DEBUG			0
+ 	#if 0//ENABLE_DEBUG
+ 	#message "Please remember to disable the debug function!"
+ 	#endif
 #endif
 #define DEBUG_ALLBANK				0//ENABLE_DEBUG
 #define DEBUG_IOPORT				0//ENABLE_DEBUG
@@ -360,10 +363,10 @@
 #define DEBUG_HDMI_MHL_CABLE_DETECT 0//     1
 
 #if MS_PM
-#define DEBUG_PM    			0
+    #define DEBUG_PM    			0
 #endif
 #define DEBUG_HOTSWITCH             0// ENABLE_DEBUG // 120426 coding debug
-#define DEBUG_VIRTUAL_KEY			0
+#define DEBUG_VIRTUAL_KEY			0					 
 
 //*****************************************************************
 //HDMI
@@ -381,7 +384,7 @@
 #define ENABLE_CTS_INT                  1
 #define ENABLE_CTSN_FILTER				1
 
-#define EN_HDMI_NEW_PIXEL_REPETITION    1
+#define EN_HDMI_NEW_PIXEL_REPETITION    1	
 #define ENABLE_HDMI_SW_CTS_STABLE		0
 #define ENABLE_HDMI_SW_AUDCLK_CHECK		0
 #define ENABLE_AUDIO_AUTO_MUTE   		1 // auto mute setting
@@ -399,7 +402,7 @@
 #define ENABLE_CTSN_FILTER				0
 
 #define CheckCTSStable                  0
-#define EN_HDMI_NEW_PIXEL_REPETITION    0
+#define EN_HDMI_NEW_PIXEL_REPETITION    0	
 #define ENABLE_HDMI_SW_CTS_STABLE		0
 #define ENABLE_HDMI_SW_AUDCLK_CHECK		0
 #define ENABLE_AUDIO_AUTO_MUTE   		0 // auto mute setting
@@ -444,29 +447,26 @@
 #define DisplayInputInfo			1// 1: show input info ; 0:show energyStar logo
 
 #define Enable_SubWin				!Enable_OsdEngine1// 1: yuhjinn test sub-win only
-#define Enable_GDColor      		!Enable_OsdEngine1
-#define CenterTitleText				!Enable_OsdEngine1
-#define TestAutoSwitch  			1
+#define Enable_GDColor      		!Enable_OsdEngine1	 
+#define CenterTitleText				!Enable_OsdEngine1	 
+#define TestAutoSwitch  			1	
 
 
 
 #define EnableNewHotKey    //edit by lizzie.ding,100525  for ECO+DCR hotkey,if not define this,there is no DCR hotkey
 #ifdef EnableNewHotKey
-#define HotExpansionAdjust		Enable_Func_AdjExpansion
-#define UnifyHotDcrEco			HotExpansionAdjust
+	#define HotExpansionAdjust		Enable_Func_AdjExpansion
+	#define UnifyHotDcrEco			HotExpansionAdjust
 #else
-#define HotExpansionAdjust  	0
-#define UnifyHotDcrEco		 	0
+	#define HotExpansionAdjust  	0
+	#define UnifyHotDcrEco		 	0
 #endif
 
 #if Dual
-#define HotInputSelect	 		1
+ 	#define HotInputSelect	 		1
 #else
-#define HotInputSelect	 		0
+ 	#define HotInputSelect	 		0
 #endif
-
-
-
 
 #define DATA_LENGTH_20_BYTE//For HDCP Tool Send 20Byte Data One Block	 
 #if 1//def WH_REQUEST
@@ -494,11 +494,11 @@
 //*****************************************************************
 
 #if MST_MCU
-#define DirectBus				1
-#define DDRBus					0
+    #define DirectBus				1
+    #define DDRBus					0
 #else
-#define DirectBus				0
-#define DDRBus					1
+    #define DirectBus				0
+    #define DDRBus					1
 #endif
 
 #define PropFontUseCommonArea    	0
@@ -614,10 +614,11 @@
 #include "bd_JRY_F5DFHD_AV1.h"
 
 
-#elif (MainBoardType == MainBoard_JRY_W58CDT9_AV7)
-#define USEFLASH    1
-#include "bd_JRY_W58CDT9_AV7.h"
-#endif
+
+
+
+
+#endif	
 
 
 
@@ -640,7 +641,7 @@
 
 
 //#define HDMI_RB_SWAP                                0
-//#define HDMI_PN_SWAP					0
+//#define HDMI_PN_SWAP					0                             
 
 // 120106 coding addition, default set adc dithering to disable
 #ifndef ENABLE_ADC_DITHERING
@@ -705,7 +706,7 @@
 #define OD_MODE_485        		5
 #define OD_MODE_555             6
 #elif (CHIP_ID == CHIP_TSUMU)
-//Junior does not support 444 mode
+           //Junior does not support 444 mode
 #define OD_MODE_444             0
 #define OD_MODE_565             1
 #define OD_MODE_333             5   //compress mode
@@ -760,16 +761,16 @@
 
 #else
 #ifndef FRAME_BFF_SEL
-#if CHIP_ID==CHIP_TSUMU
-#define FRAME_BFF_SEL    	FRAME_BFFLESS//   FRAME_BUFFER
-#define ENABLE_RTE        1
+  #if CHIP_ID==CHIP_TSUMU
+  #define FRAME_BFF_SEL    	FRAME_BFFLESS//   FRAME_BUFFER
+  #define ENABLE_RTE        1
 #elif CHIP_ID==CHIP_TSUM2
-#define FRAME_BFF_SEL       FRAME_BUFFER
-//#define ENABLE_RTE        0
-#else
-#define FRAME_BFF_SEL  	FRAME_BFFLESS
-#define ENABLE_RTE        0
-#endif
+       #define FRAME_BFF_SEL       FRAME_BUFFER
+       //#define ENABLE_RTE        0
+  #else
+  #define FRAME_BFF_SEL  	FRAME_BFFLESS
+  #define ENABLE_RTE        0
+  #endif
 #endif
 #endif
 

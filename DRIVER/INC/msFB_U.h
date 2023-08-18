@@ -205,30 +205,30 @@
 
 enum
 {
-	_SDR        = 0x00,
-	_DDR        = BIT0,
-	_DDR2       = BIT1,
-	_DDR3       = BIT0 | BIT1,
+    _SDR        = 0x00,
+    _DDR        = BIT0,
+    _DDR2       = BIT1,
+    _DDR3       = BIT0|BIT1,
 };
 
 enum
 {
-	_1PICS      = 0x00,
-	_2PICS      = BIT2,
+    _1PICS      = 0x00,
+    _2PICS      = BIT2,
 };
 
 enum
 {
-	_2BK        = 0x00,
-	_4BK        = BIT4,
-	_8BK        = BIT5,
+    _2BK        = 0x00,
+    _4BK        = BIT4,
+    _8BK        = BIT5,
 };
 
 enum
 {
-	_8COL       = 0x00,
-	_9COL       = BIT6,
-	_10COL      = BIT7,
+    _8COL       = 0x00,
+    _9COL       = BIT6,
+    _10COL      = BIT7,
 };
 
 #if PANEL_3D_PASSIVE_4M || (ENABLE_RTE && (FRAME_BFF_SEL==FRAME_BFFLESS))

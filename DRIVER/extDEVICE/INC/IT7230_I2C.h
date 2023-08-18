@@ -17,7 +17,7 @@
 //#define	ACK			0
 //#define	NACK		1
 
-//SCL & SDA define,dependent on Scaler
+//SCL & SDA define,dependent on Scaler  
 //sbit P1_0 = P1^0;
 //sbit P1_1 = P1^1;
 
@@ -33,7 +33,7 @@
 
 
 
-static BYTE xdata isInit = FALSE;
+static BYTE xdata isInit=FALSE;
 
 //void vDelayXms(unsigned short dly);
 

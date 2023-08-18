@@ -4,7 +4,7 @@
 // BOARD SELECTION
 ////////////////////////////////////////////////////////////
 #define CHIP_ID                			CHIP_TSUMC
-#define MainBoardType    				MainBoard_JRY_L5AFHD_EV1
+#define MainBoardType    				MainBoard_JRY_L5AFHD_EV1 
 #define PanelType 					PanelLC238LF1L
 #define DisplayLogo					CHONGHONG
 
@@ -78,7 +78,7 @@
 #define Init_HDCPKey    	           			1
 
 /***************************************************************************************/
-//1 DDC/CI功能
+								//1 DDC/CI功能
 #define JRY_Color_Tool_Functing            	1
 
 #define  Adj_7500K_Temp  				(1&&JRY_Color_Tool_Functing)
@@ -91,11 +91,11 @@
 /***************************************************************************************/
 
 
-#define  EANBLE_NEW_DCR_Functing       1
+#define  EANBLE_NEW_DCR_Functing       1 
 
 
 
-#if MainBoardType == MainBoard_JRY_L5AFHD_EV1
+#if MainBoardType == MainBoard_JRY_L5AFHD_EV1 
 
 #define INPUT_TYPE_SEL              			(INPUT_0A|INPUT_1C)
 #define DVI_PORT_PRIORITY       			2 //
@@ -199,7 +199,7 @@
 #define ChangeDate					"20190418"//""
 
 /********************************************************************************************/
-//1 Project 设置
+					  			//1 Project 设置
 
 #define	HH_PivotKey_Enable						0
 
@@ -220,7 +220,7 @@
 #define		ENABLE_FREESYNC		1
 #define  		FreeSyncMenu_Enable       	1
 /////////////////////////brightness///////////////////////////////////
-#define BRI_PRO_MIN_VALUE			0x00
+#define BRI_PRO_MIN_VALUE			0x00	
 #define BRI_PRO_DEF_VALUE			0x45
 #define BRI_PRO_MAX_VALUE			0x6A
 ////////////////////////color temp/////////////////////////////////
@@ -245,7 +245,7 @@
 #define Pro_MidVol_P   			0x10F
 #define Pro_MaxVol_P				0x23F
 ///////////////////////////////////////////////////////////////
-
+ 
 #define ADCKEY_A0_VALUE     0x00
 #define ADCKEY_A1_VALUE     0x9B//0x68
 #define ADCKEY_A2_VALUE     0xA0

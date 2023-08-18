@@ -47,21 +47,21 @@
 #define PanelVStart   (PanelVSyncWidth+PanelVSyncBackPorch)
 
 
-#define PanelWidth    		1920
-#define PanelHeight   		1080
-
-#define PanelHTotal   		2200
-#define PanelVTotal   		1125
-
-#define PanelMaxHTotal     	2300
-#define PanelMinHTotal     	2120
-
-#define PanelMaxVTotal     	1220
-#define PanelMinVTotal     	1110
-
-#define PanelDCLK       		150
-#define PanelMaxDCLK     	196
-#define PanelMinDCLK     		118
+ #define PanelWidth    		1920
+ #define PanelHeight   		1080
+ 
+ #define PanelHTotal   		2200  
+ #define PanelVTotal   		1125 
+ 
+ #define PanelMaxHTotal     	2300
+ #define PanelMinHTotal     	2120
+ 
+ #define PanelMaxVTotal     	1220
+ #define PanelMinVTotal     	1110
+ 
+ #define PanelDCLK       		150
+ #define PanelMaxDCLK     	196
+ #define PanelMinDCLK     		118
 
 // TCON  setting for LVDS
 //PVS / FSYNC

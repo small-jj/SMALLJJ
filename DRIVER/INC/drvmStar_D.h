@@ -18,15 +18,15 @@
 
 
 #ifndef I_GEN_CH //use a defined port
-#if PanelDualPort!=0
-#define I_GEN_CH  CH2
-#else
-#if PanelSwapPort!=0
-#define I_GEN_CH  CH6 // need check
-#else
-#define I_GEN_CH  CH2 // need check
-#endif
-#endif
+  #if PanelDualPort!=0
+    #define I_GEN_CH  CH2
+  #else
+    #if PanelSwapPort!=0
+      #define I_GEN_CH  CH6 // need check
+    #else
+      #define I_GEN_CH  CH2 // need check
+    #endif
+  #endif
 #endif
 
 #ifndef LVDS_XSWING_CH //LVDS double swing ch
@@ -81,21 +81,20 @@ _DRVMSTARDEC_ void drvmStar_SetupInputPort_HDMI(void);
 
 typedef enum
 {
-	DVI_POWER_ON,
-	DVI_POWER_STANDBY,
-	DVI_POWER_DOWN
+    DVI_POWER_ON,
+    DVI_POWER_STANDBY,
+    DVI_POWER_DOWN
 
 } DVI_PowerCtrlType;
 
 
 typedef enum
-{
-	//130604 Modify
-	COMBO_INPUT_OFF,
-	COMBO_INPUT_POWERSAVING,
-	COMBO_INPUT_ANALOG,
-	COMBO_INPUT_DIGITAL,
-
+{//130604 Modify
+    COMBO_INPUT_OFF,
+    COMBO_INPUT_POWERSAVING,
+    COMBO_INPUT_ANALOG,
+    COMBO_INPUT_DIGITAL,
+   
 } ComboInputType;
 
 
@@ -122,32 +121,32 @@ _DRVMSTARDEC_ WORD GetImageOutV();
 
 typedef struct _RegTblType
 {
-	WORD wReg;
-	BYTE ucValue;
-	BYTE ucMask;
-} RegTblType;
+    WORD wReg;
+    BYTE ucValue;
+    BYTE ucMask;
+}RegTblType;
 typedef struct _RegTbl2Type
 {
-	WORD wReg;
-	WORD wValue;
-	WORD wMask;
-} RegTbl2Type;
+    WORD wReg;
+    WORD wValue;
+    WORD wMask;
+}RegTbl2Type;
 typedef enum _FSyncMode
 {
-	FLM_FBL,
-	FLM_FB_FPLL_NOLOCK,
-	FLM_FB_FPLL,
-} FSyncMode;
+    FLM_FBL,
+    FLM_FB_FPLL_NOLOCK,
+    FLM_FB_FPLL,
+}FSyncMode;
 
 enum DVI_INPUT_PORT_TYPE
 {
-	DVI_INPUT_NONE = 0,
-	DVI_INPUT_PORT0,
-	DVI_INPUT_PORT1,
-	DVI_INPUT_PORT2,
-	DVI_INPUT_ALL,
-	DVI_INPUT_ALL_OFF,
-	DVI_INPUT_PORT_MASK,
+    DVI_INPUT_NONE = 0,
+    DVI_INPUT_PORT0,
+    DVI_INPUT_PORT1,
+    DVI_INPUT_PORT2,
+    DVI_INPUT_ALL,
+    DVI_INPUT_ALL_OFF,
+    DVI_INPUT_PORT_MASK,
 };
 
 _DRVMSTARDEC_ void msWritePowerOnTble(void);

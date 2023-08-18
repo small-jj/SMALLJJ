@@ -14,6 +14,6 @@
 BYTE code ms3DLUTDummy[] = {0};
 void ms3DLUT_Dummy()
 {
-	BYTE xdata x = ms3DLUTDummy;
+    BYTE xdata x = ms3DLUTDummy;
 }
 #endif

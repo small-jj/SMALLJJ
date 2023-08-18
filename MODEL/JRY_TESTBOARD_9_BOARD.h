@@ -75,7 +75,7 @@
 #define Init_HDCPKey    	           			1
 
 /***************************************************************************************/
-//1 DDC/CI功能
+								//1 DDC/CI功能
 #define JRY_Color_Tool_Functing            	1
 
 #define  Adj_7500K_Temp  				(0&&JRY_Color_Tool_Functing)
@@ -88,7 +88,7 @@
 /***************************************************************************************/
 
 
-#define  EANBLE_NEW_DCR_Functing       1
+#define  EANBLE_NEW_DCR_Functing       1 
 
 
 #define	UseI2cByTableFunc				1
@@ -201,7 +201,7 @@
 #define ChangeDate					"20190524"//""
 
 /********************************************************************************************/
-//1 Project 设置
+					  			//1 Project 设置
 
 #define	HH_PivotKey_Enable						0
 
@@ -226,7 +226,7 @@
 #define   Hotkey_ECO_Enable				1
 #define 	Hot_Corss_FY_ColorSelect		1
 /////////////////////////brightness///////////////////////////////////
-#define BRI_PRO_MIN_VALUE			0x00
+#define BRI_PRO_MIN_VALUE			0x00	
 #define BRI_PRO_DEF_VALUE			0x45
 #define BRI_PRO_MAX_VALUE			0x6A
 ////////////////////////color temp/////////////////////////////////
@@ -251,7 +251,7 @@
 #define Pro_MidVol_P   			0x10F
 #define Pro_MaxVol_P				0x23F
 ///////////////////////////////////////////////////////////////
-
+ 
 #define ADCKEY_A0_VALUE     0x73
 #define ADCKEY_A1_VALUE     0xFF
 #define ADCKEY_A2_VALUE     0xFF

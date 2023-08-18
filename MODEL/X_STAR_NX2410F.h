@@ -4,7 +4,7 @@
 // BOARD SELECTION
 ////////////////////////////////////////////////////////////
 #define CHIP_ID                			CHIP_TSUMF
-#define MainBoardType    				MainBoard_JRY_L5AFHD_EV1
+#define MainBoardType    				MainBoard_JRY_L5AFHD_EV1 
 #define PanelType 					PanelM236HJJ_P02
 #define DisplayLogo					LOGO_XSTAR
 
@@ -78,7 +78,7 @@
 #define Init_HDCPKey    	           			0
 
 /***************************************************************************************/
-//1 DDC/CI功能
+								//1 DDC/CI功能
 #define JRY_Color_Tool_Functing            	1
 
 #define  Adj_7500K_Temp  				(1&&JRY_Color_Tool_Functing)
@@ -91,11 +91,11 @@
 /***************************************************************************************/
 
 
-#define  EANBLE_NEW_DCR_Functing       1
+#define  EANBLE_NEW_DCR_Functing       1 
 
 
 
-#if MainBoardType == MainBoard_JRY_L5AFHD_EV1
+#if MainBoardType == MainBoard_JRY_L5AFHD_EV1 
 
 #define INPUT_TYPE_SEL              			(INPUT_0A|INPUT_1C)
 #define DVI_PORT_PRIORITY       			2 //
@@ -199,7 +199,7 @@
 #define ChangeDate					"20190114"//""
 
 /********************************************************************************************/
-//1 Project 设置
+					  			//1 Project 设置
 
 #define	HH_PivotKey_Enable						0
 
@@ -217,7 +217,7 @@
 #define 		TimingInfoYpos			12
 #define 		EN_HotInputSelect_ShowCenter		1
 /////////////////////////brightness///////////////////////////////////
-#define BRI_PRO_MIN_VALUE			0x00
+#define BRI_PRO_MIN_VALUE			0x00	
 #define BRI_PRO_DEF_VALUE			0x45
 #define BRI_PRO_MAX_VALUE			0x67
 ////////////////////////color temp/////////////////////////////////

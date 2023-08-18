@@ -18,9 +18,8 @@
 #define MAIN_WINDOW 0
 #define SUB_WINDOW  1
 typedef enum msbus_direction
-{
-	MS_WRITE,
-	MS_READ
+{ MS_WRITE,
+  MS_READ
 } msBus_Direction;
 
 
@@ -42,8 +41,8 @@ typedef enum msbus_direction
 #define OSPH        (BKMASKOSD1|0x0B)
 // internal osd control
 #define IOSDC1      (BKMASKOSD1|0x0C)
-#define MWIN_B  BIT0
-#define MWBT_B  BIT3
+    #define MWIN_B  BIT0
+    #define MWBT_B  BIT3
 #define IOSDC2      (BKMASKOSD1|0x0D)
 #define IOSDC3      (BKMASKOSD1|0x0E)
 //osd windodw shadow control
@@ -150,12 +149,12 @@ typedef enum msbus_direction
 #define CLR7G       (BKMASKOSD1|0x6E)
 #define CLR7B       (BKMASKOSD1|0x6F)
 
-#define OSD_GD      (BKMASKOSD1|0x81)
+#define OSD_GD      (BKMASKOSD1|0x81)    
 #define OSD_ColorGD	(BKMASKOSD1|0x77)
 #define OSD_GD00	(BKMASKOSD1|0x78)
-#define OSD_GD01    (BKMASKOSD1|0x85)
-#define OSD_GD02    (BKMASKOSD1|0x92)
-#define OSD_GD03    (BKMASKOSD1|0x9F)
+#define OSD_GD01    (BKMASKOSD1|0x85)  
+#define OSD_GD02    (BKMASKOSD1|0x92)  
+#define OSD_GD03    (BKMASKOSD1|0x9F)  
 
 #define SCALER_STYPE_AUTO   0x00
 #define SCALER_STYPE_HV     0x20
@@ -164,59 +163,59 @@ typedef enum msbus_direction
 #define SCALER_ISEL_MASK    0x07
 #define SCALER_ISEL_DP         0x07
 
-#define     IHSU_B  BIT2
-#define     CSC_B   BIT3
-#define     COMP_B  BIT4
-#define     NIS_B   BIT7
-//#define     STYPE_Mask  0x60
-//#define     ISEL_Mask   0xFC
-#define     ISEL_ANALOG1    0x00
-#define     ISEL_ANALOG2    0x01
-#define     ISEL_DVI    0x02
-#define     ISEL_HDMI_422   0x06
-#define     ISEL_HDMI_444   0x07
-#define     ISEL_DP  0x07
+    #define     IHSU_B  BIT2
+    #define     CSC_B   BIT3
+    #define     COMP_B  BIT4
+    #define     NIS_B   BIT7
+    //#define     STYPE_Mask  0x60
+    //#define     ISEL_Mask   0xFC
+    #define     ISEL_ANALOG1    0x00
+    #define     ISEL_ANALOG2    0x01
+    #define     ISEL_DVI    0x02
+    #define     ISEL_HDMI_422   0x06
+    #define     ISEL_HDMI_444   0x07
+    #define     ISEL_DP  0x07
 
 //SC0_04
-#define     HWRP_B  BIT0 // input horizontal wrap
-#define     VWRP_B  BIT1 // input vertical wrap
-#define     ESLS_B  BIT2 // early sample line select
-#define     VSE_B   BIT3 // input vsync reference edge
-#define     HSE_B   BIT4 // input hsync reference edge
-#define     IVSD_B  BIT5 // vsync delay select
-#define     DEON_B  BIT6 // DE only
-#define     DHSR_B  BIT7 // Digital input horizontal range
+    #define     HWRP_B  BIT0 // input horizontal wrap
+    #define     VWRP_B  BIT1 // input vertical wrap
+    #define     ESLS_B  BIT2 // early sample line select
+    #define     VSE_B   BIT3 // input vsync reference edge
+    #define     HSE_B   BIT4 // input hsync reference edge
+    #define     IVSD_B  BIT5 // vsync delay select
+    #define     DEON_B  BIT6 // DE only
+    #define     DHSR_B  BIT7 // Digital input horizontal range
 
 //SC0_27
-#define CTRL_B  BIT0
-#define AHRT_B  BIT1
-#define MOD2_B  BIT2
-#define EHTT_B  BIT3
-#define VSGP_B  BIT4
-#define HSRM_B  BIT5
-#define LCM_B   BIT6
-#define AVOS_B  BIT7
-
+    #define CTRL_B  BIT0
+    #define AHRT_B  BIT1
+    #define MOD2_B  BIT2
+    #define EHTT_B  BIT3
+    #define VSGP_B  BIT4
+    #define HSRM_B  BIT5
+    #define LCM_B   BIT6
+    #define AVOS_B  BIT7
+    
 // SC0_CC & CE
-#define INT_VSYNC_EDGE      BIT2
+    #define INT_VSYNC_EDGE      BIT2
 
 //SC0_E1 status
-#define INTM_B  BIT3
-#define SOGD_B  BIT4
-#define CSD_B   BIT5
-#define SOGP_B  BIT6
-#define CSP_B   BIT7
+    #define INTM_B  BIT3
+    #define SOGD_B  BIT4
+    #define CSD_B   BIT5
+    #define SOGP_B  BIT6
+    #define CSP_B   BIT7
 
 //SC_F0 pwoer down
-#define PDDS_B  BIT4
+    #define PDDS_B  BIT4
 
 //SC0_F1 sw reset
-#define SWR_B   BIT0
-#define OSDR_B  BIT1
-#define BIUR_B  BIT2
-#define DPR_B   BIT3
-#define GPR_B   BIT4
-#define ADCR_B  BIT5
+    #define SWR_B   BIT0
+    #define OSDR_B  BIT1
+    #define BIUR_B  BIT2
+    #define DPR_B   BIT3
+    #define GPR_B   BIT4
+    #define ADCR_B  BIT5
 
 #define BKMASKOSD1  0x1C00
 #define BKMASKOSD2  0x1D00
@@ -11114,8 +11113,8 @@ typedef enum msbus_direction
 
 //#define REG_3280    0x3280 // [6]=BKE_02[1]
 #define REG_3280    0x3280 // [5]=CH_POLARITY=BK0_42[7]
-// [6]=CH_SWAP=BK0_42[6]
-// [2]=LVDS_TI=BK0_42[2]
+                           // [6]=CH_SWAP=BK0_42[6]
+                           // [2]=LVDS_TI=BK0_42[2]
 #define REG_3281    0x3281 // [3:0]=CLKDLY=BK0_F2[7:4]
 #define REG_3282    0x3282 // [1]=BKE_04[1]
 #define REG_3283    0x3283 // [1]=BKE_04[1]
@@ -11129,13 +11128,13 @@ typedef enum msbus_direction
 
 // REG_328A is like BK0_F4:TRISTATE
 #define REG_328A    0x328A // [7]=Set bound RSDS
-// [6]=LVDS test mode select
-// [5]=Enable LVDS A port
-// [4]=Enable LVDS B port
-// [3]=CLK output enable
-// [2]=Data valid output enable
-// [1]=HSYNC output enable
-// [0]=VSYNC output enable
+                           // [6]=LVDS test mode select
+                           // [5]=Enable LVDS A port
+                           // [4]=Enable LVDS B port
+                           // [3]=CLK output enable
+                           // [2]=Data valid output enable
+                           // [1]=HSYNC output enable
+                           // [0]=VSYNC output enable
 #define REG_328B    0x328B
 #define REG_328C    0x328C //for GPIOE contrl
 #define REG_328D    0x328D
@@ -11158,24 +11157,24 @@ typedef enum msbus_direction
 #define REG_32AA    0x32AA
 #define REG_32AB    0x32AB
 #define REG_3290    0x3290 // [0]=Mod power down
-// [7]=Over driver for HSYNC
-// [6]=Over driver for data valid=BK0_F5[5:4]
-// [5]=Over driver for clock=BK0_F5[7:6]
+                           // [7]=Over driver for HSYNC
+                           // [6]=Over driver for data valid=BK0_F5[5:4]
+                           // [5]=Over driver for clock=BK0_F5[7:6]
 
 #define REG_3291    0x3291 // [0]=Over driver for VSYNC
 
 #define REG_3292    0x3292
 #define REG_3293    0x3293 // [6]=EMLX=BK0_42[2]
-// [5]=ERBX=BK0_42[0]
-// [4]=OMLX=BK0_42[3]
-// [3]=ORBX=BK0_42[1]
+                           // [5]=ERBX=BK0_42[0]
+                           // [4]=OMLX=BK0_42[3]
+                           // [3]=ORBX=BK0_42[1]
 
 
 #define REG_3294    0x3294 // [0]=DUALMODE=BK0_43[0]
-// [1]=ABSWITCH=BK0_43[1]
-// [4]=CLK_INVERT=BK0_F2[3]
-// [2]=DE_INVERT==BK0_F2[2]
-// [3]=VS_INVERT==BK0_F2[1]
+                           // [1]=ABSWITCH=BK0_43[1]
+                           // [4]=CLK_INVERT=BK0_F2[3]
+                           // [2]=DE_INVERT==BK0_F2[2]
+                           // [3]=VS_INVERT==BK0_F2[1]
 
 #define REG_3295    0x3295 // [4]=HS_INVERT==BK0_F2[0]
 #define REG_3296    0x3296
@@ -18140,7 +18139,7 @@ typedef enum msbus_direction
 #define SC11_FE     (0x11FE|_BIT15)
 #define SC11_FF     (0x11FF|_BIT15)
 
-#define SC12_84     (0x1284|_BIT15)
+#define SC12_84     (0x1284|_BIT15)   
 #define SC12_88     (0x1288|_BIT15)
 #define SC12_89     (0x1289|_BIT15)
 #define SC12_8A     (0x128A|_BIT15)
@@ -18152,7 +18151,7 @@ typedef enum msbus_direction
 #define SC12_A0     (0x12A0|_BIT15)
 #define SC12_A1     (0x12A1|_BIT15)
 #define SC12_A2     (0x12A2|_BIT15)
-#define SC12_A4     (0x12A4|_BIT15)
+#define SC12_A4     (0x12A4|_BIT15)    
 #define SC12_AA     (0x12AA|_BIT15)
 #define SC12_C2     (0x12C2|_BIT15)
 
@@ -18606,7 +18605,7 @@ typedef enum msbus_direction
 #define KEYPAD_SAR1         msRegs[REG_3A21]//(((BYTE xdata*)XFR_ADDR)[0x21])
 #define KEYPAD_SAR2         msRegs[REG_3A22]//(((BYTE xdata*)XFR_ADDR)[0x22])
 #define KEYPAD_SAR3         msRegs[REG_3A23]//(((BYTE xdata*)XFR_ADDR)[0x23])
-#if (CHIP_ID==CHIP_TSUMC)||(CHIP_ID==CHIP_TSUMD) || (CHIP_ID == CHIP_TSUM9) || (CHIP_ID == CHIP_TSUMF)
+#if (CHIP_ID==CHIP_TSUMC)||(CHIP_ID==CHIP_TSUMD) || (CHIP_ID == CHIP_TSUM9) || (CHIP_ID == CHIP_TSUMF) 
 #define KEYPAD_SAR4         msRegs[REG_3A26]
 #define KEYPAD_SAR5         msRegs[REG_3A27]
 #define KEYPAD_SAR6         msRegs[REG_3A28]

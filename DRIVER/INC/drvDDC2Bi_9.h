@@ -13,7 +13,7 @@
 // DDC mode selection
 #define D2BModeSel  D2BMode_FIFO_Nornal//D2BMode_SingleBuffer	//D2BMode_FIFO_Normal_XSharedAll//D2BMode_FIFO_Nornal//D2BMode_FIFO_Normal_XSharedAll // Be aware of buffer overflow problem, MUST reserved enough buffer size!!!!!
 
-// Enum of DDC FIFO length
+// Enum of DDC FIFO length 
 #define D2B_FIFO_8Level     0
 #define D2B_FIFO_16Level    1
 #define D2B_FIFO_32Level    2
@@ -67,7 +67,7 @@
 #define FIFODBGOFFSET 8
 #else
 #define FIFODBGOFFSET 0
-#endif
+#endif 
 #endif
 
 // DDC FIFO Index mapping to Size
@@ -120,17 +120,17 @@
 
 enum
 {
-	InputCombo_D0,
-	InputCombo_D1,
-	InputCombo_D2,
-	InputCombo_A0,
+    InputCombo_D0,
+    InputCombo_D1,
+    InputCombo_D2,
+    InputCombo_A0,
 };
 
 extern void drvDDC2Bi_Init( void );
 extern void drvDDC2Bi_MessageReady( void );
 extern void drvDDC2Bi_ParseCommand( void );
 extern void drvDoDDCCI( BYTE Source );
-
+	
 extern BYTE xdata rxInputPort; // Annie 2006.7.5
 extern BYTE idata rxComboPort;
 extern BYTE  xdata rxIndex;
@@ -159,7 +159,7 @@ extern WORD idata Present_DDC2MCU_CUR_ADR;
 extern WORD idata Present_DDC2MCU_START_ADR;
 extern BYTE idata D2BErrorFlag;
 #if D2B_XDATA_DEBUG
-extern BYTE xdata XSRAMBuffer[D2B_FIFO_XdataSize_Total + 256];
+extern BYTE xdata XSRAMBuffer[D2B_FIFO_XdataSize_Total+256];
 extern BYTE xdata IntCount;
 extern BYTE xdata IntCountTmp;
 #else
@@ -238,7 +238,7 @@ extern BYTE xdata XSRAMBuffer[D2B_FIFO_XdataSize_Total];
 #define DDC_ADC_WP_READY()          (msRegs[REG_3EE6] |= BIT2)
 #define DDC_DVI0_WP_READY()         (msRegs[REG_3EC8] |= BIT2)
 #define DDC_DVI1_WP_READY()         (msRegs[REG_3ECE] |= BIT2)
-#define DDC_DVI2_WP_READY()         (msRegs[REG_3EE0] |= BIT2)
+#define DDC_DVI2_WP_READY()         (msRegs[REG_3EE0] |= BIT2) 
 #else
 #define DDC_ADC_WP_READY()          //(msRegs[REG_3E08] |= BIT7)
 #define DDC_DVI0_WP_READY()          //(msRegs[REG_3E08] |= BIT5)
@@ -300,14 +300,14 @@ extern BYTE xdata XSRAMBuffer[D2B_FIFO_XdataSize_Total];
 #define D2B_SET_DOUBLE_FIFOMODE_D2(Enable)                  (msWriteByteMask( REG_3E95, Enable<<3, BIT3 ))
 #define D2B_SET_FIFOMODE_TX_SIZE_D2(FIFOSize_INDEX)         (msWriteByteMask( REG_3E95, FIFOSize_INDEX, BIT2 | BIT1 | BIT0 )) //FiFo Size selection
 #define D2B_SET_FIFOMODE_TX_XDATAMAP_D2(XdataAddressStart)  (msWrite2ByteMask(REG_3E9C, XdataAddressStart-XDATA_ADDR_START, 0x1FFF)) // DDC_xdata mapping address
-#endif
-#define D2B_SET_D2B_HW_CheckSum(EnVGA, EnD2, EnD1, EnD0)        (msWriteByteMask( REG_3EF4, (EnVGA<<3)|(EnD2<<2)|(EnD1<<1)|(EnD0), BIT3|BIT2|BIT1|BIT0 ))
+#endif    
+#define D2B_SET_D2B_HW_CheckSum(EnVGA, EnD2, EnD1, EnD0)        (msWriteByteMask( REG_3EF4, (EnVGA<<3)|(EnD2<<2)|(EnD1<<1)|(EnD0), BIT3|BIT2|BIT1|BIT0 ))   
 
-#define D2B_FIFOMODE_INPUT2DDCPORT(InputPort)               ((InputPort==Input_DVI_C1 || InputPort==Input_HDMI_C1)?(0):((InputPort==Input_DVI_C2 || InputPort==Input_HDMI_C2)?(1):((InputPort==Input_DVI_C3 || InputPort==Input_HDMI_C3)?(2):(3))))
+#define D2B_FIFOMODE_INPUT2DDCPORT(InputPort)               ((InputPort==Input_DVI_C1 || InputPort==Input_HDMI_C1)?(0):((InputPort==Input_DVI_C2 || InputPort==Input_HDMI_C2)?(1):((InputPort==Input_DVI_C3 || InputPort==Input_HDMI_C3)?(2):(3))))   
 #define D2B_FIFOMODE_DDCPORT2INPUT(ComboPort)               (ComboPort==InputCombo_A0?(Input_VGA):(ComboPort==InputCombo_D0?(Input_DVI^Input_HDMI^Input_Nothing):(ComboPort==InputCombo_D1?(Input_DVI2^Input_HDMI2^Input_Nothing):(Input_DVI3^Input_HDMI3^Input_Nothing))))
 
-extern void msDrvWriteInternalEDID(BYTE u8Block, BYTE u8Addr, BYTE u8Data);
-extern BYTE msDrvReadInternalEDID(BYTE u8Block, BYTE u8Addr);
+extern void msDrvWriteInternalEDID(BYTE u8Block,BYTE u8Addr,BYTE u8Data);
+extern BYTE msDrvReadInternalEDID(BYTE u8Block,BYTE u8Addr);
 
 
 #if 0//ENABLE_DVI_INPUT

@@ -6,7 +6,7 @@
 #define PM_SUPPORT_SOG_TIME_SHARE  (0) // (1)supports to SoG time sharing function to reduce power consumption  (0)doesn't support to SoG time sharing function
 #define PM_SUPPORT_DVI_TIME_SHARE  (0) // (1)supports to DVI time sharing function to reduce power consumption  (0)doesn't support to DVI time sharing function
 #define PM_SUPPORT_WAKEUP_DVI      (ENABLE_DVI||ENABLE_HDMI) // (1)supports to DVI wakeup;                                            (0)doesn't support to DVI wakeup
-#define PM_SUPPORT_WAKEUP_DP       (1)
+#define PM_SUPPORT_WAKEUP_DP       (1) 
 #define PM_SUPPORT_DVI5V_TurnonRterm     (0)
 #define PM_POWERkEY_GETVALUE				(1)
 #define PM_CABLEDETECT_USE_GPIO			(0)

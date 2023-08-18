@@ -123,13 +123,13 @@
 #define EarphoneDet_Enable          	   0
 
 
-#define  EANBLE_NEW_DCR_Functing        1
+#define  EANBLE_NEW_DCR_Functing        1 
 
 #define Enable_CheckVcc5V                      0  //PC 99 ¹¦ÄÜ
 
 #define EANBLE_MUTE_ON_OFF                 0
 
-#define UseVGACableReadWriteAllPortsEDID
+#define UseVGACableReadWriteAllPortsEDID    
 
 
 #if MainBoardType == MainBoard_JRY_L58CDT9_EV1 //MainBoard_6178_M0A

@@ -15,27 +15,27 @@
 
 // read 1-byte at one time
 #if MainBoardType==MainBoard_715G3329_A2
-#ifdef TSUMXXNX
-#define SK_Power   			0x10
-#define SK_Exit     		0x04
-#define SK_Plus       		0x01
-#define SK_Minus     		0x02
-#define SK_Menu     		0x08
-#else
-#define SK_Power   			0x10
-#define SK_Exit     		0x08
-#define SK_Plus       		0x04
-#define SK_Minus     		0x02
-#define SK_Menu     		0x01
-#endif
-#define ButtonAddress       0x89
+    #ifdef TSUMXXNX
+    #define SK_Power   			0x10
+    #define SK_Exit     		0x04
+    #define SK_Plus       		0x01
+    #define SK_Minus     		0x02
+    #define SK_Menu     		0x08
+    #else
+    #define SK_Power   			0x10
+    #define SK_Exit     		0x08
+    #define SK_Plus       		0x04
+    #define SK_Minus     		0x02
+    #define SK_Menu     		0x01
+    #endif
+    #define ButtonAddress       0x89
 #elif MainBoardType==MainBoard_712G3244_2
-#define SK_Power   			0x10
-#define SK_Exit     		0x04
-#define SK_Plus       		0x01
-#define SK_Minus     		0x02
-#define SK_Menu     		0x08
-#define ButtonAddress       0x89
+    #define SK_Power   			0x10
+    #define SK_Exit     		0x04
+    #define SK_Plus       		0x01
+    #define SK_Minus     		0x02
+    #define SK_Menu     		0x08
+	#define ButtonAddress       0x89
 #elif MainBoardType==MainBoard_715G3289_C2
 #define SK_Power   		0x01
 #define SK_Exit     		0x04
@@ -47,46 +47,46 @@
 #define SliderMinusMaxValue        0x31 // 0~0x31 minus
 #define SliderPlusMaxValue          0x64 // 0x32~0x64 plus 
 #define SliderFingerOff     0x65
-#elif MainBoardType==MainBoard_715G3598_M0A
-#ifdef TSUMXXNX
-#define SK_Power   			0x04
-#define SK_Exit     		 	0x10
-#define SK_Plus       			0x08
-#define SK_Minus     			0x01
-#define SK_Menu     			0x02
-#else
-#define SK_Power      		0x04//0x10
-#define SK_Exit     			0x10//0x08 // up
-#define SK_Plus       		0x08//0x04 // right
-#define SK_Minus    		0x02 // left
-#define SK_Menu     		0x01 // down    
-#endif
-#define ButtonAddress       	0x89
-
+#elif MainBoardType==MainBoard_715G3598_M0A 
+    #ifdef TSUMXXNX
+    #define SK_Power   			0x04
+    #define SK_Exit     		 	0x10
+    #define SK_Plus       			0x08
+    #define SK_Minus     			0x01 
+    #define SK_Menu     			0x02 
+    #else
+    #define SK_Power      		0x04//0x10
+    #define SK_Exit     			0x10//0x08 // up
+    #define SK_Plus       		0x08//0x04 // right
+    #define SK_Minus    		0x02 // left
+    #define SK_Menu     		0x01 // down    
+    #endif
+    #define ButtonAddress       	0x89
+	
 #elif MainBoardType==MainBoard_715G3598_1PLL
-#define SK_Power      		0x04//0x10
-#define SK_Exit     			0x10//0x08 // up
-#define SK_Plus       		0x08//0x04 // right
-#define SK_Minus    		0x01 // left
-#define SK_Menu     		0x02 // down    
-#define ButtonAddress       	0x89
+    #define SK_Power      		0x04//0x10
+    #define SK_Exit     			0x10//0x08 // up
+    #define SK_Plus       		0x08//0x04 // right
+    #define SK_Minus    		0x01 // left
+    #define SK_Menu     		0x02 // down    
+    #define ButtonAddress       	0x89
 
-#elif MainBoardType==MainBoard_715G3603_M0A
+#elif MainBoardType==MainBoard_715G3603_M0A    
 #define SK_Power   			0x04
 #define SK_Exit     		 	0x10
 #define SK_Plus       			0x08
-#define SK_Minus     			0x01
-#define SK_Menu     			0x02
+#define SK_Minus     			0x01 
+#define SK_Menu     			0x02 
 #define ButtonAddress       	0x89
 
 #elif MainBoardType==MainBoard_715G3244_TSUMU18NR || MainBoardType == MainBoard_715G3959_T		//110623 Modify
-#define SK_Power   		0x10
-#define SK_Exit     		       0x04
-#define SK_Plus       		0x01
-#define SK_Minus     		0x02
-#define SK_Menu     		0x08
+    #define SK_Power   		0x10
+    #define SK_Exit     		       0x04
+    #define SK_Plus       		0x01
+    #define SK_Minus     		0x02
+    #define SK_Menu     		0x08
 
-#define ButtonAddress       0x89
+    #define ButtonAddress       0x89
 
 #else
 #define SK_Power   		0x04//0x10
@@ -126,23 +126,21 @@
 
 #define SKKeyError             100
 
-typedef enum
-{
+typedef enum{
 
-	SKCase_SetButtonAddress,
-	SKCase_ReadButton,
-	SKCase_SetSliderAddress,
-	SKCase_ReadSlider,
+    SKCase_SetButtonAddress,
+    SKCase_ReadButton,
+    SKCase_SetSliderAddress,
+    SKCase_ReadSlider,
+    
+}SKReadCaseCntType;
 
-} SKReadCaseCntType;
-
-typedef enum
-{
-	SKLEDBright_Off,
-	SKLEDBright_Dark,
-	SKLEDBright_Light,
-	SKLEDBright_Light_Immediately, // 091012
-} SKLEDBrightType;
+typedef enum{
+    SKLEDBright_Off,
+    SKLEDBright_Dark,
+    SKLEDBright_Light,
+    SKLEDBright_Light_Immediately, // 091012
+}SKLEDBrightType;
 
 extern void ScanKey_LEDBrightAction(void);
 
@@ -159,11 +157,11 @@ extern void ScanKey_LEDBrightAction(void);
 
 typedef enum
 {
-	KB_Mute,
-	KB_1500Hz,
-	KB_2000Hz,
-	KB_3000Hz,
-	KB_Nums
+  KB_Mute,
+  KB_1500Hz,
+  KB_2000Hz,
+  KB_3000Hz,
+  KB_Nums
 } KeyBuzzerFrequencyType;
 
 

@@ -32,9 +32,9 @@
 #define WidePanel				1
 #define ENABLE_HDCP	 			1
 #define HDCPKEY_IN_Flash		1
-#define HDCPKEY_IN_7F000		1
+#define HDCPKEY_IN_7F000		1	
 #define HPD_INVERSE            0
-
+	
 #define OffPower
 #define Panel_Inv            	1 // ownbrand use 1
 #define LANGUAGE_TYPE			All14Language_AddJap//ASIA//EUROPE//All13Language//All14Language_AddJap

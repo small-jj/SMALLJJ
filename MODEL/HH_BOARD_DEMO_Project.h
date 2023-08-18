@@ -80,7 +80,7 @@
 
 
 /***************************************************************************************/
-//1 DDC/CI功能
+								//1 DDC/CI功能
 #define JRY_Color_Tool_Functing            0
 
 #define  Adj_7500K_Temp  				(1&&JRY_Color_Tool_Functing)
@@ -93,7 +93,7 @@
 /***************************************************************************************/
 
 
-#define  EANBLE_NEW_DCR_Functing       1
+#define  EANBLE_NEW_DCR_Functing       1 
 
 
 
@@ -210,7 +210,7 @@
 #define ChangeDate					"20181022"//""
 
 /********************************************************************************************/
-//1 Project 设置
+					  			//1 Project 设置
 
 #define	HH_PivotKey_Enable					1
 
@@ -229,11 +229,11 @@
 #define 		TimingInfoYpos			12
 /////////////////////////brightness///////////////////////////////////
 #if 								0
-#define BRI_PRO_MIN_VALUE			0x00
+#define BRI_PRO_MIN_VALUE			0x00	
 #define BRI_PRO_DEF_VALUE			0xCF
 #define BRI_PRO_MAX_VALUE			0xEF
 #else
-#define BRI_PRO_MIN_VALUE			0x00
+#define BRI_PRO_MIN_VALUE			0x00	
 #define BRI_PRO_DEF_VALUE			0xB2
 #define BRI_PRO_MAX_VALUE			0xFF
 #endif

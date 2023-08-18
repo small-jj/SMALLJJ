@@ -52,7 +52,7 @@
 #define DAHUA_LOGO					30
 
 /***************LIKUN LOGO***********************/
-#define LOGO_ONEPIECE                     31
+#define LOGO_ONEPIECE                     31 
 #define LOGO_OCEAN                          32
 #define LOGO_BAIHUZI                       33
 #define LOGO_CAOMAO                       34
@@ -69,14 +69,6 @@
 #define LOGO_SUO				      44
 #define LOGO_SUO2				      45
 
-#define YWY_LOGO					46
-#define TEST_LOGO					47
-#define CHANG_LOGO				48
-#define YWYMIMO_LOGO				49
-#define YWYPOLY_LOGO				50
-#define YWYDGM_LOGO				51
-#define YWYBIRD_LOGO				52
-#define YWYLBS_LOGO						53
-#define YMH_LOGO				54
+
 #endif
 

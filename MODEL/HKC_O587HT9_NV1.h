@@ -122,7 +122,7 @@
 #define EarphoneDet_Enable          1
 
 
-#define  EANBLE_NEW_DCR_Functing       1
+#define  EANBLE_NEW_DCR_Functing       1 
 
 
 #if MainBoardType == MainBoard_JRY_L58CDT9_NV1 //MainBoard_6178_M0A

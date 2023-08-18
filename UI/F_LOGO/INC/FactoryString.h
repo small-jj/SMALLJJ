@@ -3,7 +3,7 @@
 #define   LOGO_H      7
 #elif (DisplayLogo==AOCSoHuLOGO)//   AOCSoHuLOGO
 #define   LOGO_W	30
-#define   LOGO_H	5
+#define   LOGO_H	5 
 #elif (DisplayLogo==AlgeriaLOGO)
 #define   LOGO_W  46
 #define   LOGO_H	 5
@@ -14,7 +14,7 @@
 #define   LOGO_W	 82
 #define   LOGO_H		15   // XSize, YSize; 
 #elif(DisplayLogo==MYIGLOGO)   //120115 Modify
-#define   LOGO_W		70
+#define   LOGO_W		70 
 #define   LOGO_H	14  //	XSize, YSize; 
 #elif(DisplayLogo==Element)   //120115 Modify
 #define   LOGO_W		96
@@ -24,10 +24,10 @@
 #define   LOGO_H	9
 #elif (DisplayLogo==SANXINGLOGO)
 #define   LOGO_W		59
-#define   LOGO_H	12
+#define   LOGO_H	12 
 #elif (DisplayLogo==DAHUALOGO)
-#define   LOGO_W		70
-#define   LOGO_H		16
+#define   LOGO_W		70 
+#define   LOGO_H		16     
 #elif (DisplayLogo==LOGO_FANGZHENG)
 #define   LOGO_W		60
 #define   LOGO_H		6
@@ -109,14 +109,12 @@
 #elif (DisplayLogo==AMAZON_LOGO)
 #define   LOGO_W		80
 #define   LOGO_H		15
-/*
 #elif (DisplayLogo==ViewSync_LOGO)
 #define   LOGO_W		60
 #define   LOGO_H		15
 #elif (DisplayLogo==Vison_LOGO)
 #define   LOGO_W		60
 #define   LOGO_H		22
-*/
 #elif (DisplayLogo==DAHUA_LOGO)
 #define   LOGO_W		29
 #define   LOGO_H		6
@@ -135,33 +133,6 @@
 #elif DisplayLogo==LOGO_XSTAR
 #define   LOGO_W	42
 #define   LOGO_H		 9//90,8  ,
-#elif DisplayLogo==YWYMIMO_LOGO
-#define   LOGO_W		67
-#define   LOGO_H		17
-#elif DisplayLogo==YWY_LOGO
-#define   LOGO_W		80
-#define   LOGO_H		15
-#elif DisplayLogo==TEST_LOGO
-#define   LOGO_W		35
-#define   LOGO_H		8
-#elif DisplayLogo==CHANG_LOGO
-#define   LOGO_W		40
-#define   LOGO_H		12
-#elif DisplayLogo==YWYPOLY_LOGO
-#define   LOGO_W		80
-#define   LOGO_H		17
-#elif DisplayLogo==YWYDGM_LOGO
-#define   LOGO_W		39
-#define   LOGO_H		23
-#elif DisplayLogo==YWYLBS_LOGO
-#define   LOGO_W		42
-#define   LOGO_H		30
-#elif DisplayLogo==YWYBIRD_LOGO
-#define   LOGO_W		32
-#define   LOGO_H		13
-#elif DisplayLogo==YMH_LOGO
-#define   LOGO_W		94
-#define   LOGO_H		14
 #else //   EnvisionLogo
 #define   LOGO_W	39
 #define	LOGO_H		5
@@ -199,8 +170,7 @@ extern BYTE *ExitBurninText(void);
 
 extern BYTE *InputTypeSelectText(void);
 extern BYTE *VolumeText(void);
-
-#if EANBLE_MUTE_ON_OFF
+#if EANBLE_MUTE_ON_OFF   
 extern BYTE *MuteText(void);
 #endif
 #if ENABLE_FACTORY_BLACKLEVEL
@@ -234,7 +204,7 @@ extern BYTE *ProductModeOnOffText(void);
 #endif
 //extern BYTE *PotText(void);
 //extern BYTE *HrsText(void);
-#if Enable_Factory_Panel
+#if Enable_Factory_Panel                 
 extern BYTE *PanelText(void);
 #endif
 

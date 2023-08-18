@@ -31,7 +31,7 @@
 BYTE code drvMHLDummy[] = {0};
 void msMHLDummy(void)
 {
-	BYTE x = drvMHLDummy[0];
+    BYTE x = drvMHLDummy[0];
 }
 
 

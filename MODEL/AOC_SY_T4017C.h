@@ -55,7 +55,7 @@
 #define ColorTool_Clear_Time                     1
 
 
-#define  EANBLE_NEW_DCR_Functing       1
+#define  EANBLE_NEW_DCR_Functing       1 
 
 #define DefLanguage     			LANG_English
 

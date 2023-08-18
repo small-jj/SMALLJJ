@@ -94,7 +94,7 @@
 
 
 
-#define  EANBLE_NEW_DCR_Functing       1
+#define  EANBLE_NEW_DCR_Functing       1 
 
 
 #if MainBoardType == MainBoard_JRY_L58CDT9_NV1 //MainBoard_6178_M0A
@@ -173,17 +173,17 @@
 
 
 
-#define DEF_Cool_Red			123
-#define DEF_Cool_Green		108
-#define DEF_Cool_Blue			123
-
-#define DEF_Normall_Red		111
-#define DEF_Normall_Green		118
-#define DEF_Normall_Blue		125
-
-#define DEF_Warml_Red		125
-#define DEF_Warml_Green		110
-#define DEF_Warml_Blue		110
+	    #define DEF_Cool_Red			123
+	    #define DEF_Cool_Green		108
+	    #define DEF_Cool_Blue			123
+		
+	    #define DEF_Normall_Red		111
+	    #define DEF_Normall_Green		118
+	    #define DEF_Normall_Blue		125
+		
+	    #define DEF_Warml_Red		125
+	    #define DEF_Warml_Green		110
+	    #define DEF_Warml_Blue		110
 
 #define	SpeakerDet_Enable		 1
 #define 	EarphoneDet_Enable         0

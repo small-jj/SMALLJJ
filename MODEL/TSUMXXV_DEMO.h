@@ -12,14 +12,14 @@
 #define WidePanel				1
 #define ENABLE_HDCP	 			1
 #define HDCPKEY_IN_Flash		1
-
+	
 //#define PanelSwapPolarity       0xFF
 #define OffPower
 
 #define Panel_Inv            	1 // ownbrand use 1
 #define LANGUAGE_TYPE			All14Language_AddJap//ASIA//EUROPE//All13Language//All14Language_AddJap
 #define INPUT_TYPE             	INPUT_1A1D
-//
+	//
 #define DVI_RB_SWAP 				0
 #define DVI_PN_SWAP					0
 #define Enable_Cache		   		1
@@ -55,7 +55,7 @@
 #define LED_PWM                 		0
 
 
-#define DCRClearBacklight         		1
+#define DCRClearBacklight         		1 
 #define BURST_MODE              		1
 
 
@@ -74,10 +74,10 @@
 //#define PowerSavingAmberLEDFlash // 090701
 
 //#define ProgramKey // scan key could program key attribute
-/*******************HDMI****************/
+	/*******************HDMI****************/
 #define ENABLE_HDMI					0
 
-/****************************************/
+	/****************************************/
 #define Model 					"E2460S"
 #define ShowModelName 			_P,_2,_0,_7,_1,_L
 #define FWVersion				"000"

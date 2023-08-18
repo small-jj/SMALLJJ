@@ -14,7 +14,7 @@
 #include <i2cdef.h>
 
 #ifdef __cplusplus
-extern "C" {
+    extern "C" {
 #endif
 
 void CPK_IIC_Delay( void );
@@ -28,7 +28,7 @@ Bool CPK_I2C_BurstRead( BYTE count, BYTE * buffer );
 Bool CPK_I2C_MasterStart( I2C_Direction direct, BYTE addr );
 
 #ifdef __cplusplus
-}   // extern "C"
+    }   // extern "C"
 #endif
 
 #endif

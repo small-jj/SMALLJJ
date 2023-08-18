@@ -2,9 +2,9 @@
 #define _MSOVD_H_
 
 #ifdef _MSOVD_C_
-#define INTERFACE
+  #define INTERFACE
 #else
-#define INTERFACE extern
+  #define INTERFACE extern
 #endif
 
 //*************************************************************************************************

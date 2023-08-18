@@ -41,12 +41,12 @@
 #define MEM_SCWRITE_BYTE(u16Addr,u8Value)               (scRegs[(u16Addr)&0xFF]=(u8Value))
 #ifdef _REG_DIRECT_ACCESS_
 #define msReadByte(u16Addr)                     (((u16Addr)&0x8000) ?\
-        ((scRegs[0]=((u16Addr)>>8)&0x7F), scRegs[(u16Addr)&0xFF]) :\
-        (msRegs[(u16Addr)]))
+                                                ((scRegs[0]=((u16Addr)>>8)&0x7F), scRegs[(u16Addr)&0xFF]) :\
+                                                (msRegs[(u16Addr)]))
 
 #define msWriteByte(u16Addr,u8Value)            (((u16Addr)&0x8000) ?\
-        ((scRegs[0]=((u16Addr)>>8)&0x7F) ? (scRegs[(u16Addr)&0xFF]=(u8Value)):(scRegs[(u16Addr)&0xFF]=(u8Value))) :\
-        (msRegs[u16Addr] = (u8Value)))
+                                                ((scRegs[0]=((u16Addr)>>8)&0x7F) ? (scRegs[(u16Addr)&0xFF]=(u8Value)):(scRegs[(u16Addr)&0xFF]=(u8Value))) :\
+                                                (msRegs[u16Addr] = (u8Value)))
 
 //#define msWriteByteMask( wReg,  ucValue,  ucMask )  (msWriteByte( (wReg), ( (msReadByte( wReg ) & ( ~(ucMask) )) | ( (ucValue) & (ucMask) ) ) ))
 
@@ -73,7 +73,7 @@ INTERFACE WORD msRead2Byte( WORD u8RegLoAddr );
 INTERFACE void msWriteBit( WORD u16Reg, Bool bBit, BYTE u8BitPos );
 INTERFACE BYTE scReadByte( BYTE u8Reg );
 INTERFACE void scWriteByte( BYTE u8Reg, BYTE u8Value );
-#if  CHIP_ID==CHIP_TSUMU
+ #if  CHIP_ID==CHIP_TSUMU
 INTERFACE WORD msReadWord( WORD wReg );
 INTERFACE void msWriteWord( WORD wReg, WORD wValue );
 #endif
@@ -95,26 +95,26 @@ INTERFACE void mStar_WriteOSDByte( WORD address, BYTE value );
 #endif
 INTERFACE void msWrite2Byte( WORD u16RegLoAddr, WORD u16Value );
 INTERFACE void msWriteByteMask( WORD u16Reg, BYTE u8Value, BYTE u8Mask );
-INTERFACE void msWrite2ByteMask( WORD u16RegLoAddr, WORD wValue, WORD ucMask );
+INTERFACE void msWrite2ByteMask( WORD u16RegLoAddr, WORD wValue , WORD ucMask );
 //INTERFACE void scWrite2ByteMask( BYTE u8RegLoAddr, WORD u16Value, WORD u16Mask );
 //INTERFACE void scWrite3Byte( BYTE u8RegLoAddr, DWORD u32Value );
 INTERFACE void msWrite3Byte( WORD u16RegLoAddr, DWORD u32Value );
 //for Menu Load
 typedef enum
 {
-	ML_MODE_NORMAL      = 0x00,
-	ML_MODE_SUCCESSIVE  = 0x40,
-	ML_MODE_BURST       = 0x80,
+    ML_MODE_NORMAL      = 0x00,
+    ML_MODE_SUCCESSIVE  = 0x40,    
+    ML_MODE_BURST       = 0x80,    
 } ML_ModeType;
 typedef enum
 {
-	ML_TRIG_SW          = 0x00,
-	ML_TRIG_OUT_VSYNC   = 0x10,
-	ML_TRIG_IN_VSYNC    = 0x20,
-	ML_TRIG_OUT_VDE_END = 0x30
+    ML_TRIG_SW          =0x00,
+    ML_TRIG_OUT_VSYNC   =0x10,
+    ML_TRIG_IN_VSYNC    =0x20,
+    ML_TRIG_OUT_VDE_END =0x30
 } ML_TrigType;
 INTERFACE void msML_WaitReady(void);
-INTERFACE void msML_WriteByte(ML_ModeType enML_Mode, WORD u16Reg, BYTE u8Value);
+INTERFACE void msML_WriteByte(ML_ModeType enML_Mode,WORD u16Reg, BYTE u8Value);
 INTERFACE void msML_Trigger(ML_TrigType enTrigType);
 
 #if 1
@@ -126,12 +126,12 @@ INTERFACE void msML_Trigger(ML_TrigType enTrigType);
 
 
 
-#if ENABLE_SW_DOUBLE_BUFFER
+#if ENABLE_SW_DOUBLE_BUFFER    
 #define DB_Mode(mode)                       msSWDBMode(mode)
 #define DB_WB(wReg,ucVal)                   msSWDBWriteByte(wReg,ucVal)
 #define DB_W2B(wReg,wVal)                   msSWDBWrite2Byte(wReg,wVal)
 #define DB_W3B(wReg,wVal)                   msSWDBWrite3Byte(wReg,wVal)
-#define DB_WBMask(wReg,ucVal,ucMask)        msSWDBWriteByteMask(wReg,ucVal,ucMask)
+#define DB_WBMask(wReg,ucVal,ucMask)        msSWDBWriteByteMask(wReg,ucVal,ucMask) 
 #define DB_W2BMask(wReg,wVal,wMask)         msSWDBWrite2ByteMask(wReg,wVal,wMask)
 #define DB_WBit(wReg,bBit,ucBitPos)         msSWDBWriteBit(wReg,bBit,ucBitPos)
 #else

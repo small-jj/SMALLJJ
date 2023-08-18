@@ -4,7 +4,7 @@
 // BOARD SELECTION
 ////////////////////////////////////////////////////////////
 #define CHIP_ID                			CHIP_TSUMU
-#define MainBoardType    				MainBoard_JRY_L9BQHD_AV1
+#define MainBoardType    				MainBoard_JRY_L9BQHD_AV1 
 #define PanelType 					PanelMV270QHB_N20//PanelMV270FHM_N20//
 #define DisplayLogo					NoBrand//CHONGHONG
 
@@ -88,7 +88,7 @@
 #define User_DDCTO_FlashSave     		1
 
 
-#define  EANBLE_NEW_DCR_Functing       1
+#define  EANBLE_NEW_DCR_Functing       1 
 
 
 
@@ -187,7 +187,7 @@
 
 
 /********************************************************************************************/
-//1 Project …Ë÷√
+					  			//1 Project …Ë÷√
 
 
 
@@ -202,7 +202,7 @@
 #define Enable_Gamma			(0||PresetMode_Enable)
 /////////////////////////brightness///////////////////////////////////
 
-#define BRI_PRO_MIN_VALUE			0x00
+#define BRI_PRO_MIN_VALUE			0x00	
 #define BRI_PRO_DEF_VALUE			0x605
 #define BRI_PRO_MAX_VALUE			0x8A5
 

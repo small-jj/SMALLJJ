@@ -10,21 +10,21 @@
 #define MIU_ADDR_OFFSET(_ADR_)  ((_ADR_)>>4)
 
 #define IS_MRW_FMT_LA()         ((g_SetupPathInfo.ucSCFmtIn == SC_FMT_IN_3D_SBSH) || \
-                                 (g_SetupPathInfo.ucSCFmtIn == SC_FMT_IN_3D_SBSF) || \
-                                 (g_SetupPathInfo.ucSCFmtIn == SC_FMT_IN_3D_LA) )
+                                (g_SetupPathInfo.ucSCFmtIn == SC_FMT_IN_3D_SBSF) || \
+                                (g_SetupPathInfo.ucSCFmtIn == SC_FMT_IN_3D_LA) )
 
 #define IS_FMT_IN_SBS()         ((g_SetupPathInfo.ucSCFmtIn == SC_FMT_IN_3D_SBSH) || \
-                                 (g_SetupPathInfo.ucSCFmtIn == SC_FMT_IN_3D_SBSF) )
+                                (g_SetupPathInfo.ucSCFmtIn == SC_FMT_IN_3D_SBSF) )
 
 #define IS_VSP_FMT_2IMG()       (((g_SetupPathInfo.ucSCFmtIn == SC_FMT_IN_3D_FPI) ||  \
-                                  (g_SetupPathInfo.ucSCFmtIn == SC_FMT_IN_3D_FA) ||  \
-                                  (g_SetupPathInfo.ucSCFmtIn == SC_FMT_IN_3D_FP) ||  \
-                                  (g_SetupPathInfo.ucSCFmtIn == SC_FMT_IN_3D_PF)) &&  \
+                                 (g_SetupPathInfo.ucSCFmtIn == SC_FMT_IN_3D_FA) ||  \
+                                 (g_SetupPathInfo.ucSCFmtIn == SC_FMT_IN_3D_FP) ||  \
+                                 (g_SetupPathInfo.ucSCFmtIn == SC_FMT_IN_3D_PF)) &&  \
                                  ((g_SetupPathInfo.ucSCPathMode == SC_PATH_MODE_3) ||  \
-                                  (g_SetupPathInfo.ucSCPathMode == SC_PATH_MODE_4) ))
+                                 (g_SetupPathInfo.ucSCPathMode == SC_PATH_MODE_4) ))
 
 #define IS_FMT_OUT_PSV()        ((g_SetupPathInfo.ucSCFmtOut == SC_FMT_OUT_3D_PSV) || \
-                                 (g_SetupPathInfo.ucSCFmtOut == SC_FMT_OUT_3D_PSV_4M) )
+                                (g_SetupPathInfo.ucSCFmtOut == SC_FMT_OUT_3D_PSV_4M) )
 
 
 #define SC_LOCK_LINE            8
@@ -32,18 +32,18 @@
 #define SC_V_SC_NON_MINUS1MODE  0
 #define SC_H_SC_NON_MINUS1MODE  0
 
-enum
+enum 
 {
-	// MRW in/out src sel
-	IP2MRW2VSP =  ((0x00) | (0x01 << 2)),
-	HSP2MRW2VSP = ((0x02) | (0x01 << 2)),
-	VSP2MRW2HSP = ((0x01) | (0x00 << 2)),
-	VSP2MRW2OP1 = ((0x01) | (0x02 << 2)),
-
-	// VSP in/out src sel
-	MRW2VSP2HSP_OP = BIT6, // case1 , case2
-	IP_HSP2VSP2MRW = BIT7, // case3, case4
-	IP_HSP2VSP2OP  = 0,    // FBL mode
+    // MRW in/out src sel
+    IP2MRW2VSP =  ((0x00)|(0x01<<2)),
+    HSP2MRW2VSP = ((0x02)|(0x01<<2)),
+    VSP2MRW2HSP = ((0x01)|(0x00<<2)),
+    VSP2MRW2OP1 = ((0x01)|(0x02<<2)),
+    
+    // VSP in/out src sel
+    MRW2VSP2HSP_OP = BIT6, // case1 , case2
+    IP_HSP2VSP2MRW = BIT7, // case3, case4
+    IP_HSP2VSP2OP  = 0,    // FBL mode
 };
 
 
@@ -112,115 +112,115 @@ enum
 
 typedef struct
 {
-	WORD wOriSizeH;         /* Frame H/V Size Including L, R */
-	WORD wOriSizeV;
-	WORD wImgSizeInH;       /* Input L or R Image Size */
-	WORD wImgSizeInV;
-	WORD wImgSizeOutH;      /* Output L or R Image Size */
-	WORD wImgSizeOutV;
-	WORD wMRWSizeInH;
-	WORD wMRWSizeInV;
-	WORD wMRWSizeOutH;
-	WORD wMRWSizeOutV;
-	BYTE ucSCFmtIn;
-	BYTE ucSCFmtOut;
+    WORD wOriSizeH;         /* Frame H/V Size Including L, R */
+    WORD wOriSizeV;
+    WORD wImgSizeInH;       /* Input L or R Image Size */
+    WORD wImgSizeInV;
+    WORD wImgSizeOutH;      /* Output L or R Image Size */
+    WORD wImgSizeOutV;
+    WORD wMRWSizeInH;
+    WORD wMRWSizeInV;
+    WORD wMRWSizeOutH;
+    WORD wMRWSizeOutV;
+    BYTE ucSCFmtIn;
+    BYTE ucSCFmtOut;
 
-	BYTE ucSCPathMode;
-	BYTE ucSCFrameMode;
-	BYTE ucIPLRSel;
-	BYTE ucOut3DLRSel;
+    BYTE ucSCPathMode;
+    BYTE ucSCFrameMode;
+    BYTE ucIPLRSel;
+    BYTE ucOut3DLRSel;
 
-	BYTE bOverrideSCFmtIn: 1;
-	BYTE bPsvPnlOutLRInvert: 1;
-	BYTE bScalingUpH: 1;
-	BYTE bScalingUpV: 1;
-	BYTE bHSDEnable: 1;
-	BYTE bMRWDual: 1;
-	BYTE bMRW422: 1;
-	BYTE bMRWR2Y: 1;
+    BYTE bOverrideSCFmtIn:1;
+    BYTE bPsvPnlOutLRInvert:1;
+    BYTE bScalingUpH:1;
+    BYTE bScalingUpV:1;
+    BYTE bHSDEnable:1;
+    BYTE bMRWDual:1;
+    BYTE bMRW422:1;
+    BYTE bMRWR2Y:1;
 
-	BYTE bMRWLLRR: 1;
-	BYTE bVBIExtend: 1;
-	BYTE bFBMode: 1;
-	BYTE bNormalCase34: 1;
-	BYTE b4MFRC: 1;
-	#if CHIP_ID == CHIP_TSUM2
-	BYTE b2DTo3DEnable: 1;
-	BYTE bLoadOdTbl: 1;
-	#endif
+    BYTE bMRWLLRR:1;
+    BYTE bVBIExtend:1;
+    BYTE bFBMode:1;
+    BYTE bNormalCase34:1;
+    BYTE b4MFRC:1;
+#if CHIP_ID == CHIP_TSUM2
+    BYTE b2DTo3DEnable:1;
+    BYTE bLoadOdTbl:1;
+#endif
 } SetupPathInfo;
 
 #if 0//CHIP_ID == CHIP_TSUMU
 enum
 {
-	SC_PATH_MODE_0,         /* Frame bufferless */
-	SC_PATH_MODE_1,         /* mode 1,2 is auto switch */
+    SC_PATH_MODE_0,         /* Frame bufferless */
+    SC_PATH_MODE_1,         /* mode 1,2 is auto switch */
 //  SC_PATH_MODE_2,         /* mode 1,2 is auto switch */
-	SC_PATH_MODE_3,
-	SC_PATH_MODE_4,
-	SC_PATH_MODE_5,
-	SC_PATH_MODE_6,
+    SC_PATH_MODE_3,
+    SC_PATH_MODE_4,
+    SC_PATH_MODE_5,
+    SC_PATH_MODE_6,
 };
 #elif CHIP_ID == CHIP_TSUM2
 enum
 {
-	SC_PATH_MODE_0,         /* Frame bufferless */
-	SC_PATH_MODE_1,
-	SC_PATH_MODE_2,
-	SC_PATH_MODE_3,
-	SC_PATH_MODE_4,
-	SC_PATH_MODE_5,
-	SC_PATH_MODE_6,
+    SC_PATH_MODE_0,         /* Frame bufferless */
+    SC_PATH_MODE_1,         
+    SC_PATH_MODE_2,        
+    SC_PATH_MODE_3,
+    SC_PATH_MODE_4,
+    SC_PATH_MODE_5,
+    SC_PATH_MODE_6,
 };
 #endif
 
 enum
 {
-	SC_FMT_IN_NORMAL,
-	SC_FMT_IN_3D_PF,        /* page flipping */
-	SC_FMT_IN_3D_FP,        /* frame packing */
-	SC_FMT_IN_3D_FPI,       /* frame packing interlace */
-	SC_FMT_IN_3D_TB,        /* top bottom */
-	SC_FMT_IN_3D_SBSH,      /* side by side half */
-	SC_FMT_IN_3D_LA,        /* line interleave */
-	SC_FMT_IN_3D_SBSF,      /* side by side full */
-	SC_FMT_IN_3D_CB,        /* chess board */
-	SC_FMT_IN_3D_FA,        /* filed alternative */
+    SC_FMT_IN_NORMAL,
+    SC_FMT_IN_3D_PF,        /* page flipping */
+    SC_FMT_IN_3D_FP,        /* frame packing */
+    SC_FMT_IN_3D_FPI,       /* frame packing interlace */
+    SC_FMT_IN_3D_TB,        /* top bottom */
+    SC_FMT_IN_3D_SBSH,      /* side by side half */
+    SC_FMT_IN_3D_LA,        /* line interleave */
+    SC_FMT_IN_3D_SBSF,      /* side by side full */
+    SC_FMT_IN_3D_CB,        /* chess board */
+    SC_FMT_IN_3D_FA,        /* filed alternative */
 };
 
 enum
 {
-	SC_FMT_OUT_3D_FS,       /* frame sequential */
-	SC_FMT_OUT_3D_PSV,      /* passive */
-	SC_FMT_OUT_3D_PSV_4M,   /* 4M embedded passive */
+    SC_FMT_OUT_3D_FS,       /* frame sequential */
+    SC_FMT_OUT_3D_PSV,      /* passive */
+    SC_FMT_OUT_3D_PSV_4M,   /* 4M embedded passive */
 };
 
 enum
 {
-	SC_FRAME_MODE_1 = 0,
-	SC_FRAME_MODE_2,
-	SC_FRAME_MODE_3,
-	SC_FRAME_MODE_4,
-	SC_FRAME_MODE_5,
-	SC_FRAME_MODE_6,
-	SC_FRAME_MODE_7,
-	SC_FRAME_MODE_8,
+    SC_FRAME_MODE_1 = 0,
+    SC_FRAME_MODE_2,
+    SC_FRAME_MODE_3,
+    SC_FRAME_MODE_4,
+    SC_FRAME_MODE_5,
+    SC_FRAME_MODE_6,
+    SC_FRAME_MODE_7,
+    SC_FRAME_MODE_8,
 };
 
 enum
 {
-	IP_3D_LR_CTL1_A,
-	IP_3D_LR_CTL2_A,
-	IP_3D_LR_CTL1_B,
-	IP_3D_LR_CTL2_B,
-	IP_3D_LR_FRAME_DET,
-	IP_3D_LR_DP,
+    IP_3D_LR_CTL1_A,
+    IP_3D_LR_CTL2_A,
+    IP_3D_LR_CTL1_B,
+    IP_3D_LR_CTL2_B,
+    IP_3D_LR_FRAME_DET,
+    IP_3D_LR_DP,
 };
 enum
 {
-	OUT_3D_FIXED_NORMAL,
-	OUT_3D_FIXED_L,
-	OUT_3D_FIXED_R,
+    OUT_3D_FIXED_NORMAL,
+    OUT_3D_FIXED_L,
+    OUT_3D_FIXED_R,
 };
 
 INTERFACE void mStar_SetupPathInit();
@@ -230,12 +230,12 @@ INTERFACE void mStar_SetScalingFactor( void );
 
 extern xdata SetupPathInfo g_SetupPathInfo;
 
-#if ENABLE_DISPLAY_UNDERSCAN
+#if ENABLE_DISPLAY_UNDERSCAN    
 typedef struct
 {
-	BYTE Enable;
-	BYTE HSize;
-	BYTE VSize;
+    BYTE Enable;
+    BYTE HSize;
+    BYTE VSize;
 } UnderScanInfo;
 //INTERFACE void mStar_SetUnderScan(BOOL Enable, BYTE HSize, BYTE VSize);
 INTERFACE xdata UnderScanInfo UnderScanSetting;

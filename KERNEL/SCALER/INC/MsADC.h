@@ -25,12 +25,12 @@
 
 typedef enum
 {
-	// Unknow
-	ADC_INPUTSOURCE_UNKNOW = 0x00,
-	// Single source
-	ADC_INPUTSOURCE_RGB    = 0x01,
-	ADC_INPUTSOURCE_YPBPR  = 0x02,
-} ADC_INPUTSOURCE_TYPE;
+    // Unknow
+    ADC_INPUTSOURCE_UNKNOW = 0x00,
+    // Single source
+    ADC_INPUTSOURCE_RGB    = 0x01,
+    ADC_INPUTSOURCE_YPBPR  = 0x02,
+}ADC_INPUTSOURCE_TYPE;
 
 //-------------------------------------------------------------------------------------------------
 //  Function Prototype

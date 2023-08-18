@@ -19,7 +19,7 @@
 #define Fading_area1_Cb_coordination  		0x1B8
 #define Fading_Range  						0x20
 //===================================================================================================================================================================:
-// Extern XDATA variable from msDLC to share the parameter
+// Extern XDATA variable from msDLC to share the parameter 
 //===================================================================================================================================================================:
 #if SHARE_DLC_XDATA
 extern XDATA WORD  u16Array32[32];
@@ -47,16 +47,16 @@ extern void msDSC_Interrupt ( void );
 extern void msDSC_On_Setting ( void );
 extern void msDSC_Off_Setting ( void );
 extern void msDSC_AdjustYgain ( WORD YgainValue ) ;
-extern void msDSC_FadingArea_Setting (BYTE u8AresSelect, WORD u16Cr, WORD u16Cb, BYTE u8Range);
+extern void msDSC_FadingArea_Setting (BYTE u8AresSelect, WORD u16Cr,WORD u16Cb, BYTE u8Range);
 
 //===================================================================================================================================================================:
-// DPS Debug Mode
+// DPS Debug Mode  
 //===================================================================================================================================================================:
 #define DEBUG_DSCYgain 				1
-#define DEBUG_SAT_HISTOGRAM 		0
-#define DSC_EnablexvYCC_ForDebug 	0
-#define DEBUG_DSC_withoutInterrupt 	0
-#define DEBUG_ColorMaxrix_Value   	0
+#define DEBUG_SAT_HISTOGRAM 		0 
+#define DSC_EnablexvYCC_ForDebug 	0 
+#define DEBUG_DSC_withoutInterrupt 	0 
+#define DEBUG_ColorMaxrix_Value   	0 
 
 #define UseHistrogramToTest 			1  // 0:original y histrogram 1:Saturation Histrogram
 #define DSC_UsexvYccColorMatrix_EN   1 // 0:3x3 1:xvycc 3x3

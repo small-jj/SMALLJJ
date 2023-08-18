@@ -11,24 +11,24 @@
 
 
 #define IS_MRW_FMT_LA()         ((g_SetupPathInfo.ucSCFmtIn == SC_FMT_IN_3D_SBSH) || \
-                                 (g_SetupPathInfo.ucSCFmtIn == SC_FMT_IN_3D_SBSF) || \
-                                 (g_SetupPathInfo.ucSCFmtIn == SC_FMT_IN_3D_LA) )
+                                (g_SetupPathInfo.ucSCFmtIn == SC_FMT_IN_3D_SBSF) || \
+                                (g_SetupPathInfo.ucSCFmtIn == SC_FMT_IN_3D_LA) )
 
 #define IS_FMT_IN_SBS()         ((g_SetupPathInfo.ucSCFmtIn == SC_FMT_IN_3D_SBSH) || \
-                                 (g_SetupPathInfo.ucSCFmtIn == SC_FMT_IN_3D_SBSF) )
+                                (g_SetupPathInfo.ucSCFmtIn == SC_FMT_IN_3D_SBSF) )
 
 #define IS_VSP_FMT_2IMG()       (((g_SetupPathInfo.ucSCFmtIn == SC_FMT_IN_3D_FPI) ||  \
-                                  (g_SetupPathInfo.ucSCFmtIn == SC_FMT_IN_3D_FA) ||  \
-                                  (g_SetupPathInfo.ucSCFmtIn == SC_FMT_IN_3D_FP) ||  \
-                                  (g_SetupPathInfo.ucSCFmtIn == SC_FMT_IN_3D_PF)) &&  \
+                                 (g_SetupPathInfo.ucSCFmtIn == SC_FMT_IN_3D_FA) ||  \
+                                 (g_SetupPathInfo.ucSCFmtIn == SC_FMT_IN_3D_FP) ||  \
+                                 (g_SetupPathInfo.ucSCFmtIn == SC_FMT_IN_3D_PF)) &&  \
                                  ((g_SetupPathInfo.ucSCPathMode == SC_PATH_MODE_3) ||  \
-                                  (g_SetupPathInfo.ucSCPathMode == SC_PATH_MODE_4) ))
+                                 (g_SetupPathInfo.ucSCPathMode == SC_PATH_MODE_4) ))
 
 #define IS_FMT_OUT_PSV()        ((g_SetupPathInfo.ucSCFmtOut == SC_FMT_OUT_3D_PSV) || \
-                                 (g_SetupPathInfo.ucSCFmtOut == SC_FMT_OUT_3D_PSV_4M) )
+                                (g_SetupPathInfo.ucSCFmtOut == SC_FMT_OUT_3D_PSV_4M) )
 
 #define IS_FMT_IN_CB_PI()         ((g_SetupPathInfo.ucSCFmtIn == SC_FMT_IN_3D_CB) || \
-                                   (g_SetupPathInfo.ucSCFmtIn == SC_FMT_IN_3D_PI) )
+                                (g_SetupPathInfo.ucSCFmtIn == SC_FMT_IN_3D_PI) )
 
 #define SC_LOCK_LINE            8
 #define HSC_offset              1
@@ -37,23 +37,23 @@
 
 enum
 {
-	// MRW in/out src sel
-	IP2MRW2VSP =  ((0x00) | (0x01 << 2)),
-	HSP2MRW2VSP = ((0x02) | (0x01 << 2)),
-	VSP2MRW2HSP = ((0x01) | (0x00 << 2)),
-	VSP2MRW2OP1 = ((0x01) | (0x02 << 2)),
-	IP2MRW2HSP = ((0x00) | (0x00 << 2)),
-	HSP2MRW2OP1 = ((0x02) | (0x02 << 2)),
+    // MRW in/out src sel
+    IP2MRW2VSP =  ((0x00)|(0x01<<2)),
+    HSP2MRW2VSP = ((0x02)|(0x01<<2)),
+    VSP2MRW2HSP = ((0x01)|(0x00<<2)),
+    VSP2MRW2OP1 = ((0x01)|(0x02<<2)),
+    IP2MRW2HSP =((0x00)|(0x00<<2)),
+    HSP2MRW2OP1 =((0x02)|(0x02<<2)),
 
-	// HSP/VSP/FIFO in/out src sel
-	FIFO_VSP_HSP_FIFO = ((0x0D) | (0x01 << 4) | (0x00 << 6) | (0x00 << 8) | (0x01 << 10) | (0x00 << 12) | (0x01 << 14)),
-	FIFO_HSP_VSP_FIFO = ((0x0D) | (0x00 << 4) | (0x01 << 6) | (0x01 << 8) | (0x00 << 10) | (0x01 << 12) | (0x00 << 14)),
-	FIFO_HSP_MRW_VSP_FIFO = ((0x0C) | (0x00 << 4) | (0x02 << 6) | (0x02 << 8) | (0x00 << 10) | (0x01 << 12) | (0x00 << 14)),
-	FIFO_VSP_MRW_HSP_FIFO = ((0x0C) | (0x02 << 4) | (0x00 << 6) | (0x00 << 8) | (0x02 << 10) | (0x00 << 12) | (0x01 << 14)),
-	FIFO_MRW_HSP_VSP_FIFO = ((0x0C) | (0x02 << 4) | (0x01 << 6) | (0x01 << 8) | (0x00 << 10) | (0x01 << 12) | (0x02 << 14)),
-	FIFO_MRW_VSP_HSP_FIFO = ((0x0C) | (0x01 << 4) | (0x00 << 6) | (0x02 << 8) | (0x01 << 10) | (0x00 << 12) | (0x02 << 14)),
-	FIFO_VSP_HSP_MRW_FIFO = ((0x0C) | (0x01 << 4) | (0x02 << 6) | (0x00 << 8) | (0x01 << 10) | (0x02 << 12) | (0x01 << 14)),
-	FIFO_HSP_VSP_MRW_FIFO = ((0x0C) | (0x00 << 4) | (0x01 << 6) | (0x01 << 8) | (0x02 << 10) | (0x02 << 12) | (0x00 << 14)),
+    // HSP/VSP/FIFO in/out src sel
+    FIFO_VSP_HSP_FIFO = ((0x0D)|(0x01<<4)|(0x00<<6)|(0x00<<8)|(0x01<<10)|(0x00<<12)|(0x01<<14)),
+    FIFO_HSP_VSP_FIFO = ((0x0D)|(0x00<<4)|(0x01<<6)|(0x01<<8)|(0x00<<10)|(0x01<<12)|(0x00<<14)),
+    FIFO_HSP_MRW_VSP_FIFO = ((0x0C)|(0x00<<4)|(0x02<<6)|(0x02<<8)|(0x00<<10)|(0x01<<12)|(0x00<<14)),
+    FIFO_VSP_MRW_HSP_FIFO = ((0x0C)|(0x02<<4)|(0x00<<6)|(0x00<<8)|(0x02<<10)|(0x00<<12)|(0x01<<14)),
+    FIFO_MRW_HSP_VSP_FIFO = ((0x0C)|(0x02<<4)|(0x01<<6)|(0x01<<8)|(0x00<<10)|(0x01<<12)|(0x02<<14)),
+    FIFO_MRW_VSP_HSP_FIFO = ((0x0C)|(0x01<<4)|(0x00<<6)|(0x02<<8)|(0x01<<10)|(0x00<<12)|(0x02<<14)),
+    FIFO_VSP_HSP_MRW_FIFO = ((0x0C)|(0x01<<4)|(0x02<<6)|(0x00<<8)|(0x01<<10)|(0x02<<12)|(0x01<<14)),
+    FIFO_HSP_VSP_MRW_FIFO = ((0x0C)|(0x00<<4)|(0x01<<6)|(0x01<<8)|(0x02<<10)|(0x02<<12)|(0x00<<14)),
 
 };
 
@@ -123,95 +123,95 @@ enum
 
 typedef struct
 {
-	WORD wImgSizeInH;       /* Input L or R Image Size */
-	WORD wImgSizeInV;
-	WORD wImgSizeOutH;      /* Output L or R Image Size */
-	WORD wImgSizeOutV;
-	WORD wMRWSizeInH;
-	WORD wMRWSizeInV;
-	WORD wMRWSizeOutH;
-	WORD wMRWSizeOutV;
-	BYTE ucSCFmtIn;
-	BYTE ucSCFmtOut;
+    WORD wImgSizeInH;       /* Input L or R Image Size */
+    WORD wImgSizeInV;
+    WORD wImgSizeOutH;      /* Output L or R Image Size */
+    WORD wImgSizeOutV;
+    WORD wMRWSizeInH;
+    WORD wMRWSizeInV;
+    WORD wMRWSizeOutH;
+    WORD wMRWSizeOutV;
+    BYTE ucSCFmtIn;
+    BYTE ucSCFmtOut;
 
-	BYTE ucSCPathMode;
-	BYTE ucIPLRSel;
-	BYTE ucOut3DLRSel;
+    BYTE ucSCPathMode;
+    BYTE ucIPLRSel;
+    BYTE ucOut3DLRSel;
 
-	BYTE bOverrideSCFmtIn: 1;
-	BYTE bPsvPnlOutLRInvert: 1;
-	BYTE bScalingUpH: 1;
-	BYTE bScalingUpV: 1;
-	BYTE bHSDEnable: 1;
-	BYTE bMRWDual: 1;
-	BYTE bMRW422: 1;
-	BYTE bMRWR2Y: 1;
+    BYTE bOverrideSCFmtIn:1;
+    BYTE bPsvPnlOutLRInvert:1;
+    BYTE bScalingUpH:1;
+    BYTE bScalingUpV:1;
+    BYTE bHSDEnable:1;
+    BYTE bMRWDual:1;
+    BYTE bMRW422:1;
+    BYTE bMRWR2Y:1;
 
-	BYTE bMRWLLRR: 1;
-	BYTE bVBIExtend: 1;
-	BYTE bFBMode: 1;
+    BYTE bMRWLLRR:1;
+    BYTE bVBIExtend:1;
+    BYTE bFBMode:1;
 
-	#if CHIP_ID == CHIP_TSUMD
-	BYTE b2DTo3DEnable: 1;
-	BYTE bLoadOdTbl: 1;
-	BYTE bHMirrorMode: 1;
-	BYTE bOverrideSCPathMode: 1;
-	Bool b3DTo2DEnable: 1;
-	#endif
+#if CHIP_ID == CHIP_TSUMD
+    BYTE b2DTo3DEnable:1;
+    BYTE bLoadOdTbl:1;
+    BYTE bHMirrorMode:1;
+    BYTE bOverrideSCPathMode:1;
+    Bool b3DTo2DEnable:1;
+#endif
 } SetupPathInfo;
 
 #if 0//CHIP_ID == CHIP_TSUMU
 enum
 {
-	SC_PATH_MODE_0,         /* Frame bufferless */
-	SC_PATH_MODE_1,         /* mode 1,2 is auto switch */
+    SC_PATH_MODE_0,         /* Frame bufferless */
+    SC_PATH_MODE_1,         /* mode 1,2 is auto switch */
 //  SC_PATH_MODE_2,         /* mode 1,2 is auto switch */
-	SC_PATH_MODE_3,
-	SC_PATH_MODE_4,
-	SC_PATH_MODE_5,
-	SC_PATH_MODE_6,
+    SC_PATH_MODE_3,
+    SC_PATH_MODE_4,
+    SC_PATH_MODE_5,
+    SC_PATH_MODE_6,
 };
 #elif CHIP_ID == CHIP_TSUMD
 enum
 {
-	SC_PATH_MODE_0,         /* Frame bufferless */
-	SC_PATH_MODE_1,
-	SC_PATH_MODE_2,
-	SC_PATH_MODE_3,
-	SC_PATH_MODE_4,
-	SC_PATH_MODE_5,
-	SC_PATH_MODE_6,
+    SC_PATH_MODE_0,         /* Frame bufferless */
+    SC_PATH_MODE_1,
+    SC_PATH_MODE_2,
+    SC_PATH_MODE_3,
+    SC_PATH_MODE_4,
+    SC_PATH_MODE_5,
+    SC_PATH_MODE_6,
 };
 #endif
 enum
 {
-	SC_FMT_IN_NORMAL,
-	SC_FMT_IN_3D_PF,        /* page flipping */
-	SC_FMT_IN_3D_FP,        /* frame packing */
-	SC_FMT_IN_3D_FPI,       /* frame packing interlace */
-	SC_FMT_IN_3D_TB,        /* top bottom */
-	SC_FMT_IN_3D_SBSH,      /* side by side half */
-	SC_FMT_IN_3D_LA,        /* line interleave */
-	SC_FMT_IN_3D_SBSF,      /* side by side full */
-	SC_FMT_IN_3D_CB,        /* chess board */
-	SC_FMT_IN_3D_FA,        /* filed alternative */
-	SC_FMT_IN_3D_PI,        /* pixel interleave */
+    SC_FMT_IN_NORMAL,
+    SC_FMT_IN_3D_PF,        /* page flipping */
+    SC_FMT_IN_3D_FP,        /* frame packing */
+    SC_FMT_IN_3D_FPI,       /* frame packing interlace */
+    SC_FMT_IN_3D_TB,        /* top bottom */
+    SC_FMT_IN_3D_SBSH,      /* side by side half */
+    SC_FMT_IN_3D_LA,        /* line interleave */
+    SC_FMT_IN_3D_SBSF,      /* side by side full */
+    SC_FMT_IN_3D_CB,        /* chess board */
+    SC_FMT_IN_3D_FA,        /* filed alternative */
+    SC_FMT_IN_3D_PI,        /* pixel interleave */
 };
 enum
 {
-	SC_FMT_OUT_3D_FS,       /* frame sequential */
-	SC_FMT_OUT_3D_PSV,      /* passive */
-	SC_FMT_OUT_3D_PSV_4M,   /* 4M embedded passive */
-	SC_FMT_OUT_3D_TB,       /* top and bottom */
-	SC_FMT_OUT_3D_SBS,      /* side by side */
-	SC_FMT_OUT_3D_CB,   /* chess board */
+    SC_FMT_OUT_3D_FS,       /* frame sequential */
+    SC_FMT_OUT_3D_PSV,      /* passive */
+    SC_FMT_OUT_3D_PSV_4M,   /* 4M embedded passive */
+    SC_FMT_OUT_3D_TB,       /* top and bottom */
+    SC_FMT_OUT_3D_SBS,      /* side by side */
+    SC_FMT_OUT_3D_CB,   /* chess board */
 };
 
 enum
 {
-	OUT_3D_FIXED_NORMAL,
-	OUT_3D_FIXED_L,
-	OUT_3D_FIXED_R,
+    OUT_3D_FIXED_NORMAL,
+    OUT_3D_FIXED_L,
+    OUT_3D_FIXED_R,
 };
 
 

@@ -25,197 +25,160 @@
 
 
 typedef enum
-{
-	CP_WhiteColor = 0x07,
-	CP_RedColor = 0x01,
-	CP_LightBlue,
-	CP_BlueColor,
-	CP_WhiteColor1,
-	CP_GrayColor,
-	CP_LightColor,
-	CP_BlackColor,
-	CP_MaxColor
+{ CP_WhiteColor=0x07,
+  CP_RedColor=0x01,
+  CP_LightBlue,
+  CP_BlueColor,
+  CP_WhiteColor1,
+  CP_GrayColor,
+  CP_LightColor,
+  CP_BlackColor,
+  CP_MaxColor
 } CP_ColorType;
 
 
 typedef enum
-{
-	PowerOffMenu,           // 0
-	PowerOnMenu,            // 1
-	StandbyMenu,		    // 2
-	//	SuspenMenu,
-	SleepMenu,              // 3
-	CableNotConnectedMenu,  // 4
-	UnsupportedModeMenu,    // 5
-	RootMenu, 		        // 6
+{ 
+    PowerOffMenu,           // 0
+    PowerOnMenu,            // 1
+    StandbyMenu,		    // 2
+    //	SuspenMenu,
+    SleepMenu,              // 3
+    CableNotConnectedMenu,  // 4
+    UnsupportedModeMenu,    // 5
+    RootMenu, 		        // 6
 
-	// user definition from here
-	MainMenu, 	        // 7
+    // user definition from here
+    MainMenu, 	        // 7
 
-	OSD_BriContrastMenu,   	// 8
-	PictureMenu,  				//  9
-	RGBColorMenu,			//  10
-	OsdMenu, 					//  11
-	SettingMenu, 				//    13
-	OSD_MiscMenu,  			 // 	14
+    OSD_BriContrastMenu,   	// 8
+    PictureMenu,  				//  9
+    RGBColorMenu,			//  10
+    OsdMenu, 					//  11
+    SettingMenu, 				//    13
+    OSD_MiscMenu,  			 // 	14
 
-	ExitMenu,                             //15
+    ExitMenu,                             //15
 //-----------------------------------------------
-	BrightnessMenu,     //
-	ContrastMenu,       //
+	BrightnessMenu,     // 	
+	ContrastMenu,       // 
 	ECOMenu,            // 11
 	DCRMenu,            // 13
-	#if ENABLE_RTE
-	OverdriveMenu,
-	#endif
+#if ENABLE_RTE 
+	OverdriveMenu,           
+#endif    
 
-	#if Enable_Gamma
+#if Enable_Gamma
 	GammaMenu,          // 12
-	#endif
+#endif
 //-----------------------------------------------
-	HPositionMenu,
-	VPositionMenu,
-	FocusMenu,
+	HPositionMenu, 
+	VPositionMenu, 
+	FocusMenu, 
 	ClockMenu,
-
+#if Enable_Func_AdjExpansion
 	ExpansionMenu,
-	
+#endif
 //-----------------------------------------------
 
-	ColorTempMenu, RedMenu, GreenMenu, BlueMenu,    // 21,22,23,24
-	#if ENABLE_OSD_LowBlueLight
-	LowBlueLightMenu,
-	#endif
+    ColorTempMenu, RedMenu, GreenMenu, BlueMenu,    // 21,22,23,24
+#if ENABLE_OSD_LowBlueLight
+    LowBlueLightMenu,
+#endif
 //-----------------------------------------------
 	LanguageMenu,
 	#if OsdAdjustHVPos_Enable
-	OsdHPositionMenu, OsdVPositionMenu,
-
+	OsdHPositionMenu, OsdVPositionMenu, 
 	#endif
-	
 	OsdTimeOutMenu, //35,36,37,38
 	TransparenceMenu,   //39
 //------------------------------------------------
-	#ifdef OffPower
-	OffTimerMenu,
-	#endif
+#ifdef OffPower 
+    OffTimerMenu,
+#endif
 //-----------------------------------------------
-	#if (INPUT_TYPE!=INPUT_1A) && (INPUT_TYPE!=INPUT_1H)
-	InputSelectMenu,
-	#endif
-	#if AudioFunc
-	#if EANBLE_MUTE_ON_OFF
-	MuteMenu,
-	#endif
-	VolumeMenu, // 55
-	#endif
-	#if Enable_Adjust_SharpnessMenu
+ #if (INPUT_TYPE!=INPUT_1A) && (INPUT_TYPE!=INPUT_1H)	
+    InputSelectMenu,
+ #endif
+#if AudioFunc
+#if EANBLE_MUTE_ON_OFF
+    MuteMenu,
+#endif    
+    VolumeMenu, // 55
+#endif	
+#if Enable_Adjust_SharpnessMenu
 	SharpnessMenu,
-	#endif
+#endif
 
-	#if  DDCCI_ENABLE && DDCCCIMenu_Enable
-	DDCCIMenu,
-	#endif
-	#if  FreeSyncMenu_Enable
-	FreeSyncMenu,
-	#endif
+#if  DDCCI_ENABLE && DDCCCIMenu_Enable
+    DDCCIMenu,
+#endif
+#if  FreeSyncMenu_Enable
+    FreeSyncMenu,
+#endif    
 //-----------------------------------------------
 
 
+    
+    HotKeyECOMenu, // 54
+#if Hotkey_DCR_Enable    
+    HotKeyDCRMenu, // 54
+#endif
 
-	HotKeyECOMenu, // 54
-	#if Hotkey_DCR_Enable
-	HotKeyDCRMenu, // 54
-	#endif
-
-	#if HotExpansionAdjust
-	HotExpansionMenu,
-	#endif
-	#if AudioFunc && ENABLE_OSD_HotKeyVolume
+#if HotExpansionAdjust
+    HotExpansionMenu,
+#endif
+#if AudioFunc && ENABLE_OSD_HotKeyVolume
 	HotKeyVolMenu, // 55
-	#endif
-	#if Hotkey_Bri_Enable
-	HotKeyBriMenu,
-	#endif
-	#if Hotkey_Con_Enable
+#endif
+#if Hotkey_Bri_Enable
+ 	HotKeyBriMenu,
+ #endif
+ #if Hotkey_Con_Enable
 	HotKeyConMenu,
-	#endif
+#endif
 
-	#if HotInputSelect
-	HotInputSelectMenu,////////////////////////////////////////这个是中间快捷菜单的选项
-	#endif
+#if HotInputSelect  
+    HotInputSelectMenu,
+#endif
 
-	#if Hot_Corss_ColorSelect || Hot_Corss_FY_ColorSelect || Hot_Corss_FND_Select
-	HotCorssMenu,
-	#endif
-
-
-	AutoMenu,//57/////////////////////////////////////<
-
-	#if AboutDSUBFunc_Enable
-	AutoColorMenu,	//59
-	#endif
-	BurninMenu,//60
-
-	FactoryMenu,//	61
-
-	LogoMenu, 	//62
-
-	InputInfoMenu, // 63/////////////////////////////////////////这个是右上角快捷菜单的选项
-
-	#if DDCCI_ENABLE && DDCCCIMenu_Enable
-	DdcciInfoMenu, // 65
-	#endif
-
-	// user definition end
-	
-	
-	#ifdef OffPower
-	OffPowerWarningMenu,
-	#endif
+#if Hot_Corss_ColorSelect || Hot_Corss_FY_ColorSelect || Hot_Corss_FND_Select
+     HotCorssMenu,
+#endif
 
 
-	//MaxMenu,//////刘晨曦更改,释放会黑屏
+    AutoMenu,//57
+
+#if AboutDSUBFunc_Enable
+    AutoColorMenu,	//59
+#endif
+    BurninMenu,//60
+
+    FactoryMenu,//	61
+
+    LogoMenu, 	//62
+
+    InputInfoMenu, // 63
+
+#if DDCCI_ENABLE && DDCCCIMenu_Enable
+    DdcciInfoMenu, // 65
+#endif
+
+    // user definition end
+#ifdef OffPower  
+    OffPowerWarningMenu,
+#endif
 
 
-	MENU_3_6_1,
-		MENU_3_7_1,
-		MENU_4_1_1,
-		MENU_4_6_1,
-		MENU_4_7_1,
-		
-		MENU_5_2_1,
-		MENU_5_3_1,
-		MENU_5_4_1,
-		MENU_5_5_1,
-		MENU_5_6_1,
-		MENU_5_7_1,
-
-	
-		MENU_6_1_1,
-		MENU_6_5_1,
-		MENU_6_6_1,
-		MENU_6_7_1,
-		MENU_6_8_1,
-
-
-		HotInputSelectMenu_1,
-
-		HotInputSelectMenu_1_1,
-		HotInputSelectMenu_2,
-		HotInputSelectMenu_3,
-		HotInputSelectMenu_3_1,
-		HotInputSelectMenu_4,
-
-	
+    MaxMenu
 } MenuPageIndexType;
 
 typedef enum
 {
-	COLORBOOST_FULL,       //4 //1
-	COLORBOOST_HALF,    // 2
-	COLORBOOST_OFF,   // 3
-	COLORBOOST_Nums
+  COLORBOOST_FULL,       //4 //1
+  COLORBOOST_HALF,    // 2
+  COLORBOOST_OFF,   // 3
+  COLORBOOST_Nums
 
 } ColorBoostType;
 
@@ -224,175 +187,198 @@ typedef enum
 
 typedef enum
 {
-	ECO_Standard,       //4 //1
-	ECO_Internet,   // 2
-	ECO_Game,        // 3
-	#if ENABLE_FPS_RTS
-	ECO_FPS,        // 4
-	ECO_RTS,        // 5
-	#endif
-	ECO_Movie,        // 4
-	#if	PresetMode_Enable
-	ECO_Preset,
-	#endif
-	ECO_Nums
+  ECO_Standard,       //4 //1
+  ECO_Internet,   // 2
+  ECO_Game,        // 3
+  #if ENABLE_FPS_RTS
+    ECO_FPS,        // 4
+    ECO_RTS,        // 5
+#endif
+   ECO_Movie,        // 4
+#if	PresetMode_Enable
+   ECO_Preset,
+#endif   
+    ECO_Nums
 
 } ECOModeType;
 
 #if Enable_Expansion
 typedef enum
 {
-	Expansion_Full,
-	Expansion_Aspect,
-	#if ENABLE_OVER_SCAN // 1:1
-	Expansion_11,
-	PIC_FORMAT_17Picth,
-	PIC_FORMAT_19Picth,
-	PIC_FORMAT_W19Picth,
-	PIC_FORMAT_W21_5Picth,
-	PIC_FORMAT_W22Picth,
-	PIC_FORMAT_W23Picth,
-	#endif
-	Expansion_Nums
-} ExpansionType;
+  Expansion_Full,
+  Expansion_Aspect,
+#if ENABLE_OVER_SCAN // 1:1
+  Expansion_11,
+  PIC_FORMAT_17Picth,
+  PIC_FORMAT_19Picth,
+  PIC_FORMAT_W19Picth,
+  PIC_FORMAT_W21_5Picth,
+  PIC_FORMAT_W22Picth,
+  PIC_FORMAT_W23Picth,
+#endif
+  Expansion_Nums
+}ExpansionType;
 #endif
 
 typedef enum
 {
 	CTEMP_Warm1,	// 6500
-	#if CT_7500K_ENABLE
+#if CT_7500K_ENABLE	
 	CTEMP_Normal,  // 7500K
-	#endif
-	CTEMP_Cool1,   //  9300K
-	#if CT_sRGB_ENABLE
+#endif	
+	CTEMP_Cool1,   //  9300K	 
+#if CT_sRGB_ENABLE	
 	CTEMP_SRGB,   //  SRGB
-	#endif
+#endif	
 	CTEMP_USER,	//  USER
-	#if LowBlueLightType ==  LowBlueLight_SharpFunc
+#if LowBlueLightType ==  LowBlueLight_SharpFunc
 	CTEMP_LowBlue,
-	#endif
-	CTEMP_Nums
+#endif
+	CTEMP_Nums 
 } ColorTempType;
-//////////////////////////////////////以下为刘晨曦改动----作用:使得页面当前语言为汉语
+
 typedef enum
 {
-	DISP_LANG_English,
-	DISP_LANG_France,
-
-	DISP_LANG_Nums
+    DISP_LANG_English,
+    DISP_LANG_France,
+    DISP_LANG_Spanish,
+    DISP_LANG_Portugues,
+    DISP_LANG_German,
+    DISP_LANG_Italian,
+    DISP_LANG_Dutch,
+    DISP_LANG_Swedish,
+    DISP_LANG_Finnish,
+    DISP_LANG_Polish,
+    DISP_LANG_Czech,
+    DISP_LANG_Russia,
+    DISP_LANG_Korea,
+    DISP_LANG_TChina,
+    DISP_LANG_SChina,
+    DISP_LANG_Japan,
+    DISP_LANG_Nums
 } DisplayLanguageType;		//120322 Modify
 typedef enum
 {
-	LANG_English,
-	LANG_France,
-	
-	LANG_Nums
+    LANG_English,
+    LANG_France,
+    LANG_Spanish,
+    LANG_Portugues,
+    LANG_German,
+    LANG_Italian,
+    LANG_Dutch,
+    LANG_Swedish,
+    LANG_Finnish,
+    LANG_Polish,
+    LANG_Czech,
+    LANG_Russia,
+    LANG_Korea,
+    LANG_TChina,
+    LANG_SChina,
+    LANG_Japan,
+    LANG_Nums
 } LanguageType;
-
 
 
 typedef enum
 {
-	GAMA1,          // 0
-	GAMA2,   // 1
-	GAMA3,        // 2
+  GAMA1,          // 0
+  GAMA2,   // 1
+  GAMA3,        // 2
 
-	GAMA_Nums
+  GAMA_Nums
 } GAMAModeType;
 
 typedef enum
 {
-	GAMAContent_GAMA1,          // 0
-	GAMAContent_GAMA2,   // 1
-	GAMAContent_GAMA3,        // 2
-	GAMAContent_GAMA_sRGB,
+  GAMAContent_GAMA1,          // 0
+  GAMAContent_GAMA2,   // 1
+  GAMAContent_GAMA3,        // 2
+  GAMAContent_GAMA_sRGB,
 
-	GAMAContent_GAMA_Nums
+  GAMAContent_GAMA_Nums
 } GAMAContentType;
 
 
 typedef enum
 {
-	OFF,          // 0ff
-	RTE1,         // 1Weak
-	RTE_Nums
+  OFF,          // 0ff
+  RTE1,         // 1Weak
+  RTE_Nums
 } RTEModeType;
 
 
 
 typedef enum
-{
-	MIA_Nothing,
-	MIA_GotoNext, // goto next
-	MIA_GotoPrev, // goto prev
-	MIA_PrevItem,
-	MIA_NextItem,
-	MIA_JumpNaviItem,
-	MIA_JumpAdjustItem,
-	MIA_Exit, // Exit
-	MIA_IncValue, // increase value
-	MIA_DecValue, // decrease value
-	MIA_ExecFunc, // 10
-	MIA_Auto,
+{ MIA_Nothing,
+  MIA_GotoNext, // goto next
+  MIA_GotoPrev, // goto prev
+  MIA_PrevItem,
+  MIA_NextItem,
+  MIA_JumpNaviItem,
+  MIA_JumpAdjustItem,
+  MIA_Exit, // Exit
+  MIA_IncValue, // increase value
+  MIA_DecValue, // decrease value
+  MIA_ExecFunc, // 10
+  MIA_Auto,
 
-	MIA_InvIncValue,
-	MIA_InvDecValue,
-	MIA_RedrawMenu,
-	MIA_GotoECO,
+  MIA_InvIncValue,
+  MIA_InvDecValue,
+  MIA_RedrawMenu,
+  MIA_GotoECO,
 
-	#if Hotkey_ECO_Enable
-	MIA_ECO, // 19
-	#endif
-	#if HotInputSelect
-	MIA_ShowHotInput,
-	#endif
-	MIA_Expansion,
-	#if AudioFunc && ENABLE_OSD_HotKeyVolume
-	MIA_VOL,
-	#endif
-	#if Hotkey_Bri_Enable
-	MIA_Brite,
-	#endif
-	#if Hotkey_Con_Enable
-	MIA_Cont,
-	#endif
-	#if Hot_Corss_ColorSelect || Hot_Corss_FY_ColorSelect || Hot_Corss_FND_Select
+#if Hotkey_ECO_Enable
+  MIA_ECO, // 19
+#endif  
+#if HotInputSelect
+  MIA_ShowHotInput,
+#endif
+  MIA_Expansion,
+#if AudioFunc && ENABLE_OSD_HotKeyVolume
+  MIA_VOL,
+ #endif
+ #if Hotkey_Bri_Enable
+   MIA_Brite,
+#endif
+#if Hotkey_Con_Enable
+   MIA_Cont,
+#endif
+#if Hot_Corss_ColorSelect || Hot_Corss_FY_ColorSelect || Hot_Corss_FND_Select
 	MIA_HotCorssMenu,
-	#endif
-	MIA_DCR,
+#endif
+  MIA_DCR,
 
-	MIA_DDC,
-	MIA_SourceSel, //2006-02-22
-	MIA_Power, // power control
+  MIA_DDC,
+  MIA_SourceSel, //2006-02-22
+  MIA_Power, // power control
 } MenuItemActionType;
 
 
 typedef enum
-{
-	DWI_Nothing,
-	DWI_Icon,
-	DWI_Text,
-	DWI_FullText,
-	DWI_CenterText,
-	DWI_FullCenterText,
-	DWI_CenterPropText,
-	#if Hot_Corss_ColorSelect
+{ DWI_Nothing,
+  DWI_Icon,
+  DWI_Text,
+  DWI_FullText,
+  DWI_CenterText,
+  DWI_FullCenterText,
+  DWI_CenterPropText,
+#if Hot_Corss_ColorSelect   
 	DWI_8x5Icon,
-	#elif Hot_Corss_FY_ColorSelect|| Hot_Corss_FND_Select
+#elif Hot_Corss_FY_ColorSelect|| Hot_Corss_FND_Select
 	DWI_10x6Icon,
-	#endif
-	DWI_None
+#endif  
+  DWI_None
 } DrawMenuItemType;
 
 
 typedef enum
 {
-	SUB_WIN_00,
-	SUB_WIN_01,
-	SUB_WIN_02,
-	SUB_WIN_03
+SUB_WIN_00,
+SUB_WIN_01,
+SUB_WIN_02,
+SUB_WIN_03
 
-} SubWinType;
+}SubWinType;
 
 
 
@@ -434,17 +420,8 @@ typedef enum
 
 
 #define MonoNumberStart 	0x21
-
 #define PropFontAddress		0x2C
-
-//#define ICON_LCX			0x67///63,,,,6A///刘晨曦改2色
-
-
-#define ICON_LCX_3_left		0xA0//界面上面右边绘制
-
-
-
-#define MainAddress			0xC0
+#define MainAddress			0xC0				
 
 #define LanguageAddress		0xF8
 //=================================================page2
@@ -455,60 +432,17 @@ typedef enum
 #define ResoulationAddress  0x20//0x120
 
 
-
-
-
-#define ICON_LCX_4			ResoulationAddress+1///界面上面中心斜边绘制
-#define ICON_LCX_5			ICON_LCX_4+6///界面上面中心斜边绘制
-#define ICON_LCX_6			ICON_LCX_5+6///界面上面中心斜边绘制
-#define ICON_LCX_7   		ICON_LCX_6+6///界面上面中心斜边绘制
-#define ICON_LCX_8   		ICON_LCX_7+1///界面上面中心斜边绘制
-#define ICON_LCX_9   		ICON_LCX_8+2///界面上面中心斜边绘制
-#define ICON_LCX_10   		ICON_LCX_9+16///界面上面中心斜边绘制
-#define ICON_LCX_down_centry   		ICON_LCX_10+22///界面上面中心斜边绘制
-#define  ICON_LCX_11		ICON_LCX_down_centry+34///界面上面中心斜边绘制
-#define  ICON_LCX_12		ICON_LCX_11+18///界面上面中心斜边绘制
-#define  ICON_LCX_13		ICON_LCX_12+18///界面上面中心斜边绘制
-#define  ICON_LCX_14		ICON_LCX_13+27///界面上面中心斜边绘制
-
-#define ICON_LCX_1			ICON_LCX_14+27///界面下面两角
-#define ICON_LCX_2			ICON_LCX_1+6///界面下面两角
-#define ICON_LCX_3			ICON_LCX_2+6///界面上面左边绘制
-
 //=================================================page3
-#define FONT_2COLOR_ICON_START 	0x000
+
 #define FONT_4COLOR_ICON_START 	0x000
 #define FONT_8COLOR_ICON_START	0x045//0x2E
 
 #define _4ColorFontStart            FONT_4COLOR_ICON_START//0x180
 #define _8ColorFontStart            FONT_8COLOR_ICON_START//0x200
 
-#define _2ColorMainIconStart			0x14
-
-
 #define _4ColorHotIconStart      _4ColorFontStart
 
-#define _4ColorHotIconStart_1      _4ColorHotIconStart+16
-#define _4ColorHotIconStart_2      _4ColorHotIconStart_1+12
-#define _4ColorHotIconStart_3      _4ColorHotIconStart_2+12
-
-#define _4ColorHotIconStart_4     _4ColorHotIconStart_3+4
-
-#define  _4ColorHotIconStart_4_left		_4ColorHotIconStart_4+8
-#define  _4ColorHotIconStart_4_up		_4ColorHotIconStart_4_left+8
-#define  _4ColorHotIconStart_5		_4ColorHotIconStart_4_up+2
-
-#define  _4ColorHotIconStart_6		_4ColorHotIconStart_5+8
-#define  _4ColorHotIconStart_7		_4ColorHotIconStart_6+2
-#define  _4ColorHotIconStart_8		_4ColorHotIconStart_7+8
-#define  _4ColorHotIconStart_9		_4ColorHotIconStart_8+2
-#define  _4ColorHotIconStart_10		_4ColorHotIconStart_9+4
-#define  _4ColorHotIconStart_11		_4ColorHotIconStart_10+4
-#define  _4ColorHotIconStart_12		_4ColorHotIconStart_11+6
-#define  _4ColorHotIconStart_13		_4ColorHotIconStart_12+10
-#define  _4ColorHotIconStart_14		_4ColorHotIconStart_13+16
-
-
+#define _4ColorMainIconStart      _4ColorHotIconStart+30
 
 #define _8ColorMainIconStart      _8ColorFontStart
 
@@ -540,16 +474,16 @@ typedef enum
 #define MAIN_MENU_H_SIZE            0x2D//1368 pixel
 #define MAIN_MENU_V_SIZE            0x10
 #else
-#define MAIN_MENU_H_SIZE            0x49//1368 pixel
-#define MAIN_MENU_V_SIZE            0x16
+#define MAIN_MENU_H_SIZE            0x29//1368 pixel
+#define MAIN_MENU_V_SIZE            0x12
 #endif
 
-#define MainMenuIcon_DrawXPos		0x04
+#define MainMenuIcon_DrawXPos		0x01
 #define MainMenuIcon_DrawYPos		0x03
 
-#define SUB_TEXT_XPOS		0x1C
+#define SUB_TEXT_XPOS		0x07
 #define SUB_TEXT_YPOS		0x04
-#define IconShift			0x03
+#define IconShift			0x02
 
 
 #define HOT_MENU_H_SIZE            0x18
@@ -558,16 +492,16 @@ typedef enum
 #define IconXPos    4
 #define IconFristXPos    IconXPos	// Jun 20130730
 
-#define ItemShiftSpace      40////最上面背景长条距离
+#define ItemShiftSpace      40
 
-#define GaugeXPosition      55/////三级菜单的进度条的位置
-#define NumXposion           63//三级菜单的数字开始地址
-#define DrawStarXPos		 0x0E///三级菜单
+#define GaugeXPosition      0x18
+#define NumXposion           0x20
+#define DrawStarXPos		 0x0E
 
 #define OFFTIMER_VALUE_XPOS 	26		// Jun 20130730
 
 #define CENTER_ALIGN_LEN            13
-#define CENTER_ALIGN_STARTPOS       26/////三级菜单哪个左右切换选项的位置调节
+#define CENTER_ALIGN_STARTPOS       (GaugeXPosition-8)//11
 #define CENTER_ALIGN_ENDPOS         (CENTER_ALIGN_STARTPOS+CENTER_ALIGN_LEN-1)//23
 
 
@@ -588,35 +522,35 @@ typedef enum
 
 typedef enum
 {
-	#if CHIP_ID>=CHIP_TSUMV
-	CPC_Color0,
-	#else
-	CPC_ColorF,
-	#endif
-	CPC_Color1,
-	CPC_Color2,
-	CPC_Color3,
+#if CHIP_ID>=CHIP_TSUMV
+CPC_Color0,
+#else
+CPC_ColorF,
+#endif
+CPC_Color1,
+CPC_Color2,
+CPC_Color3,
 
-	CPC_Color4,
-	CPC_Color5,
-	CPC_Color6,
-	CPC_Color7,
+CPC_Color4,
+CPC_Color5,
+CPC_Color6,
+CPC_Color7,
 
-	CPC_Color8,
-	CPC_Color9,
-	CPC_ColorA,
-	CPC_ColorB,
+CPC_Color8,
+CPC_Color9,
+CPC_ColorA,
+CPC_ColorB,
 
-	CPC_ColorC,
-	CPC_ColorD,
-	CPC_ColorE,
-	#if CHIP_ID>=CHIP_TSUMV
-	CPC_ColorF,
-	#else
-	CPC_Color0,
-	#endif
+CPC_ColorC,
+CPC_ColorD,
+CPC_ColorE,
+#if CHIP_ID>=CHIP_TSUMV
+CPC_ColorF,
+#else
+CPC_Color0,
+#endif
 
-	CPC_MaxColor
+CPC_MaxColor
 } CPC_ColorType;
 
 #define CPC_TranColor           CPC_Color0//0x00
@@ -642,167 +576,141 @@ typedef enum
 
 typedef enum
 {
-MAIN_RGBColor_ITEM,
-	
+    MAIN_BriContrast_ITEM,
+    MAIN_Picture_ITEM,
+    MAIN_RGBColor_ITEM,
+    MAIN_Osd_ITEM,
+    MAIN_Setting_ITEM,
+    MAIN_Misc_ITEM,
 
-	MAIN_BriContrast_ITEM,
-	MAIN_Picture_ITEM,
-
-	
-	MAIN_Osd_ITEM,
-	MAIN_Setting_ITEM,
-	MAIN_Misc_ITEM,
-
-	MAIN_MAX_ITEM,
+    MAIN_MAX_ITEM,
 } MainMenuItemsType;
 
 typedef enum
 {
-	BriContrast_BRIGHTNESS_ITEM,
-	BriContrast_CONTRAST_ITEM,
-	BriContrast_ECO_ITEM,
-	BriContrast_DCR_ITEM,
+    BriContrast_BRIGHTNESS_ITEM,
+    BriContrast_CONTRAST_ITEM,
+    BriContrast_ECO_ITEM,
+    BriContrast_DCR_ITEM,
 
-	#if !PresetMode_Enable
-	#if ENABLE_RTE
-	BriContrast_Overdrive_ITEM,
-	#endif
-	#endif
-
-	#if Enable_Gamma
-	#if  !PresetMode_Enable
-	BriContrast_GAMMA_ITEM,
-	#endif
-	#endif
-	BriContrast_MAX_ITEM,
+#if !PresetMode_Enable
+    #if ENABLE_RTE 
+    BriContrast_Overdrive_ITEM,
+    #endif
+#endif
+	
+#if Enable_Gamma	
+#if  !PresetMode_Enable
+   	BriContrast_GAMMA_ITEM,
+#endif   
+#endif   
+    BriContrast_MAX_ITEM,
 } BriContrastMenuItemsType;
 
 typedef enum
 {
-	
-	
-	Picture_HPOSITION_ITEM,
-	Picture_VPOSITION_ITEM,
-	Picture_CLOCK_ITEM,
-	Picture_PHASE_ITEM,
-	
-	Picture_IMAGERATIO_ITEM,
-	Picture_MENU_3_6_1,///刘晨曦新加,
-	Picture_MENU_3_7_1,///刘晨曦新加,
-
-	
-
-
-	
-	Picture_MAX_ITEM,
+    Picture_HPOSITION_ITEM,
+    Picture_VPOSITION_ITEM,
+    Picture_CLOCK_ITEM,
+    Picture_PHASE_ITEM,
+#if Enable_Func_AdjExpansion
+    Picture_IMAGERATIO_ITEM,
+#endif
+    Picture_MAX_ITEM,
 } PictureMenuItemsType;
 
 typedef enum
 {
-	RGB_ColorTemp_Item,
-	RGB_Red_Item,
-	RGB_Green_Item,
-	RGB_Blue_Item,
-	#if LowBlueLightType==LowBlueLight_ColorTemp || LowBlueLightType==LowBlueLight_SharpFunc
-	RGB_LowBlueLigth_Item,
-	#endif
-	RGB_MAX_Item,
+    RGB_ColorTemp_Item,
+    RGB_Red_Item,
+    RGB_Green_Item,
+    RGB_Blue_Item,
+#if LowBlueLightType==LowBlueLight_ColorTemp || LowBlueLightType==LowBlueLight_SharpFunc
+    RGB_LowBlueLigth_Item,
+#endif
+    RGB_MAX_Item,
 } RGBMenuItemsType;
 
 
 typedef enum
 {
-	OSD_MENU_4_1_1,
-	#if OsdAdjustHVPos_Enable
-	OSD_HPOSITION_ITEM,
-	OSD_VPOSITION_ITEM,
-	#endif
-	OSD_TIMEOUT_ITEM,
-	OSD_TRANSPARENCE_ITEM,
-	OSD_MENU_4_6_1,
-	OSD_MENU_4_7_1,
-	OSD_MAX_ITEM,
+    OSD_LANGUAGE_ITEM,
+#if OsdAdjustHVPos_Enable		
+    OSD_HPOSITION_ITEM,
+    OSD_VPOSITION_ITEM,
+ #endif   
+    OSD_TIMEOUT_ITEM,
+    OSD_TRANSPARENCE_ITEM,
+    OSD_MAX_ITEM,
 } OSDMenuItemsType;
 
 typedef enum
 {
-	OSD_LANGUAGE_ITEM_LCX,
-	OSD_MENU_5_2_1,
-	OSD_MENU_5_3_1,
-	OSD_MENU_5_4_1,
-	OSD_MENU_5_5_1,
-	OSD_MENU_5_6_1,
-	OSD_MENU_5_7_1,
-	Setting_MAX_ITEM,
+#if AboutDSUBFunc_Enable
+    Setting_AUTOCONFIG_ITEM,
+    Setting_AUTOCOLOR_ITEM,
+#endif    
+    Setting_RESTR_ITEM,
+ #ifdef OffPower
+   Setting_OffPower_ITEM,
+#endif   
+    Setting_MAX_ITEM,
 } SettingMenuItemsType;
 
 typedef enum
 {
-
-	Misc_MENU_6_1_1,
-
-
-	
-	#if AudioFunc
-	#if EANBLE_MUTE_ON_OFF
-	Misc_Mute_ITEM,
-	#endif
-	Misc_Volume_ITEM,
-	#endif
-	#if Enable_Adjust_SharpnessMenu
-	Misc_Sharpness_ITEM,
-	#endif
-
-	#if DDCCCIMenu_Enable
-	Misc_DDCCI_ITEM,
-	#endif
-
-	#if PresetMode_Enable
-	#if ENABLE_RTE
-	Misc_Overdrive_ITEM,
-	#endif
-	#endif
-
-	#if (LowBlueLightType==LowBlueLight_Misc_Guage)||(LowBlueLightType==LowBlueLight_Misc_Group)
-	Misc_LowBlueLigth_Item,
-	#endif
-
-	#if  FreeSyncMenu_Enable
-	Misc_FreeSync_ITEM,
-	#endif
-
-	Misc_MENU_6_5_1,
-	Misc_MENU_6_6_1,
-	Misc_MENU_6_7_1,
-	Misc_MENU_6_8_1,
-
 #if (INPUT_TYPE!=INPUT_1A) && (INPUT_TYPE!=INPUT_1H)
-		Misc_InputSource_ITEM,
-	#endif
+    Misc_InputSource_ITEM,
+#endif
+#if AudioFunc
+ #if EANBLE_MUTE_ON_OFF   
+    Misc_Mute_ITEM,
+ #endif   
+    Misc_Volume_ITEM,
+#endif
+#if Enable_Adjust_SharpnessMenu
+	Misc_Sharpness_ITEM,
+#endif
 
-	
-	Misc_MAX_ITEM,
+#if DDCCCIMenu_Enable
+    Misc_DDCCI_ITEM,
+#endif
+
+#if PresetMode_Enable
+    #if ENABLE_RTE 
+    Misc_Overdrive_ITEM,
+    #endif
+#endif
+ 
+#if (LowBlueLightType==LowBlueLight_Misc_Guage)||(LowBlueLightType==LowBlueLight_Misc_Group)
+    Misc_LowBlueLigth_Item,
+#endif
+
+#if  FreeSyncMenu_Enable
+    Misc_FreeSync_ITEM,
+#endif
+    Misc_MAX_ITEM,
 } MiscMenuItemsType;
 
 
 typedef enum
 {
-	#if ENABLE_VGA
-	HotInput_VGA_ITEM,
-	#endif
-	#if ENABLE_DVI
-	HotInput_DVI_ITEM,
-	#endif
-	#if ENABLE_HDMI
-	HotInput_HDMI_ITEM,
-	#endif
-	#if ENABLE_HDMI2
-	HotInput_HDMI2_ITEM,
-	#endif
-	#if ENABLE_DP_INPUT
-	HotInput_DP_ITEM,
-	#endif
-	HotInput_MAX_ITEM
+#if ENABLE_VGA
+  HotInput_VGA_ITEM,  
+#endif  
+#if ENABLE_DVI
+  HotInput_DVI_ITEM,    
+#endif
+#if ENABLE_HDMI
+  HotInput_HDMI_ITEM,     
+#endif
+#if ENABLE_HDMI2
+  HotInput_HDMI2_ITEM,     
+#endif 
+#if ENABLE_DP_INPUT
+  HotInput_DP_ITEM,     
+#endif  
+  HotInput_MAX_ITEM
 } HotInputSelectMenuItemsType;
 
 
@@ -881,7 +789,7 @@ typedef WORD(*fpSetMaxValue)(void);
 #if 0
 #else
 #if (ENABLE_RTE)		//130402 Modify
-#define mibODDisable 0x2000
+#define mibODDisable 0x2000		
 #endif
 
 #if FreeSyncMenu_Enable
@@ -897,147 +805,147 @@ typedef WORD(*fpSetMaxValue)(void);
 #define dwiHex		    0x10
 #define dwiCenterArrowAlign 0x20
 
-#define dwiCenterText         0x40
+#define dwiCenterText         0x40  
 
 #define dwiMainTitle         0x80
 
 #if (ENABLE_DUAL_LINK)&&(ENABLE_RTE)		//130402 Modify
 #if ENABLE_120Hz_OD
-#define Disabe_Overdrive_Item		( GetVfreq() > 85&&!( g_SetupPathInfo.wImgSizeOutH==PanelWidth && g_SetupPathInfo.wImgSizeOutV==PanelHeight )&&(UserprefExpansionMode !=Expansion_Aspect))
+#define Disabe_Overdrive_Item		( GetVfreq() > 85&&!( g_SetupPathInfo.wImgSizeOutH==PanelWidth && g_SetupPathInfo.wImgSizeOutV==PanelHeight )&&(UserprefExpansionMode !=Expansion_Aspect))	
 #else
-#define Disabe_Overdrive_Item		(( GetVfreq() > 85 )&&(!ENABLE_FREESYNC))
+#define Disabe_Overdrive_Item		(( GetVfreq() > 85 )&&(!ENABLE_FREESYNC))	
 #endif
 #endif
 typedef struct
 {
-	fpAdjustValue AdjustFunction;
-	fpExecFunc ExecFunction;
+    fpAdjustValue AdjustFunction;
+    fpExecFunc ExecFunction;
 } MenuItemFuncType;
 #if Multi_Number //multi-number
-typedef struct
-{
-	BYTE Flags;
-	BYTE XPos, YPos;
-	fpGetValue GetValue;
-} NumberType;
-typedef struct
-{
-	// BYTE Flags;
-	BYTE ForeColor, BackColor;
-	NumberType *DisplayNumber;
-} DrawNumberType;
+    typedef struct
+    {
+        BYTE Flags;
+        BYTE XPos, YPos;
+        fpGetValue GetValue;
+    } NumberType;
+    typedef struct
+    {
+        // BYTE Flags;
+        BYTE ForeColor, BackColor;
+        NumberType *DisplayNumber;
+    } DrawNumberType;
 #else // single number
-typedef struct
-{
-	BYTE Flags;
-	BYTE ForeColor, BackColor;
-	BYTE XPos, YPos;
-	fpGetValue GetValue;
-} DrawNumberType;
+    typedef struct
+    {
+        BYTE Flags;
+        BYTE ForeColor, BackColor;
+        BYTE XPos, YPos;
+        fpGetValue GetValue;
+    } DrawNumberType;
 #endif
 #if Multi_Gauge // multi-gauge
-typedef struct
-{
-	BYTE Flags;
-	BYTE XPos, YPos;
-	fpGetValue GetValue;
-} GaugeType;
-typedef struct
-{
-	//BYTE Flags;
-	BYTE ForeColor, BackColor;
-	BYTE Length;
-	GaugeType *DisplayGauge;
-} DrawGuageType;
+    typedef struct
+    {
+        BYTE Flags;
+        BYTE XPos, YPos;
+        fpGetValue GetValue;
+    } GaugeType;
+    typedef struct
+    {
+        //BYTE Flags;
+        BYTE ForeColor, BackColor;
+        BYTE Length;
+        GaugeType *DisplayGauge;
+    } DrawGuageType;
 #else // single gauge
-typedef struct
-{
-	BYTE Flags;
-	BYTE ForeColor, BackColor;
-	BYTE Length;
-	BYTE XPos, YPos;
-	fpGetValue GetValue;
-} DrawGuageType;
+    typedef struct
+    {
+        BYTE Flags;
+        BYTE ForeColor, BackColor;
+        BYTE Length;
+        BYTE XPos, YPos;
+        fpGetValue GetValue;
+    } DrawGuageType;
 #endif
 typedef struct
 {
-	BYTE Flags;
-	BYTE XPos, YPos;
-	fpDisplayText DisplayText;
+    BYTE Flags;
+    BYTE XPos, YPos;
+    fpDisplayText DisplayText;
 } RadioTextType;
 typedef struct
 {
-	// BYTE Flags;
-	BYTE ForeColor, BackColor;
-	fpGetValue GetValue;
-	RadioTextType *RadioText;
+    // BYTE Flags;
+    BYTE ForeColor, BackColor;
+    fpGetValue GetValue;
+    RadioTextType *RadioText;
 } DrawRadioGroupType;
 typedef struct
 {
-	DrawNumberType *DrawNumber;
-	DrawGuageType *DrawGuage;
-	DrawRadioGroupType *DrawRadioGroup;
+    DrawNumberType *DrawNumber;
+    DrawGuageType *DrawGuage;
+    DrawRadioGroupType *DrawRadioGroup;
 } DrawValueType;
 typedef struct
 {
-	BYTE *Fonts;
-	WORD FontCount;
+    BYTE *Fonts;
+    WORD FontCount;
 } MenuFontType;
 #if 0
-typedef struct
-{
-	BYTE XPos, YPos;
-	BYTE ForeColor, BackColor;
-	BYTE SelForeColor, SelBackColor;
-	BYTE NextPage;
-	DrawMenuItemType DrawItemMethod;
-	fpDisplayText DisplayText;
-	MenuItemActionType *KeyEvents;
-	MenuItemFuncType KeyFunction;
-	DrawValueType DisplayValue;
-	BYTE Flags;
-} MenuItemType;
+    typedef struct
+    {
+        BYTE XPos, YPos;
+        BYTE ForeColor, BackColor;
+        BYTE SelForeColor, SelBackColor;
+        BYTE NextPage;
+        DrawMenuItemType DrawItemMethod;
+        fpDisplayText DisplayText;
+        MenuItemActionType *KeyEvents;
+        MenuItemFuncType KeyFunction;
+        DrawValueType DisplayValue;
+        BYTE Flags;
+    } MenuItemType;
 #endif
 typedef struct
 {
-	BYTE XPos, YPos;
-	BYTE ForeColor, BackColor;
-	BYTE SelForeColor, SelBackColor;
-	BYTE NextPage;
-	DrawMenuItemType DrawItemMethod;
-	fpDisplayText DisplayText;
-	MenuItemActionType *KeyEvents;
-	MenuItemFuncType KeyFunction;
-	DrawValueType DisplayValue;
-	MenuFontType *Fonts;
-	DWORD Flags; // 2006/9/6 5:41PM by Emily BYTE Flags;
+    BYTE XPos, YPos;
+    BYTE ForeColor, BackColor;
+    BYTE SelForeColor, SelBackColor;
+    BYTE NextPage;
+    DrawMenuItemType DrawItemMethod;
+    fpDisplayText DisplayText;
+    MenuItemActionType *KeyEvents;
+    MenuItemFuncType KeyFunction;
+    DrawValueType DisplayValue;
+    MenuFontType *Fonts;
+    DWORD Flags; // 2006/9/6 5:41PM by Emily BYTE Flags;
 } MenuItemType;
 #if 0
-typedef struct
-{
-	BYTE SpaceWidth;
-	WORD LineData[18];
-} PropFontType;
+    typedef struct
+    {
+        BYTE SpaceWidth;
+        WORD LineData[18];
+    } PropFontType;
 #endif
 #if 0
-typedef struct
-{
-	BYTE XSize, YSize;
-	BYTE PrevPage;
-	MenuItemType *MenuItems;
-	BYTE ItemCount;
-	fpExecFunc ExecFunction;
-	BYTE Flags;
-} MenuPageType;
+    typedef struct
+    {
+        BYTE XSize, YSize;
+        BYTE PrevPage;
+        MenuItemType *MenuItems;
+        BYTE ItemCount;
+        fpExecFunc ExecFunction;
+        BYTE Flags;
+    } MenuPageType;
 #endif
 typedef struct
 {
-	BYTE XSize, YSize;
-	BYTE PrevPage;
-	MenuItemType *MenuItems;
-	BYTE ItemCount;
-	fpExecFunc ExecFunction;
-	MenuFontType *Fonts;
-	BYTE Flags;
+    BYTE XSize, YSize;
+    BYTE PrevPage;
+    MenuItemType *MenuItems;
+    BYTE ItemCount;
+    fpExecFunc ExecFunction;
+    MenuFontType *Fonts;
+    BYTE Flags;
 } MenuPageType;
 #endif

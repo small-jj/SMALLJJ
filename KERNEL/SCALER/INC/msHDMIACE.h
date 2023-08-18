@@ -12,9 +12,9 @@
 #define _HDMIACE_H_
 
 #ifdef _HDMIACE_C_
-#define _HDMIACEDEC_
+  #define _HDMIACEDEC_
 #else
-#define _HDMIACEDEC_ extern
+  #define _HDMIACEDEC_ extern
 #endif
 
 _HDMIACEDEC_ void InitHDMIACEVar(void);

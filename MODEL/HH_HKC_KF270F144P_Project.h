@@ -4,7 +4,7 @@
 // BOARD SELECTION
 ////////////////////////////////////////////////////////////
 #define CHIP_ID                			CHIP_TSUMU
-#define MainBoardType    				MainBoard_JRY_L9BQHD_AV1
+#define MainBoardType    				MainBoard_JRY_L9BQHD_AV1 
 #define PanelType 					PanelLSM270HP06//PanelMV270FHM_N20//
 
 
@@ -87,7 +87,7 @@
 
 #define Show_BackLightTimeValue              1
 
-#define  EANBLE_NEW_DCR_Functing       1
+#define  EANBLE_NEW_DCR_Functing       1 
 
 #define	ENABLE_FACTORY_BLACKLEVEL		1
 
@@ -99,7 +99,7 @@
 #define User_DDCTO_FlashSave     		 JRY_Color_Tool_Functing
 #define JRY_FDDCCI_WriteEDID 			 0
 #define ColorTool_Clear_Time                     1
-#define	DP_WRITE_SN		         	1
+#define	DP_WRITE_SN		         	1 
 
 
 
@@ -205,7 +205,7 @@
 
 
 /********************************************************************************************/
-//1 Project …Ë÷√
+					  			//1 Project …Ë÷√
 
 #define ENABLE_RTE               		1
 #define DefRTEMode				RTE1
@@ -230,7 +230,7 @@
 #define DefBrightness	 			100
 /*
 #define FreeSyncMenu_Enable               1
-#define FreeSyncSwitchEDID			(0&&(FreeSyncMenu_Enable))//HDMI can switch EDID
+#define FreeSyncSwitchEDID			(0&&(FreeSyncMenu_Enable))//HDMI can switch EDID 
 #define	FreeSyncStatues				FreeSyncMenuItems_On
 #define FREESYNC_DP_on_off                1
 */
@@ -242,7 +242,7 @@
 #define HDCPKEY_IN_7F000			0
 /////////////////////////brightness///////////////////////////////////
 
-#define BRI_PRO_MIN_VALUE			0x00
+#define BRI_PRO_MIN_VALUE			0x00	
 #define BRI_PRO_DEF_VALUE			0x605
 #define BRI_PRO_MAX_VALUE			0x8A5
 

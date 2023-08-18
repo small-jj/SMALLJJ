@@ -50,7 +50,7 @@
 
 //#define PowerKeyDeBounce
 #define PowerKeyDeBounceCount     	30
-
+			
 
 #define Enable_Gamma				0	//111223 Modify
 #define GAMMA_BYPASS    			0
@@ -95,7 +95,7 @@
 #define EarphoneDet_Enable          0
 
 
-#define  EANBLE_NEW_DCR_Functing       1
+#define  EANBLE_NEW_DCR_Functing       1 
 
 
 

@@ -4,7 +4,7 @@
 // BOARD SELECTION
 ////////////////////////////////////////////////////////////
 #define CHIP_ID                			CHIP_TSUMF
-#define MainBoardType    				MainBorad_JRY_L5AFHD_FV1
+#define MainBoardType    				MainBorad_JRY_L5AFHD_FV1 
 #define PanelType 					PanelM215HJJ_N20
 #define DisplayLogo					NoBrand
 
@@ -75,7 +75,7 @@
 #define Init_HDCPKey    	           			1
 
 /***************************************************************************************/
-//1 DDC/CI功能
+								//1 DDC/CI功能
 #define JRY_Color_Tool_Functing            	1
 
 #define  Adj_7500K_Temp  				(1&&JRY_Color_Tool_Functing)
@@ -88,11 +88,11 @@
 /***************************************************************************************/
 
 
-#define  EANBLE_NEW_DCR_Functing       1
+#define  EANBLE_NEW_DCR_Functing       1 
 
 
 
-#if MainBoardType == MainBorad_JRY_L5AFHD_FV1
+#if MainBoardType == MainBorad_JRY_L5AFHD_FV1 
 
 #define INPUT_TYPE_SEL              			(INPUT_0A|INPUT_1C)
 #define DVI_PORT_PRIORITY       			2 //
@@ -207,9 +207,9 @@
 #define 		F_FWVersion             			_0,_0,_1
 #define 		Version						1
 #define 		ChangeDate					"20190410"//""
-
+	
 /********************************************************************************************/
-//1 Project 设置
+					  			//1 Project 设置
 
 #define		HH_PivotKey2_Enable					1
 
@@ -242,7 +242,7 @@
 ///////////////////////////////////////////////////////////////////
 
 /////////////////////////brightness///////////////////////////////////
-#define BRI_PRO_MIN_VALUE			0x00
+#define BRI_PRO_MIN_VALUE			0x00	
 #define BRI_PRO_DEF_VALUE			0x40
 #define BRI_PRO_MAX_VALUE			0x55
 ////////////////////////color temp/////////////////////////////////
@@ -275,7 +275,7 @@
 #define DefBriValue_ECO_Movies		60
 //////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////
-
+ 
 #define ADCKEY_A0_VALUE     0x67
 #define ADCKEY_A1_VALUE     0x00//0x68
 #define ADCKEY_A2_VALUE     0xA0

@@ -14,7 +14,7 @@
 #define _REG_PMGPIO0_IN     REG_0208   //PMGPIO00 ~ PMGPIO07 input value
 #define _REG_PMGPIO1_IN     REG_0209  //PMGPIO10 ~ PMGPIO17 input value
 #define _REG_PMGPIO2_IN     REG_020A  //PMGPIO20 ~ PMGPIO27 input value
-#define _REG_PMGPIO3_IN     REG_020B
+#define _REG_PMGPIO3_IN     REG_020B  
 #define _REG_CEC_EN         REG_020E
 
 #define _REG_PMGPIOSAR_OUT  REG_0220  //PMGPIO_SAR0 ~ PMGPIO_SAR3 output value
@@ -97,7 +97,7 @@
 #define _REG_PMGPIO0_IN         REG_0206    //PMGPIO00 ~ PMGPIO07 input value
 #define _REG_PMGPIO1_IN         REG_0207    //PMGPIO10 ~ PMGPIO17 input value
 #define _REG_PMGPIO2_IN         REG_0208    //PMGPIO20 ~ PMGPIO27 input value
-#define _REG_PMGPIO3_IN     REG_020B
+#define _REG_PMGPIO3_IN     REG_020B  
 
 #define _REG_PMGPIOSAR_OUT      REG_0220    //PMGPIO_SAR0 ~ PMGPIO_SAR3 output value
 #define _REG_PMGPIOSAR_OEZ      REG_0220    //PMGPIO_SAR0 ~ PMGPIO_SAR3 OEN control
@@ -119,7 +119,7 @@
 #define _REG_GPIO3_OUT      REG_1B34 //GPIO30 ~ GPIO35 output value     //[CHIP_TSUMV] GPIO30 ~ GPIO31 output value
 #define _REG_GPIO3_OEZ      REG_1B36 //GPIO30 ~ GPIO35 OEN control      //[CHIP_TSUMV] GPIO30 ~ GPIO31 OEN control
 #define _REG_GPIO3_IN       REG_1B38 //GPIO30 ~ GPIO35 input value      //[CHIP_TSUMV] GPIO30 ~ GPIO31 input value
-#if CHIP_ID==CHIP_TSUMV || CHIP_ID==CHIP_TSUMY || CHIP_ID==CHIP_TSUMB // 20111006.  Gary.Wang
+#if CHIP_ID==CHIP_TSUMV || CHIP_ID==CHIP_TSUMY || CHIP_ID==CHIP_TSUMB // 20111006.  Gary.Wang 
 #define _REG_GPIO4_OUT      REG_1B3A //GPIO40 ~ GPIO47 output value
 #define _REG_GPIO4_OEZ      REG_1B3C //GPIO40 ~ GPIO47 OEN control
 #define _REG_GPIO4_IN       REG_1B3E //GPIO40 ~ GPIO47 input value
@@ -152,21 +152,21 @@
 #define _REG_GPIO_OEN_MODE  REG_020C  //Power GPIO Enable , 0 : Normal PM GPIO , 1 : Power GPIO
 
 #define _REG_CEC_EN         REG_020E
-//REG_020E[0] 1:Enable CEC, 0: Disable CEC,
-//REG_020E[1] 1:Enable CEC2 , 0:Disable CEC2
-//REG_020E[7:6], [6]: PMGPIO0[4] driving strength control,[7]: PMGPIO0[5] driving strength control
+                                                                                              //REG_020E[0] 1:Enable CEC, 0: Disable CEC,
+                                                                                              //REG_020E[1] 1:Enable CEC2 , 0:Disable CEC2
+                                                                                              //REG_020E[7:6], [6]: PMGPIO0[4] driving strength control,[7]: PMGPIO0[5] driving strength control
 #if CHIP_ID<CHIP_TSUMV
 #define _REG_EXTINT_GROUP0_EN   REG_020F    //[11:8]
-// [3] Enable PMGPIO03 external interrupt function
-// [2] Enable PMGPIO04 external interrupt function
-// [1] Enable PMGPIO05 external interrupt function
-// [0] Enable PMGPIO06 external interrupt function
+                                                                                              // [3] Enable PMGPIO03 external interrupt function
+                                                                                              // [2] Enable PMGPIO04 external interrupt function
+                                                                                              // [1] Enable PMGPIO05 external interrupt function
+                                                                                              // [0] Enable PMGPIO06 external interrupt function
 #endif
 #define _REG_EXTINT_GROUP1_EN   REG_020F    //[15:12]
-//[3] Enable PMGPIO27 external interrupt function
-//[2] Enable PMGPIO26 external interrupt function
-//[1] Enable PMGPIO25 external interrupt function
-//[0] Enable PMGPIO24 external interrupt function
+                                                                                              //[3] Enable PMGPIO27 external interrupt function
+                                                                                              //[2] Enable PMGPIO26 external interrupt function
+                                                                                              //[1] Enable PMGPIO25 external interrupt function
+                                                                                              //[0] Enable PMGPIO24 external interrupt function
 
 #define _REG_PMGPIOSAR_OUT      REG_0220  //PMGPIO_SAR0 ~ PMGPIO_SAR3 output value
 #define _REG_PMGPIOSAR_OEZ      REG_0220  //PMGPIO_SAR0 ~ PMGPIO_SAR3 OEN control

@@ -49,9 +49,9 @@ _DRVMSTARDEC_ void drvmStar_SetupInputPort_VGA(void);
 _DRVMSTARDEC_ void drvmStar_SetupInputPort_DVI(void);
 typedef enum
 {
-	DVI_POWER_ON,
-	DVI_POWER_STANDBY,
-	DVI_POWER_DOWN
+    DVI_POWER_ON,
+    DVI_POWER_STANDBY,
+    DVI_POWER_DOWN
 
 } DVI_PowerCtrlType;
 

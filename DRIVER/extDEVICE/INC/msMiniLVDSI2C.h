@@ -2,9 +2,9 @@
 #define  _MSMINILVDS_H_
 
 #ifdef _MSMINILVDS_C_
-#define _MSMINILVDSDEC_
+  #define _MSMINILVDSDEC_
 #else
-#define _MSMINILVDSDEC_ extern
+  #define _MSMINILVDSDEC_ extern
 #endif
 
 #if VCOM_TYPE == VCOM_MAXIM	|| VCOM_TYPE == VCOM_SMIM ||VCOM_TYPE == VCOM_TPSIM	//120322 Modify

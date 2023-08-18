@@ -36,9 +36,9 @@ _DRVMSTARDEC_ WORD GetVtotal( void );
 
 typedef enum
 {
-	DVI_POWER_ON,
-	DVI_POWER_STANDBY,
-	DVI_POWER_DOWN
+    DVI_POWER_ON,
+    DVI_POWER_STANDBY,
+    DVI_POWER_DOWN
 
 } DVI_PowerCtrlType;
 
@@ -67,10 +67,10 @@ _DRVMSTARDEC_ WORD GetImageOutV();
 #if ENABLE_SUPERRESOLUTION	//121105 Modify
 typedef struct _RegTblType
 {
-	WORD wReg;
-	BYTE ucValue;
-	BYTE ucMask;
-} RegTblType;
+    WORD wReg;
+    BYTE ucValue;
+    BYTE ucMask;
+}RegTblType;
 #endif
 
 //#define V_FREQ_IN       (((VFreq( HFreq( SrcHPeriod ), SrcVTotal )+5)/10) * ((CURRENT_SOURCE_IS_INTERLACE_MODE())?2:1)) //20130909 nick modify
