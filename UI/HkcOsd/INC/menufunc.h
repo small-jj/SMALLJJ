@@ -114,6 +114,10 @@ extern Bool AdjustECOMode(MenuItemActionType action);
 extern Bool AdjustGamaMode(MenuItemActionType action);
 extern Bool AdjustDcrMode(MenuItemActionType action);
 extern Bool AdjustColorTempMode(MenuItemActionType action);
+extern Bool AdjustColorTempMode_1(MenuItemActionType action);
+extern Bool AdjustColorTempMode_2(MenuItemActionType action);
+extern Bool AdjustColorTempMode_3(MenuItemActionType action);
+
 extern Bool AdjustColorBoostMode(MenuItemActionType action);
 extern Bool AdjustSkinProtectMode(MenuItemActionType action);
 extern Bool AdjustGreenEnhanceMode(MenuItemActionType action);
@@ -435,5 +439,7 @@ extern Bool SetDRRFunction(void);
 extern Bool SetLowBlueLight(void);
 extern Bool AdjustLowBlueLight(MenuItemActionType action);
 #endif
+extern void DrawOsd_LCX(BYTE itemIndex, MenuItemType *menuItem);
+
 
 

@@ -344,6 +344,7 @@ BYTE xdata SystemFlags = 0;
 
 bit DisplayLogoFlag;
 
+
 //--> change to SystemFlag1 for reduce data size
 /*
 bit DebugOnlyFlag=0;

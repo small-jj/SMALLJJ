@@ -15,7 +15,7 @@
 //#include "TSUMU_DEMO_PMSET.h"
 //#elif  MainBoardType==MainBoard_5281_M0A
 //#include "OTS_VS230PGLW_PMSET.h"
-#if MainBoardType == MainBorad_JRY_L58CDT9_GV2||MainBoard_JRY_L58CDT9_NV1||MainBoardType == MainBoard_W58CDT9_JV1||MainBoardType == MainBoard_JRY_W58CDT9_GV3||MainBoardType == MainBoard_JRY_L58CDT9_EV1||MainBoardType == MainBoard_JRY_L58CDT9_PV1||MainBoardType == MainBoard_W38CDMT9_DV2||MainBoardType == MainBoard_W38CDMT9_DV2|| MainBoardType == MainBoard_JRY_L58CDT9_BV2|| MainBoardType == MainBoard_JRY_W58CDT9_AV6|| MainBoardType==MainBoard_JRY_W58CDT9_AV7
+#if MainBoardType == MainBorad_JRY_L58CDT9_GV2||MainBoard_JRY_L58CDT9_NV1||MainBoardType == MainBoard_W58CDT9_JV1||MainBoardType == MainBoard_JRY_W58CDT9_GV3||MainBoardType == MainBoard_JRY_L58CDT9_EV1||MainBoardType == MainBoard_JRY_L58CDT9_PV1||MainBoardType == MainBoard_W38CDMT9_DV2||MainBoardType == MainBoard_W38CDMT9_DV2|| MainBoardType == MainBoard_JRY_L58CDT9_BV2|| MainBoardType == MainBoard_JRY_W58CDT9_AV6
 #include "TSUMC_DEMO_PMSET.h"
 #elif (CHIP_ID== CHIP_TSUMF||MainBoardType == MainBoard_XY_W58CDT9_AV7||MainBoardType == MainBoard_JRY_L5AFHD_EV1||MainBoardType == MainBorad_JRY_L5AFHD_FV1)
 #include "TSUMC_DEMO_PMSET.h"
@@ -27,7 +27,7 @@
 #include "BD_JRY_O587HT9_M0A_PMSET.h"
 #elif MainBoardType == MainBoard_JRY_W58VHN_NV1||MainBoardType == MainBoard_JRY_L58VHN_GV3
 #include "BD_JRY_W58VHN_NV1_PMSET.h"
-#elif MainBoardType == MainBoard_JRY_WQ570  ||MainBoardType == MainBoard_JRY_L9BQHD_AV1  ||MainBoardType == MainBoard_JRY_F9BQHD_BV1
+#elif MainBoardType == MainBoard_JRY_WQ570  ||MainBoardType == MainBoard_JRY_L9BQHD_AV1  ||MainBoardType == MainBoard_JRY_F9BQHD_BV1 
 #include "TSUMU_BD8395_PMSET.h"
 #elif MainBoardType == MainBoard_JRY_WQ570_EV1||MainBoardType == MainBoard_MST9570S_DEMO|| MainBoardType == MainBoard_JRY_W8787_BV1||MainBoardType ==MainBoard_JRY_L8787_BV1   //20170731
 #include "TSUMU_DEMO_PMSET.h"
@@ -46,55 +46,55 @@
 
 typedef enum
 {
-	ePM_ENTER_PM = 0,
-	ePM_EXIT_PM = 1,
-	ePM_WAIT_EVENT = 2,
-	ePM_IDLE = 3
+    ePM_ENTER_PM=0,
+    ePM_EXIT_PM=1,
+    ePM_WAIT_EVENT=2,
+    ePM_IDLE=3
 } ePM_State;
 
 typedef enum
 {
-	ePMSTS_NON,
-	ePMSTS_VGA_ACT,
-	#if( PM_SUPPORT_WAKEUP_DVI )
-	ePMSTS_DVI_0_ACT,
-	ePMSTS_DVI_1_ACT,
-	#endif
-	ePMSTS_SAR_ACT,
-	ePMSTS_GPIO_ACT,
-	ePMSTS_MCCS04_ACT,
-	ePMSTS_MCCS05_ACT,
-	ePMSTS_MCCS01_ACT,
-	ePMSTS_CEC_ACT,
-	ePMSTS_FORCE_ON,
-	#if( PM_SUPPORT_WAKEUP_DP )
-	ePMSTS_DP_ACT,
-	#endif
-	#if(PM_POWERkEY_GPIOSAR)
-	ePMSTS_SRAPOWER_ACT,
-	#endif
-	#if (PM_POWERkEY_GETVALUE)
-	ePMSTS_POWERGPIO_ACT,
-	#endif
-	#if(PM_CABLE_DETECT_USE_SAR)
-	ePMSTS_CABLESAR_ACT,
-	#endif
-	ePMSTS_ITE_POWER_KEY_ACT,
-	ePMSTS_ITE_SOURCE_KEY_ACT,
-	#if  (FEnterFunction==FEnter_POWER_MENU) ||(FEnterFunction==FEnter_POWER_EXIT)
-	ePMSTS_ITE_FACTORY_KEY_ACT,	//120523 Modify
-	#endif
-	ePMSTS_ITE_OSDLOCK_KEY_ACT,	//120524 Modify
-	ePMSTS_MHL_SOURCE_ACT,
-	ePMSTS_GPIO_POWER_KEY_ACT,
-	#if ENABLE_MHL
-	ePMSTS_MHL_ACT,
-	#endif
-	#if ENABLE_ANDROID_IR	//131008 Modify
-	ePMSTS_IR_PowerKEY_ACT,
-	#endif
-	ePMSTS_INVAID
-} ePMStatus;
+    ePMSTS_NON,
+    ePMSTS_VGA_ACT,
+#if( PM_SUPPORT_WAKEUP_DVI )
+    ePMSTS_DVI_0_ACT,
+    ePMSTS_DVI_1_ACT,
+#endif
+    ePMSTS_SAR_ACT,
+    ePMSTS_GPIO_ACT,   
+    ePMSTS_MCCS04_ACT,
+    ePMSTS_MCCS05_ACT,
+    ePMSTS_MCCS01_ACT,
+    ePMSTS_CEC_ACT,
+    ePMSTS_FORCE_ON,
+#if( PM_SUPPORT_WAKEUP_DP )
+    ePMSTS_DP_ACT,
+#endif
+#if(PM_POWERkEY_GPIOSAR)
+    ePMSTS_SRAPOWER_ACT,
+ #endif
+ #if (PM_POWERkEY_GETVALUE)
+    ePMSTS_POWERGPIO_ACT,
+ #endif
+ #if(PM_CABLE_DETECT_USE_SAR)
+   ePMSTS_CABLESAR_ACT,
+  #endif
+  ePMSTS_ITE_POWER_KEY_ACT,
+  ePMSTS_ITE_SOURCE_KEY_ACT,
+ #if  (FEnterFunction==FEnter_POWER_MENU) ||(FEnterFunction==FEnter_POWER_EXIT)
+  ePMSTS_ITE_FACTORY_KEY_ACT,	//120523 Modify
+ #endif 
+  ePMSTS_ITE_OSDLOCK_KEY_ACT,	//120524 Modify
+      ePMSTS_MHL_SOURCE_ACT,
+      ePMSTS_GPIO_POWER_KEY_ACT,
+#if ENABLE_MHL
+          ePMSTS_MHL_ACT,
+#endif
+#if ENABLE_ANDROID_IR	//131008 Modify
+  ePMSTS_IR_PowerKEY_ACT,
+ #endif 
+    ePMSTS_INVAID
+}ePMStatus;
 
 #if ENABLE_MHL || ENABLE_DP_INPUT
 #define SET_PM_WAKEUP_NON()      {ucWakeupStatus = ePMSTS_NON;}
@@ -214,7 +214,7 @@ typedef enum
 
 
 
-INTERFACE BYTE xdata Check, Check1;
+INTERFACE BYTE xdata Check,Check1;
 #if ENABLE_DP_INPUT
 extern bit g_bDoDPInit;
 #endif
@@ -263,19 +263,19 @@ INTERFACE void msPM_InterruptEnable(Bool benable);
 
 #if  0
 INTERFACE void msPM_SetConfigurationMeta(
-    BOOL bHW_enable, BOOL bMCUSleep, BOOL bXTALOn_enable, BOOL bCorePWOn_enable,
-    BOOL bHVSync_enable, BOOL bSOG_enable, BOOL bGPIO_enable,
-    BOOL bSAR_enable, BOOL bMCCS_enable, BOOL bEDID_enable,
-    #if( PM_SUPPORT_WAKEUP_DVI )
-    BOOL bDVI_enable,
-    #endif
-    #if( PM_SUPPORT_WAKEUP_DP )
-    BOOL bDP_enable,
-    #endif
-    #if( PM_SUPPORT_AC2DC )
-    BOOL bACtoDC_enable,
-    #endif
-    BYTE ePMDVImode, BYTE ePMSARmode, BYTE ePMPMCLK, BYTE ePMLiveCLK);
+            BOOL bHW_enable, BOOL bMCUSleep, BOOL bXTALOn_enable, BOOL bCorePWOn_enable,
+            BOOL bHVSync_enable, BOOL bSOG_enable, BOOL bGPIO_enable,
+            BOOL bSAR_enable, BOOL bMCCS_enable, BOOL bEDID_enable,
+#if( PM_SUPPORT_WAKEUP_DVI )
+            BOOL bDVI_enable,
+#endif
+#if( PM_SUPPORT_WAKEUP_DP )
+            BOOL bDP_enable,
+#endif
+#if( PM_SUPPORT_AC2DC )
+            BOOL bACtoDC_enable,
+#endif
+            BYTE ePMDVImode, BYTE ePMSARmode, BYTE ePMPMCLK, BYTE ePMLiveCLK);
 #endif
 INTERFACE void msPM_Functions(void);
 //INTERFACE void msPM_ForceExit(void);

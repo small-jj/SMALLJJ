@@ -18,17 +18,17 @@
 //  Type and Structure
 //-------------------------------------------------------------------------------------------------
 
-typedef struct
+typedef struct  
 {
-	BYTE lens;
-	WORD databuf[DMHL_CBUS_TX_FIFO];
+    BYTE lens;
+    WORD databuf[DMHL_CBUS_TX_FIFO];
 } mhalCbusFifo_S;
 
 typedef enum
 {
-	RX_HDMI_RTERM = 0,    // HDMI mode
-	RX_MHL_RTERM,    // MHL mode
-	RX_RTERM_OFF,    // R-term off
+    RX_HDMI_RTERM = 0,    // HDMI mode
+    RX_MHL_RTERM,    // MHL mode
+    RX_RTERM_OFF,    // R-term off
 } RXRtermControl_T;
 
 //-------------------------------------------------------------------------------------------------

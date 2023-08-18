@@ -1,0 +1,15 @@
+C51 COMPILER V9.01   NVRAM                                                                 08/17/2023 10:55:22 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE NVRAM
+OBJECT MODULE PLACED IN .\obj\NVRam.obj
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE ..\..\KERNEL\SYSTEM\NVRam.c OPTIMIZE(SIZE) BROWSE INCDIR(..\..\DRIVER\INC;.
+                    -.\..\KERNEL\SCALER\INC;..\..\KERNEL\SYSTEM\INC;..\..\LIB\INC;..\..\PANEL\INC;..\..\BOARD;..\..\DRIVER\INC;..\..\KERNEL\S
+                    -YSTEM\INC\AOC2011;..\..\DRIVER\extDEVICE\INC;..\..\MODEL;..\..\CONFIG;..\..\PANEL;..\..\UI\F_LOGO\INC;..\..\UI\HkcOsd\IN
+                    -C) DEFINE(ModelName=MODEL_T24_TCL) DEBUG OBJECTEXTEND PRINT(.\list\NVRam.lst) OBJECT(.\obj\NVRam.obj)
+
+line level    source
+
+*** ERROR C318 OF ..\..\KERNEL\SYSTEM\NVRam.c: can't open file '..\..\KERNEL\SYSTEM\NVRam.c'
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  1 ERROR(S)

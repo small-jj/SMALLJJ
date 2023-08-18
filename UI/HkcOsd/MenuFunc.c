@@ -29,6 +29,10 @@
 #include "MsRegTV.h"
 #include "Panel.h"
 
+
+#include "Menu.h"
+
+
 #if ENABLE_HDCP
 #include "MsHDCP.h"
 #endif
@@ -2340,6 +2344,36 @@ Bool SetColorTemp(void)
 	//Set_SaveSettingFlag();//1020
 	return TRUE;
 }
+
+
+Bool AdjustColorTempMode_1(MenuItemActionType action)
+{
+		
+		//g8TempValue = (g8TempValue + CTEMP_Nums - 1) % CTEMP_Nums;
+		UserPrefColorTemp = 1;
+		SetColorTemp();
+		return TRUE;
+
+}
+
+Bool AdjustColorTempMode_2(MenuItemActionType action)
+{
+		
+		//g8TempValue = (g8TempValue + CTEMP_Nums - 1) % CTEMP_Nums;
+		UserPrefColorTemp = 2;
+		SetColorTemp();
+		return TRUE;
+
+}
+Bool AdjustColorTempMode_3(MenuItemActionType action)
+{
+		
+		//g8TempValue = (g8TempValue + CTEMP_Nums - 1) % CTEMP_Nums;
+		UserPrefColorTemp = 3;
+		SetColorTemp();
+		return TRUE;
+}
+
 Bool AdjustColorTempMode(MenuItemActionType action)
 {
 	BYTE temp;
@@ -2474,6 +2508,9 @@ Bool AdjustLanguage(MenuItemActionType action)
 	BYTE temp;
 	temp = UserPrefLanguage;
 	#if 1//LanguageEnable_All
+
+
+	
 	if (action == MIA_DecValue)
 	{
 		UserPrefLanguage = (UserPrefLanguage + LANG_Nums - 1) % LANG_Nums;
@@ -2483,6 +2520,7 @@ Bool AdjustLanguage(MenuItemActionType action)
 		UserPrefLanguage = (UserPrefLanguage + 1) % LANG_Nums;
 	}
 	#else
+
 	//return TRUE;
 	if (action == MIA_DecValue)
 	{
@@ -2843,11 +2881,14 @@ Bool SetInputToDP(void)   //111223 Modify
 
 Bool EnterHotInputMenu( void )
 {
+
+
 	if(PowerSavingFlag)
 	{
 		Clr_PowerSavingFlag();
 		Power_TurnOnPanel();
 	}
+
 	return TRUE;
 }
 
@@ -4694,6 +4735,10 @@ WORD GetOverDriveValue(void)
 #endif
 #if (ENABLE_RTE)
 
+
+
+
+
 Bool AdjustOverDrive(MenuItemActionType action)
 {
 	/*
@@ -4949,11 +4994,6 @@ BYTE GetRealSharpness(void)
 }
 #endif
 
-
-
-
-
-
 #if Enable_Adjust_SharpnessMenu
 Bool AdjustSharpness( MenuItemActionType action )
 {
@@ -4976,6 +5016,1401 @@ Bool AdjustSharpness( MenuItemActionType action )
 }
 #endif
 
+
+void DrawOsd_LCX(BYTE itemIndex, MenuItemType *menuItem)
+
+{
+	BYTE i,j;
+
+//////////////////////////////////////下面这几个是清除osd菜单的二级菜单红框残留问题
+	if( (MenuPageIndex == RGBColorMenu||MenuPageIndex == OSD_BriContrastMenu)&& itemIndex == MenuItemIndex)//二级菜单那个选中红色背景
+			{
+				Osd_SetTextMonoColor(1, 1); ////此处循环效果为切换二级菜单之后刷新三级菜单所用
+					for(i=0;i<16;i++)
+						for(j=4;j<14;j++)
+	 					{
+							Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,j,SpaceFont);//第一行，
+						}
+				
+				//Osd_SetTextMonoColor(RED_GROUND, BLAKE_GROUND);//////////////////刘晨曦-----设置图标以外那个区域的背景,选中一个颜色,没选中一个颜色
+				Osd_SetTextMonoColor(8, 1); 
+				OSD_TEXT_HI_ADDR_SET_BIT8();
+				Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22, MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+8);
+				for(i=1;i<13;i++)
+					Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+9);
+				Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+10);
+
+				Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+12,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+23);///向右的三角形
+				OSD_TEXT_HI_ADDR_CLR_TO_0();
+				Osd_Set256TextColor(0x50>>2, Color_4);
+				OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14);
+				Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+2);
+				Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+8);
+				Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+10);
+				OSD_TEXT_HI_ADDR_CLR_TO_0();
+				Osd_Set256TextColor(0x54>>2, Color_4);
+				OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				for(i=1;i<13;i++)
+				{
+					Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+4);
+					Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+6);
+				}
+				OSD_TEXT_HI_ADDR_CLR_TO_0();
+
+
+				/*
+				Osd_SetTextMonoColor(3, 2);
+				OSD_TEXT_HI_ADDR_SET_BIT8();
+				Osd_DrawCharDirect(4,3,MonoGuageFontStar+23);///原来主osd的左边竖线
+				OSD_TEXT_HI_ADDR_CLR_TO_0();
+				*/
+
+				if(MenuPageIndex == RGBColorMenu)//menu1/////作用是调节二级菜单时显示三级菜单内容
+				{
+					if(MenuItemIndex==0)
+						DrawOsdSubMenu( ColorTempMenu);
+					else if(MenuItemIndex==1)
+						DrawOsdSubMenu( RedMenu);
+					else if(MenuItemIndex==2)
+						DrawOsdSubMenu( GreenMenu);
+					else
+						DrawOsdSubMenu( BlueMenu);
+				}
+				
+				else if(MenuPageIndex == OSD_BriContrastMenu)//menu2////作用是调节二级菜单时显示三级菜单内容
+				{
+					if(MenuItemIndex==0)
+						DrawOsdSubMenu( BrightnessMenu);
+					else if(MenuItemIndex==1)
+						DrawOsdSubMenu( ContrastMenu);
+					else if(MenuItemIndex==2)
+						DrawOsdSubMenu( ECOMenu);
+					else
+						DrawOsdSubMenu( DCRMenu);
+				}
+
+
+			}
+	
+	
+	 else if( (MenuPageIndex == PictureMenu||MenuPageIndex == OsdMenu)&& itemIndex == MenuItemIndex)
+		{
+
+				Osd_SetTextMonoColor(1, 1); ////此处循环效果为切换二级菜单之后刷新三级菜单所用
+				for(i=0;i<16;i++)
+					for(j=4;j<20;j++)
+					{
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,j,SpaceFont);//第一行，
+					}
+
+		
+				if(MenuPageIndex==PictureMenu)//////////第一，这个是picture菜单选项翻页//////////第二、调节二级菜单时显示三级菜单内容
+					{	
+						if(MenuItemIndex==0)
+						{
+							DrawOsdSubMenu( HPositionMenu);///对
+
+							DrawOsdSubMenu_3_4_YOU(PictureMenu);
+
+						}
+						else if(MenuItemIndex==1)
+							DrawOsdSubMenu( VPositionMenu);///对
+						else if(MenuItemIndex==2)
+							DrawOsdSubMenu( ClockMenu);
+						else if(MenuItemIndex==3)
+							DrawOsdSubMenu( FocusMenu);
+						else if(MenuItemIndex==4)
+						{
+							DrawOsdSubMenu( ExpansionMenu);///对
+							DrawOsdSubMenu_3_4_YOU(PictureMenu);
+						}
+						else if(MenuItemIndex==5)
+						{
+							
+							for(j=0;j<9;j++)
+							{
+								Osd_DrawContinuesChar(25,9+j, SpaceFont,20);
+							}
+							DrawOsdSubMenu_3_4_ZUO(PictureMenu);
+							DrawOsdSubMenu( MENU_3_6_1);
+						}
+						else
+						{
+							DrawOsdSubMenu( MENU_3_7_1);
+							for(j=0;j<9;j++)
+							{
+								Osd_DrawContinuesChar(25,9+j, SpaceFont,20);
+							}
+							
+							DrawOsdSubMenu_3_4_ZUO(PictureMenu);
+
+						}
+
+					}
+					
+
+				else if(MenuPageIndex==OsdMenu)//////////第一，这个是picture菜单选项翻页//////////第二、调节二级菜单时显示三级菜单内容
+				{
+
+
+					if(MenuItemIndex==0)
+
+						{
+						DrawOsdSubMenu( MENU_4_1_1);
+						for(j=0;j<9;j++)
+						{
+							Osd_DrawContinuesChar(25,6+j, SpaceFont,20);
+						}
+						DrawOsdSubMenu_3_4_YOU(OsdMenu);
+
+						}
+					else if(MenuItemIndex==1)
+						DrawOsdSubMenu( OsdHPositionMenu);
+					else if(MenuItemIndex==2)
+						DrawOsdSubMenu( OsdVPositionMenu);
+					else if(MenuItemIndex==3)
+						DrawOsdSubMenu( OsdTimeOutMenu);
+					else if(MenuItemIndex==4)
+					{
+						DrawOsdSubMenu( TransparenceMenu);
+						for(j=0;j<9;j++)
+						{
+							Osd_DrawContinuesChar(25,6+j, SpaceFont,20);
+						}
+						DrawOsdSubMenu_3_4_YOU(OsdMenu);
+
+					}
+					else if(MenuItemIndex==5)
+					{
+						DrawOsdSubMenu( MENU_4_6_1);
+						for(j=0;j<9;j++)
+						{
+							Osd_DrawContinuesChar(25,9+j, SpaceFont,20);
+						}
+						DrawOsdSubMenu_3_4_ZUO(OsdMenu);
+
+					}
+					else
+					{
+						DrawOsdSubMenu( MENU_4_7_1);
+						for(j=0;j<9;j++)
+						{
+							Osd_DrawContinuesChar(25,9+j, SpaceFont,20);
+						}
+						DrawOsdSubMenu_3_4_ZUO(OsdMenu);
+
+						
+					}
+
+						
+						
+						
+					}
+				if(MenuItemIndex==5||MenuItemIndex==6)
+				{
+					//Osd_SetTextMonoColor(RED_GROUND, BLAKE_GROUND);//////////////////刘晨曦-----设置图标以外那个区域的背景,选中一个颜色,没选中一个颜色
+					Osd_SetTextMonoColor(8, 1); 
+					OSD_TEXT_HI_ADDR_SET_BIT8();
+					Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22, MainMenuIcon_DrawYPos + 2 * (MenuItemIndex-5)+2,MonoGuageFontStar+8);
+					for(i=1;i<13;i++)
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+i,MainMenuIcon_DrawYPos + 2 * (MenuItemIndex-5)+2,MonoGuageFontStar+9);
+					Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+13,MainMenuIcon_DrawYPos + 2 * (MenuItemIndex-5)+2,MonoGuageFontStar+10);
+					Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+12,MainMenuIcon_DrawYPos + 2 * (MenuItemIndex-5)+2,MonoGuageFontStar+23);///向右的三角形
+					OSD_TEXT_HI_ADDR_CLR_TO_0();
+					Osd_Set256TextColor(0x50>>2, Color_4);
+					OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+					Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22,MainMenuIcon_DrawYPos + 2 * (MenuItemIndex-5)+1,_4ColorHotIconStart_14);
+					Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22,MainMenuIcon_DrawYPos + 2 * (MenuItemIndex-5)+3,_4ColorHotIconStart_14+2);
+					Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+13,MainMenuIcon_DrawYPos + 2 * (MenuItemIndex-5)+1,_4ColorHotIconStart_14+8);
+					Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+13,MainMenuIcon_DrawYPos + 2 * (MenuItemIndex-5)+3,_4ColorHotIconStart_14+10);
+					OSD_TEXT_HI_ADDR_CLR_TO_0();
+					Osd_Set256TextColor(0x54>>2, Color_4);
+					OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+					for(i=1;i<13;i++)
+					{
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+i,MainMenuIcon_DrawYPos + 2 * (MenuItemIndex-5)+1,_4ColorHotIconStart_14+4);
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+i,MainMenuIcon_DrawYPos + 2 * (MenuItemIndex-5)+3,_4ColorHotIconStart_14+6);
+					}
+					OSD_TEXT_HI_ADDR_CLR_TO_0();
+
+				}
+				else
+				{					
+				//Osd_SetTextMonoColor(RED_GROUND, BLAKE_GROUND);//////////////////刘晨曦-----设置图标以外那个区域的背景,选中一个颜色,没选中一个颜色
+					Osd_SetTextMonoColor(8, 1); 
+					OSD_TEXT_HI_ADDR_SET_BIT8();
+					Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22, MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+8);
+					for(i=1;i<13;i++)
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+9);
+					Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+10);
+					Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+12,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+23);///向右的三角形
+					OSD_TEXT_HI_ADDR_CLR_TO_0();
+					Osd_Set256TextColor(0x50>>2, Color_4);
+					OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+					Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14);
+					Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+2);
+					Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+8);
+					Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+10);
+					OSD_TEXT_HI_ADDR_CLR_TO_0();
+					Osd_Set256TextColor(0x54>>2, Color_4);
+					OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+					for(i=1;i<13;i++)
+					{
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+4);
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+6);
+					}
+					OSD_TEXT_HI_ADDR_CLR_TO_0();
+				}
+		}
+	 
+	 else if( MenuPageIndex == SettingMenu&& itemIndex == MenuItemIndex)
+				{
+				Osd_SetTextMonoColor(1, 1); ////此处循环效果为切换二级菜单之后刷新三级菜单所用
+					for(i=0;i<16;i++)
+						for(j=4;j<14;j++)
+	 					{
+							Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,j,SpaceFont);//第一行，
+						}
+							
+									if(MenuItemIndex==0)
+									{
+									DrawOsdSubMenu( LanguageMenu);
+										for(j=0;j<3;j++)
+										{
+											Osd_DrawContinuesChar(25,j+9, SpaceFont,20);
+										}
+										DrawOsdSubMenu_5_6_YOU(SettingMenu);
+
+									}
+									else if(MenuItemIndex==1)
+										DrawOsdSubMenu( MENU_5_2_1);
+									else if(MenuItemIndex==2)
+										DrawOsdSubMenu( MENU_5_3_1);
+									else if(MenuItemIndex==3)
+									{
+										
+										for(j=0;j<3;j++)
+										{
+											Osd_DrawContinuesChar(25,j+3, SpaceFont,20);
+										}
+									
+										DrawOsdSubMenu_5_6_YOU(SettingMenu);
+										DrawOsdSubMenu( MENU_5_4_1);
+									}
+									else if(MenuItemIndex==4)
+									{
+										
+										for(j=0;j<6;j++)
+										{
+											Osd_DrawContinuesChar(25,11+j, SpaceFont,20);
+										}
+										DrawOsdSubMenu_5_6_ZUO(SettingMenu);
+										DrawOsdSubMenu( MENU_5_5_1);
+
+									}
+									else if(MenuItemIndex==5)
+										DrawOsdSubMenu( MENU_5_6_1);
+									else if(MenuItemIndex==6)
+									{
+										
+										for(j=0;j<6;j++)
+										{
+											Osd_DrawContinuesChar(25,11+j, SpaceFont,20);
+										}
+										DrawOsdSubMenu_5_6_ZUO(SettingMenu);
+										DrawOsdSubMenu( MENU_5_7_1);
+									}
+							
+						
+
+						
+					
+					
+					
+					if(MenuItemIndex==4||MenuItemIndex==5||MenuItemIndex==6)
+					{
+						//Osd_SetTextMonoColor(RED_GROUND, BLAKE_GROUND);//////////////////刘晨曦-----设置图标以外那个区域的背景,选中一个颜色,没选中一个颜色
+						Osd_SetTextMonoColor(8, 1); 
+						OSD_TEXT_HI_ADDR_SET_BIT8();
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22, MainMenuIcon_DrawYPos + 2 * (MenuItemIndex-4)+2,MonoGuageFontStar+8);
+						for(i=1;i<13;i++)
+							Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+i,MainMenuIcon_DrawYPos + 2 * (MenuItemIndex-4)+2,MonoGuageFontStar+9);
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+13,MainMenuIcon_DrawYPos + 2 * (MenuItemIndex-4)+2,MonoGuageFontStar+10);
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+12,MainMenuIcon_DrawYPos + 2 * (MenuItemIndex-4)+2,MonoGuageFontStar+23);///向右的三角形
+						OSD_TEXT_HI_ADDR_CLR_TO_0();
+						Osd_Set256TextColor(0x50>>2, Color_4);
+						OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22,MainMenuIcon_DrawYPos + 2 * (MenuItemIndex-4)+1,_4ColorHotIconStart_14);
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22,MainMenuIcon_DrawYPos + 2 * (MenuItemIndex-4)+3,_4ColorHotIconStart_14+2);
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+13,MainMenuIcon_DrawYPos + 2 * (MenuItemIndex-4)+1,_4ColorHotIconStart_14+8);
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+13,MainMenuIcon_DrawYPos + 2 * (MenuItemIndex-4)+3,_4ColorHotIconStart_14+10);
+						OSD_TEXT_HI_ADDR_CLR_TO_0();
+						Osd_Set256TextColor(0x54>>2, Color_4);
+						OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+						for(i=1;i<13;i++)
+						{
+							Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+i,MainMenuIcon_DrawYPos + 2 * (MenuItemIndex-4)+1,_4ColorHotIconStart_14+4);
+							Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+i,MainMenuIcon_DrawYPos + 2 * (MenuItemIndex-4)+3,_4ColorHotIconStart_14+6);
+						}
+						OSD_TEXT_HI_ADDR_CLR_TO_0();
+					}
+					else
+					{					
+					//Osd_SetTextMonoColor(RED_GROUND, BLAKE_GROUND);//////////////////刘晨曦-----设置图标以外那个区域的背景,选中一个颜色,没选中一个颜色
+							Osd_SetTextMonoColor(8, 1); 
+							OSD_TEXT_HI_ADDR_SET_BIT8();
+							Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22, MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+8);
+							for(i=1;i<13;i++)
+								Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+9);
+							Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+10);
+							Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+12,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+23);///向右的三角形
+							OSD_TEXT_HI_ADDR_CLR_TO_0();
+							Osd_Set256TextColor(0x50>>2, Color_4);
+							OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+							Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14);
+							Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+2);
+							Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+8);
+							Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+13,MainMenuIcon_DrawYPos + 2* MenuItemIndex+3,_4ColorHotIconStart_14+10);
+							OSD_TEXT_HI_ADDR_CLR_TO_0();
+							Osd_Set256TextColor(0x54>>2, Color_4);
+							OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+							for(i=1;i<13;i++)
+							{
+								Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+4);
+								Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+6);
+							}
+							OSD_TEXT_HI_ADDR_CLR_TO_0();
+					}
+				}
+	 else if( MenuPageIndex == OSD_MiscMenu&& itemIndex == MenuItemIndex)
+				{
+
+
+						Osd_SetTextMonoColor(1, 1); ////此处循环效果为切换二级菜单之后刷新三级菜单所用
+						for(i=0;i<16;i++)
+							for(j=4;j<20;j++)
+							{
+								Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,j,SpaceFont);//第一行，
+							}
+
+
+						if(MenuPageIndex == OSD_MiscMenu)
+						{
+							if(MenuItemIndex==0)
+							{
+								DrawOsdSubMenu( MENU_6_1_1);
+								DrawOsdSubMenu_5_6_YOU(OSD_MiscMenu);
+
+							}
+							else if(MenuItemIndex==1)
+								DrawOsdSubMenu( MuteMenu);
+							else if(MenuItemIndex==2)
+								DrawOsdSubMenu( VolumeMenu);
+							else if(MenuItemIndex==3)
+							{
+								DrawOsdSubMenu( LowBlueLightMenu);
+								DrawOsdSubMenu_5_6_YOU(OSD_MiscMenu);
+
+							}
+							else if(MenuItemIndex==4)
+							{
+								DrawOsdSubMenu( MENU_6_5_1);
+								DrawOsdSubMenu_5_6_ZUO(OSD_MiscMenu);
+
+							}
+							else if(MenuItemIndex==5)
+								DrawOsdSubMenu( MENU_6_6_1);
+							else if(MenuItemIndex==6)
+								DrawOsdSubMenu( MENU_6_7_1);
+							else
+							{
+								DrawOsdSubMenu( MENU_6_8_1);
+								DrawOsdSubMenu_5_6_ZUO(OSD_MiscMenu);
+
+							}	
+						}
+
+
+
+
+
+			
+					if(MenuItemIndex==4||MenuItemIndex==5||MenuItemIndex==6||MenuItemIndex==7)
+					{
+						//Osd_SetTextMonoColor(RED_GROUND, BLAKE_GROUND);//////////////////刘晨曦-----设置图标以外那个区域的背景,选中一个颜色,没选中一个颜色
+							Osd_SetTextMonoColor(8, 1); 
+						OSD_TEXT_HI_ADDR_SET_BIT8();
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22, MainMenuIcon_DrawYPos + 2 * (MenuItemIndex-4)+2,MonoGuageFontStar+8);
+						for(i=1;i<13;i++)
+							Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+i,MainMenuIcon_DrawYPos + 2 * (MenuItemIndex-4)+2,MonoGuageFontStar+9);
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+13,MainMenuIcon_DrawYPos + 2 * (MenuItemIndex-4)+2,MonoGuageFontStar+10);
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+12,MainMenuIcon_DrawYPos + 2 * (MenuItemIndex-4)+2,MonoGuageFontStar+23);///向右的三角形
+						OSD_TEXT_HI_ADDR_CLR_TO_0();
+						Osd_Set256TextColor(0x50>>2, Color_4);
+						OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22,MainMenuIcon_DrawYPos + 2 * (MenuItemIndex-4)+1,_4ColorHotIconStart_14);
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22,MainMenuIcon_DrawYPos + 2 * (MenuItemIndex-4)+3,_4ColorHotIconStart_14+2);
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+13,MainMenuIcon_DrawYPos + 2 * (MenuItemIndex-4)+1,_4ColorHotIconStart_14+8);
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+13,MainMenuIcon_DrawYPos + 2 * (MenuItemIndex-4)+3,_4ColorHotIconStart_14+10);
+						OSD_TEXT_HI_ADDR_CLR_TO_0();
+						Osd_Set256TextColor(0x54>>2, Color_4);
+						OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+						for(i=1;i<13;i++)
+						{
+							Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+i,MainMenuIcon_DrawYPos + 2 * (MenuItemIndex-4)+1,_4ColorHotIconStart_14+4);
+							Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+i,MainMenuIcon_DrawYPos + 2 * (MenuItemIndex-4)+3,_4ColorHotIconStart_14+6);
+						}
+						OSD_TEXT_HI_ADDR_CLR_TO_0();
+					}
+					else
+					{					
+					//Osd_SetTextMonoColor(RED_GROUND, BLAKE_GROUND);//////////////////刘晨曦-----设置图标以外那个区域的背景,选中一个颜色,没选中一个颜色
+							Osd_SetTextMonoColor(8, 1); 
+							OSD_TEXT_HI_ADDR_SET_BIT8();
+							Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22, MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+8);
+							for(i=1;i<13;i++)
+								Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+9);
+							Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+10);
+							Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+12,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+23);///向右的三角形
+							OSD_TEXT_HI_ADDR_CLR_TO_0();
+							Osd_Set256TextColor(0x50>>2, Color_4);
+							OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+							Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14);
+							Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+2);
+							Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+8);
+							Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+13,MainMenuIcon_DrawYPos + 2* MenuItemIndex+3,_4ColorHotIconStart_14+10);
+							OSD_TEXT_HI_ADDR_CLR_TO_0();
+							Osd_Set256TextColor(0x54>>2, Color_4);
+							OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+							for(i=1;i<13;i++)
+							{
+								Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+4);
+								Osd_DrawCharDirect(MainMenuIcon_DrawXPos+22+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+6);
+							}
+							OSD_TEXT_HI_ADDR_CLR_TO_0();
+					}
+
+	 	}
+	
+	Osd_SetTextMonoColor(1,1); 
+	 
+
+	if( MenuPageIndex == HotInputSelectMenu)
+	{
+	
+		for(i=0;i<20;i++)
+			for(j=2;j<11;j++)
+				{
+					Osd_DrawCharDirect(MainMenuIcon_DrawXPos+37+i,j,SpaceFont);
+					
+				}	
+			DrawOsdSubMenu(HotInputSelectMenu);
+	}
+
+	/////////////////////////////////////下面是osd菜单的三级菜单赋予红框选中
+	if( MenuPageIndex == ColorTempMenu&& itemIndex == MenuItemIndex)
+		 {
+		 for(i=0;i<14;i++)
+			for(j=4;j<20;j=j+2)
+	 		{
+				Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,j,SpaceFont);//第一行，
+			
+	 		}	
+		for(i=5;i<19;i=i+2)
+		{
+			Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,i,SpaceFont);//第二行前面
+			Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,i,SpaceFont);//第二行后面
+		}
+
+
+		
+				 Osd_SetTextMonoColor(8, 1); 
+				 OSD_TEXT_HI_ADDR_SET_BIT8();
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48, MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+8);
+				 for(i=1;i<13;i++)
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+9);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x50>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+2);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+8);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x54>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 for(i=1;i<13;i++)
+				 {
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+4);
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+6);
+				 }
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+
+		 }
+	 else if( MenuPageIndex == RedMenu&& itemIndex == MenuItemIndex)
+		 {
+		 for(i=0;i<14;i++)
+			for(j=4;j<20;j=j+2)
+	 		{
+				Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,j,SpaceFont);//第一行，
+			
+	 		}	
+		for(i=5;i<19;i=i+2)
+		{
+			Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,i,SpaceFont);//第二行前面
+			Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,i,SpaceFont);//第二行后面
+		}
+				 Osd_SetTextMonoColor(8, 1); 
+				 OSD_TEXT_HI_ADDR_SET_BIT8();
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48, MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+8);
+				 for(i=1;i<13;i++)
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+9);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x50>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+2);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+8);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x54>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 for(i=1;i<13;i++)
+				 {
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+4);
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+6);
+				 }
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+
+		 }
+
+	 else if( MenuPageIndex == DCRMenu&& itemIndex == MenuItemIndex)
+		 {
+		 for(i=0;i<14;i++)
+					 for(j=4;j<20;j=j+2)
+					 {
+						 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,j,SpaceFont);//第一行，
+					 
+					 }	 
+				 for(i=5;i<19;i=i+2)
+				 {
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,i,SpaceFont);//第二行前面
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,i,SpaceFont);//第二行后面
+				 }
+
+				 Osd_SetTextMonoColor(8, 1); 
+				 OSD_TEXT_HI_ADDR_SET_BIT8();
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48, MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+8);
+				 for(i=1;i<13;i++)
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+9);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x50>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+2);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+8);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x54>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 for(i=1;i<13;i++)
+				 {
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+4);
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+6);
+				 }
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+
+		 }
+	  else if( MenuPageIndex == ECOMenu&& itemIndex == MenuItemIndex)
+		 {
+		  for(i=0;i<14;i++)
+					  for(j=4;j<20;j=j+2)
+					  {
+						  Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,j,SpaceFont);//第一行，
+					  
+					  }   
+				  for(i=5;i<19;i=i+2)
+				  {
+					  Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,i,SpaceFont);//第二行前面
+					  Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,i,SpaceFont);//第二行后面
+				  }
+
+				 Osd_SetTextMonoColor(8, 1); 
+				 OSD_TEXT_HI_ADDR_SET_BIT8();
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48, MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+8);
+				 for(i=1;i<13;i++)
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+9);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x50>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+2);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+8);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x54>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 for(i=1;i<13;i++)
+				 {
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+4);
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+6);
+				 }
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+
+		 }
+	   else if( MenuPageIndex == HPositionMenu&& itemIndex == MenuItemIndex)
+		 {
+		   for(i=0;i<14;i++)
+					   for(j=4;j<20;j=j+2)
+					   {
+						   Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,j,SpaceFont);//第一行，
+					   
+					   }   
+				   for(i=5;i<19;i=i+2)
+				   {
+					   Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,i,SpaceFont);//第二行前面
+					   Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,i,SpaceFont);//第二行后面
+				   }
+
+				 Osd_SetTextMonoColor(8, 1); 
+				 OSD_TEXT_HI_ADDR_SET_BIT8();
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48, MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+8);
+				 for(i=1;i<13;i++)
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+9);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x50>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+2);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+8);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x54>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 for(i=1;i<13;i++)
+				 {
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+4);
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+6);
+				 }
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+
+		 }
+	   else if( MenuPageIndex == VPositionMenu&& itemIndex == MenuItemIndex)
+		 {
+		   for(i=0;i<14;i++)
+					   for(j=4;j<20;j=j+2)
+					   {
+						   Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,j,SpaceFont);//第一行，
+					   
+					   }   
+				   for(i=5;i<19;i=i+2)
+				   {
+					   Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,i,SpaceFont);//第二行前面
+					   Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,i,SpaceFont);//第二行后面
+				   }
+
+				 Osd_SetTextMonoColor(8, 1); 
+				 OSD_TEXT_HI_ADDR_SET_BIT8();
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48, MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+8);
+				 for(i=1;i<13;i++)
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+9);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x50>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+2);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+8);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x54>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 for(i=1;i<13;i++)
+				 {
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+4);
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+6);
+				 }
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+
+		 }
+
+	   else if( MenuPageIndex == ClockMenu&& itemIndex == MenuItemIndex)
+		 {
+		   for(i=0;i<14;i++)
+					   for(j=4;j<20;j=j+2)
+					   {
+						   Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,j,SpaceFont);//第一行，
+					   
+					   }   
+				   for(i=5;i<19;i=i+2)
+				   {
+					   Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,i,SpaceFont);//第二行前面
+					   Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,i,SpaceFont);//第二行后面
+				   }
+
+				 Osd_SetTextMonoColor(8, 1); 
+				 OSD_TEXT_HI_ADDR_SET_BIT8();
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48, MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+8);
+				 for(i=1;i<13;i++)
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+9);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x50>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+2);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+8);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x54>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 for(i=1;i<13;i++)
+				 {
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+4);
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+6);
+				 }
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+
+		 }
+	 
+	 else if( MenuPageIndex == MENU_3_7_1&& itemIndex == MenuItemIndex)
+		 {
+		 for(i=0;i<14;i++)
+					 for(j=4;j<20;j=j+2)
+					 {
+						 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,j,SpaceFont);//第一行，
+					 
+					 }	 
+				 for(i=5;i<19;i=i+2)
+				 {
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,i,SpaceFont);//第二行前面
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,i,SpaceFont);//第二行后面
+				 }
+
+				 Osd_SetTextMonoColor(8, 1); 
+				 OSD_TEXT_HI_ADDR_SET_BIT8();
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48, MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+8);
+				 for(i=1;i<13;i++)
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+9);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x50>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+2);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+8);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x54>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 for(i=1;i<13;i++)
+				 {
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+4);
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+6);
+				 }
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+
+		 }
+
+
+
+	 ////第四个菜单
+	 else if( MenuPageIndex == MENU_4_1_1&& itemIndex == MenuItemIndex)
+		 {
+		 for(i=0;i<14;i++)
+					 for(j=4;j<20;j=j+2)
+					 {
+						 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,j,SpaceFont);//第一行，
+					 
+					 }	 
+				 for(i=5;i<19;i=i+2)
+				 {
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,i,SpaceFont);//第二行前面
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,i,SpaceFont);//第二行后面
+				 }
+
+				 Osd_SetTextMonoColor(8, 1); 
+				 OSD_TEXT_HI_ADDR_SET_BIT8();
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48, MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+8);
+				 for(i=1;i<13;i++)
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+9);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x50>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+2);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+8);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x54>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 for(i=1;i<13;i++)
+				 {
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+4);
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+6);
+				 }
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+
+		 }
+	 	 else if( MenuPageIndex == OsdHPositionMenu&& itemIndex == MenuItemIndex)
+		 {
+			 for(i=0;i<14;i++)
+						 for(j=4;j<20;j=j+2)
+						 {
+							 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,j,SpaceFont);//第一行，
+						 
+						 }	 
+					 for(i=5;i<19;i=i+2)
+					 {
+						 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,i,SpaceFont);//第二行前面
+						 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,i,SpaceFont);//第二行后面
+					 }
+
+				 Osd_SetTextMonoColor(8, 1); 
+				 OSD_TEXT_HI_ADDR_SET_BIT8();
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48, MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+8);
+				 for(i=1;i<13;i++)
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+9);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x50>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+2);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+8);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x54>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 for(i=1;i<13;i++)
+				 {
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+4);
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+6);
+				 }
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+
+		 }
+		  else if( MenuPageIndex == OsdVPositionMenu&& itemIndex == MenuItemIndex)
+		 {
+			  for(i=0;i<14;i++)
+						  for(j=4;j<20;j=j+2)
+						  {
+							  Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,j,SpaceFont);//第一行，
+						  
+						  }   
+					  for(i=5;i<19;i=i+2)
+					  {
+						  Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,i,SpaceFont);//第二行前面
+						  Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,i,SpaceFont);//第二行后面
+					  }
+
+				 Osd_SetTextMonoColor(8, 1); 
+				 OSD_TEXT_HI_ADDR_SET_BIT8();
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48, MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+8);
+				 for(i=1;i<13;i++)
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+9);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x50>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+2);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+8);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x54>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 for(i=1;i<13;i++)
+				 {
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+4);
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+6);
+				 }
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+
+		 }
+		   else if( MenuPageIndex == OsdTimeOutMenu&& itemIndex == MenuItemIndex)
+		 {
+			   for(i=0;i<14;i++)
+						   for(j=4;j<20;j=j+2)
+						   {
+							   Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,j,SpaceFont);//第一行，
+						   
+						   }   
+					   for(i=5;i<19;i=i+2)
+					   {
+						   Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,i,SpaceFont);//第二行前面
+						   Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,i,SpaceFont);//第二行后面
+					   }
+
+				 Osd_SetTextMonoColor(8, 1); 
+				 OSD_TEXT_HI_ADDR_SET_BIT8();
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48, MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+8);
+				 for(i=1;i<13;i++)
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+9);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x50>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+2);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+8);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x54>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 for(i=1;i<13;i++)
+				 {
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+4);
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+6);
+				 }
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+
+		 }
+		      else if( MenuPageIndex == TransparenceMenu&& itemIndex == MenuItemIndex)
+		 {
+				  for(i=0;i<14;i++)
+							  for(j=4;j<20;j=j+2)
+							  {
+								  Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,j,SpaceFont);//第一行，
+							  
+							  }   
+						  for(i=5;i<19;i=i+2)
+						  {
+							  Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,i,SpaceFont);//第二行前面
+							  Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,i,SpaceFont);//第二行后面
+						  }
+
+				 Osd_SetTextMonoColor(8, 1); 
+				 OSD_TEXT_HI_ADDR_SET_BIT8();
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48, MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+8);
+				 for(i=1;i<13;i++)
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+9);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x50>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+2);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+8);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x54>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 for(i=1;i<13;i++)
+				 {
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+4);
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+6);
+				 }
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+
+		 }
+		else if( MenuPageIndex == MENU_4_6_1&& itemIndex == MenuItemIndex)
+		 {
+			for(i=0;i<14;i++)
+						for(j=4;j<20;j=j+2)
+						{
+							Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,j,SpaceFont);//第一行，
+						
+						}	
+					for(i=5;i<19;i=i+2)
+					{
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,i,SpaceFont);//第二行前面
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,i,SpaceFont);//第二行后面
+					}
+
+				 Osd_SetTextMonoColor(8, 1); 
+				 OSD_TEXT_HI_ADDR_SET_BIT8();
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48, MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+8);
+				 for(i=1;i<13;i++)
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+9);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x50>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+2);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+8);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x54>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 for(i=1;i<13;i++)
+				 {
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+4);
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+6);
+				 }
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+
+		 }
+		else if( MenuPageIndex == MENU_4_7_1&& itemIndex == MenuItemIndex)
+		 {
+			for(i=0;i<14;i++)
+						for(j=4;j<20;j=j+2)
+						{
+							Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,j,SpaceFont);//第一行，
+						
+						}	
+					for(i=5;i<19;i=i+2)
+					{
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,i,SpaceFont);//第二行前面
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,i,SpaceFont);//第二行后面
+					}
+
+				 Osd_SetTextMonoColor(8, 1); 
+				 OSD_TEXT_HI_ADDR_SET_BIT8();
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48, MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+8);
+				 for(i=1;i<13;i++)
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+9);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x50>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+2);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+8);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x54>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 for(i=1;i<13;i++)
+				 {
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+4);
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+6);
+				 }
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+
+		 }
+		else if( MenuPageIndex == MENU_5_2_1&& itemIndex == MenuItemIndex)
+		 {
+			for(i=0;i<14;i++)
+						for(j=4;j<20;j=j+2)
+						{
+							Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,j,SpaceFont);//第一行，
+						
+						}	
+					for(i=5;i<19;i=i+2)
+					{
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,i,SpaceFont);//第二行前面
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,i,SpaceFont);//第二行后面
+					}
+
+				 Osd_SetTextMonoColor(8, 1); 
+				 OSD_TEXT_HI_ADDR_SET_BIT8();
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48, MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+8);
+				 for(i=1;i<13;i++)
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+9);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x50>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+2);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+8);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x54>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 for(i=1;i<13;i++)
+				 {
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+4);
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+6);
+				 }
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+
+		 }
+		else if( MenuPageIndex == MENU_5_3_1&& itemIndex == MenuItemIndex)
+		 {
+			for(i=0;i<14;i++)
+						for(j=4;j<20;j=j+2)
+						{
+							Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,j,SpaceFont);//第一行，
+						
+						}	
+					for(i=5;i<19;i=i+2)
+					{
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,i,SpaceFont);//第二行前面
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,i,SpaceFont);//第二行后面
+					}
+
+				 Osd_SetTextMonoColor(8, 1); 
+				 OSD_TEXT_HI_ADDR_SET_BIT8();
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48, MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+8);
+				 for(i=1;i<13;i++)
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+9);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x50>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+2);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+8);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x54>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 for(i=1;i<13;i++)
+				 {
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+4);
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+6);
+				 }
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+
+		 }
+
+
+		///menu_6
+		else if( MenuPageIndex == MENU_6_1_1&& itemIndex == MenuItemIndex)
+		 {
+			for(i=0;i<14;i++)
+						for(j=4;j<20;j=j+2)
+						{
+							Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,j,SpaceFont);//第一行，
+						
+						}	
+					for(i=5;i<19;i=i+2)
+					{
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,i,SpaceFont);//第二行前面
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,i,SpaceFont);//第二行后面
+					}
+
+				 Osd_SetTextMonoColor(8, 1); 
+				 OSD_TEXT_HI_ADDR_SET_BIT8();
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48, MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+8);
+				 for(i=1;i<13;i++)
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+9);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x50>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+2);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+8);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x54>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 for(i=1;i<13;i++)
+				 {
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+4);
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+6);
+				 }
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+
+		 }
+		else if( MenuPageIndex == MuteMenu&& itemIndex == MenuItemIndex)
+		 {
+			for(i=0;i<14;i++)
+						for(j=4;j<20;j=j+2)
+						{
+							Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,j,SpaceFont);//第一行，
+						
+						}	
+					for(i=5;i<19;i=i+2)
+					{
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,i,SpaceFont);//第二行前面
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,i,SpaceFont);//第二行后面
+					}
+
+				 Osd_SetTextMonoColor(8, 1); 
+				 OSD_TEXT_HI_ADDR_SET_BIT8();
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48, MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+8);
+				 for(i=1;i<13;i++)
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+9);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x50>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+2);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+8);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x54>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 for(i=1;i<13;i++)
+				 {
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+4);
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+6);
+				 }
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+
+		 }
+		else if( MenuPageIndex == VolumeMenu&& itemIndex == MenuItemIndex)
+		 {
+			for(i=0;i<14;i++)
+						for(j=4;j<20;j=j+2)
+						{
+							Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,j,SpaceFont);//第一行，
+						
+						}	
+					for(i=5;i<19;i=i+2)
+					{
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,i,SpaceFont);//第二行前面
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,i,SpaceFont);//第二行后面
+					}
+
+				 Osd_SetTextMonoColor(8, 1); 
+				 OSD_TEXT_HI_ADDR_SET_BIT8();
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48, MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+8);
+				 for(i=1;i<13;i++)
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+9);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x50>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+2);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+8);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x54>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 for(i=1;i<13;i++)
+				 {
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+4);
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+6);
+				 }
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+
+		 }
+		else if( MenuPageIndex == MENU_6_5_1&& itemIndex == MenuItemIndex)
+		 {
+			for(i=0;i<14;i++)
+						for(j=4;j<20;j=j+2)
+						{
+							Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,j,SpaceFont);//第一行，
+						
+						}	
+					for(i=5;i<19;i=i+2)
+					{
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,i,SpaceFont);//第二行前面
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,i,SpaceFont);//第二行后面
+					}
+
+				 Osd_SetTextMonoColor(8, 1); 
+				 OSD_TEXT_HI_ADDR_SET_BIT8();
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48, MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+8);
+				 for(i=1;i<13;i++)
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+9);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x50>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+2);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+8);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x54>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 for(i=1;i<13;i++)
+				 {
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+4);
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+6);
+				 }
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+
+		 }
+		else if( MenuPageIndex == MENU_6_7_1&& itemIndex == MenuItemIndex)
+		 {
+			for(i=0;i<14;i++)
+						for(j=4;j<20;j=j+2)
+						{
+							Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,j,SpaceFont);//第一行，
+						
+						}	
+					for(i=5;i<19;i=i+2)
+					{
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,i,SpaceFont);//第二行前面
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,i,SpaceFont);//第二行后面
+					}
+
+				 Osd_SetTextMonoColor(8, 1); 
+				 OSD_TEXT_HI_ADDR_SET_BIT8();
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48, MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+8);
+				 for(i=1;i<13;i++)
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+9);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x50>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+2);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+8);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x54>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 for(i=1;i<13;i++)
+				 {
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+4);
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+6);
+				 }
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+
+		 }
+		else if( MenuPageIndex == MENU_6_8_1&& itemIndex == MenuItemIndex)
+		 {
+					for(i=0;i<14;i++)
+						for(j=4;j<20;j=j+2)
+						{
+							Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,j,SpaceFont);//第一行，
+						
+						}	
+					for(i=5;i<19;i=i+2)
+					{
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,i,SpaceFont);//第二行前面
+						Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,i,SpaceFont);//第二行后面
+					}
+
+				 Osd_SetTextMonoColor(8, 1); 
+				 OSD_TEXT_HI_ADDR_SET_BIT8();
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48, MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+8);
+				 for(i=1;i<13;i++)
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+9);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+2,MonoGuageFontStar+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x50>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+2);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+8);
+				 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+13,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+10);
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+				 Osd_Set256TextColor(0x54>>2, Color_4);
+				 OSD_TEXT_HI_ADDR_SET_BIT9();//0x100~0x1F
+				 for(i=1;i<13;i++)
+				 {
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+1,_4ColorHotIconStart_14+4);
+					 Osd_DrawCharDirect(MainMenuIcon_DrawXPos+48+i,MainMenuIcon_DrawYPos + 2 * MenuItemIndex+3,_4ColorHotIconStart_14+6);
+				 }
+				 OSD_TEXT_HI_ADDR_CLR_TO_0();
+
+		 }
+
+
+/////////////////////////////////////////////////////////////////下面是快捷菜单绘画与调整
+
+/*
+		if(MenuPageIndex==HotInputSelectMenu_4)
+		{
+				Osd_SetTextMonoColor(3, 2);
+				 for(i=0;i<10;i++)
+				 {
+				   Delay1ms(200);
+				   Osd_DrawCharDirect(1,1,0x84+i);///原来主osd的左边竖线
+				 }
+			
+		}
+*/		
+}
 
 
 

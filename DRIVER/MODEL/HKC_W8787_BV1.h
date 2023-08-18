@@ -40,7 +40,7 @@
 //#define PowerKeyDeBounce
 #define PowerKeyDeBounceCount     	30
 
-
+			
 
 #define Enable_Gamma				0	//111223 Modify
 #define GAMMA_BYPASS    			0
@@ -79,7 +79,7 @@
 #define EarphoneDet_Enable          0
 
 
-#define  EANBLE_NEW_DCR_Functing       1
+#define  EANBLE_NEW_DCR_Functing       1 
 
 
 #if MainBoardType == MainBoard_JRY_W8787_BV1//MainBoard_8395_M0A

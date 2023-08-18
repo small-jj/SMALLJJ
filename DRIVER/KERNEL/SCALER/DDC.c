@@ -25,92 +25,98 @@ extern void SetPWMFreq(WORD freq);
 
 #define NVRAM_ADDR_EDID          0x00
 #if ((!VGA_Write_EEPROM&&ENABLE_VGA)||(!DVI_Write_EEPROM&&ENABLE_DVI))
-void mStar_ClrDDC_WP(void)
+void mStar_ClrDDC_WP(void)   
 {
 	#if (ENABLE_DVI&&(!DVI_Write_EEPROM))
-	msWriteByte(REG_3E45, BIT7);
+		msWriteByte(REG_3E45, BIT7);//打开DVI内部Buffer
 	#else
-	msWriteByte(REG_3E45, BIT0);
+		msWriteByte(REG_3E45, BIT0);//关闭DVI内部Buffer
 	#endif
-	msWriteByte(REG_3E49, BIT7); //ADC DDC disable write protect
-	msWriteByte(REG_3E4B, msReadByte(REG_3E4B) & ~BIT7);
+	msWriteByte(REG_3E49, BIT7); //ADC DDC disable write protect//打开VGA内部Buffer
+	msWriteByte(REG_3E4B,msReadByte(REG_3E4B)&~BIT7);//设置VGA内部Buffer为可写
 }
 
 void mStar_SetDDC_WP(void)    //
 {
 	#if (ENABLE_DVI&&(!DVI_Write_EEPROM))
-	msWriteByte(REG_3E45, BIT7 | BIT5);
+		msWriteByte(REG_3E45, BIT7|BIT5);//开启DVI写保护
 	#else
-	msWriteByte(REG_3E45, BIT0);
+		msWriteByte(REG_3E45, BIT0);//关闭DVI内部Buffer
 	#endif
-	#if CHIP_ID==CHIP_TSUMF
-	msWriteByteMask(REG_3EFA, 0, 0x0F);   // REG_DDC_BANK_7D[4:0]: Select A0 EDID sram base address
-	msWriteByte(REG_3E49, BIT7 | BIT5); //ADC DDC Enable write protect
-	#else
-	msWriteByte(REG_3E49, BIT7 | BIT5); //ADC DDC Enable write protect
-	#endif
-	msWriteByte(REG_3E4B, msReadByte(REG_3E4B) | BIT7);
+   #if CHIP_ID==CHIP_TSUMF
+    msWriteByteMask(REG_3EFA, 0, 0x0F);   // REG_DDC_BANK_7D[4:0]: Select A0 EDID sram base address//选择基地址
+    msWriteByte(REG_3E49, BIT7|BIT5); //ADC DDC Enable write protect//开启VGA内部Buffer
+   #else
+	msWriteByte(REG_3E49, BIT7|BIT5); //ADC DDC Enable write protect
+     #endif	
+	msWriteByte(REG_3E4B,msReadByte(REG_3E4B)|BIT7);
 }
 #endif
 #if User_DDCTO_FlashSave
 Bool CheckFlashEDIDData(void)
 {
-	if(DDC1[0] == 0x00 && DDC1[1] == 0xFF && DDC1[2] == 0xFF && DDC1[3] == 0xFF && DDC1[4] == 0xFF && DDC1[5] == 0xFF && DDC1[6] == 0xFF && DDC1[7] == 0x00)
+	if(DDC1[0]==0x00&&DDC1[1]==0xFF&&DDC1[2]==0xFF&&DDC1[3]==0xFF&&DDC1[4]==0xFF&&DDC1[5]==0xFF&&DDC1[6]==0xFF&&DDC1[7]==0x00)
 	{
 		return TRUE;
 	}
 	else
-		return FALSE;
+		return FALSE;	
 }
 #endif
 
 #if ((!VGA_Write_EEPROM)&&ENABLE_VGA)
 void mStar_VGADDC_Base_Address(void)
 {
-	#if CHIP_ID==CHIP_TSUMF
-	msWriteByteMask(REG_0260, 0, BIT2 | BIT3);
+
+       #if CHIP_ID==CHIP_TSUMF
+	msWriteByteMask(REG_0260, 0, BIT2|BIT3);
 	#endif
+
 	#if (CHIP_ID == CHIP_TSUMC||CHIP_ID == CHIP_TSUMD)
-	msWriteByte( REG_3EEC, 0x11);                                           // EDID Set Base address
-	msWriteByte( REG_3EED, 0x03);
+    	 msWriteByte( REG_3EEC, 0x11);                                           // EDID Set Base address
+     	 msWriteByte( REG_3EED, 0x03);
 	#elif (CHIP_ID==CHIP_TSUMF)
-	msWriteByte( REG_3EEC, 0x11);
+       msWriteByte( REG_3EEC, 0x11);    
 	#endif
-	#if (CHIP_ID == CHIP_TSUMC||CHIP_ID == CHIP_TSUMD)
-	msWriteByteMask( REG_3EEB, 0x00, 0xF0);
-	#elif (CHIP_ID==CHIP_TSUMF)
-	msWriteByteMask(REG_3EEB, 0, 0x0F);   // REG_DDC_BANK_75[12:8]: Select EDID sram base address for cpu read/write
-	#endif
+
+     #if (CHIP_ID == CHIP_TSUMC||CHIP_ID == CHIP_TSUMD) 
+     msWriteByteMask( REG_3EEB, 0x00, 0xF0);
+     #elif (CHIP_ID==CHIP_TSUMF)	
+     msWriteByteMask(REG_3EEB, 0, 0x0F);   // REG_DDC_BANK_75[12:8]: Select EDID sram base address for cpu read/write 
+     #endif
 }
 #endif
 #if ((!DVI_Write_EEPROM)&&ENABLE_DVI)
 void mStar_DVIDDC_Base_Address(void)
 {
-	#if CHIP_ID==CHIP_TSUMF
-	msWriteByteMask(REG_0260, 0, BIT2 | BIT3);
+        #if CHIP_ID==CHIP_TSUMF
+	msWriteByteMask(REG_0260, 0, BIT2|BIT3);
 	#endif
+
 	#if (CHIP_ID == CHIP_TSUMC||CHIP_ID == CHIP_TSUMD)
-	msWriteByte( REG_3EEC, 0x11);                                           // EDID Set Base address
-	msWriteByte( REG_3EED, 0x03);
-	#elif (CHIP_ID==CHIP_TSUMF)
-	msWriteByte( REG_3EEC, 0x11);
-	msWriteByteMask(REG_3EEB, 1, MASKBIT(4: 0));
-	msWriteByteMask(REG_3E43, 0, BIT1);
+    	 	msWriteByte( REG_3EEC, 0x11);                                           // EDID Set Base address
+     	 	msWriteByte( REG_3EED, 0x03);
+	#elif (CHIP_ID==CHIP_TSUMF)	
+    		 msWriteByte( REG_3EEC, 0x11);    
+		  msWriteByteMask(REG_3EEB, 1, MASKBIT(4:0));
+		msWriteByteMask(REG_3E43, 0, BIT1);
 	#endif
-	#if (CHIP_ID == CHIP_TSUMC||CHIP_ID == CHIP_TSUMD)
-	msWriteByteMask( REG_3EEB, 0x10, 0xF0);
-	#elif (CHIP_ID==CHIP_TSUMF)
-	msWriteByteMask(REG_3EEB, 0x01, 0x1F);   // REG_DDC_BANK_75[12:8]: Select EDID sram base address for cpu read/write
-	#endif
+
+     #if (CHIP_ID == CHIP_TSUMC||CHIP_ID == CHIP_TSUMD)	 
+     		msWriteByteMask( REG_3EEB, 0x10, 0xF0);
+     #elif (CHIP_ID==CHIP_TSUMF)	
+     msWriteByteMask(REG_3EEB, 0x01, 0x1F);   // REG_DDC_BANK_75[12:8]: Select EDID sram base address for cpu read/write 	 
+     #endif
 }
 #endif
 
 #if User_DDCTO_FlashSave
 void CleanDDCBuff (void)
 {
-	BYTE i = 0;
-	for(i = 0; i < 20; i++)
-		DDC1[i] = 0xFF;
+	BYTE i=0;
+
+	for(i=0;i<20;i++)
+		DDC1[i]=0xFF;
 }
 #endif
 
@@ -119,105 +125,128 @@ void CleanDDCBuff (void)
 
 
 #if		TryToModDdcFunction
-Bool		Init_AllPort_Ddc_ToE2PROM_Func(const BYTE DdcPort, const BYTE DdcDate[], const WORD DdcCount)
+Bool		Init_AllPort_Ddc_ToE2PROM_Func(const BYTE DdcPort,const BYTE DdcDate[],const WORD DdcCount)
 {
-	BYTE dd = 0;
-	WORD i = 0;
-	Bool Result = FALSE;
-	BYTE  ReadCheckSum = 0;
-	EnableReadDDCType = DdcPort;
-	Init_NVRAM_I2C_SCL_Pin();
-	Init_NVRAM_I2C_SDA_Pin();
-	hw_ClrDDC_WP();
-	for(i = 0; i < DdcCount; i++)
-	{
-		NVRam_WriteByte(NVRAM_ADDR_EDID + i, DdcDate[i]);
-	}
-	hw_SetDDC_WP();
-	Delay1ms(2);
-	ReadCheckSum = 0;
-	for(i = 0; i < DdcCount; i++)
-	{
-		NVRam_ReadByte(NVRAM_ADDR_EDID + i, &dd);
-		DDC1[i] = dd;
-		ReadCheckSum += DDC1[i];
-	}
-	if((DDC1[0] == 0x00) && (DDC1[1] == 0xFF) && (DDC1[2] == 0xFF) && (DDC1[3] == 0xFF) && (DDC1[4] == 0xFF)
-	        && (DDC1[5] == 0xFF) && (DDC1[6] == 0xFF) && (DDC1[7] == 0x00) && (DDC1[0x7F] == DdcDate[0x7F]))
-	{
-		if ((ReadCheckSum) == 0)
+
+		BYTE dd=0;
+		WORD i=0;
+		Bool Result = FALSE;
+		BYTE  ReadCheckSum=0;
+
+		EnableReadDDCType=DdcPort;	
+		Init_NVRAM_I2C_SCL_Pin();
+		Init_NVRAM_I2C_SDA_Pin();
+
+		hw_ClrDDC_WP();
+		for(i=0; i<DdcCount; i++)
+		 {
+		    NVRam_WriteByte(NVRAM_ADDR_EDID+i, DdcDate[i]);
+		 }	
+		hw_SetDDC_WP();
+		Delay1ms(2);
+		
+		ReadCheckSum = 0;
+
+		 for(i=0; i<DdcCount; i++)
+		 {
+		   	NVRam_ReadByte(NVRAM_ADDR_EDID+i, &dd);
+			DDC1[i]=dd;
+			ReadCheckSum+=DDC1[i];
+		 }
+
+
+		if((DDC1[0]==0x00)&&(DDC1[1]==0xFF)&&(DDC1[2]==0xFF)&&(DDC1[3]==0xFF)&&(DDC1[4]==0xFF)
+		&&(DDC1[5]==0xFF)&&(DDC1[6]==0xFF)&&(DDC1[7]==0x00)&&(DDC1[0x7F]==DdcDate[0x7F]))
 		{
-			Result = TRUE;
+			if ((ReadCheckSum)==0)
+			{
+				Result=TRUE;
+			}
 		}
-	}
-	EnableReadDDCType = I2C_EEPROM;
-	Init_NVRAM_I2C_SCL_Pin();
-	Init_NVRAM_I2C_SDA_Pin();
-	return Result;
+
+
+		EnableReadDDCType=I2C_EEPROM;	
+		Init_NVRAM_I2C_SCL_Pin();
+		Init_NVRAM_I2C_SDA_Pin();
+
+		return Result;
+		
 }
 
 
 #if ENABLE_VGA
 void mStar_VGA_InitDDC(void)
 {
-	#if VGA_Write_EEPROM
-	if (Load_VGAEDID_Flag)
-	{
-		BYTE ChecKVGADoubleFlag = 0;
+#if VGA_Write_EEPROM//是否外挂eeprom
+
+if (Load_VGAEDID_Flag)//是否去读EDID
+{
+
+		BYTE ChecKVGADoubleFlag=0;
 		#if User_DDCTO_FlashSave
-		BYTE EDID_CheckSum = 0 ;
+			BYTE EDID_CheckSum=0 ;
 		#endif
+		
 		#if USEFLASH
-		#if User_DDCTO_FlashSave
-		CleanDDCBuff ();
-		Flash_Read_Factory_KeySet(FLASH_KEY_DDCA, TRUE, 0, DDCAKEY_SIZE, &DDC1, DDCAKEY_SIZE);
-		EDID_CheckSum = DDC1[0x7F];
+		#if User_DDCTO_FlashSave//是否外烧
+			CleanDDCBuff ();//清空ddc1数组
+			Flash_Read_Factory_KeySet(FLASH_KEY_DDCA, TRUE, 0, DDCAKEY_SIZE, &DDC1, DDCAKEY_SIZE);//将falsh中的EDID读到ddc1中
+			EDID_CheckSum=DDC1[0x7F];//将校验位的值赋给该变量
 		#else
-#message "VGA DDC Data User Default EDID"
+			#message "VGA DDC Data User Default EDID"
 		#endif
 		#endif
-		#if User_DDCTO_FlashSave
-		if (CheckFlashEDIDData())
-		{
-			ChecKVGADoubleFlag = Init_AllPort_Ddc_ToE2PROM_Func(VGA_EDID, DDC1, 128);
-		}
-		else
-		#endif
-		{
-			ChecKVGADoubleFlag = Init_AllPort_Ddc_ToE2PROM_Func(VGA_EDID, EDID_vga, 128);
-		}
+
+	#if User_DDCTO_FlashSave
+      if (CheckFlashEDIDData())
+     	{	
+		ChecKVGADoubleFlag = Init_AllPort_Ddc_ToE2PROM_Func(VGA_EDID,DDC1,128);
+     	}
+	else
+	#endif
+	{	
+		ChecKVGADoubleFlag = Init_AllPort_Ddc_ToE2PROM_Func(VGA_EDID,EDID_vga,128);
+     	}
+
 		if (ChecKVGADoubleFlag)
 		{
 			Clr_Load_VGAEDID_Flag();
-			#if USEFLASH
+		#if USEFLASH
 			UserPref_EnableFlashSaveBit( bFlashSaveMonitorBit );
-			#else
+		#else	
 			NVRam_WriteWord(nvrMonitorAddr(MonitorFlag), MonitorFlags);
-			#endif
+		#endif
 		}
-	}
-	#else
+}
+
+#else
+
 	BYTE i;
+
 	mStar_ClrDDC_WP();
+
 	mStar_VGADDC_Base_Address();
+	
 	#if USEFLASH
 	#if User_DDCTO_FlashSave
-	Flash_Read_Factory_KeySet(FLASH_KEY_DDCA, TRUE, 0, DDCAKEY_SIZE, &DDC1, DDCAKEY_SIZE);
+		Flash_Read_Factory_KeySet(FLASH_KEY_DDCA, TRUE, 0, DDCAKEY_SIZE, &DDC1, DDCAKEY_SIZE);
 	#else
-#message "VGA DDC Data User Default EDID"
+		#message "VGA DDC Data User Default EDID"
 	#endif
 	#else
 	//NVRam_ReadTbl(DDC_ADC_ADDR, DDC1, 128);
 	#endif
+	
 	#if User_DDCTO_FlashSave
 	if(CheckFlashEDIDData())
-	{
+	{	
 		for(i = 0; i < 128; i++)
 		{
 			msWriteByte(REG_3E4B, i);
 			msWriteByte(REG_3E4C, DDC1[i]);
-			msWriteByteMask(REG_3E43, BIT5, BIT5);
-			while(msReadByte(REG_3E7B) & BIT5);
+			msWriteByteMask(REG_3E43, BIT5,BIT5);
+
+			while(msReadByte(REG_3E7B) & BIT5);  
 		}
 	}
 	else
@@ -227,77 +256,91 @@ void mStar_VGA_InitDDC(void)
 		{
 			msWriteByte(REG_3E4B, i);
 			msWriteByte(REG_3E4C, EDID_vga[i]);
-			msWriteByteMask(REG_3E43, BIT5, BIT5);
-			while(msReadByte(REG_3E7B) & BIT5);
+			msWriteByteMask(REG_3E43, BIT5,BIT5);
+
+			while(msReadByte(REG_3E7B) & BIT5);  
 		}
 	}
+	
 	mStar_SetDDC_WP();
-	#endif
+	
+#endif
+
 }
 #endif
 #if ENABLE_DVI
 void mStar_DVI_InitDDC(void)
 {
-	#if DVI_Write_EEPROM
-	#if DEBUG_PRINTDATA
-	printData("Load_DVIIEDID_FlagAA=%d", Load_DVIIEDID_Flag);
-	#endif
-	if (Load_DVIIEDID_Flag)
-	{
-		BYTE ChecKDVIDoubleFlag = 0;
+#if DVI_Write_EEPROM
+#if DEBUG_PRINTDATA
+printData("Load_DVIIEDID_FlagAA=%d",Load_DVIIEDID_Flag);    
+#endif          
+
+if (Load_DVIIEDID_Flag)
+{
+
+		BYTE ChecKDVIDoubleFlag=0;
 		#if User_DDCTO_FlashSave
-		BYTE EDID_CheckSum = 0 ;
+			BYTE EDID_CheckSum=0 ;
 		#endif
+		
 		#if USEFLASH
 		#if User_DDCTO_FlashSave
-		CleanDDCBuff ();
-		Flash_Read_Factory_KeySet(FLASH_KEY_DDCD, TRUE, 0, DDCDKEY_SIZE, &DDC1, DDCDKEY_SIZE);
-		EDID_CheckSum = DDC1[0x7F];
+			CleanDDCBuff ();
+			Flash_Read_Factory_KeySet(FLASH_KEY_DDCD, TRUE, 0, DDCDKEY_SIZE, &DDC1, DDCDKEY_SIZE);
+			EDID_CheckSum=DDC1[0x7F];
 		#else
-#message "DVI DDC Data User Default EDID"
+			#message "DVI DDC Data User Default EDID"
 		#endif
 		#endif
-		#if User_DDCTO_FlashSave
-		if (CheckFlashEDIDData())
-		{
-			ChecKDVIDoubleFlag = Init_AllPort_Ddc_ToE2PROM_Func(DVI_EDID, DDC1, 128);
-		}
-		else
-		#endif
-		{
-			ChecKDVIDoubleFlag = Init_AllPort_Ddc_ToE2PROM_Func(DVI_EDID, EDID_dvi, 128);
-		}
+
+	#if User_DDCTO_FlashSave
+      if (CheckFlashEDIDData())
+     	{	
+		ChecKDVIDoubleFlag = Init_AllPort_Ddc_ToE2PROM_Func(DVI_EDID,DDC1,128);
+     	}
+	else
+	#endif
+	{	
+		ChecKDVIDoubleFlag = Init_AllPort_Ddc_ToE2PROM_Func(DVI_EDID,EDID_dvi,128);
+     	}
+
 		if (ChecKDVIDoubleFlag)
 		{
 			Clr_Load_DVIEDID_Flag();
-			#if USEFLASH
+		#if USEFLASH
 			UserPref_EnableFlashSaveBit( bFlashSaveMonitorBit );
-			#else
+		#else	
 			NVRam_WriteWord(nvrMonitorAddr(MonitorFlag), MonitorFlags);
-			#endif
+		#endif
 		}
-	}
-	#else
+}
+#else
+
 	BYTE i;
+
 	mStar_ClrDDC_WP();
+
 	mStar_DVIDDC_Base_Address();
+	
 	#if USEFLASH
 	#if User_DDCTO_FlashSave
-	Flash_Read_Factory_KeySet(FLASH_KEY_DDCD, TRUE, 0, DDCDKEY_SIZE, &DDC1, DDCDKEY_SIZE);
+		Flash_Read_Factory_KeySet(FLASH_KEY_DDCD, TRUE, 0, DDCDKEY_SIZE, &DDC1, DDCDKEY_SIZE);
 	#else
-#message "DVI DDC Data User Default EDID"
+		#message "DVI DDC Data User Default EDID"
 	#endif
 	#else
 	//NVRam_ReadTbl(DDC_ADC_ADDR, DDC1, 128);
 	#endif
+	
 	#if User_DDCTO_FlashSave
 	if(CheckFlashEDIDData())
-	{
+	{	
 		for(i = 0; i < 128; i++)
 		{
 			msWriteByte(REG_3E4B, i);
 			msWriteByte(REG_3E4C, DDC1[i]);
-			msWriteByteMask(REG_3E43, BIT5, BIT5);
+			msWriteByteMask(REG_3E43, BIT5,BIT5);
 		}
 	}
 	else
@@ -307,99 +350,110 @@ void mStar_DVI_InitDDC(void)
 		{
 			msWriteByte(REG_3E4B, i);
 			msWriteByte(REG_3E4C, EDID_dvi[i]);
-			msWriteByteMask(REG_3E43, BIT5, BIT5);
+			msWriteByteMask(REG_3E43, BIT5,BIT5);
 		}
 	}
+	
 	Delay1ms(100);
 	mStar_SetDDC_WP(void)();
-	#endif
+	
+#endif
 }
 #endif
 #if ENABLE_HDMI
 void mStar_HDMI_InitDDC(void)
 {
-	#if HDMI_Write_EEPROM
+#if HDMI_Write_EEPROM
 	if (Load_HDMIEDID_Flag)
 	{
-		BYTE ChecKHDMIDoubleFlag = 0;
+
+		BYTE ChecKHDMIDoubleFlag=0;
 		#if User_DDCTO_FlashSave
-		BYTE EDID_CheckSum = 0 ;
+			BYTE EDID_CheckSum=0 ;
 		#endif
+		
 		#if USEFLASH
 		#if User_DDCTO_FlashSave
-		CleanDDCBuff ();
-		Flash_Read_Factory_KeySet(FLASH_KEY_DDCH, TRUE, 0, DDCHKEY_SIZE, &DDC1, DDCHKEY_SIZE);
-		EDID_CheckSum = DDC1[0x7F];
+			CleanDDCBuff ();
+			Flash_Read_Factory_KeySet(FLASH_KEY_DDCH, TRUE, 0, DDCHKEY_SIZE, &DDC1, DDCHKEY_SIZE);
+			EDID_CheckSum=DDC1[0x7F];
 		#else
-#message "HDMI DDC Data User Default EDID"
+			#message "HDMI DDC Data User Default EDID"
 		#endif
 		#endif
-		#if User_DDCTO_FlashSave
-		if (CheckFlashEDIDData())
-		{
-			ChecKHDMIDoubleFlag = Init_AllPort_Ddc_ToE2PROM_Func(HDMI_EDID, DDC1, 256);
-		}
-		else
-		#endif
-		{
-			ChecKHDMIDoubleFlag = Init_AllPort_Ddc_ToE2PROM_Func(HDMI_EDID, EDID_hdmi, 256);
-		}
+
+	#if User_DDCTO_FlashSave
+      if (CheckFlashEDIDData())
+     	{	
+		ChecKHDMIDoubleFlag = Init_AllPort_Ddc_ToE2PROM_Func(HDMI_EDID,DDC1,256);
+     	}
+	else
+	#endif
+	{	
+		ChecKHDMIDoubleFlag = Init_AllPort_Ddc_ToE2PROM_Func(HDMI_EDID,EDID_hdmi,256);
+     	}
+
 		if (ChecKHDMIDoubleFlag)
 		{
 			Clr_Load_HDMIEDID_Flag();
-			#if USEFLASH
+		#if USEFLASH
 			UserPref_EnableFlashSaveBit( bFlashSaveMonitorBit );
-			#else
+		#else	
 			NVRam_WriteWord(nvrMonitorAddr(MonitorFlag), MonitorFlags);
-			#endif
+		#endif
 		}
-	}
-	#endif
-	#if CHIP_ID==CHIP_TSUMF
-	DDC_Port_Sel();
-	#endif
+}
+#endif		
+#if CHIP_ID==CHIP_TSUMF
+DDC_Port_Sel();
+#endif
+
 }
 #endif
 #if ENABLE_HDMI2
 void mStar_HDMI2_InitDDC(void)
 {
-	#if HDMI2_Write_EEPROM
+#if HDMI2_Write_EEPROM
 	if (Load_HDMI2EDID_Flag)
 	{
-		BYTE ChecKHDMIDoubleFlag = 0;
+
+		BYTE ChecKHDMIDoubleFlag=0;
 		#if User_DDCTO_FlashSave
-		BYTE EDID_CheckSum = 0 ;
+			BYTE EDID_CheckSum=0 ;
 		#endif
+		
 		#if USEFLASH
 		#if User_DDCTO_FlashSave
-		CleanDDCBuff ();
-		Flash_Read_Factory_KeySet(FLASH_KEY_DDCH, TRUE, 0, DDCHKEY_SIZE, &DDC1, DDCHKEY_SIZE);
-		EDID_CheckSum = DDC1[0x7F];
+			CleanDDCBuff ();
+			Flash_Read_Factory_KeySet(FLASH_KEY_DDCH, TRUE, 0, DDCHKEY_SIZE, &DDC1, DDCHKEY_SIZE);
+			EDID_CheckSum=DDC1[0x7F];
 		#else
-#message "HDMI2 DDC Data User Default EDID"
+			#message "HDMI2 DDC Data User Default EDID"
 		#endif
 		#endif
-		#if User_DDCTO_FlashSave
-		if (CheckFlashEDIDData())
-		{
-			ChecKHDMIDoubleFlag = Init_AllPort_Ddc_ToE2PROM_Func(HDMI2_EDID, DDC1, 256);
-		}
-		else
-		#endif
-		{
-			ChecKHDMIDoubleFlag = Init_AllPort_Ddc_ToE2PROM_Func(HDMI2_EDID, EDID_hdmi2, 256);
-		}
+
+	#if User_DDCTO_FlashSave
+      if (CheckFlashEDIDData())
+     	{	
+		ChecKHDMIDoubleFlag = Init_AllPort_Ddc_ToE2PROM_Func(HDMI2_EDID,DDC1,256);
+     	}
+	else
+	#endif
+	{	
+		ChecKHDMIDoubleFlag = Init_AllPort_Ddc_ToE2PROM_Func(HDMI2_EDID,EDID_hdmi2,256);
+     	}
+
 		if (ChecKHDMIDoubleFlag)
 		{
 			Clr_Load_HDMI2EDID_Flag();
-			#if USEFLASH
+		#if USEFLASH
 			UserPref_EnableFlashSaveBit( bFlashSaveMonitorBit );
-			#else
+		#else	
 			NVRam_WriteWord(nvrMonitorAddr(MonitorFlag), MonitorFlags);
-			#endif
+		#endif
 		}
-	}
-	#endif
+}
+#endif		
 }
 #endif
 
@@ -411,307 +465,371 @@ void mStar_HDMI2_InitDDC(void)
 #if ENABLE_VGA
 void mStar_VGA_InitDDC(void)
 {
-	#if VGA_Write_EEPROM
-	if (Load_VGAEDID_Flag)
-	{
-		BYTE i;
-		BYTE  ReadCheckSum = 0;
-		BYTE  dd = 0;
-		BYTE CheckVGADoubleFlag = 0;
-		#if User_DDCTO_FlashSave
-		BYTE EDID_CheckSum = 0 ;
-		#endif
-		#if USEFLASH
-		#if User_DDCTO_FlashSave
-		CleanDDCBuff ();
-		Flash_Read_Factory_KeySet(FLASH_KEY_DDCA, TRUE, 0, DDCAKEY_SIZE, &DDC1, DDCAKEY_SIZE);
-		EDID_CheckSum = DDC1[0x7F];
-		#else
-#message "VGA DDC Data User Default EDID"
-		#endif
-		#else
-		//NVRam_ReadTbl(DDC_ADC_ADDR, DDC1, 128);
-		#endif
-		#if 1
-		#if User_DDCTO_FlashSave
-		if (CheckFlashEDIDData())
-		{
-			hw_ClrDDC_WP();
-			Delay1ms(2);
-			EnableReadDDCType = VGA_EDID;
-			Init_NVRAM_I2C_SCL_Pin();
-			Init_NVRAM_I2C_SDA_Pin();
-			for(i = 0; i < 128; i++)
-			{
-				NVRam_WriteByte(NVRAM_ADDR_EDID + i, DDC1[i]);
-			}
-			hw_SetDDC_WP();
-			Delay1ms(2);
-			for (i = 0; i < 128; i++)
-			{
-				DDC1[i] = 0xFF;
-			}
-			for(i = 0; i < 128; i++)
-			{
-				NVRam_ReadByte(NVRAM_ADDR_EDID + i, &dd);
-				DDC1[i] = dd;
-				ReadCheckSum += DDC1[i];
-			}
-			if((DDC1[0] == 0x00) && (DDC1[1] == 0xFF) && (DDC1[2] == 0xFF) && (DDC1[3] == 0xFF) && (DDC1[4] == 0xFF)
-			        && (DDC1[5] == 0xFF) && (DDC1[6] == 0xFF) && (DDC1[7] == 0x00) && (DDC1[0x7F] == EDID_CheckSum))
-			{
-				if ((ReadCheckSum) == 0 && ((DDC1[0x14] & 0x80) != 0x80))
-				{
-					CheckVGADoubleFlag = 1;
-				}
-			}
-			if (CheckVGADoubleFlag)
-			{
-				Clr_Load_VGAEDID_Flag();
-				#if USEFLASH
-				UserPref_EnableFlashSaveBit( bFlashSaveMonitorBit );
-				#else
-				NVRam_WriteWord(nvrMonitorAddr(MonitorFlag), MonitorFlags);
-				#endif
-			}
-		}
-		else
-		#endif
-		{
-			hw_ClrDDC_WP();
-			Delay1ms(5);
-			EnableReadDDCType = VGA_EDID;
-			Init_NVRAM_I2C_SCL_Pin();
-			Init_NVRAM_I2C_SDA_Pin();
-			for(i = 0; i < 128; i++)
-			{
-				NVRam_WriteByte(NVRAM_ADDR_EDID + i, EDID_vga[i]);
-			}
-			hw_SetDDC_WP();
-			Delay1ms(5);
-			for(i = 0; i < 128; i++)
-			{
-				NVRam_ReadByte(NVRAM_ADDR_EDID + i, &dd);
-				DDC1[i] = dd;
-				ReadCheckSum += DDC1[i];
-				// printMsg("11111111111111");
-				//  printData("DDC1[i]====%x",DDC1[i]);
-			}
-			// printData("ReadCheckSum", ReadCheckSum);
-			if((DDC1[0] == 0x00) && (DDC1[1] == 0xFF) && (DDC1[2] == 0xFF) && (DDC1[3] == 0xFF) && (DDC1[4] == 0xFF)
-			        && (DDC1[5] == 0xFF) && (DDC1[6] == 0xFF) && (DDC1[7] == 0x00) && (DDC1[0x7F] == EDID_vga[0x7F]))
-			{
-				if ((ReadCheckSum) == 0 && ((DDC1[0x14] & 0x80) != 0x80))
-				{
-					CheckVGADoubleFlag = 1;
-				}
-			}
-			//printData("CheckVGADoubleFlag====%d",CheckVGADoubleFlag);
-			if (CheckVGADoubleFlag)
-			{
-				Clr_Load_VGAEDID_Flag();
-				#if USEFLASH
-				UserPref_EnableFlashSaveBit( bFlashSaveMonitorBit );
-				#else
-				NVRam_WriteWord(nvrMonitorAddr(MonitorFlag), MonitorFlags);
-				#endif
-			}
-			EnableReadDDCType = I2C_EEPROM;
-			Init_NVRAM_I2C_SCL_Pin();
-			Init_NVRAM_I2C_SDA_Pin();
-		}
-		#endif
-	}
-	#else
+#if VGA_Write_EEPROM//是否外挂eeprom
+
+if (Load_VGAEDID_Flag)//是否读EDID
+{
 	BYTE i;
-	mStar_ClrDDC_WP();
-	mStar_VGADDC_Base_Address();
+	BYTE  ReadCheckSum=0;
+	BYTE  dd=0;
+	BYTE CheckVGADoubleFlag=0;
+	#if User_DDCTO_FlashSave
+	BYTE EDID_CheckSum=0 ;
+	#endif
+	
+	#if USEFLASH
+	#if User_DDCTO_FlashSave//如果外烧
+		CleanDDCBuff();//清空DDC1数组
+		Flash_Read_Factory_KeySet(FLASH_KEY_DDCA, TRUE, 0, DDCAKEY_SIZE, &DDC1, DDCAKEY_SIZE);//将falsh中的EDID读到DDC1中
+		EDID_CheckSum=DDC1[0x7F];//将校验位的值赋给该变量
+	#else
+		#message "VGA DDC Data User Default EDID"
+	#endif
+	#else
+		//NVRam_ReadTbl(DDC_ADC_ADDR, DDC1, 128);
+	#endif
+
+#if 1
+#if User_DDCTO_FlashSave
+     if (CheckFlashEDIDData())//校验EDID的头
+     	{
+     		hw_ClrDDC_WP();//清除写保护
+			
+		Delay1ms(2);
+		
+		EnableReadDDCType=VGA_EDID;//切换相应的IIC类型
+		Init_NVRAM_I2C_SCL_Pin(); //初始化IIC的时钟线
+		Init_NVRAM_I2C_SDA_Pin();//初始化iic的数据线
+
+		for(i=0; i<128; i++)
+		 {
+		    NVRam_WriteByte(NVRAM_ADDR_EDID+i, DDC1[i]);//将DDC1中的EDID写到eeprom中
+		 }	
+
+		hw_SetDDC_WP();//开启写保护
+		
+		Delay1ms(2);
+
+		for (i=0; i<128; i++)
+		{
+			DDC1[i]=0xFF;
+		}
+
+		for(i=0; i<128; i++)
+		 {
+		   	NVRam_ReadByte(NVRAM_ADDR_EDID+i, &dd);
+			DDC1[i]=dd;	  //将从eeprom读的EDID写到DDC1中
+			ReadCheckSum+=DDC1[i];//将数据累加，得到校验位的值
+		 }	
+
+		if((DDC1[0]==0x00)&&(DDC1[1]==0xFF)&&(DDC1[2]==0xFF)&&(DDC1[3]==0xFF)&&(DDC1[4]==0xFF)//校验所读到的EDID的头和checkSum和信号类型
+		 &&(DDC1[5]==0xFF)&&(DDC1[6]==0xFF)&&(DDC1[7]==0x00)&&(DDC1[0x7F]==EDID_CheckSum))//
+		{
+			if ((ReadCheckSum)==0&&((DDC1[0x14]&0x80)!=0x80))//校验readchecksum和信号类型
+			{
+				CheckVGADoubleFlag=1;//条件满足标志位为1
+			}
+		}
+
+		if (CheckVGADoubleFlag)
+		{
+			Clr_Load_VGAEDID_Flag();//清除标志位，防止下次上电重新初始化
+		#if USEFLASH
+			UserPref_EnableFlashSaveBit( bFlashSaveMonitorBit );//保存标志位
+		#else	
+			NVRam_WriteWord(nvrMonitorAddr(MonitorFlag), MonitorFlags);
+		#endif
+		}
+		
+     	}
+	else	//没有读取EDID的头的值
+	#endif
+	{
+     		hw_ClrDDC_WP();//清除写保护
+			
+		Delay1ms(5);
+		
+		EnableReadDDCType=VGA_EDID;//切换相应的IIC类型
+		Init_NVRAM_I2C_SCL_Pin();//初始化IIC时钟线
+		Init_NVRAM_I2C_SDA_Pin();//初始化数据线
+
+		for(i=0; i<128; i++)
+		 {
+		    NVRam_WriteByte(NVRAM_ADDR_EDID+i, EDID_vga[i]);//将code中的EDID到eeprom
+		 }	
+
+		hw_SetDDC_WP();//开启写保护
+		
+		Delay1ms(5);
+
+		for(i=0; i<128; i++)
+		 {
+		   	NVRam_ReadByte(NVRAM_ADDR_EDID+i, &dd);
+			DDC1[i]=dd;	  //将eeprom读的EDID写到DDC1中
+			ReadCheckSum+=DDC1[i];//将数据累加，得到校验位的值
+		      // printMsg("11111111111111");
+			//  printData("DDC1[i]====%x",DDC1[i]);   
+			
+		 }	
+              // printData("ReadCheckSum", ReadCheckSum);
+			   
+		if((DDC1[0]==0x00)&&(DDC1[1]==0xFF)&&(DDC1[2]==0xFF)&&(DDC1[3]==0xFF)&&(DDC1[4]==0xFF)
+		&&(DDC1[5]==0xFF)&&(DDC1[6]==0xFF)&&(DDC1[7]==0x00)&&(DDC1[0x7F]==EDID_vga[0x7F]))///校验所读到的EDID的头和checkSum和信号类型
+		{
+			if ((ReadCheckSum)==0&&((DDC1[0x14]&0x80)!=0x80))//校验readchecksum和信号类型
+			{
+				CheckVGADoubleFlag=1;
+			}
+		}
+       	//printData("CheckVGADoubleFlag====%d",CheckVGADoubleFlag);
+		if (CheckVGADoubleFlag)
+		{
+			Clr_Load_VGAEDID_Flag();//清除标志位，防止下次上电重新初始化
+		#if USEFLASH
+			UserPref_EnableFlashSaveBit( bFlashSaveMonitorBit );//保存标志位
+		#else	
+			NVRam_WriteWord(nvrMonitorAddr(MonitorFlag), MonitorFlags);
+		#endif
+		}
+		EnableReadDDCType=I2C_EEPROM;	
+		Init_NVRAM_I2C_SCL_Pin();
+		Init_NVRAM_I2C_SDA_Pin();
+     	}
+#endif	
+}
+
+#else						//不外挂
+
+	BYTE i;
+
+	mStar_ClrDDC_WP();//清除写保护
+
+	mStar_VGADDC_Base_Address();//分配基地址
+	
 	#if USEFLASH
 	#if User_DDCTO_FlashSave
-	Flash_Read_Factory_KeySet(FLASH_KEY_DDCA, TRUE, 0, DDCAKEY_SIZE, &DDC1, DDCAKEY_SIZE);
-#message "VGA DDC Data User Default EDID and Flash EDID"
+		Flash_Read_Factory_KeySet(FLASH_KEY_DDCA, TRUE, 0, DDCAKEY_SIZE, &DDC1, DDCAKEY_SIZE);//将falsh中的EDID读到DDC1中
+		#message "VGA DDC Data User Default EDID and Flash EDID"
 	#else
-#message "VGA DDC Data User Default EDID"
+		#message "VGA DDC Data User Default EDID"
 	#endif
 	#else
 	//NVRam_ReadTbl(DDC_ADC_ADDR, DDC1, 128);
 	#endif
-	#if User_DDCTO_FlashSave
-	if(CheckFlashEDIDData())
-	{
+	
+	#if User_DDCTO_FlashSave//将flash中的EDID写到DDC中，再将DDC中的EDID写到内部Buffer
+	if(CheckFlashEDIDData())//校验EDID的头
+	{	
 		for(i = 0; i < 128; i++)
 		{
-			msWriteByte(REG_3E4B, i);
-			msWriteByte(REG_3E4C, DDC1[i]);
-			msWriteByteMask(REG_3E43, BIT5, BIT5);
-			while(msReadByte(REG_3E7B) & BIT5);
+			msWriteByte(REG_3E4B, i);//使能DDC写
+			msWriteByte(REG_3E4C, DDC1[i]);			//得到DDC1中的EDID写入内部Buffer									外烧
+			msWriteByteMask(REG_3E43, BIT5,BIT5);
+
+			while(msReadByte(REG_3E7B) & BIT5); //读取内部Buffer中的EDID；校验一下
 		}
 	}
-	else
+	else  // 将code中的EDID写到内部Buffer
 	#endif
 	{
 		for(i = 0; i < 128; i++)
 		{
-			msWriteByte(REG_3E4B, i);
-			msWriteByte(REG_3E4C, EDID_vga[i]);
-			msWriteByteMask(REG_3E43, BIT5, BIT5);
-			while(msReadByte(REG_3E7B) & BIT5);
+			msWriteByte(REG_3E4B, i);//使能DDC写
+			msWriteByte(REG_3E4C, EDID_vga[i]);//得到code中的EDID写入内部Buffer	
+			msWriteByteMask(REG_3E43, BIT5,BIT5);//							不外烧
+
+			while(msReadByte(REG_3E7B) & BIT5);  //读取内部Buffer中的EDID 
 		}
 	}
-	mStar_SetDDC_WP();
-	#endif
+	
+	mStar_SetDDC_WP();//写保护
+	
+#endif
+
 }
 #endif
 #if ENABLE_DVI
 void mStar_DVI_InitDDC(void)
 {
-	#if DVI_Write_EEPROM
-	#if DEBUG_PRINTDATA
-	printData("Load_DVIIEDID_FlagAA=%d", Load_DVIIEDID_Flag);
-	#endif
-	if (Load_DVIIEDID_Flag)
-	{
-		BYTE i;
-		BYTE  ReadCheckSum = 0;
-		BYTE  dd = 0;
-		BYTE CheckDVIDoubleFlag = 0;
-		#if User_DDCTO_FlashSave
-		BYTE EDID_CheckSum = 0 ;
-		#endif
-		#if USEFLASH
-		#if User_DDCTO_FlashSave
-		CleanDDCBuff ();
-		Flash_Read_Factory_KeySet(FLASH_KEY_DDCD, TRUE, 0, DDCDKEY_SIZE, &DDC1, DDCDKEY_SIZE);
-		EDID_CheckSum = DDC1[0x7F];
-		#else
-#message "DVI DDC Data User Default EDID"
-		#endif
-		#else
-		//NVRam_ReadTbl(DDC_ADC_ADDR, DDC1, 128);
-		#endif
-		#if User_DDCTO_FlashSave
-		if (CheckFlashEDIDData())
-		{
-			#if ENABLE_DEBUG
-			printMsg("DVI0000000");
-			#endif
-			hw_ClrDDC_WP();
-			Delay1ms(10);
-			EnableReadDDCType = DVI_EDID;
-			Init_NVRAM_I2C_SCL_Pin();
-			Init_NVRAM_I2C_SDA_Pin();
-			for(i = 0; i < 128; i++)
-			{
-				NVRam_WriteByte(NVRAM_ADDR_EDID + i, DDC1[i]);
-			}
-			Delay1ms(100);
-			hw_SetDDC_WP();
-			Delay1ms(2);
-			for (i = 0; i < 128; i++)
-			{
-				DDC1[i] = 0xFF;
-			}
-			for(i = 0; i < 128; i++)
-			{
-				NVRam_ReadByte(NVRAM_ADDR_EDID + i, &dd);
-				DDC1[i] = dd;
-				ReadCheckSum += DDC1[i];
-			}
-			Delay1ms(100);
-			if((DDC1[0] == 0x00) && (DDC1[1] == 0xFF) && (DDC1[2] == 0xFF) && (DDC1[3] == 0xFF) && (DDC1[4] == 0xFF)
-			        && (DDC1[5] == 0xFF) && (DDC1[6] == 0xFF) && (DDC1[7] == 0x00) && (DDC1[0x7F] == EDID_CheckSum))
-			{
-				#if ENABLE_DEBUG
-				printMsg("DVI1111111");
-				#endif
-				if ((ReadCheckSum) == 0 && ((DDC1[0x14] & 0x80) == 0x80))
-				{
-					CheckDVIDoubleFlag = 1;
-				}
-			}
-			if (CheckDVIDoubleFlag)
-			{
-				Clr_Load_DVIEDID_Flag();
-				#if USEFLASH
-				UserPref_EnableFlashSaveBit( bFlashSaveMonitorBit );
-				#else
-				NVRam_WriteWord(nvrMonitorAddr(MonitorFlag), MonitorFlags);
-				#endif
-			}
-			EnableReadDDCType = I2C_EEPROM;
-			Init_NVRAM_I2C_SCL_Pin();
-			Init_NVRAM_I2C_SDA_Pin();
-		}
-		else
-		#endif
-		{
-			#if ENABLE_DEBUG
-			printMsg("DVI  EDID  INIT");
-			#endif
-			hw_ClrDDC_WP();
-			Delay1ms(5);
-			EnableReadDDCType = DVI_EDID;
-			Init_NVRAM_I2C_SCL_Pin();
-			Init_NVRAM_I2C_SDA_Pin();
-			for(i = 0; i < 128; i++)
-			{
-				NVRam_WriteByte(NVRAM_ADDR_EDID + i, EDID_dvi[i]);
-			}
-			Delay1ms(100);
-			hw_SetDDC_WP();
-			Delay1ms(5);
-			for(i = 0; i < 128; i++)
-			{
-				NVRam_ReadByte(NVRAM_ADDR_EDID + i, &dd);
-				DDC1[i] = dd;
-				ReadCheckSum += DDC1[i];
-			}
-			if((DDC1[0] == 0x00) && (DDC1[1] == 0xFF) && (DDC1[2] == 0xFF) && (DDC1[3] == 0xFF) && (DDC1[4] == 0xFF)
-			        && (DDC1[5] == 0xFF) && (DDC1[6] == 0xFF) && (DDC1[7] == 0x00) && (DDC1[0x7F] == EDID_dvi[0x7F]))
-			{
-				if ((ReadCheckSum) == 0 && ((DDC1[0x14] & 0x80) == 0x80))
-				{
-					CheckDVIDoubleFlag = 1;
-				}
-			}
-			if (CheckDVIDoubleFlag)
-			{
-				Clr_Load_DVIEDID_Flag();
-				#if USEFLASH
-				UserPref_EnableFlashSaveBit( bFlashSaveMonitorBit );
-				#else
-				NVRam_WriteWord(nvrMonitorAddr(MonitorFlag), MonitorFlags);
-				#endif
-				#if ENABLE_DEBUG
-				printMsg("DVI  EDID  PASS");
-				#endif
-			}
-			EnableReadDDCType = I2C_EEPROM;
-			Init_NVRAM_I2C_SCL_Pin();
-			Init_NVRAM_I2C_SDA_Pin();
-		}
-	}
-	#else
+#if DVI_Write_EEPROM
+#if DEBUG_PRINTDATA
+printData("Load_DVIIEDID_FlagAA=%d",Load_DVIIEDID_Flag);    
+#endif          
+
+if (Load_DVIIEDID_Flag)
+{
+
 	BYTE i;
-	mStar_ClrDDC_WP();
-	mStar_DVIDDC_Base_Address();
+	BYTE  ReadCheckSum=0;
+	BYTE  dd=0;
+	BYTE CheckDVIDoubleFlag=0;
+	#if User_DDCTO_FlashSave
+	BYTE EDID_CheckSum=0 ;
+	#endif
 	#if USEFLASH
 	#if User_DDCTO_FlashSave
-	Flash_Read_Factory_KeySet(FLASH_KEY_DDCD, TRUE, 0, DDCDKEY_SIZE, &DDC1, DDCDKEY_SIZE);
+		CleanDDCBuff ();
+		Flash_Read_Factory_KeySet(FLASH_KEY_DDCD, TRUE, 0, DDCDKEY_SIZE, &DDC1, DDCDKEY_SIZE);
+		EDID_CheckSum=DDC1[0x7F];
 	#else
-#message "DVI DDC Data User Default EDID"
+		#message "DVI DDC Data User Default EDID"
+	#endif
+	#else
+		//NVRam_ReadTbl(DDC_ADC_ADDR, DDC1, 128);
+	#endif
+	
+#if User_DDCTO_FlashSave
+     if (CheckFlashEDIDData())
+     	{
+		#if ENABLE_DEBUG
+		printMsg("DVI0000000");
+		#endif
+		
+     		hw_ClrDDC_WP();
+			
+		Delay1ms(10);
+		
+		EnableReadDDCType=DVI_EDID;
+		Init_NVRAM_I2C_SCL_Pin();
+		Init_NVRAM_I2C_SDA_Pin();
+
+		for(i=0; i<128; i++)
+		 {
+		    NVRam_WriteByte(NVRAM_ADDR_EDID+i, DDC1[i]);
+		 }	
+
+		Delay1ms(100);
+
+		hw_SetDDC_WP();
+		
+		Delay1ms(2);
+
+		for (i=0; i<128; i++)
+		{
+			DDC1[i]=0xFF;
+		}
+
+		for(i=0; i<128; i++)
+		 {
+		   	NVRam_ReadByte(NVRAM_ADDR_EDID+i, &dd);
+			DDC1[i]=dd;	  
+			ReadCheckSum+=DDC1[i];
+		 }	
+
+		
+		Delay1ms(100);
+		if((DDC1[0]==0x00)&&(DDC1[1]==0xFF)&&(DDC1[2]==0xFF)&&(DDC1[3]==0xFF)&&(DDC1[4]==0xFF)
+		&&(DDC1[5]==0xFF)&&(DDC1[6]==0xFF)&&(DDC1[7]==0x00)&&(DDC1[0x7F]==EDID_CheckSum))
+		{
+					#if ENABLE_DEBUG
+		printMsg("DVI1111111");
+		#endif
+
+			if ((ReadCheckSum)==0&&((DDC1[0x14]&0x80)==0x80))
+			{
+				CheckDVIDoubleFlag=1;
+			}
+		}
+
+		if (CheckDVIDoubleFlag)
+		{
+			Clr_Load_DVIEDID_Flag();
+		#if USEFLASH
+			UserPref_EnableFlashSaveBit( bFlashSaveMonitorBit );
+		#else	
+			NVRam_WriteWord(nvrMonitorAddr(MonitorFlag), MonitorFlags);
+		#endif
+		}
+		EnableReadDDCType=I2C_EEPROM;
+
+			Init_NVRAM_I2C_SCL_Pin();
+			Init_NVRAM_I2C_SDA_Pin();
+		
+     	}
+	else
+	#endif
+	{
+		#if ENABLE_DEBUG
+		printMsg("DVI  EDID  INIT");
+		#endif
+     		hw_ClrDDC_WP();
+			
+		Delay1ms(5);
+		
+		EnableReadDDCType=DVI_EDID;
+		Init_NVRAM_I2C_SCL_Pin();
+		Init_NVRAM_I2C_SDA_Pin();
+
+		for(i=0; i<128; i++)
+		 {
+		    NVRam_WriteByte(NVRAM_ADDR_EDID+i, EDID_dvi[i]);
+		 }	
+		Delay1ms(100);
+
+		hw_SetDDC_WP();
+		
+		Delay1ms(5);
+
+		for(i=0; i<128; i++)
+		 {
+		   	NVRam_ReadByte(NVRAM_ADDR_EDID+i, &dd);
+			DDC1[i]=dd;	  
+			ReadCheckSum+=DDC1[i];
+		 }	
+
+		if((DDC1[0]==0x00)&&(DDC1[1]==0xFF)&&(DDC1[2]==0xFF)&&(DDC1[3]==0xFF)&&(DDC1[4]==0xFF)
+		&&(DDC1[5]==0xFF)&&(DDC1[6]==0xFF)&&(DDC1[7]==0x00)&&(DDC1[0x7F]==EDID_dvi[0x7F]))
+		{
+			if ((ReadCheckSum)==0&&((DDC1[0x14]&0x80)==0x80))
+			{
+				CheckDVIDoubleFlag=1;
+			}
+		}
+
+		if (CheckDVIDoubleFlag)
+		{
+			Clr_Load_DVIEDID_Flag();
+		#if USEFLASH
+			UserPref_EnableFlashSaveBit( bFlashSaveMonitorBit );
+		#else	
+			NVRam_WriteWord(nvrMonitorAddr(MonitorFlag), MonitorFlags);
+		#endif
+		#if ENABLE_DEBUG
+		printMsg("DVI  EDID  PASS");
+		#endif
+		}
+		EnableReadDDCType=I2C_EEPROM;	
+
+			Init_NVRAM_I2C_SCL_Pin();
+			Init_NVRAM_I2C_SDA_Pin();
+     	}
+}
+#else
+
+	BYTE i;
+
+	mStar_ClrDDC_WP();
+
+	mStar_DVIDDC_Base_Address();
+	
+	#if USEFLASH
+	#if User_DDCTO_FlashSave
+		Flash_Read_Factory_KeySet(FLASH_KEY_DDCD, TRUE, 0, DDCDKEY_SIZE, &DDC1, DDCDKEY_SIZE);
+	#else
+		#message "DVI DDC Data User Default EDID"
 	#endif
 	#else
 	//NVRam_ReadTbl(DDC_ADC_ADDR, DDC1, 128);
 	#endif
+	
 	#if User_DDCTO_FlashSave
 	if(CheckFlashEDIDData())
-	{
+	{	
 		for(i = 0; i < 128; i++)
 		{
 			msWriteByte(REG_3E4B, i);
 			msWriteByte(REG_3E4C, DDC1[i]);
-			msWriteByteMask(REG_3E43, BIT5, BIT5);
+			msWriteByteMask(REG_3E43, BIT5,BIT5);
 		}
 	}
 	else
@@ -721,266 +839,322 @@ void mStar_DVI_InitDDC(void)
 		{
 			msWriteByte(REG_3E4B, i);
 			msWriteByte(REG_3E4C, EDID_dvi[i]);
-			msWriteByteMask(REG_3E43, BIT5, BIT5);
+			msWriteByteMask(REG_3E43, BIT5,BIT5);
 		}
 	}
-	Delay1ms(100);
+	
+    Delay1ms(100);
 	mStar_SetDDC_WP();
-	#endif
+	
+#endif
 }
 #endif
 #if ENABLE_HDMI
 void mStar_HDMI_InitDDC(void)
 {
-	#if HDMI_Write_EEPROM
+#if HDMI_Write_EEPROM
 	if (Load_HDMIEDID_Flag)
 	{
 		WORD i;
-		BYTE  ReadCheckSum = 0;
-		BYTE  dd = 0;
-		BYTE ChecKHDMIDoubleFlag = 0;
+		BYTE  ReadCheckSum=0;
+		BYTE  dd=0;
+		BYTE ChecKHDMIDoubleFlag=0;
 		#if User_DDCTO_FlashSave
-		BYTE EDID_CheckSum = 0 ;
+			BYTE EDID_CheckSum=0 ;
 		#endif
+		
 		#if USEFLASH
 		#if User_DDCTO_FlashSave
-		CleanDDCBuff ();
-		#if 0//ENABLE_HDMI2
-		Flash_Read_Factory_KeySet(FLASH_KEY_DDCD, TRUE, 0, DDCHKEY_SIZE, &DDC1, DDCHKEY_SIZE);
+			CleanDDCBuff ();
+			#if 0//ENABLE_HDMI2
+			Flash_Read_Factory_KeySet(FLASH_KEY_DDCD, TRUE, 0, DDCHKEY_SIZE, &DDC1, DDCHKEY_SIZE);
+			#else
+			Flash_Read_Factory_KeySet(FLASH_KEY_DDCH, TRUE, 0, DDCHKEY_SIZE, &DDC1, DDCHKEY_SIZE);
+			#endif
+			EDID_CheckSum=DDC1[0x7F];
+			#message "HDMI DDC Data User Default EDID and Flash EDID"
 		#else
-		Flash_Read_Factory_KeySet(FLASH_KEY_DDCH, TRUE, 0, DDCHKEY_SIZE, &DDC1, DDCHKEY_SIZE);
-		#endif
-		EDID_CheckSum = DDC1[0x7F];
-#message "HDMI DDC Data User Default EDID and Flash EDID"
-		#else
-#message "HDMI DDC Data User Default EDID"
+			#message "HDMI DDC Data User Default EDID"
 		#endif
 		#else
-		//NVRam_ReadTbl(DDC_ADC_ADDR, DDC1, 128);
+			//NVRam_ReadTbl(DDC_ADC_ADDR, DDC1, 128);
 		#endif
-		#if User_DDCTO_FlashSave
-		if (CheckFlashEDIDData())
+
+#if User_DDCTO_FlashSave
+     if (CheckFlashEDIDData())
+     	{
+     		hw_ClrDDC_WP();
+			
+		Delay1ms(2);
+		
+		EnableReadDDCType=HDMI_EDID;
+		Init_NVRAM_I2C_SCL_Pin();
+		Init_NVRAM_I2C_SDA_Pin();
+
+		for(i=0; i<256; i++)
+		 {
+		    NVRam_WriteByte(NVRAM_ADDR_EDID+i, DDC1[i]);
+		 }	
+		Delay1ms(100);
+
+		hw_SetDDC_WP();
+		
+		Delay1ms(2);
+
+		for (i=0; i<256; i++)
 		{
-			hw_ClrDDC_WP();
-			Delay1ms(2);
-			EnableReadDDCType = HDMI_EDID;
-			Init_NVRAM_I2C_SCL_Pin();
-			Init_NVRAM_I2C_SDA_Pin();
-			for(i = 0; i < 256; i++)
-			{
-				NVRam_WriteByte(NVRAM_ADDR_EDID + i, DDC1[i]);
-			}
-			Delay1ms(100);
-			hw_SetDDC_WP();
-			Delay1ms(2);
-			for (i = 0; i < 256; i++)
-			{
-				DDC1[i] = 0xFF;
-			}
-			for(i = 0; i < 256; i++)
-			{
-				NVRam_ReadByte(NVRAM_ADDR_EDID + i, &dd);
-				DDC1[i] = dd;
-				ReadCheckSum += DDC1[i];
-			}
-			if((DDC1[0] == 0x00) && (DDC1[1] == 0xFF) && (DDC1[2] == 0xFF) && (DDC1[3] == 0xFF) && (DDC1[4] == 0xFF)
-			        && (DDC1[5] == 0xFF) && (DDC1[6] == 0xFF) && (DDC1[7] == 0x00) && (DDC1[0x7F] == EDID_CheckSum))
-			{
-				if ((ReadCheckSum) == 0 && ((DDC1[0x14] & 0x80) == 0x80))
-				{
-					ChecKHDMIDoubleFlag = 1;
-				}
-			}
-			if (ChecKHDMIDoubleFlag)
-			{
-				Clr_Load_HDMIEDID_Flag();
-				#if USEFLASH
-				UserPref_EnableFlashSaveBit( bFlashSaveMonitorBit );
-				#else
-				NVRam_WriteWord(nvrMonitorAddr(MonitorFlag), MonitorFlags);
-				#endif
-			}
-			EnableReadDDCType = I2C_EEPROM;
-			Init_NVRAM_I2C_SCL_Pin();
-			Init_NVRAM_I2C_SDA_Pin();
+			DDC1[i]=0xFF;
 		}
-		else
-		#endif
+
+		for(i=0; i<256; i++)
+		 {
+		   	NVRam_ReadByte(NVRAM_ADDR_EDID+i, &dd);
+			DDC1[i]=dd;	  
+			ReadCheckSum+=DDC1[i];
+		 }	
+
+		if((DDC1[0]==0x00)&&(DDC1[1]==0xFF)&&(DDC1[2]==0xFF)&&(DDC1[3]==0xFF)&&(DDC1[4]==0xFF)
+		&&(DDC1[5]==0xFF)&&(DDC1[6]==0xFF)&&(DDC1[7]==0x00)&&(DDC1[0x7F]==EDID_CheckSum))
 		{
-			hw_ClrDDC_WP();
-			Delay1ms(2);
-			EnableReadDDCType = HDMI_EDID;
-			Init_NVRAM_I2C_SCL_Pin();
-			Init_NVRAM_I2C_SDA_Pin();
-			for(i = 0; i < 256; i++)
+			if ((ReadCheckSum)==0&&((DDC1[0x14]&0x80)==0x80))
 			{
-				NVRam_WriteByte(NVRAM_ADDR_EDID + i, EDID_hdmi[i]);
+				ChecKHDMIDoubleFlag=1;
 			}
-			Delay1ms(100);
-			hw_SetDDC_WP();
-			Delay1ms(2);
-			for(i = 0; i < 256; i++)
-			{
-				NVRam_ReadByte(NVRAM_ADDR_EDID + i, &dd);
-				DDC1[i] = dd;
-				ReadCheckSum += DDC1[i];
-			}
-			if((DDC1[0] == 0x00) && (DDC1[1] == 0xFF) && (DDC1[2] == 0xFF) && (DDC1[3] == 0xFF) && (DDC1[4] == 0xFF)
-			        && (DDC1[5] == 0xFF) && (DDC1[6] == 0xFF) && (DDC1[7] == 0x00) && (DDC1[0x7F] == EDID_hdmi[0x7F]))
-			{
-				if ((ReadCheckSum) == 0 && ((DDC1[0x14] & 0x80) == 0x80))
-				{
-					ChecKHDMIDoubleFlag = 1;
-				}
-			}
-			if (ChecKHDMIDoubleFlag)
-			{
-				Clr_Load_HDMIEDID_Flag();
-				#if USEFLASH
-				UserPref_EnableFlashSaveBit( bFlashSaveMonitorBit );
-				#else
-				NVRam_WriteWord(nvrMonitorAddr(MonitorFlag), MonitorFlags);
-				#endif
-			}
-			EnableReadDDCType = I2C_EEPROM;
-			Init_NVRAM_I2C_SCL_Pin();
-			Init_NVRAM_I2C_SDA_Pin();
 		}
-	}
+
+		if (ChecKHDMIDoubleFlag)
+		{
+			Clr_Load_HDMIEDID_Flag();
+		#if USEFLASH
+			UserPref_EnableFlashSaveBit( bFlashSaveMonitorBit );
+		#else	
+			NVRam_WriteWord(nvrMonitorAddr(MonitorFlag), MonitorFlags);
+		#endif
+		}
+
+		
+		EnableReadDDCType=I2C_EEPROM;
+
+			Init_NVRAM_I2C_SCL_Pin();
+			Init_NVRAM_I2C_SDA_Pin();
+		
+     	}
+	else
 	#endif
-	#if CHIP_ID==CHIP_TSUMF
-	DDC_Port_Sel();
-	#endif
+	{
+     		hw_ClrDDC_WP();
+			
+		Delay1ms(2);
+		
+		EnableReadDDCType=HDMI_EDID;
+		Init_NVRAM_I2C_SCL_Pin();
+		Init_NVRAM_I2C_SDA_Pin();
+
+		for(i=0; i<256; i++)
+		 {
+		    NVRam_WriteByte(NVRAM_ADDR_EDID+i, EDID_hdmi[i]);
+		 }	
+		Delay1ms(100);
+
+		hw_SetDDC_WP();
+		
+		Delay1ms(2);
+
+		for(i=0; i<256; i++)
+		 {
+		   	NVRam_ReadByte(NVRAM_ADDR_EDID+i, &dd);
+			DDC1[i]=dd;	  
+			ReadCheckSum+=DDC1[i];
+		 }	
+
+		if((DDC1[0]==0x00)&&(DDC1[1]==0xFF)&&(DDC1[2]==0xFF)&&(DDC1[3]==0xFF)&&(DDC1[4]==0xFF)
+		&&(DDC1[5]==0xFF)&&(DDC1[6]==0xFF)&&(DDC1[7]==0x00)&&(DDC1[0x7F]==EDID_hdmi[0x7F]))
+		{
+			if ((ReadCheckSum)==0&&((DDC1[0x14]&0x80)==0x80))
+			{
+				ChecKHDMIDoubleFlag=1;
+			}
+		}
+
+		if (ChecKHDMIDoubleFlag)
+		{
+			Clr_Load_HDMIEDID_Flag();
+		#if USEFLASH
+			UserPref_EnableFlashSaveBit( bFlashSaveMonitorBit );
+		#else	
+			NVRam_WriteWord(nvrMonitorAddr(MonitorFlag), MonitorFlags);
+		#endif
+		}
+		EnableReadDDCType=I2C_EEPROM;	
+		Init_NVRAM_I2C_SCL_Pin();
+		Init_NVRAM_I2C_SDA_Pin();
+     	}
+}
+#endif		
+#if CHIP_ID==CHIP_TSUMF
+DDC_Port_Sel();
+#endif
+
 }
 #endif
 
 #if ENABLE_HDMI2
 void mStar_HDMI2_InitDDC(void)
 {
-	#if HDMI2_Write_EEPROM
+#if HDMI2_Write_EEPROM
+
 	if (Load_HDMI2EDID_Flag)
 	{
 		WORD i;
-		BYTE  ReadCheckSum = 0;
-		BYTE  dd = 0;
-		bit ChecKHDMIDoubleFlag = 0;
+		BYTE  ReadCheckSum=0;
+		BYTE  dd=0;
+		bit ChecKHDMIDoubleFlag=0;
 		#if User_DDCTO_FlashSave
-		BYTE EDID_CheckSum = 0 ;
+			BYTE EDID_CheckSum=0 ;
 		#endif
+		
 		#if USEFLASH
 		#if User_DDCTO_FlashSave
-		CleanDDCBuff ();
-		Flash_Read_Factory_KeySet(FLASH_KEY_DDCH, TRUE, 0, DDCHKEY_SIZE, &DDC1, DDCHKEY_SIZE);
-		EDID_CheckSum = DDC1[0x7F];
+			CleanDDCBuff ();
+			Flash_Read_Factory_KeySet(FLASH_KEY_DDCH, TRUE, 0, DDCHKEY_SIZE, &DDC1, DDCHKEY_SIZE);
+			EDID_CheckSum=DDC1[0x7F];
 		#else
-#message "HDMI2 DDC Data User Default EDID"
+			#message "HDMI2 DDC Data User Default EDID"
 		#endif
 		#else
-		//NVRam_ReadTbl(DDC_ADC_ADDR, DDC1, 128);
+			//NVRam_ReadTbl(DDC_ADC_ADDR, DDC1, 128);
 		#endif
-		#if User_DDCTO_FlashSave
-		if (CheckFlashEDIDData())
+
+#if User_DDCTO_FlashSave
+     if (CheckFlashEDIDData())
+     	{
+     		hw_ClrDDC_WP();
+			
+		Delay1ms(2);
+		
+		EnableReadDDCType=HDMI2_EDID;
+
+		for(i=0; i<256; i++)
+		 {
+		    NVRam_WriteByte(NVRAM_ADDR_EDID+i, DDC1[i]);
+		 }	
+
+		hw_SetDDC_WP();
+		
+		Delay1ms(2);
+
+		for (i=0; i<256; i++)
 		{
-			hw_ClrDDC_WP();
-			Delay1ms(2);
-			EnableReadDDCType = HDMI2_EDID;
-			for(i = 0; i < 256; i++)
+			DDC1[i]=0xFF;
+		}
+
+		for(i=0; i<256; i++)
+		 {
+		   	NVRam_ReadByte(NVRAM_ADDR_EDID+i, &dd);
+			DDC1[i]=dd;	  
+			ReadCheckSum+=DDC1[i];
+		 }	
+
+		if((DDC1[0]==0x00)&&(DDC1[1]==0xFF)&&(DDC1[2]==0xFF)&&(DDC1[3]==0xFF)&&(DDC1[4]==0xFF)
+		&&(DDC1[5]==0xFF)&&(DDC1[6]==0xFF)&&(DDC1[7]==0x00)&&(DDC1[0x7F]==EDID_CheckSum))
+		{
+			if ((ReadCheckSum)==0&&((DDC1[0x14]&0x80)==0x80))
 			{
-				NVRam_WriteByte(NVRAM_ADDR_EDID + i, DDC1[i]);
+				ChecKHDMIDoubleFlag=1;
 			}
-			hw_SetDDC_WP();
-			Delay1ms(2);
-			for (i = 0; i < 256; i++)
-			{
-				DDC1[i] = 0xFF;
-			}
-			for(i = 0; i < 256; i++)
-			{
-				NVRam_ReadByte(NVRAM_ADDR_EDID + i, &dd);
-				DDC1[i] = dd;
-				ReadCheckSum += DDC1[i];
-			}
-			if((DDC1[0] == 0x00) && (DDC1[1] == 0xFF) && (DDC1[2] == 0xFF) && (DDC1[3] == 0xFF) && (DDC1[4] == 0xFF)
-			        && (DDC1[5] == 0xFF) && (DDC1[6] == 0xFF) && (DDC1[7] == 0x00) && (DDC1[0x7F] == EDID_CheckSum))
-			{
-				if ((ReadCheckSum) == 0 && ((DDC1[0x14] & 0x80) == 0x80))
-				{
-					ChecKHDMIDoubleFlag = 1;
-				}
-			}
-			if (ChecKHDMIDoubleFlag)
-			{
-				Clr_Load_HDMI2EDID_Flag();
-				#if USEFLASH
-				UserPref_EnableFlashSaveBit( bFlashSaveMonitorBit );
-				#else
-				NVRam_WriteWord(nvrMonitorAddr(MonitorFlag), MonitorFlags);
-				#endif
-			}
-			EnableReadDDCType = I2C_EEPROM;
+		}
+
+		if (ChecKHDMIDoubleFlag)
+		{
+			Clr_Load_HDMI2EDID_Flag();
+		#if USEFLASH
+			UserPref_EnableFlashSaveBit( bFlashSaveMonitorBit );
+		#else	
+			NVRam_WriteWord(nvrMonitorAddr(MonitorFlag), MonitorFlags);
+		#endif
+		}
+
+		
+		EnableReadDDCType=I2C_EEPROM;
+
 			Init_NVRAM_I2C_SCL_Pin();
 			Init_NVRAM_I2C_SDA_Pin();
-		}
-		else
-		#endif
-		{
-			hw_ClrDDC_WP();
-			Delay1ms(2);
-			EnableReadDDCType = HDMI2_EDID;
-			for(i = 0; i < 256; i++)
-			{
-				NVRam_WriteByte(NVRAM_ADDR_EDID + i, EDID_hdmi2[i]);
-			}
-			hw_SetDDC_WP();
-			Delay1ms(2);
-			for(i = 0; i < 256; i++)
-			{
-				NVRam_ReadByte(NVRAM_ADDR_EDID + i, &dd);
-				DDC1[i] = dd;
-				ReadCheckSum += DDC1[i];
-			}
-			if((DDC1[0] == 0x00) && (DDC1[1] == 0xFF) && (DDC1[2] == 0xFF) && (DDC1[3] == 0xFF) && (DDC1[4] == 0xFF)
-			        && (DDC1[5] == 0xFF) && (DDC1[6] == 0xFF) && (DDC1[7] == 0x00) && (DDC1[0x7F] == EDID_hdmi[0x7F]))
-			{
-				if ((ReadCheckSum) == 0 && ((DDC1[0x14] & 0x80) == 0x80))
-				{
-					ChecKHDMIDoubleFlag = 1;
-				}
-			}
-			if (ChecKHDMIDoubleFlag)
-			{
-				Clr_Load_HDMI2EDID_Flag();
-				#if USEFLASH
-				UserPref_EnableFlashSaveBit( bFlashSaveMonitorBit );
-				#else
-				NVRam_WriteWord(nvrMonitorAddr(MonitorFlag), MonitorFlags);
-				#endif
-			}
-			EnableReadDDCType = I2C_EEPROM;
-			Init_NVRAM_I2C_SCL_Pin();
-			Init_NVRAM_I2C_SDA_Pin();
-		}
-	}
+		
+     	}
+	else
 	#endif
+	{
+     		hw_ClrDDC_WP();
+			
+		Delay1ms(2);
+		
+		EnableReadDDCType=HDMI2_EDID;
+
+		for(i=0; i<256; i++)
+		 {
+		    NVRam_WriteByte(NVRAM_ADDR_EDID+i, EDID_hdmi2[i]);
+		 }	
+
+		hw_SetDDC_WP();
+		
+		Delay1ms(2);
+
+		for(i=0; i<256; i++)
+		 {
+		   	NVRam_ReadByte(NVRAM_ADDR_EDID+i, &dd);
+			DDC1[i]=dd;	  
+			ReadCheckSum+=DDC1[i];
+		 }	
+
+		if((DDC1[0]==0x00)&&(DDC1[1]==0xFF)&&(DDC1[2]==0xFF)&&(DDC1[3]==0xFF)&&(DDC1[4]==0xFF)
+		&&(DDC1[5]==0xFF)&&(DDC1[6]==0xFF)&&(DDC1[7]==0x00)&&(DDC1[0x7F]==EDID_hdmi[0x7F]))
+		{
+			if ((ReadCheckSum)==0&&((DDC1[0x14]&0x80)==0x80))
+			{
+				ChecKHDMIDoubleFlag=1;
+			}
+		}
+
+		if (ChecKHDMIDoubleFlag)
+		{
+			Clr_Load_HDMI2EDID_Flag();
+		#if USEFLASH
+			UserPref_EnableFlashSaveBit( bFlashSaveMonitorBit );
+		#else	
+			NVRam_WriteWord(nvrMonitorAddr(MonitorFlag), MonitorFlags);
+		#endif
+		}
+		EnableReadDDCType=I2C_EEPROM;	
+
+			Init_NVRAM_I2C_SCL_Pin();
+			Init_NVRAM_I2C_SDA_Pin();
+     	}
+}
+#endif		
 }
 #endif
 
 #endif
 
+
+
 void mStar_InitDDC(void)
 {
-	#if ENABLE_VGA
-	mStar_VGA_InitDDC();
-	#endif
-	#if ENABLE_DVI
+#if ENABLE_VGA
+	mStar_VGA_InitDDC();			//my EDID
+#endif
+
+#if ENABLE_DVI
 	mStar_DVI_InitDDC();
-	#endif
-	#if ENABLE_HDMI
+#endif
+
+#if ENABLE_HDMI
 	mStar_HDMI_InitDDC();
-	#endif
-	#if ENABLE_HDMI2
+#endif
+
+#if ENABLE_HDMI2
 	mStar_HDMI2_InitDDC();
-	#endif
+#endif
 }
 
 /*********************************************************************************************************/
@@ -988,125 +1162,142 @@ void mStar_InitDDC(void)
 extern code BYTE EDID[];
 void ReLoadEDIDtoAddSN(void)
 {
-	BYTE Week = 0x00, Year = 0x1C;
-	BYTE SNdata[18];
-	WORD i;
-	BYTE  ReadCheckSum = 0;
-	BYTE  dd = 0;
+BYTE Week=0x00,Year=0x1C;
+BYTE SNdata[18];
+WORD i;
+BYTE  ReadCheckSum=0;
+BYTE  dd=0;
+
 //2    1  ��ȡEDID    ֻ����һ·
-	#if ENABLE_VGA
-	Flash_Read_Factory_KeySet(FLASH_KEY_DDCA, TRUE, 0, DDCAKEY_SIZE,
-	                          DDC1, DDCAKEY_SIZE);
-	#elif ENABLE_DVI
-	Flash_Read_Factory_KeySet(FLASH_KEY_DDCD, TRUE, 0,   DDCDKEY_SIZE, DDC1,
-	                          DDCDKEY_SIZE);
-	#elif ENABLE_HDMI
-	Flash_Read_Factory_KeySet(FLASH_KEY_DDCH, TRUE, 0,   DDCHKEY_SIZE,
-	                          DDC1, DDCHKEY_SIZE);
-	#endif
+  #if ENABLE_VGA
+             Flash_Read_Factory_KeySet(FLASH_KEY_DDCA, TRUE, 0, DDCAKEY_SIZE, 
+DDC1, DDCAKEY_SIZE);
+  #elif ENABLE_DVI
+   		Flash_Read_Factory_KeySet(FLASH_KEY_DDCD, TRUE, 0,   DDCDKEY_SIZE, DDC1, 
+DDCDKEY_SIZE);	
+  #elif ENABLE_HDMI
+   	     	Flash_Read_Factory_KeySet(FLASH_KEY_DDCH, TRUE, 0,   DDCHKEY_SIZE, 
+DDC1, DDCHKEY_SIZE);	
+  #endif
+
 //2  2 ��ȡ SN   (������6C -7D ��)
+
+
 //for(i = 0;i<18;i++) SNdata[i] = DDC1[0X5A+i];
-	Week = DDC1[0x10];
-	Year = DDC1[0x11];
-	for(i = 0; i < 14; i++) SNdata[i] = DDC1[0x70 + i];
+Week = DDC1[0x10];
+Year = DDC1[0x11];  
+for(i = 0;i<14;i++) SNdata[i] = DDC1[0x70+i];
+
 //2  3 ƴ��SN
-	#if ENABLE_VGA
-	#if VGA_Write_EEPROM
-	Set_Load_VGAEDID_Flag();
-	#endif
-	#endif
-	#if ENABLE_DVI
-	#if !ENABLE_VGA
-	Set_Load_DVIEDID_Flag();
-	#else
-	#if DVI_Write_EEPROM
-	ReadCheckSum = 0;
-	hw_ClrDDC_WP();
+
+#if ENABLE_VGA
+#if VGA_Write_EEPROM
+Set_Load_VGAEDID_Flag();
+#endif
+#endif
+
+#if ENABLE_DVI
+#if !ENABLE_VGA
+Set_Load_DVIEDID_Flag();
+#else
+#if DVI_Write_EEPROM
+      ReadCheckSum = 0;
+ 	hw_ClrDDC_WP();		
 	Delay1ms(2);
-	EnableReadDDCType = DVI_EDID;
+	EnableReadDDCType=DVI_EDID;
 	NVRam_WriteByte(0x10, Week);
 	NVRam_WriteByte(0x11, Year);
-	for(i = 0; i < 14; i++)
-	{
-		NVRam_WriteByte(0x70 + i, SNdata[i]);
-	}
-	for(i = 0; i < 127; i++)
-	{
-		NVRam_ReadByte(i, &dd);
-		ReadCheckSum += dd;
-	}
-	NVRam_WriteByte(0x7F, 0x100 - ReadCheckSum);
+	for(i=0; i<14; i++)
+	 {
+	    NVRam_WriteByte(0x70+i, SNdata[i]);
+	 }	
+	for(i=0; i<127; i++)
+	 {
+	   	NVRam_ReadByte(i, &dd);
+		ReadCheckSum+=dd;
+	 }	
+	NVRam_WriteByte(0x7F, 0x100-ReadCheckSum);
 	hw_SetDDC_WP();
-	#else
-	for(i = 0; i < 128; i++) DDC1[i] = DVI_EDID[i];
+#else
+	for(i=0; i<128; i++) DDC1[i] = DVI_EDID[i];
 	DDC1[0x10] = Week;
 	DDC1[0x11] = Year ;
-	for(i = 0; i < 14; i++)  DDC1[0x70 + i] = SNdata[i] ;
-	for(i = 0; i < 127; i++) ReadCheckSum += DDC1[i];
-	DDC1[0x7F] = 0x100 - ReadCheckSum;
-	Flash_Write_Factory_KeySet(FLASH_KEY_DDCD, FALSE,  DDCHKEY_SIZE, DDC1,
-	                           DDCDKEY_SIZE);
-	#endif
-	#endif
-	#endif
+	for(i = 0;i<14;i++)  DDC1[0x70+i] = SNdata[i] ;
+	for(i=0; i<127; i++) ReadCheckSum+=DDC1[i];
+	DDC1[0x7F] = 0x100-ReadCheckSum;
+	Flash_Write_Factory_KeySet(FLASH_KEY_DDCD, FALSE,  DDCHKEY_SIZE, DDC1, 
+DDCDKEY_SIZE);
+#endif
+#endif
+#endif
+
+
 //3   HDMI һ������24C02
 //3(3)  ֱ�Ӳ���24C02
-	#if ENABLE_HDMI
-	#if !ENABLE_VGA&&!ENABLE_DVI
-	Set_Load_HDMIEDID_Flag();
-	#else
-	ReadCheckSum = 0;
-	hw_ClrDDC_WP();
+#if ENABLE_HDMI
+#if !ENABLE_VGA&&!ENABLE_DVI
+     Set_Load_HDMIEDID_Flag();
+#else
+       ReadCheckSum = 0;
+ 	hw_ClrDDC_WP();		
 	Delay1ms(2);
-	EnableReadDDCType = HDMI_EDID;
+	EnableReadDDCType=HDMI_EDID;
 	NVRam_WriteByte(0x10, Week);
 	NVRam_WriteByte(0x11, Year);
-	for(i = 0; i < 14; i++)
-	{
-		NVRam_WriteByte(0x70 + i, SNdata[i]);
-	}
-	for(i = 0; i < 127; i++)
-	{
-		NVRam_ReadByte(i, &dd);
-		ReadCheckSum += dd;
-	}
-	NVRam_WriteByte(0x7F, 0x100 - ReadCheckSum);
+	for(i=0; i<14; i++)
+	 {
+	    NVRam_WriteByte(0x70+i, SNdata[i]);
+	 }	
+	for(i=0; i<127; i++)
+	 {
+	   	NVRam_ReadByte(i, &dd);
+		ReadCheckSum+=dd;
+	 }	
+	NVRam_WriteByte(0x7F, 0x100-ReadCheckSum);
 	hw_SetDDC_WP();
-	EnableReadDDCType = I2C_EEPROM;
-	#endif
-	#endif
-	#if ENABLE_HDMI2
+	
+	EnableReadDDCType=I2C_EEPROM;	
+#endif	
+#endif
+
+#if ENABLE_HDMI2
 	ReadCheckSum = 0;
-	hw_ClrDDC_WP();
+ 	hw_ClrDDC_WP();		
 	Delay1ms(2);
-	EnableReadDDCType = HDMI2_EDID;
+	EnableReadDDCType=HDMI2_EDID;
 	NVRam_WriteByte(0x10, Week);
 	NVRam_WriteByte(0x11, Year);
-	for(i = 0; i < 14; i++)
-	{
-		NVRam_WriteByte(0x70 + i, SNdata[i]);
-	}
-	for(i = 0; i < 127; i++)
-	{
-		NVRam_ReadByte(i, &dd);
-		ReadCheckSum += dd;
-	}
-	NVRam_WriteByte(0x7F, 0x100 - ReadCheckSum);
+	for(i=0; i<14; i++)
+	 {
+	    NVRam_WriteByte(0x70+i, SNdata[i]);
+	 }	
+	for(i=0; i<127; i++)
+	 {
+	   	NVRam_ReadByte(i, &dd);
+		ReadCheckSum+=dd;
+	 }	
+	NVRam_WriteByte(0x7F, 0x100-ReadCheckSum);
 	hw_SetDDC_WP();
-	EnableReadDDCType = I2C_EEPROM;
-	#endif
+
+	EnableReadDDCType=I2C_EEPROM;		
+	
+#endif
+
+
 //3 (4)  DP Ҫ�ش�Flash
-	#if ENABLE_DP_INPUT 	&&   DP_WRITE_SN
-	ReadCheckSum = 0;
-	for(i = 0; i < 256; i++) DDC1[i] = EDID[i];
+#if ENABLE_DP_INPUT 	&&   DP_WRITE_SN
+       ReadCheckSum = 0;
+	for(i=0; i<256; i++) DDC1[i] = EDID[i];
 	DDC1[0x10] = Week;
 	DDC1[0x11] = Year ;
-	for(i = 0; i < 14; i++)  DDC1[0x70 + i] = SNdata[i] ;
-	for(i = 0; i < 127; i++) ReadCheckSum += DDC1[i];
-	DDC1[0x7F] = 0x100 - ReadCheckSum;
-	Flash_Write_Factory_KeySet(FLASH_KEY_HDCP, FALSE,  DDCHKEY_SIZE, DDC1,
-	                           DDCHKEY_SIZE);
-	#endif
+	for(i = 0;i<14;i++)  DDC1[0x70+i] = SNdata[i] ;
+	for(i=0; i<127; i++) ReadCheckSum+=DDC1[i];
+	DDC1[0x7F] = 0x100-ReadCheckSum;
+	Flash_Write_Factory_KeySet(FLASH_KEY_HDCP, FALSE,  DDCHKEY_SIZE, DDC1, 
+DDCHKEY_SIZE);
+#endif
+
+
 }
 #endif
 /*********************************************************************************************************/
@@ -1120,41 +1311,46 @@ void ReLoadEDIDtoAddSN(void)
 Bool CheckEDIDSupportFreeSync(BYTE Input)
 {
 	BYTE temp;
-	if(Input == HDMI_EDID)
+	if(Input==HDMI_EDID)
 	{
-		for(temp = 0; temp < 125; temp++)
-		{
-			if((EDID_hdmi[128 + temp] == 0x68) && (EDID_hdmi[128 + temp + 1] == 0x1A) && (EDID_hdmi[128 + temp + 2] == 0x00) && (EDID_hdmi[128 + temp + 3] == 0x00) && (EDID_hdmi[128 + temp + 4] == 0x01) && (EDID_hdmi[128 + temp + 5] == 0x01))
+       	for(temp=0;temp<125;temp++)
+       	{
+			if((EDID_hdmi[128+temp]==0x68)&&(EDID_hdmi[128+temp+1]==0x1A)&&(EDID_hdmi[128+temp+2]==0x00)&&(EDID_hdmi[128+temp+3]==0x00)&&(EDID_hdmi[128+temp+4]==0x01)&&(EDID_hdmi[128+temp+5]==0x01))
 			{
-				HDMI1FreeSyncED = temp + 8 + 128;
+				HDMI1FreeSyncED=temp+8+128;
 				return 1;
 			}
 		}
-		if(temp >= 124)
+		if(temp>=124)
 		{
-			HDMI1FreeSyncED = 0;
+			HDMI1FreeSyncED=0;
 			return 0;
 		}
 	}
-	#if ENABLE_HDMI2
-	if(Input == HDMI2_EDID)
+
+#if ENABLE_HDMI2
+	if(Input==HDMI2_EDID)
 	{
-		for(temp = 0; temp < 125; temp++)
-		{
-			if((EDID_hdmi2[128 + temp] == 0x68) && (EDID_hdmi2[128 + temp + 1] == 0x1A) && (EDID_hdmi2[128 + temp + 2] == 0x00) && (EDID_hdmi2[128 + temp + 3] == 0x00) && (EDID_hdmi2[128 + temp + 4] == 0x01) && (EDID_hdmi2[128 + temp + 5] == 0x01))
+
+       	for(temp=0;temp<125;temp++)
+       	{
+			if((EDID_hdmi2[128+temp]==0x68)&&(EDID_hdmi2[128+temp+1]==0x1A)&&(EDID_hdmi2[128+temp+2]==0x00)&&(EDID_hdmi2[128+temp+3]==0x00)&&(EDID_hdmi2[128+temp+4]==0x01)&&(EDID_hdmi2[128+temp+5]==0x01))
 			{
-				HDMI2FreeSyncED = temp + 8 + 128;
+				HDMI2FreeSyncED=temp+8+128;
 				return 1;
 			}
 		}
-		if(temp >= 124)
+		if(temp>=124)
 		{
-			HDMI2FreeSyncED = 0;
+			HDMI2FreeSyncED=0;
 			return 0;
-		}
+		}       	
+
 	}
 	#endif
 	return 0;
+
+
 }
 //*************************************************
 //ͨ��Ĭ��EDIDֱ�ӷ���һ������ض�Ӧ��CheckSum
@@ -1162,15 +1358,15 @@ Bool CheckEDIDSupportFreeSync(BYTE Input)
 //*************************************************
 BYTE GetEDIDCheckSum(BYTE Input, BYTE OnOff)
 {
-	if(Input == HDMI_EDID)
+	if(Input==HDMI_EDID)
 	{
 		if(CheckEDIDSupportFreeSync(Input))
 		{
-			if(EDID_hdmi[HDMI1FreeSyncED] == 0xED)
+			if(EDID_hdmi[HDMI1FreeSyncED]==0xED)
 			{
 				if(OnOff)
 				{
-					return (EDID_hdmi[0xFF] + 0xED);
+					return (EDID_hdmi[0xFF]+0xED);
 				}
 				else
 				{
@@ -1185,7 +1381,7 @@ BYTE GetEDIDCheckSum(BYTE Input, BYTE OnOff)
 				}
 				else
 				{
-					return (EDID_hdmi[0xFF] - 0xED);
+					return (EDID_hdmi[0xFF]-0xED);
 				}
 			}
 		}
@@ -1195,15 +1391,15 @@ BYTE GetEDIDCheckSum(BYTE Input, BYTE OnOff)
 		}
 	}
 	#if ENABLE_HDMI2
-	if(Input == HDMI2_EDID)
+	if(Input==HDMI2_EDID)
 	{
 		if(CheckEDIDSupportFreeSync(Input))
 		{
-			if(EDID_hdmi2[HDMI2FreeSyncED] == 0xED)
+			if(EDID_hdmi2[HDMI2FreeSyncED]==0xED)
 			{
 				if(OnOff)
 				{
-					return (EDID_hdmi2[0xFF] + 0xED);
+					return (EDID_hdmi2[0xFF]+0xED);
 				}
 				else
 				{
@@ -1218,7 +1414,7 @@ BYTE GetEDIDCheckSum(BYTE Input, BYTE OnOff)
 				}
 				else
 				{
-					return (EDID_hdmi2[0xFF] - 0xED);
+					return (EDID_hdmi2[0xFF]-0xED);
 				}
 			}
 		}
@@ -1228,7 +1424,7 @@ BYTE GetEDIDCheckSum(BYTE Input, BYTE OnOff)
 		}
 	}
 	#endif
-	return 0;
+return 0;
 }
 //*************************************************
 //Write Success Return 1
@@ -1237,129 +1433,145 @@ BYTE GetEDIDCheckSum(BYTE Input, BYTE OnOff)
 Bool  FreeSyncEDIDSwitch(BYTE Input, BYTE OnOff)
 {
 	//BYTE CheckCount;
-	BYTE xdata EDIDCheckSum = GetEDIDCheckSum(Input, OnOff);
+	BYTE xdata EDIDCheckSum=GetEDIDCheckSum(Input,OnOff);
+
+
 	#if ENABLE_DEBUG
 	printData("EDIDCheckSum   %d", EDIDCheckSum);
 	#endif
+	
 	if(EDIDCheckSum)
 	{
-		if(Input == HDMI_EDID)
+		if(Input==HDMI_EDID)
 		{
 			#if ENABLE_DEBUG
 			printData("HDMI1FreeSyncED   %d", HDMI1FreeSyncED);
 			#endif
+			
 			EnableReadDDCType = HDMI_EDID;
 			hw_ClrDDC_WP();
 			Delay1ms(2);
 			if(OnOff)
 			{
-				//i2c_WriteTBL(0xA0, HDMI1FreeSyncED, ,1);
+
+				//i2c_WriteTBL(0xA0, HDMI1FreeSyncED, ,1);	
 				//i2c_WriteTBL(0xA0, HDMI1FreeSyncED, &ED_0x00, 1);
-				NVRam_WriteByte(HDMI1FreeSyncED, 0x00);
+		    		NVRam_WriteByte(HDMI1FreeSyncED,0x00);
 				//i2c_WriteTBL(0xA0, 0xFF, &EDIDCheckSum, 1);
-				NVRam_WriteByte(0xFF, EDIDCheckSum);
+		    		NVRam_WriteByte(0xFF,EDIDCheckSum);
 			}
 			else
 			{
-				#if ENABLE_DEBUG
-				printMsg("close freesync");
-				#endif
+			#if ENABLE_DEBUG
+			printMsg("close freesync");
+			#endif
 				//i2c_WriteTBL(0xA0, HDMI1FreeSyncED, &ED_0xED, 1);
-				NVRam_WriteByte(HDMI1FreeSyncED, 0xED);
-				//i2c_WriteTBL(0xA0, 0xFF, &EDIDCheckSum, 1);
-				NVRam_WriteByte(0xFF, EDIDCheckSum);
+		    		NVRam_WriteByte(HDMI1FreeSyncED,0xED);
+		    		//i2c_WriteTBL(0xA0, 0xFF, &EDIDCheckSum, 1);
+		    		NVRam_WriteByte(0xFF,EDIDCheckSum);
 			}
 			ForceDelay1ms(30);
 			hw_SetDDC_WP();
 			EnableReadDDCType = 0xFF;
 		}
 		#if ENABLE_HDMI2
-		if(Input == HDMI2_EDID)
+		if(Input==HDMI2_EDID)
 		{
 			EnableReadDDCType = Input;
 			hw_ClrDDC_WP();
 			if(OnOff)
-			{
-				//i2c_WriteTBL;
+			{//i2c_WriteTBL;
 				//i2c_WriteTBL(0xA0, HDMI2FreeSyncED, &ED_0x00, 1);
-				NVRam_WriteByte(HDMI1FreeSyncED, 0x00);
+		    		NVRam_WriteByte(HDMI1FreeSyncED,0x00);
 				//i2c_WriteTBL(0xA0, 0xFF, &EDIDCheckSum, 1);
-				NVRam_WriteByte(0xFF, EDIDCheckSum);
+		    		NVRam_WriteByte(0xFF,EDIDCheckSum);
 			}
 			else
 			{
 				//i2c_WriteTBL(0xA0, HDMI2FreeSyncED, &ED_0xED, 1);
-				NVRam_WriteByte(HDMI1FreeSyncED, 0xED);
-				//i2c_WriteTBL(0xA0, 0xFF, &EDIDCheckSum, 1);
-				NVRam_WriteByte(0xFF, EDIDCheckSum);
+		    		NVRam_WriteByte(HDMI1FreeSyncED,0xED);
+		    		//i2c_WriteTBL(0xA0, 0xFF, &EDIDCheckSum, 1);
+		    		NVRam_WriteByte(0xFF,EDIDCheckSum);
 			}
 			ForceDelay1ms(30);
 			hw_SetDDC_WP();
 			EnableReadDDCType = 0xFF;
 		}
 		#endif
-		Init_NVRAM_I2C_SCL_Pin();
-		Init_NVRAM_I2C_SDA_Pin();
+			Init_NVRAM_I2C_SCL_Pin();
+			Init_NVRAM_I2C_SDA_Pin();
 	}
 	else
 	{
 		return 0;
 	}
+
 //Check Write OK?
-	if(Input == HDMI_EDID)
+	if(Input==HDMI_EDID)
 	{
-		BYTE xdata FreeSyncED = 0;
-		BYTE xdata EDIDCheckSumTemp = 0;
+		BYTE xdata FreeSyncED=0;
+		BYTE xdata EDIDCheckSumTemp=0;
+	
 		EnableReadDDCType = Input;
-		NVRam_ReadByte(HDMI1FreeSyncED, &FreeSyncED);
-		NVRam_ReadByte(0xFF, &EDIDCheckSumTemp);
-		ForceDelay1ms(30);
-		Init_NVRAM_I2C_SCL_Pin();
-		Init_NVRAM_I2C_SDA_Pin();
+    		NVRam_ReadByte(HDMI1FreeSyncED,&FreeSyncED);
+    		NVRam_ReadByte(0xFF,&EDIDCheckSumTemp);
+		ForceDelay1ms(30);	
+			Init_NVRAM_I2C_SCL_Pin();
+			Init_NVRAM_I2C_SDA_Pin();
 		EnableReadDDCType = 0xFF;
-		#if ENABLE_DEBUG
-		printData("EDIDCheckSumTemp   %d", EDIDCheckSumTemp);
-		printData("EDIDCheckSum   %d", EDIDCheckSum);
-		printData("FreeSyncED   %d", FreeSyncED);
-		printData("HDMI1FreeSyncED   %d", HDMI1FreeSyncED);
-		printMsg("====================================");
-		#endif
+
+					#if ENABLE_DEBUG
+			printData("EDIDCheckSumTemp   %d", EDIDCheckSumTemp);
+			printData("EDIDCheckSum   %d", EDIDCheckSum);
+			
+			printData("FreeSyncED   %d", FreeSyncED);
+			printData("HDMI1FreeSyncED   %d", HDMI1FreeSyncED);
+			printMsg("====================================");
+			#endif
+		
 		if(OnOff)
 		{
-			if((EDIDCheckSumTemp == EDIDCheckSum) && (FreeSyncED == 0x00))
+
+
+			if((EDIDCheckSumTemp==EDIDCheckSum)&&(FreeSyncED==0x00))
 				return 1;
 			else
 				return 0;
 		}
 		else
 		{
-			if((EDIDCheckSumTemp == EDIDCheckSum) && (FreeSyncED == 0xED))
+			if((EDIDCheckSumTemp==EDIDCheckSum)&&(FreeSyncED==0xED))
 				return 1;
 			else
 				return 0;
 		}
 	}
-	if(Input == HDMI2_EDID)
+	if(Input==HDMI2_EDID)
 	{
-		BYTE xdata FreeSyncED = 0;
-		BYTE xdata EDIDCheckSumTemp = 0;
-		EnableReadDDCType = Input;
-		NVRam_ReadByte(HDMI2FreeSyncED, &FreeSyncED);
-		NVRam_ReadByte(0xFF, &EDIDCheckSumTemp);
-		ForceDelay1ms(30);
-		Init_NVRAM_I2C_SCL_Pin();
-		Init_NVRAM_I2C_SDA_Pin();
+		BYTE xdata FreeSyncED=0;
+		BYTE xdata EDIDCheckSumTemp=0;
+	
+			EnableReadDDCType = Input;
+		
+    		NVRam_ReadByte(HDMI2FreeSyncED,&FreeSyncED);
+    		NVRam_ReadByte(0xFF,&EDIDCheckSumTemp);
+			
+		ForceDelay1ms(30);	
+			Init_NVRAM_I2C_SCL_Pin();
+			Init_NVRAM_I2C_SDA_Pin();
+			
 		EnableReadDDCType = 0xFF;
+		
 		if(OnOff)
 		{
-			if((EDIDCheckSumTemp == EDIDCheckSum) && (FreeSyncED == 0x00))
+			if((EDIDCheckSumTemp==EDIDCheckSum)&&(FreeSyncED==0x00))
 				return 1;
 			else
 				return 0;
 		}
 		else
 		{
-			if((EDIDCheckSumTemp == EDIDCheckSum) && (FreeSyncED == 0xED))
+			if((EDIDCheckSumTemp==EDIDCheckSum)&&(FreeSyncED==0xED))
 				return 1;
 			else
 				return 0;
@@ -1378,56 +1590,66 @@ Bool  FreeSyncEDIDSwitch(BYTE Input, BYTE OnOff)
 
 void ReLoadEDIDtoAddSN(void)
 {
-	BYTE Week = 0x00, Year = 0x1C;
-	BYTE SNdata[18] = {0};
-	WORD i;
-	BYTE  ReadCheckSum = 0;
-	BYTE  dd = 0;
+BYTE Week=0x00,Year=0x1C;
+BYTE SNdata[18] = {0};
+WORD i;
+BYTE  ReadCheckSum=0;
+BYTE  dd=0;
+
 //2    1  ��ȡEDID    ֻ����һ·
-	#if ENABLE_VGA
-	Flash_Read_Factory_KeySet(FLASH_KEY_DDCA, TRUE, 0, DDCAKEY_SIZE, DDC1, DDCAKEY_SIZE);
-	#elif ENABLE_DVI
-	Flash_Read_Factory_KeySet(FLASH_KEY_DDCD, TRUE, 0,   DDCDKEY_SIZE, DDC1, DDCDKEY_SIZE);
-	#elif ENABLE_HDMI
-	Flash_Read_Factory_KeySet(FLASH_KEY_DDCH, TRUE, 0,   DDCHKEY_SIZE, DDC1, DDCHKEY_SIZE);
-	#endif
+  #if ENABLE_VGA
+             Flash_Read_Factory_KeySet(FLASH_KEY_DDCA, TRUE, 0, DDCAKEY_SIZE, DDC1, DDCAKEY_SIZE);
+  #elif ENABLE_DVI
+   		Flash_Read_Factory_KeySet(FLASH_KEY_DDCD, TRUE, 0,   DDCDKEY_SIZE, DDC1, DDCDKEY_SIZE);	
+  #elif ENABLE_HDMI
+   	     	Flash_Read_Factory_KeySet(FLASH_KEY_DDCH, TRUE, 0,   DDCHKEY_SIZE, DDC1, DDCHKEY_SIZE);	
+  #endif
+
 //2  2 ��ȡ SN   (������6C -7D ��)
+
+
 //for(i = 0;i<18;i++) SNdata[i] = DDC1[0X5A+i];
-	Week = DDC1[0x10];
-	Year = DDC1[0x11];
-	for(i = 0; i < 13; i++) SNdata[i] = DDC1[SNStrat + i];
+Week = DDC1[0x10];
+Year = DDC1[0x11];  
+for(i = 0;i<13;i++) SNdata[i] = DDC1[SNStrat+i];
+
 //2  3 ƴ��SN
-	#if ENABLE_VGA
-	#if VGA_Write_EEPROM
+
+#if ENABLE_VGA
+#if VGA_Write_EEPROM
 //Set_LoadVGAEDIDFlag_A();
-	#endif
-	#endif
+#endif
+#endif
+
+
 //3   HDMI һ������24C02
 //3(3)  ֱ�Ӳ���24C02
-	#if ENABLE_HDMI
-	#if 0
-	Set_Load_HDMIEDID_Flag();
-	#else
-	ReadCheckSum = 0;
-	hw_ClrDDC_WP();
+#if ENABLE_HDMI
+#if 0
+     Set_Load_HDMIEDID_Flag();
+#else
+       ReadCheckSum = 0;
+ 	hw_ClrDDC_WP();		
 	Delay1ms(2);
-	EnableReadDDCType = HDMI_EDID;
+	EnableReadDDCType=HDMI_EDID;
 	NVRam_WriteByte(0x10, Week);
 	NVRam_WriteByte(0x11, Year);
-	for(i = 0; i < 13; i++)
-	{
-		NVRam_WriteByte(HDMISNStrat + i, SNdata[i]);
-	}
-	for(i = 0; i < 127; i++)
-	{
-		NVRam_ReadByte(i, &dd);
-		ReadCheckSum += dd;
-	}
-	NVRam_WriteByte(0x7F, 0x100 - ReadCheckSum);
+	for(i=0; i<13; i++)
+	 {
+	    NVRam_WriteByte(HDMISNStrat+i, SNdata[i]);
+	 }	
+	for(i=0; i<127; i++)
+	 {
+	   	NVRam_ReadByte(i, &dd);
+		ReadCheckSum+=dd;
+	 }	
+	NVRam_WriteByte(0x7F, 0x100-ReadCheckSum);
 	hw_SetDDC_WP();
-	EnableReadDDCType = I2C_EEPROM;
-	#endif
-	#endif
+	
+	EnableReadDDCType=I2C_EEPROM;
+#endif	
+#endif
+
 }
 #endif
 

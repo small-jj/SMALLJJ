@@ -9,24 +9,23 @@ typedef signed long Slong;
 
 typedef enum bool_enum
 {
-	FALSE, TRUE
+    FALSE, TRUE
 } Bool;
 
 typedef enum oenfunc_enum
 {
-	OUTPUT, INPUT
+    OUTPUT, INPUT
 } OENFUNC;
 
 typedef enum reset_enum
-{
-	RETAIN,
-	RESET
+{ RETAIN,
+   RESET
 } BReset;
 
 typedef struct
 {
-	WORD u16Reg;
-	BYTE u8Value;
+    WORD u16Reg;
+    BYTE u8Value;
 } RegUnitType;
 
 #define BOOL    Bool

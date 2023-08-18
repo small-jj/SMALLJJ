@@ -17,7 +17,7 @@
 //#define  REG_DPS_WindowSaveYavgLimit  16
 //#define  REG_DPS_WindowSaveYgain      1500
 //#define  REG_DPS_WindowSaveHisWeight_0_Up       30000
-//#define  REG_DPS_WindowSaveHisWeight_0_Down     35000
+//#define  REG_DPS_WindowSaveHisWeight_0_Down     35000  
 //#define  REG_DPS_WindowSaveHisWeight_31_Up      65
 //#define  REG_DPS_WindowSaveHisWeight_31_Down    80
 //#endif
@@ -106,7 +106,7 @@
 
 
 #define  REG_DSC_PseudoMaxRatio  	10 // 0~100 <--> 0%~100%
-#define  REG_DSC_SatGainStep  		8
+#define  REG_DSC_SatGainStep  		8 
 
 //===================================================================================================================================================================:
 extern void msDSC_Handler ( void );

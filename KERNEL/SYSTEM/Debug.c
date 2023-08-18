@@ -412,50 +412,7 @@ BYTE AOCAlign(void)
 				{
 					UserPrefLanguage = LANG_France;
 				}
-				else if (sioData == 0x04)
-				{
-					UserPrefLanguage = LANG_German;
-				}
-				else if (sioData == 0x05)
-				{
-					UserPrefLanguage = LANG_Italian;
-				}
-				else if (sioData == 0x0A)
-				{
-					UserPrefLanguage = LANG_Spanish;
-				}
-				else if (sioData == 0x0B)
-				{
-					UserPrefLanguage = LANG_Swedish;
-				}
-				else if (sioData == 0x0D)
-				{
-					UserPrefLanguage = LANG_SChina;
-				}
-				else if (sioData == 0x1E)
-				{
-					UserPrefLanguage = LANG_Polish;
-				}
-				else if (sioData == 0x0E)
-				{
-					UserPrefLanguage = LANG_Portugues;
-				}
-				else if (sioData == 0x09)
-				{
-					UserPrefLanguage = LANG_Russia;
-				}
-				else if (sioData == 0x07)
-				{
-					UserPrefLanguage = LANG_Korea;
-				}
-				else if (sioData == 0x01)
-				{
-					UserPrefLanguage = LANG_TChina;
-				}
-				else if (sioData == 0x12)
-				{
-					UserPrefLanguage = LANG_Czech;
-				}
+				
 				else
 					// default
 				{
@@ -654,50 +611,7 @@ BYTE AOCAlign(void)
 					{
 						UserPrefLanguage = LANG_France;
 					}
-					else if (sioData == 0x04)
-					{
-						UserPrefLanguage = LANG_German;
-					}
-					else if (sioData == 0x05)
-					{
-						UserPrefLanguage = LANG_Italian;
-					}
-					else if (sioData == 0x0A)
-					{
-						UserPrefLanguage = LANG_Spanish;
-					}
-					else if (sioData == 0x0B)
-					{
-						UserPrefLanguage = LANG_Swedish;
-					}
-					else if (sioData == 0x0D)
-					{
-						UserPrefLanguage = LANG_SChina;
-					}
-					else if (sioData == 0x1E)
-					{
-						UserPrefLanguage = LANG_Polish;
-					}
-					else if (sioData == 0x08)
-					{
-						UserPrefLanguage = LANG_Portugues;
-					}
-					else if (sioData == 0x09)
-					{
-						UserPrefLanguage = LANG_Russia;
-					}
-					else if (sioData == 0x07)
-					{
-						UserPrefLanguage = LANG_Korea;
-					}
-					else if (sioData == 0x01)
-					{
-						UserPrefLanguage = LANG_TChina;
-					}
-					else if (sioData == 0x12)
-					{
-						UserPrefLanguage = LANG_Czech;
-					}
+				
 					else
 						// default
 					{

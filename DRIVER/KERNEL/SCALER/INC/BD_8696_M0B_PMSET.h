@@ -132,12 +132,12 @@
 
 
 #define EN_GPIO_DET_MASK   ( EN_PMGPIO04_DET \
-                             |EN_GPIO22_DET \
-                             |EN_PMGPIO02_DET\
-                             |EN_PMGPIO06_DET\
-                             |EN_GPIO00_DET \
-                             |EN_GPIO11_DET \
-                             |EN_PMGPIO03_DET )
+                             			|EN_GPIO22_DET \
+							|EN_PMGPIO02_DET\
+							|EN_PMGPIO06_DET\
+							|EN_GPIO00_DET \
+							|EN_GPIO11_DET \
+							|EN_PMGPIO03_DET )
 
 
 
@@ -145,12 +145,12 @@
 #define INV_GPIO_POL_SET  	(NOSETTING)
 
 #define INV_GPIO_POL_MASK ( INV_PMGPIO04_POL \
-                            |INV_GPIO22_POL\
-                            |INV_PMGPIO02_POL\
-                            |INV_PMGPIO06_POL\
-                            |INV_GPIO00_POL\
-                            |INV_GPIO11_POL\
-                            |INV_PMGPIO03_POL )
+							|INV_GPIO22_POL\
+							|INV_PMGPIO02_POL\
+							|INV_PMGPIO06_POL\
+							|INV_GPIO00_POL\
+							|INV_GPIO11_POL\
+							|INV_PMGPIO03_POL )
 
 
 

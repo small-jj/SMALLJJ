@@ -7,7 +7,7 @@
 #define PM_SUPPORT_DVI_TIME_SHARE       (0) // (1)supports to DVI time sharing function to reduce power consumption  (0)doesn't support to DVI time sharing function
 #define PM_SUPPORT_ADC_TIME_SHARE       (0)
 #define PM_SUPPORT_WAKEUP_DVI               (1) // (1)supports to DVI wakeup;                                            (0)doesn't support to DVI wakeup
-#define PM_SUPPORT_WAKEUP_DP                (ENABLE_DP_INPUT)
+#define PM_SUPPORT_WAKEUP_DP                (ENABLE_DP_INPUT) 
 #define PM_SUPPORT_DVI5V_TurnonRterm        (0)
 #define PM_POWERkEY_GETVALUE                (1)
 #define PM_CABLEDETECT_USE_GPIO         (0)
@@ -162,17 +162,17 @@
 
 
 #define EN_GPIO_DET_SET     PM_POWERKEY_WAKEUP
-
-#define EN_GPIO_DET_MASK    ( EN_GPIO21_DET | EN_GPIO20_DET | EN_GPIO25_DET | EN_GPIO26_DET \
-                              | EN_GPIO00_DET | EN_GPIO01_DET | EN_GPIO24_DET | EN_GPIO27_DET \
-                              | EN_GPIO30_DET | EN_GPIO31_DET | EN_GPIO36_DET | EN_GPIO37_DET \
-                              | EN_GPIO02_DET | EN_GPIO11_DET | EN_GPIO50_DET | EN_GPIO51_DET )
-
-#define INV_GPIO_POL_SET    ( PM_POWERKEY_INT )
-#define INV_GPIO_POL_MASK   ( INV_GPIO21_POL | INV_GPIO20_POL | INV_GPIO25_POL | INV_GPIO26_POL \
-                              |INV_GPIO00_POL | INV_GPIO01_POL | INV_GPIO24_POL | INV_GPIO27_POL \
-                              |INV_GPIO30_POL | INV_GPIO31_POL | INV_GPIO36_POL | INV_GPIO37_POL \
-                              |INV_GPIO02_POL | INV_GPIO11_POL | INV_GPIO50_POL | INV_GPIO51_POL )
+                            
+#define EN_GPIO_DET_MASK    ( EN_GPIO21_DET | EN_GPIO20_DET | EN_GPIO25_DET | EN_GPIO26_DET \          
+                            | EN_GPIO00_DET | EN_GPIO01_DET | EN_GPIO24_DET | EN_GPIO27_DET \         
+                            | EN_GPIO30_DET | EN_GPIO31_DET | EN_GPIO36_DET | EN_GPIO37_DET \          
+                            | EN_GPIO02_DET | EN_GPIO11_DET | EN_GPIO50_DET | EN_GPIO51_DET )         
+                                                                              
+#define INV_GPIO_POL_SET    ( PM_POWERKEY_INT )                                                               
+#define INV_GPIO_POL_MASK   ( INV_GPIO21_POL | INV_GPIO20_POL | INV_GPIO25_POL | INV_GPIO26_POL \     
+                             |INV_GPIO00_POL | INV_GPIO01_POL | INV_GPIO24_POL | INV_GPIO27_POL \     
+                             |INV_GPIO30_POL | INV_GPIO31_POL | INV_GPIO36_POL | INV_GPIO37_POL \     
+                             |INV_GPIO02_POL | INV_GPIO11_POL | INV_GPIO50_POL | INV_GPIO51_POL )
 
 
 //#define PM_VGACBL_DET         0

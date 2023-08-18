@@ -14,8 +14,8 @@
 #if CHIP_ID==CHIP_TSUM2  //20120814
 typedef struct
 {
-	BYTE ucOffset;
-	BYTE ucDepth;
+    BYTE ucOffset;
+    BYTE ucDepth;
 } Sc2DTo3DInfo;
 
 MS_2DTo3DDec xdata Sc2DTo3DInfo g_Sc2DTo3DInfo;

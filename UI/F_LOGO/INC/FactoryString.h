@@ -199,6 +199,7 @@ extern BYTE *ExitBurninText(void);
 
 extern BYTE *InputTypeSelectText(void);
 extern BYTE *VolumeText(void);
+
 #if EANBLE_MUTE_ON_OFF
 extern BYTE *MuteText(void);
 #endif

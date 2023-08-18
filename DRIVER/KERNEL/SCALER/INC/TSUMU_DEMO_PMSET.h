@@ -6,7 +6,7 @@
 #define PM_SUPPORT_SOG_TIME_SHARE       (0) // (1)supports to SoG time sharing function to reduce power consumption  (0)doesn't support to SoG time sharing function
 #define PM_SUPPORT_DVI_TIME_SHARE       (0) // (1)supports to DVI time sharing function to reduce power consumption  (0)doesn't support to DVI time sharing function
 #define PM_SUPPORT_WAKEUP_DVI               (ENABLE_DVI||ENABLE_HDMI) // (1)supports to DVI wakeup;                                            (0)doesn't support to DVI wakeup
-#define PM_SUPPORT_WAKEUP_DP                (ENABLE_DP_INPUT)
+#define PM_SUPPORT_WAKEUP_DP                (ENABLE_DP_INPUT) 
 #define PM_SUPPORT_DVI5V_TurnonRterm        (0)
 #define PM_POWERkEY_GETVALUE                (1)
 #define PM_CABLEDETECT_USE_GPIO         (0)
@@ -144,10 +144,10 @@
 
 #define PM_POWERKEY_INT     PMGPIO27_INT
 #define EN_GPIO_DET_SET    ( EN_PMGPIO00_DET\
-                             |EN_PMGPIO01_DET\
+                            |EN_PMGPIO01_DET\
                              |EN_PMGPIO04_DET \
-                             |EN_PMGPIO05_DET \
-                             |EN_PMGPIO24_DET)
+                                        |EN_PMGPIO05_DET \
+                                        |EN_PMGPIO24_DET)
 #define EN_GPIO_DET_MASK   ( EN_PMGPIO00_DET \
                              |EN_PMGPIO01_DET \
                              |EN_PMGPIO02_DET \
@@ -162,10 +162,10 @@
                              |EN_PMGPIO27_DET )
 
 #define INV_GPIO_POL_SET    ( INV_PMGPIO00_POL \
-                              |INV_PMGPIO01_POL\
-                              |INV_PMGPIO04_POL\
-                              |INV_PMGPIO05_POL\
-                              |INV_PMGPIO24_POL)
+                            |INV_PMGPIO01_POL\
+                            |INV_PMGPIO04_POL\
+                            |INV_PMGPIO05_POL\
+                            |INV_PMGPIO24_POL)
 #define INV_GPIO_POL_MASK ( INV_PMGPIO00_POL \
                             |INV_PMGPIO01_POL \
                             |INV_PMGPIO02_POL \

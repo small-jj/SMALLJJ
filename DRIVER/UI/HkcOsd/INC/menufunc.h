@@ -1,12 +1,12 @@
 
-#if AudioFunc
+#if AudioFunc 	
 extern Bool AdjustVolume(MenuItemActionType action);
 extern WORD GetVolumeValue(void);
-#if EANBLE_MUTE_ON_OFF
+#if EANBLE_MUTE_ON_OFF   
 extern Bool SwitchMute(MenuItemActionType action);
 #endif
 
-#endif
+#endif 
 
 
 extern Bool ResetOsdTimer(void);
@@ -60,7 +60,7 @@ extern Bool SwitchSource(void);
 extern void SaveUserPref(void);
 extern Bool SetInputToAuto( void );
 
-#if Dual
+#if Dual 
 extern Bool ChangeSource(void);
 #endif
 
@@ -106,11 +106,11 @@ extern Bool SetInputToDP(void);   //111223 Modify
 
 #endif
 #if AudioFunc
-extern Bool SetMute(void);
-#endif
+    extern Bool SetMute(void);
+#endif 
 #if ECO
-extern Bool AdjustECOMode(MenuItemActionType action);
-#endif
+    extern Bool AdjustECOMode(MenuItemActionType action);
+#endif 
 extern Bool AdjustGamaMode(MenuItemActionType action);
 extern Bool AdjustDcrMode(MenuItemActionType action);
 extern Bool AdjustColorTempMode(MenuItemActionType action);
@@ -138,114 +138,114 @@ extern Bool SetToEnglish(void);
 //=====================================================================
 //=====================================================================
 #if 1
-extern Bool AutoColor(void);
-extern Bool AdjustBlueGain(MenuItemActionType action);
-extern WORD GetBlueGainValue(void);
-extern Bool AdjustGreenGain(MenuItemActionType action);
-extern WORD GetGreenGainValue(void);
-extern Bool AdjustRedGain(MenuItemActionType action);
-extern WORD GetRedGainValue(void);
-extern Bool AdjustAdcBlueOffset(MenuItemActionType action);
-extern WORD GetAdcBlueOffsetValue(void);
-extern Bool AdjustAdcGreenOffset(MenuItemActionType action);
-extern WORD GetAdcGreenOffsetValue(void);
-extern Bool AdjustAdcRedOffset(MenuItemActionType action);
-extern WORD GetAdcRedOffsetValue(void);
-extern Bool SetFactoryColorTempCool1(void);
-extern Bool SetFactoryColorTempCool2(void);
-extern Bool SetFactoryColorTempWarm1(void);
-extern Bool SetFactoryColorTempWarm2(void);
-extern Bool SetFactoryColorTempNormal(void);
-extern Bool SetFactoryColorTempSRGB(void);
-extern Bool AdjustRedColorWarm1(MenuItemActionType action);
-extern Bool AdjustGreenColorWarm1(MenuItemActionType action);
-extern Bool AdjustBlueColorWarm1(MenuItemActionType action);
+    extern Bool AutoColor(void);
+    extern Bool AdjustBlueGain(MenuItemActionType action);
+    extern WORD GetBlueGainValue(void);
+    extern Bool AdjustGreenGain(MenuItemActionType action);
+    extern WORD GetGreenGainValue(void);
+    extern Bool AdjustRedGain(MenuItemActionType action);
+    extern WORD GetRedGainValue(void);
+    extern Bool AdjustAdcBlueOffset(MenuItemActionType action);
+    extern WORD GetAdcBlueOffsetValue(void);
+    extern Bool AdjustAdcGreenOffset(MenuItemActionType action);
+    extern WORD GetAdcGreenOffsetValue(void);
+    extern Bool AdjustAdcRedOffset(MenuItemActionType action);
+    extern WORD GetAdcRedOffsetValue(void);
+    extern Bool SetFactoryColorTempCool1(void);
+    extern Bool SetFactoryColorTempCool2(void);
+    extern Bool SetFactoryColorTempWarm1(void);
+    extern Bool SetFactoryColorTempWarm2(void);
+    extern Bool SetFactoryColorTempNormal(void);
+    extern Bool SetFactoryColorTempSRGB(void);
+    extern Bool AdjustRedColorWarm1(MenuItemActionType action);
+    extern Bool AdjustGreenColorWarm1(MenuItemActionType action);
+    extern Bool AdjustBlueColorWarm1(MenuItemActionType action);
 
-extern WORD GetBColorWarm1Value(void);
-extern WORD GetGColorWarm1Value(void);
-extern WORD GetRColorWarm1Value(void);
+    extern WORD GetBColorWarm1Value(void);
+    extern WORD GetGColorWarm1Value(void);
+    extern WORD GetRColorWarm1Value(void);
 
-extern Bool AdjustRedColorWarm2(MenuItemActionType action);
-extern Bool AdjustGreenColorWarm2(MenuItemActionType action);
-extern Bool AdjustBlueColorWarm2(MenuItemActionType action);
+    extern Bool AdjustRedColorWarm2(MenuItemActionType action);
+    extern Bool AdjustGreenColorWarm2(MenuItemActionType action);
+    extern Bool AdjustBlueColorWarm2(MenuItemActionType action);
 
-extern WORD GetBColorWarm2Value(void);
-extern WORD GetGColorWarm2Value(void);
-extern WORD GetRColorWarm2Value(void);
+    extern WORD GetBColorWarm2Value(void);
+    extern WORD GetGColorWarm2Value(void);
+    extern WORD GetRColorWarm2Value(void);
 
-extern Bool AdjustRedColorCool1(MenuItemActionType action);
-extern Bool AdjustGreenColorCool1(MenuItemActionType action);
-extern Bool AdjustBlueColorCool1(MenuItemActionType action);
+    extern Bool AdjustRedColorCool1(MenuItemActionType action);
+    extern Bool AdjustGreenColorCool1(MenuItemActionType action);
+    extern Bool AdjustBlueColorCool1(MenuItemActionType action);
 
-extern WORD GetBColorCool1Value(void);
-extern WORD GetGColorCool1Value(void);
-extern WORD GetRColorCool1Value(void);
+    extern WORD GetBColorCool1Value(void);
+    extern WORD GetGColorCool1Value(void);
+    extern WORD GetRColorCool1Value(void);
 
-extern Bool AdjustRedColorCool2(MenuItemActionType action);
-extern Bool AdjustGreenColorCool2(MenuItemActionType action);
-extern Bool AdjustBlueColorCool2(MenuItemActionType action);
+    extern Bool AdjustRedColorCool2(MenuItemActionType action);
+    extern Bool AdjustGreenColorCool2(MenuItemActionType action);
+    extern Bool AdjustBlueColorCool2(MenuItemActionType action);
+ 
+    extern WORD GetBColorCool2Value(void);
+    extern WORD GetGColorCool2Value(void);
+    extern WORD GetRColorCool2Value(void);
 
-extern WORD GetBColorCool2Value(void);
-extern WORD GetGColorCool2Value(void);
-extern WORD GetRColorCool2Value(void);
+    extern Bool AdjustRedColorNormal(MenuItemActionType action);
+    extern Bool AdjustGreenColorNormal(MenuItemActionType action);
+    extern Bool AdjustBlueColorNormal(MenuItemActionType action);
 
-extern Bool AdjustRedColorNormal(MenuItemActionType action);
-extern Bool AdjustGreenColorNormal(MenuItemActionType action);
-extern Bool AdjustBlueColorNormal(MenuItemActionType action);
-
-extern WORD GetBColorNormalValue(void);
-extern WORD GetGColorNormalValue(void);
-extern WORD GetRColorNormalValue(void);
+    extern WORD GetBColorNormalValue(void);
+    extern WORD GetGColorNormalValue(void);
+    extern WORD GetRColorNormalValue(void);
 
 #if CT_sRGB_ENABLE
-extern Bool AdjustRedColorSRGB(MenuItemActionType action);
-extern Bool AdjustGreenColorSRGB(MenuItemActionType action);
-extern Bool AdjustBlueColorSRGB(MenuItemActionType action);
+    extern Bool AdjustRedColorSRGB(MenuItemActionType action);
+    extern Bool AdjustGreenColorSRGB(MenuItemActionType action);
+    extern Bool AdjustBlueColorSRGB(MenuItemActionType action);
 
-extern WORD GetBColorSRGBValue(void);
-extern WORD GetGColorSRGBValue(void);
-extern WORD GetRColorSRGBValue(void);
-#endif
-extern Bool AdjustYColor(MenuItemActionType action);
-extern Bool AdjustCColor(MenuItemActionType action);
-extern Bool AdjustMColor(MenuItemActionType action);
-extern WORD GetYColorValue(void);
-extern WORD GetCColorValue(void);
-extern WORD GetMColorValue(void);
+    extern WORD GetBColorSRGBValue(void);
+    extern WORD GetGColorSRGBValue(void);
+    extern WORD GetRColorSRGBValue(void);
+ #endif   
+    extern Bool AdjustYColor(MenuItemActionType action);
+    extern Bool AdjustCColor(MenuItemActionType action);
+    extern Bool AdjustMColor(MenuItemActionType action);
+    extern WORD GetYColorValue(void);
+    extern WORD GetCColorValue(void);
+    extern WORD GetMColorValue(void);
 #if ENABLE_FACTORY_SSCADJ	//120305 Modify
-extern	Bool AdjustFactorySSCModulation( MenuItemActionType action );
-extern	WORD GetFactorySSCModulationValue( void );
-extern	Bool AdjustFactorySSCPercentage( MenuItemActionType action );
-extern	WORD GetFactorySSCPercentageValue( void );
+	extern	Bool AdjustFactorySSCModulation( MenuItemActionType action );
+	extern	WORD GetFactorySSCModulationValue( void );
+	extern	Bool AdjustFactorySSCPercentage( MenuItemActionType action );
+	extern	WORD GetFactorySSCPercentageValue( void );
 #endif
-extern Bool EnableBurninMode(void);
-extern WORD GetBurninValue(void);
-extern Bool AdjustBurnin(MenuItemActionType action);
-#if !USEFLASH  // 130829 larry
-extern Bool EraseAllEEPROMCell( void );
-#endif
+    extern Bool EnableBurninMode(void);
+    extern WORD GetBurninValue(void);
+    extern Bool AdjustBurnin(MenuItemActionType action);
+	#if !USEFLASH  // 130829 larry
+	extern Bool EraseAllEEPROMCell( void );
+	#endif
 #if 0//DisplayLogo != NoBrand	//130613 Jun
-extern WORD GetLogoValue(void);
-extern Bool AdjustLogo(MenuItemActionType action);
+    extern WORD GetLogoValue(void);
+    extern Bool AdjustLogo(MenuItemActionType action);
 #endif
 #if 0
-extern Bool AdjustPanelTpye(MenuItemActionType action);
+    extern Bool AdjustPanelTpye(MenuItemActionType action);
 #endif
 #if Enable_ProductModeAdjust
-extern WORD GetProductModeValue(void);
-extern Bool AdjustProductMode(MenuItemActionType action);
+    extern WORD GetProductModeValue(void);
+    extern Bool AdjustProductMode(MenuItemActionType action);
 #endif
-extern Bool SetColorTemp(void);
-extern void ReadColorTempSetting(void);
+    extern Bool SetColorTemp(void);
+    extern void ReadColorTempSetting(void);
 #if !USEFLASH
-extern   void SaveFactorySetting( void ) ;
+    extern   void SaveFactorySetting( void ) ;
 #endif
-extern void SaveUserPrefSetting(BYTE menuPageIndex);
-#if ECO
-extern void SetECO(void);
-#endif
-extern Bool EnterISPMode(void);
-#endif
+    extern void SaveUserPrefSetting(BYTE menuPageIndex);
+    #if ECO
+        extern void SetECO(void);
+    #endif 
+    extern Bool EnterISPMode(void);
+#endif 
 extern Bool AdjustOSDHPosition(MenuItemActionType action);
 extern WORD GetOSDHPositionValue(void);
 extern Bool AdjustOSDVPosition(MenuItemActionType action);
@@ -254,7 +254,7 @@ extern Bool AdjustOSDTime(MenuItemActionType action);
 extern WORD GetOSDTimeValue(void);
 extern WORD GetOSDTime100Value(void);
 #if !Enable_Adjust_SharpnessMenu
-#ifdef OffPower
+#ifdef OffPower 
 extern Bool AdjustAutoPowerOff(MenuItemActionType action);
 extern WORD GetAutoPowerOffValue(void);
 #endif
@@ -264,17 +264,17 @@ extern Bool EnterDisplayLogo(void);
 
 #if DDCCI_ENABLE
 #if 1//DDCCCIMenu_Enable
-extern Bool AdjustDDCCI(MenuItemActionType action);
+    extern Bool AdjustDDCCI(MenuItemActionType action);
 #endif
-extern Bool ExecDDC2Bi(void);
-extern Bool ResetGeometry(void);
-extern Bool ResetColorTemp(void);
-extern void AdjustTempColorTemp(BYTE ctemp);
-#endif
+    extern Bool ExecDDC2Bi(void);
+    extern Bool ResetGeometry(void);
+    extern Bool ResetColorTemp(void);
+    extern void AdjustTempColorTemp(BYTE ctemp);
+#endif 
 #if Enable_Expansion
-extern Bool AdjustExpansionMode(MenuItemActionType action);
-extern void SetExpansionMode(void);
-#endif
+    extern Bool AdjustExpansionMode(MenuItemActionType action);
+    extern void SetExpansionMode(void);
+#endif 
 extern Bool AdjustBlue(MenuItemActionType action);
 extern Bool AdjustGreen(MenuItemActionType action);
 extern Bool AdjustMWE(MenuItemActionType action);
@@ -318,7 +318,7 @@ extern Bool AdjustOSDTransparence(MenuItemActionType action);
 extern WORD GetOSDTransparence(void);
 extern Bool DoAutoConfig(void);
 
-#if (ENABLE_RTE )
+#if (ENABLE_RTE ) 
 //extern  WORD GetOverDriveValue(void);
 extern  Bool AdjustOverDrive(MenuItemActionType action);
 #endif

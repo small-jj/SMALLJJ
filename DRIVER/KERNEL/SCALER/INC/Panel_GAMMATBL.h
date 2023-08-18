@@ -225,7 +225,7 @@
 #include "Gama_PanelBM230WF3_S2K2.h"
 #elif (PanelType==PanelTPM270WF1_WU3300)//20150322 Alpha
 #include "Gamma_PanelTPM270WF1_WU3300.h"
-#elif ( PanelType	== PanelTPM270WF1_FHBN10)//20160115 yangping
+ #elif ( PanelType	== PanelTPM270WF1_FHBN10)//20160115 yangping
 #include "Gamma_PanelTPM270WF1_WU3300.h"
 #elif (PanelType==PanelTPM236H3HGEL02)//20140103
 #include "Gama_PanelTPM236H3HGEL02.h"
@@ -253,49 +253,49 @@
 
 code BYTE *tAllGammaTab[][3] =
 {
-	// 22
-	{
-		tblGamma22_RN,
-		tblGamma22_GN,
-		tblGamma22_BN,
-	},
+    // 22
+    {
+       tblGamma22_RN,
+        tblGamma22_GN,
+        tblGamma22_BN,
+    },
 	//	20
 	{
 		tblGamma20_RN,
 		tblGamma20_GN,
 		tblGamma20_BN,
 	},
-	//  24
-	{
-		tblGamma24_RN,
-		tblGamma24_GN,
-		tblGamma24_BN,
-	},
-};
+    //  24
+    {
+        tblGamma24_RN,
+        tblGamma24_GN,
+        tblGamma24_BN,
+    },
+}; 
 
 #else	//120112 Modify
 
 code BYTE *tAllGammaTab[][6] =
 {
-	// 22
-	{
-		tblGamma22_RN, tblGamma22_RN_2,
-		tblGamma22_GN, tblGamma22_GN_2,
-		tblGamma22_BN, tblGamma22_BN_2
-	},
+    // 22
+    {
+       tblGamma22_RN,tblGamma22_RN_2,
+        tblGamma22_GN,tblGamma22_GN_2,
+        tblGamma22_BN,tblGamma22_BN_2
+    },
 	//	20
 	{
 		tblGamma20_RN, tblGamma20_RN_2,
 		tblGamma20_GN, tblGamma20_GN_2,
-		tblGamma20_BN, tblGamma20_BN_2
+		tblGamma20_BN,tblGamma20_BN_2
 	},
-	//  24
-	{
-		tblGamma24_RN, tblGamma24_RN_2,
-		tblGamma24_GN, tblGamma24_GN_2,
-		tblGamma24_BN, tblGamma24_BN_2
-	},
-};
+    //  24
+    {
+        tblGamma24_RN,tblGamma24_RN_2,
+        tblGamma24_GN,tblGamma24_GN_2,
+        tblGamma24_BN,tblGamma24_BN_2
+    },
+}; 
 
 #endif
 

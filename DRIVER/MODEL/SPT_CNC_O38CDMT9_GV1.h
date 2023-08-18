@@ -78,7 +78,7 @@
 #define EarphoneDet_Enable          1
 
 
-#define  EANBLE_NEW_DCR_Functing       1
+#define  EANBLE_NEW_DCR_Functing       1 
 
 
 #if MainBoardType == MainBoard_L38CDMT9_GV1 //MainBoard_6178_M0A

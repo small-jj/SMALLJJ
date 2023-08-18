@@ -169,16 +169,16 @@
 #define EN_GPIO_DET_SET     EN_GPIO00_DET
 
 #define EN_GPIO_DET_MASK    ( EN_GPIO21_DET | EN_GPIO20_DET | EN_GPIO25_DET | EN_GPIO26_DET \
-                              | EN_GPIO00_DET | EN_GPIO01_DET | EN_GPIO24_DET | EN_GPIO27_DET \
-                              | EN_GPIO30_DET | EN_GPIO31_DET | EN_GPIO36_DET | EN_GPIO37_DET \
-                              | EN_GPIO02_DET | EN_GPIO11_DET | EN_GPIO50_DET | EN_GPIO51_DET )
+                            | EN_GPIO00_DET | EN_GPIO01_DET | EN_GPIO24_DET | EN_GPIO27_DET \
+                            | EN_GPIO30_DET | EN_GPIO31_DET | EN_GPIO36_DET | EN_GPIO37_DET \
+                            | EN_GPIO02_DET | EN_GPIO11_DET | EN_GPIO50_DET | EN_GPIO51_DET )
 
 #define INV_GPIO_POL_SET  	( INV_GPIO00_POL \
-                           )
+							)
 #define INV_GPIO_POL_MASK   ( INV_GPIO21_POL | INV_GPIO20_POL | INV_GPIO25_POL | INV_GPIO26_POL \
-                              |INV_GPIO00_POL | INV_GPIO01_POL | INV_GPIO24_POL | INV_GPIO27_POL \
-                              |INV_GPIO30_POL | INV_GPIO31_POL | INV_GPIO36_POL | INV_GPIO37_POL \
-                              |INV_GPIO02_POL | INV_GPIO11_POL | INV_GPIO50_POL | INV_GPIO51_POL )
+                             |INV_GPIO00_POL | INV_GPIO01_POL | INV_GPIO24_POL | INV_GPIO27_POL \
+                             |INV_GPIO30_POL | INV_GPIO31_POL | INV_GPIO36_POL | INV_GPIO37_POL \
+                             |INV_GPIO02_POL | INV_GPIO11_POL | INV_GPIO50_POL | INV_GPIO51_POL )
 
 
 #define PM_VGACBL_DET       	 0

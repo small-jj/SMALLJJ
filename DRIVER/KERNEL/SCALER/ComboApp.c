@@ -77,20 +77,22 @@
 //**************************************************************************
 Bool msAPI_combo_IPGetDDRFlag_ISR()
 {
-	Bool ucflag = FALSE;
-	if(CURRENT_INPUT_IS_DISPLAYPORT())
-	{
-		#if (ENABLE_DP_INPUT)
-		ucflag = DPRxGetDRRFlag_ISR();
-		#endif
-	}
-	else if(CURRENT_INPUT_IS_HDMI())
-	{
-		#if (ENABLE_HDMI)
-		ucflag = mstar_HDMIGetFreeSyncFlag();
-		#endif
-	}
-	return ucflag;
+    Bool ucflag= FALSE;
+
+    if(CURRENT_INPUT_IS_DISPLAYPORT())
+    {
+        #if (ENABLE_DP_INPUT)
+          ucflag = DPRxGetDRRFlag_ISR();       
+        #endif
+    }
+    else if(CURRENT_INPUT_IS_HDMI())
+    {
+         #if (ENABLE_HDMI)
+        ucflag = mstar_HDMIGetFreeSyncFlag();
+        #endif
+    }
+
+    return ucflag;
 }
 
 //**************************************************************************
@@ -105,20 +107,23 @@ Bool msAPI_combo_IPGetDDRFlag_ISR()
 //**************************************************************************
 Bool msAPI_combo_IPGetDDRFlag()
 {
-	Bool ucflag = FALSE;
-	if(CURRENT_INPUT_IS_HDMI())
-	{
-		#if (ENABLE_HDMI)
-		ucflag = mstar_HDMIGetFreeSyncFlag();
-		#endif
-	}
-	else if(CURRENT_INPUT_IS_DISPLAYPORT())
-	{
-		#if (ENABLE_DP_INPUT)
-		ucflag = DPRxGetDRRFlag();
-		#endif
-	}
-	return ucflag;
+    Bool ucflag= FALSE;
+
+     if(CURRENT_INPUT_IS_HDMI())
+    {
+        #if (ENABLE_HDMI)
+        ucflag = mstar_HDMIGetFreeSyncFlag();
+        #endif
+    }
+    else if(CURRENT_INPUT_IS_DISPLAYPORT())
+    {
+        #if (ENABLE_DP_INPUT)
+        ucflag = DPRxGetDRRFlag();
+        #endif
+    }
+
+
+    return ucflag;
 }
 //**************************************************************************
 //  [Function Name]:
@@ -131,35 +136,42 @@ Bool msAPI_combo_IPGetDDRFlag()
 //
 //**************************************************************************
 #if FreeSyncMenu_Enable
-extern void drvOSD_FrameColorRGB(BYTE u8Red, BYTE u8Green, BYTE u8Blue);
+extern void drvOSD_FrameColorRGB(BYTE u8Red,BYTE u8Green,BYTE u8Blue);
 extern void drvOSD_FrameColorEnable(Bool bEnable);
 
 void msAPI_combo_IPEnableDDRFlag(Bool Enable)
 {
-	Enable = Enable;
-	#if (ENABLE_DP_INPUT)
-	if(CURRENT_INPUT_IS_DISPLAYPORT())
-	{
-		DPRxEnableDRRFunction(Enable);
-		DPRxHPDDisable();                                                                           // HPD ouput enable and set Low
-		ForceDelay1ms( 100 );
-		DPRxHPDEnable();
-	}
-	#endif
-	if(CURRENT_INPUT_IS_HDMI())
-	{
-		//msEnableHDCP();
+
+    Enable = Enable;
+
+    #if (ENABLE_DP_INPUT)
+    if(CURRENT_INPUT_IS_DISPLAYPORT())
+    {
+        DPRxEnableDRRFunction(Enable);
+        DPRxHPDDisable();                                                                           // HPD ouput enable and set Low
+        ForceDelay1ms( 100 );
+        DPRxHPDEnable();
+    }
+    #endif
+	
+     if(CURRENT_INPUT_IS_HDMI())
+    {
+
+    		//msEnableHDCP();
 		SrcFlags |= SyncLoss;
-		Set_InputTimingChangeFlag(); // setup mode failed
-		//mStar_SetupFreeRunMode(); // setup freerun mode
-		#if ENABLE_CABLE_5V_EDID && ENABLE_HDMI && ENABLE_FREESYNC
+	    Set_InputTimingChangeFlag(); // setup mode failed
+	    //mStar_SetupFreeRunMode(); // setup freerun mode
+	    #if ENABLE_CABLE_5V_EDID && ENABLE_HDMI && ENABLE_FREESYNC	
 		drvmStar_EnableHDMIFreeSyncEDID(Enable);
 		#endif
+		
 		msDisableHDCP();
 		ForceDelay1ms(500);
 		msEnableHDCP();
+		
 		//mStar_SetupInputPort();
-	}
+
+    }
 }
 #endif
 //**************************************************************************
@@ -174,18 +186,20 @@ void msAPI_combo_IPEnableDDRFlag(Bool Enable)
 //**************************************************************************
 WORD msAPI_combo_IPGetPixelClk()
 {
-	WORD Pixel_Clock = 0;
-	if(CURRENT_INPUT_IS_DISPLAYPORT())
-	{
-		#if (ENABLE_DP_INPUT)
-		Pixel_Clock = DPRxGetPixelClk();
-		#endif
-	}
-	else if(CURRENT_INPUT_IS_HDMI())
-	{
-		Combo_printMsg("============2");
-	}
-	return Pixel_Clock;
+    WORD Pixel_Clock=0;
+
+    if(CURRENT_INPUT_IS_DISPLAYPORT())
+    {
+        #if (ENABLE_DP_INPUT)
+        Pixel_Clock = DPRxGetPixelClk();
+        #endif
+    }
+    else if(CURRENT_INPUT_IS_HDMI())
+    {
+        Combo_printMsg("============2");
+    }
+
+    return Pixel_Clock;
 }
 //**************************************************************************
 //  [Function Name]:
@@ -199,18 +213,20 @@ WORD msAPI_combo_IPGetPixelClk()
 //**************************************************************************
 WORD msAPI_combo_IPGetGetHTotal()
 {
-	WORD Htt = 0;
-	if(CURRENT_INPUT_IS_DISPLAYPORT())
-	{
-		#if (ENABLE_DP_INPUT)
-		Htt = DPRxGetHTotal();
-		#endif
-	}
-	else if(CURRENT_INPUT_IS_HDMI())
-	{
-		Combo_printMsg("============2");
-	}
-	return Htt;
+    WORD Htt=0;
+
+    if(CURRENT_INPUT_IS_DISPLAYPORT())
+    {
+        #if (ENABLE_DP_INPUT)
+        Htt = DPRxGetHTotal();
+        #endif
+    }
+    else if(CURRENT_INPUT_IS_HDMI())
+    {
+        Combo_printMsg("============2");
+    }
+
+    return Htt;
 }
 #endif
 

@@ -1,0 +1,2296 @@
+C51 COMPILER V9.01   MSTAR                                                                 08/18/2023 11:33:10 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE MSTAR
+OBJECT MODULE PLACED IN .\obj\mStar.obj
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE ..\..\KERNEL\SCALER\mStar.c OPTIMIZE(SIZE) BROWSE INCDIR(..\..\DRIVER\INC;.
+                    -.\..\KERNEL\SCALER\INC;..\..\KERNEL\SYSTEM\INC;..\..\LIB\INC;..\..\PANEL\INC;..\..\BOARD;..\..\DRIVER\INC;..\..\KERNEL\S
+                    -YSTEM\INC\AOC2011;..\..\DRIVER\extDEVICE\INC;..\..\MODEL;..\..\CONFIG;..\..\PANEL;..\..\UI\F_LOGO\INC;..\..\UI\HkcOsd\IN
+                    -C) DEFINE(ModelName=JRY_TESTBOARD_C_BOARD) DEBUG OBJECTEXTEND PRINT(.\list\mStar.lst) OBJECT(.\obj\mStar.obj)
+
+line level    source
+
+   1          #define _MSTAR_C_
+   2          #include <math.h>
+   3          #include "types.h"
+   4          #include "board.h"
+*** MESSAGE C320 IN LINE 337 OF ..\..\CONFIG\BOARD.H: "Please remember to disable the debug function!" 
+   5          #include "ms_reg.h"
+   6          #include "global.h"
+   7          #include "panel.h"
+   8          #include "adjust.h"
+   9          #include "ms_rwreg.h"
+  10          #include "debug.h"
+  11          #include "misc.h"
+  12          #include "ddc.h"
+  13          #include "power.h"
+  14          #include "detect.h"
+  15          #include "msOsd.h"
+  16          #include "gamma.h"
+  17          #include "mstar.h"
+  18          //#include "extlib.h"
+  19          #include "menu.h"
+  20          #include "menudef.h"
+  21          #include "menufunc.h"
+  22          #include "MsID_V1.h"
+  23          #include "drvgpio.h"
+  24          #include "drvadc.h"
+  25          #include "Mcu.h"
+  26          #if ENABLE_HDCP
+  27              #include "MsHDCP.h"
+  28          #endif
+  29          
+  30          #if ENABLE_HDMI
+  31          #include "msHDMI.h"
+  32          #include "msHDMIACE.h"
+  33          #endif
+  34          
+  35          
+  36              #include "MsDLC.h"
+  37              #include "MsACE.h"
+  38              #include "Userpref.h"
+  39          
+  40          
+  41          #if ENABLE_RTE
+              #include "drvmsOVD.h"
+              #endif
+  44          
+  45          #if MS_DAC
+  46          #include "drvDAC.h"
+  47          #endif
+  48          
+  49          
+  50          #if ENABLE_DP_INPUT
+              #include "drvDPRxApp.h"
+C51 COMPILER V9.01   MSTAR                                                                 08/18/2023 11:33:10 PAGE 2   
+
+              #endif
+  53          
+  54          #if ENABLE_DisplayPortTX
+              #include "drvDPTxApp.h"
+              #endif
+  57          
+  58          //#include "drvmsOVD.h"
+  59          ///////////////////////////////////////////
+  60          #include "drvMcu.h"
+  61          #include "drvmStar.h"
+  62          #include "appmStar.h"
+  63          //////////////////////////////////////////
+  64          #include "LedControl.h"
+  65          #ifdef TSUMXXT          //110311 Modify
+                  #include <MsADC.h>  // Provides: msADC_init()
+              
+                  typedef enum LPLL_INPUT_DIV_t
+                  {
+                      LPLL_INPUT_DIV_1 = 0,
+                      LPLL_INPUT_DIV_2 = 1,
+                      LPLL_INPUT_DIV_4 = 2,
+                      LPLL_INPUT_DIV_8 = 3,
+                  } LPLL_INPUT_DIV_t;
+              
+                  typedef enum LPLL_OUTPUT_DIV_t
+                  {
+                    LPLL_OUTPUT_DIV_1 = 0,
+                    LPLL_OUTPUT_DIV_2 = 1,
+                    LPLL_OUTPUT_DIV_4 = 2
+                  } LPLL_OUTPUT_DIV_t;
+              
+                  static void mStar_LPLL_GetDividers (const DWORD kHzODCLK, LPLL_INPUT_DIV_t* pInputDiv, LPLL_OUTPUT_DIV
+             -_t* pOutputDiv, BYTE* pLoopDiv);
+                  static void mStar_LPLL_GetFactor   (const DWORD kHzODCLK, const BYTE        loopDiv  , DWORD*         
+             -    pFactor);
+              #endif  // end of #if( ChipID == CHIP_TSUMT )
+  86          
+  87          #if PanelminiLVDS
+              extern void SetRSDSToTTL(BYTE on);
+              #endif
+  90          
+  91          extern void OSDConfGDCurveH(BYTE ci, BYTE pixel_init, BYTE delta_init, 
+  92                          BYTE step, BYTE data_sign, BYTE delta_sign, BYTE delta, WORD length0, WORD length1,
+  93                          BYTE hv_sign, BYTE overflow_en, BYTE md);
+  94          extern void OSDConfGDCurveV(BYTE ci, BYTE pixel_init, BYTE delta_init, 
+  95                          BYTE step, BYTE data_sign, BYTE delta_sign, BYTE delta, WORD length0, WORD length1,
+  96                          BYTE overflow_en, BYTE md);
+  97          extern void OSDGDCurveSelectionForWindow(BYTE gi, BYTE wi, BYTE ci);
+  98          
+  99          //*******************************************************************
+ 100          //
+ 101          // Constant Definition
+ 102          //
+ 103          //*******************************************************************
+ 104          #define ADC2Sets    0//0// 1 for chip with 2 ADC(9x5x & 9x4x)
+ 105          #define OutDClk1    108
+ 106          #define OutDClk2    135
+ 107          #if PanelLVDS
+ 108              //14.318 * 15 * 8 / 3.5 = 490.9, 490.9<<19=257374477.16,   490.9<<3=8=3927
+ 109              #define DClkFactor  257374477ul
+ 110              //#define DClkFactor      257650102// use 215 as base
+ 111          #else
+C51 COMPILER V9.01   MSTAR                                                                 08/18/2023 11:33:10 PAGE 3   
+
+                  //14.318 * 15 * 8 / 4 = 429.54, 429.54<<19=225202667.52,   429.54<<3=8=3436.32
+                  #define DClkFactor  225202667ul
+                  //#define DClkFactor      257650102// use 215 as base
+              #endif
+ 116          
+ 117          #define FreeRunDClk (DWORD)DClkFactor/PanelDCLK
+ 118          
+ 119          // 2006/8/25 11:43AM by Emily BYTE InputSclk;  //2006-07-07 Andy
+ 120          
+ 121          #if ENABLE_HDMI
+ 122          #define DIFF(a, b)                  (a>b?(a-b):(b-a))
+ 123          #endif
+ 124          //*******************************************************************
+ 125          //
+ 126          // extern declaration
+ 127          //
+ 128          //*******************************************************************
+ 129          //*******************************************************************
+ 130          //
+ 131          // local declaration
+ 132          //
+ 133          //*******************************************************************
+ 134          void mStar_SetupInputPort(void);
+ 135          void mStar_SetupADC(void);
+ 136          Bool mStar_SetCaptureWindow(void);
+ 137          void mStar_InitADC(void);
+ 138          //void mStar_InitTCON(void);
+ 139          void mStar_SetUserPref(void);
+ 140          #ifdef ReduceDDC
+              void InitVccDetectPin(void);
+              void GPIOPWMSelect(void);
+              #endif
+ 144          
+ 145          void SetPWMFreq(WORD freq);
+ 146          void UnUseFunc(void);           //110311 Modify
+ 147          
+ 148          #if 0
+              extern void AdjustSuperResolution(void);
+              extern Bool SetSR_DEMOSize(BYTE ucSize,WORD DEMO_Hsize);        //120524 Modify
+              #endif
+ 152          
+ 153          #if ENABLE_RTE
+              extern  void msFBDummy(void);
+              #endif
+ 156          #if 1
+ 157          extern void msClearVersionDummy(void);
+ 158          #endif
+ 159          
+ 160          //*******************************************************************
+ 161          //*******************************************************************
+ 162          //*******************************************************************
+ 163          /*
+ 164          void mStar_ACOnInit(void)
+ 165          {
+ 166              // 130415 coding test
+ 167              hw_Set_HdcpHpd();
+ 168          //    hw_Set_HdcpHpd2();
+ 169           //   hw_Set_HdcpHpd3();
+ 170              
+ 171          #if ENABLE_MHL
+ 172              mapi_mhl_init();
+ 173          #endif
+C51 COMPILER V9.01   MSTAR                                                                 08/18/2023 11:33:10 PAGE 4   
+
+ 174          
+ 175          #if ENABLE_DP_INPUT     
+ 176              DPRxInit();    
+ 177          #endif
+ 178              mStar_SetupInputPort();
+ 179          }
+ 180          */
+ 181          
+ 182          void ScalerReset(void)
+ 183          {
+ 184   1          SC0_SUB_BANK_SEL(0);//msWriteByte( SC0_00, 0x00 );
+ 185   1          SC0_SCALER_RESET(0);//msWriteByte( SC0_F1, 0x00 );
+ 186   1          mStar_ScalerDoubleBuffer(FALSE);
+ 187   1          // power down contorl 0xF0~0xF1
+ 188   1          SC0_SCALER_RESET(0);//msWriteByte( SC0_F1, 0x00 ); //20081024 RD suggest
+ 189   1          SC0_SCALER_POWER_DOWN(0, 0xFF);//msWriteByte( SC0_F0, 0x00 ); //|BIT6); // power up chip
+ 190   1          SC0_SCALER_RESET(0x7F);//msWriteByte( SC0_F1, 0x7F ); // software reset // DDCCI enable bit6
+ 191   1          ForceDelay1ms( 1 );
+ 192   1          SC0_SCALER_RESET(0);//msWriteByte( SC0_F1, 0x00 ); // software reset
+ 193   1          SC0_NORMAL_MODE();//msWriteByte( SC0_F8, 0x00 ); // ???? important
+ 194   1      }
+ 195          
+ 196          void SetPWMFreqAndVsyncAlign(void)
+ 197          {
+ 198   1              drvGPIO_SetPWMFreq(BrightnessPWM, BRIGHTNESS_FREQ);
+ 199   1              drvGPIO_PWMAlignVSync(BrightnessPWM, BRIGHTNESS_VSYNC_ALIGN);
+ 200   1      
+ 201   1              #if (CHIP_ID == CHIP_TSUM9 ||CHIP_ID == CHIP_TSUMF)
+                      drvGPIO_PWMAlignHSync(BrightnessPWM, BRIGHTNESS_HSYNC_ALIGN);
+                  #endif
+ 204   1      #if SpeakerDet_Enable
+                      drvGPIO_SetPWMFreq(VolumePWM, VOLUME_FREQ);
+                      drvGPIO_PWMAlignVSync(VolumePWM, VOLUME_VSYNC_ALIGN);
+              #endif
+ 208   1      }
+ 209          
+ 210          void GPIOPWMSelect(void)
+ 211          {
+ 212   1              Init_BrightnessPWM();
+ 213   1      #if SpeakerDet_Enable
+                      Init_VolumePWM();
+              #endif
+ 216   1      
+ 217   1              SetPWMFreqAndVsyncAlign();
+ 218   1      
+ 219   1      
+ 220   1      }
+ 221          
+ 222          //*******************************************************************
+ 223          // Function Name: mStar_Init(void)
+ 224          //
+ 225          // Description: Initialize mStar chip while 1st power on system
+ 226          //
+ 227          // Caller: mStar_InitADC(), mStar_InitTCON, mStar_SetupFreeRunMode()
+ 228          //         mStar_SetupInputPort() in mStar.c
+ 229          //         msWriteByte(), msWrite2Byte() in ms_rwreg.c
+ 230          //         mStar_WriteDDC1(), mStar_WriteDDC2() in ddc.c
+ 231          //         mStar_InitGamma() in gamma.c
+ 232          //         Osd_InitOSD() in osd.c
+ 233          // Callee: Init_Device() in main.c
+ 234          //*******************************************************************
+ 235          void mStar_Init(void)
+C51 COMPILER V9.01   MSTAR                                                                 08/18/2023 11:33:10 PAGE 5   
+
+ 236          {
+ 237   1      #if 1
+ 238   1      #if (CHIP_ID == CHIP_TSUMC)||(CHIP_ID == CHIP_TSUMD)||(CHIP_ID == CHIP_TSUMJ)||(CHIP_ID == CHIP_TSUM9)||(C
+             -HIP_ID == CHIP_TSUMF)
+ 239   1      
+ 240   1      #if USE_VCTRL
+                  msWriteByteMask(REG_01A5,BIT1,BIT1);
+                  ForceDelay1ms(10);
+                  msWriteByteMask(REG_0183,0x00,0x70);
+              #elif USE_EXTERNAL_LDO
+                  msWriteByteMask(REG_01A5,0,BIT1);
+                  msWriteByteMask(REG_0183,0x50,0x70);
+              #else
+ 248   1      #if CHIP_ID==CHIP_TSUMF
+                      if (msEread_GetDataFromEfuse(0x07)<228)
+                      {
+                      msWriteByteMask(REG_0183,0x70,0x70);
+                      }
+                      else
+              #endif  
+ 255   1              {
+ 256   2              msWriteByteMask(REG_0183,0x00,0x70);
+ 257   2              }
+ 258   1      
+ 259   1      #endif
+ 260   1          
+ 261   1      #endif
+ 262   1      
+ 263   1      #if ENABLE_FLASH_CURRENT_ADJUSTMENT
+ 264   1          msWriteByteMask(REG_0213, FLASH_DEFAULT_CURRENT, BIT1|BIT0); // SPI_CK driving current
+ 265   1          msWriteByteMask(REG_0213, FLASH_DEFAULT_CURRENT<<2, BIT3|BIT2); // SPI_DI driving current
+ 266   1          msWriteByteMask(REG_0213, FLASH_DEFAULT_CURRENT<<4, BIT5|BIT4); // SPI_DO driving current
+ 267   1          msWriteByteMask(REG_0213, FLASH_DEFAULT_CURRENT<<6, BIT7|BIT6); // SPI_CZ driving current
+ 268   1      #endif
+ 269   1      
+ 270   1      
+ 271   1          drvmStar_Init();
+ 272   1          
+ 273   1          GPIOPWMSelect();
+ 274   1          
+ 275   1          Power_ModCtrl(_DISABLE); //Jison 110421 disable panel data out
+ 276   1      
+ 277   1      
+ 278   1       #if ENABLE_DP_INPUT
+                      if( g_bDoDPInit )
+                      DPRxInit();
+              #endif
+ 282   1      
+ 283   1      #if ENABLE_DisplayPortTX
+                  DPTxInit();
+              #endif
+ 286   1      
+ 287   1          mStar_InitADC();
+ 288   1      
+ 289   1      
+ 290   1          mStar_SetupFreeRunMode();
+ 291   1      
+ 292   1          #if ENABLE_HDCP
+ 293   1          //msDisableHDCP();
+ 294   1          msInitHDCPProductionKey();
+ 295   1          #endif
+ 296   1      
+C51 COMPILER V9.01   MSTAR                                                                 08/18/2023 11:33:10 PAGE 6   
+
+ 297   1      #if ENABLE_RTE
+                      msOverDriverInit();
+                  #ifdef _MULTI_OD_
+                      //msLoad_MultiODTable();
+                      msOverDriveOnOff( FALSE );
+                      msRTE_LoadLUT();
+                      msOverDriveOnOff( TRUE );
+                      //msLoadODTable( tOverDrive );
+                  #else
+                      msOverDriveOnOff( FALSE );
+                      msRTE_LoadLUT();
+                      
+                      if(UserPrefRTEMode==OFF
+                        #if ENABLE_DISPLAY_UNDERSCAN
+                        || (UnderScanSetting.Enable)||(g_SetupPathInfo.bFBMode)
+                        #endif
+                        #if ENABLE_DUAL_LINK
+                        ||((GetVfreq()>85)&&(!ENABLE_FREESYNC))//(SrcModeIndex==MODE_1920x1080P_144Hz)        //130328 Modify
+                        #endif
+                          )
+                         {
+                         msOverDriveOnOff( FALSE );
+                         }
+                      else
+                      {
+                             msOverDriveOnOff( TRUE );
+                      }
+                      //msLoadODTable( tOverDrive );
+                  #endif
+                     // msOverDriveOnOff( FALSE );
+              #endif
+ 328   1      
+ 329   1       #if (CHIP_ID == CHIP_TSUMC) || (CHIP_ID == CHIP_TSUMD) || (CHIP_ID == CHIP_TSUM9)|| (CHIP_ID == CHIP_TSUM
+             -F) //130912 nick add
+ 330   1       #if ENABLE_DP_INPUT
+                  if(!CURRENT_INPUT_IS_DISPLAYPORT())
+                   {
+                           DPRxIRQEnable(FALSE);
+                           DPSetOffLine();
+                   }
+                  else
+                       drvmStar_SetupInputPort_DisplayPort(); 
+              #endif
+ 339   1      #endif
+ 340   1      
+ 341   1      #if ENABLE_HDMI
+ 342   1          mstar_HDMIInitialVariable();
+ 343   1          mstar_HDMIInitialAudio();
+ 344   1      #endif
+ 345   1      
+ 346   1      #if MS_DAC
+ 347   1          #if ENABLE_HDMI || ENABLE_DP_AUDIO
+ 348   1          msAudio_I2S_SPDIF_Init();
+ 349   1          #endif
+ 350   1          msAudioDAC_Init(); // Audio DAC init
+ 351   1      #endif
+ 352   1      #else
+                  BYTE i;
+                      BYTE NOUSE=0;
+                  msInitClockGating();
+              
+              #if INPUT_TYPE >= INPUT_1A1D //ENABLE_HDMI_INPUT || ENABLE_DVI_INPUT //coding
+C51 COMPILER V9.01   MSTAR                                                                 08/18/2023 11:33:10 PAGE 7   
+
+                      msTMDSInit();
+              #endif
+              
+                      msWriteByteMask(SC0_02, BIT7, BIT7);
+                      for( i = 0; i < sizeof( tblInit ) / sizeof( RegUnitType ); i++ )
+                              msWriteByte( tblInit[i].u16Reg, tblInit[i].u8Value );
+                      
+              #if CHIP_ID==CHIP_TSUMU
+                      for( i = 0; i < sizeof( tb_3D_DITHER_TABLE ) / sizeof( RegUnitType ); i++ )
+                              msWriteByte( tb_3D_DITHER_TABLE[i].u16Reg, tb_3D_DITHER_TABLE[i].u8Value );
+              #endif
+              
+                  Power_ModCtrl(_DISABLE); //Jison 110421 disable panel data out
+                  
+              #if 1//CHIP_ID==CHIP_TSUML || CHIP_ID==CHIP_TSUMU
+                      msWriteByteMask( SC0_48, 0, BIT4 );                                     //Turn off New mode, (Show line tune fast)
+              #endif
+                          
+              #if CHIP_ID != CHIP_TSUMU
+                  #if (SHORT_LINE_CHECK== 0) // short-line tuning is disabled
+                      // Diable short-line tuning
+                      {
+                              //Jison 100818 Will update Htotal reg by SPRHDC and LPLL reg, if do after mStar_SetupFreeRunMode(), will
+             - cause crash logo screen.
+                              msWriteByteMask(SC0_63, BIT0,  BIT1|BIT0);
+                              msWriteByteMask(SC0_28,    0,  BIT6);
+                      }
+                  #endif    // end of #if (ShortLineCheck)
+              #endif
+              
+              #if CHIP_ID!=CHIP_TSUMV
+                      msWriteByteMask(SC0_0E, BIT7, BIT7); // H coring disable, for dot pattern certical block issue, Jison 100
+             -610
+              #endif
+              
+              #if (CHIP_ID==CHIP_TSUMB || CHIP_ID==CHIP_TSUMY)
+                      msDVIEQCalibration();
+              #endif // #if ChipID==CHIP_TSUMA
+              
+                  GPIOPWMSelect(); // wait for coding
+              
+              
+                  mStar_InitADC();
+              
+                  mStar_SetupFreeRunMode();
+              
+              
+                  #if ENABLE_HDCP
+                  msInitHDCPProductionKey();
+                  #endif
+              
+                  //mStar_InitTCON();
+              
+              #if ENABLE_HDMI
+                  mstar_HDMIInitialVariable();
+                  mstar_HDMIInitialAudio();
+              #endif
+              
+              #if MS_DAC
+                  #if ENABLE_DP_AUDIO || ENABLE_HDMI
+                  msWriteByte( REG_05C8, 0x8A ); // [7]: Frame repetition manual mode; [3]: auto DSD detection; [1]: aut
+             -o PCM detection
+C51 COMPILER V9.01   MSTAR                                                                 08/18/2023 11:33:10 PAGE 8   
+
+                  msWriteByte( REG_05CC, 0xD1 ); // [7]: mute pin to normal(H->L), (set active low for this DAC); [6]:Di
+             -sable audio mute output; [4]: Global audio mute; [1:0]: 1/4 audio FIFO
+                  msWriteByte( REG_05CD, 0x0A ); // [7:6]: audio ch 12/34/56/78, [4]: DP/HDMI audio, [3]: auto DSD detec
+             -tion; [1]: auto PCM detection
+                  msWriteByte( REG_05CF, 0xC0 ); // Fading gain = 0dB
+                   // I2S and S/PDIF setting
+                  msWriteByte( REG_05E4, 0x13 ); // [4]: New mode, [1]: Enable CTSN synthesizer clock, [0]: Enable audio
+             - FIFO read clock.
+                  msWriteByte( REG_05E5, 0x6A ); // [7:6]:128Fs, [5]:MCLK output, [3]:I2S encoder clock, [1]:S/PDIF enco
+             -der clock
+                  msWriteByte( REG_05E6, 0x39 ); // [6:5]:24bits to DAC, [4]:enable DAC 256Fs clock, [3]: I2S left-justi
+             -fied, [1:0]:24 bits to I2S
+                  msWriteByte( REG_05E7, 0x07 ); // [2]:AUMUTE pin, [1]:S/PDIF, [0]:I2S enable
+                  msWriteByteMask( REG_05F0, 0, BIT3 ); // [3]: AULL power down
+                  msWriteByte( REG_05F1, 0x0A ); // [3]:FBCLK enable, [1]:DCLK enable
+                  msWriteByte( REG_05F7, 0x26 ); // [7:4]:DDIV = 2, [3:0]:FBDIV = 6
+                  msWriteByte( REG_05F8, 0x81 ); // [7]: Enable CTS-N synthesizer, [0]: CTS[19:0]
+                  #endif
+                  msAudioDAC_Init(); // Audio DAC init
+              #endif
+              #endif
+ 433   1      #if (ENABLE_HDMI && ENABLE_CABLE_5V_EDID && ENABLE_FREESYNC)
+                  drvmStar_EnableHDMIFreeSyncEDID(UserprefFreeSyncMode);
+              #endif
+ 436   1      
+ 437   1          mStar_SetupInputPort();
+ 438   1      
+ 439   1              #if PanelminiLVDS||PANEL_VCOM_ADJUST    //110229 Modify
+                     #if PANEL_VCOM_ADJUST                    //      For Turn on panel  R/W Vcom     130311 Modify
+                     #else
+                      g_bACPowerOn_CheckVCOM = TRUE ;
+                     #endif
+                      #endif
+ 445   1      
+ 446   1          Osd_InitOSD();
+ 447   1      
+ 448   1      
+ 449   1          iGenTuningFinished = 0;
+ 450   1      
+ 451   1          #if DisplayPowerOnLogo
+ 452   1          if (DisplayLogoFlag)
+ 453   1          {
+ 454   2              Menu_InitAction();
+ 455   2          }
+ 456   1          #endif
+ 457   1              #if Enable_Gamma || ENABLE_GAMMA_FIX_PANEL_NOISE        //120204 Modify
+                  mStar_SetupGamma( UserPrefGamaMode);
+                      #endif
+ 460   1          // Init_MWE();
+ 461   1          #if MWEFunction
+ 462   1          #if HDMICOLORTEST
+ 463   1          //InitHDMIACEVar();
+ 464   1          #endif
+ 465   1          #endif
+ 466   1              InitACEVar();   //120420 Modify
+ 467   1              
+ 468   1      
+ 469   1              InitialPeaking();
+ 470   1      
+ 471   1              msAdjustSharpness( MAIN_WINDOW, GetRealSharpness(), 0 );
+ 472   1      
+ 473   1              //msAdjustVideoSaturation(MAIN_WINDOW,0x80);
+C51 COMPILER V9.01   MSTAR                                                                 08/18/2023 11:33:10 PAGE 9   
+
+ 474   1      
+ 475   1              #if !ENABLE_DeltaE && CHIP_ID==CHIP_TSUMU
+                      msWriteByteMask(SC7_D0,BIT7|BIT6|BIT0,BIT7|BIT6|BIT0);//Main window Y noise-masking dither enable
+                      msWriteByteMask(SC7_D2,BIT6,BIT6);//Sub window Y noise-masking dither enable       
+                      #endif
+ 479   1      
+ 480   1      //    mStar_SetUserPref();              //130128_4      Henry
+ 481   1              UnUseFunc();
+ 482   1      }
+ 483          
+ 484          #if UseINT //Enable mode change INT
+ 485          void mStar_EnableModeChangeINT(Bool u8Enable)
+ 486          {
+ 487   1          //BYTE u8OrgValue=msReadByte(SC0_CE);
+ 488   1          if (u8Enable)
+ 489   1          {
+ 490   2              //msWriteByte( SC0_CC, 0x00 );
+ 491   2              //msWriteByte( SC0_CD, 0x00 );
+ 492   2              INT_STATUS_CLEAR();
+ 493   2      
+ 494   2              if (CURRENT_INPUT_IS_VGA())
+ 495   2              {
+ 496   3                  INT_SCALER_A(0xB0);//msWriteByte(SC0_CE, 0xB0);
+ 497   3                  INT_SCALER_B(0x00);//msWriteByte(SC0_CF, 0); // clock change
+ 498   3              }
+ 499   2              else if ( CURRENT_INPUT_IS_DISPLAYPORT())
+ 500   2              {
+ 501   3         #if ENABLE_FREESYNC
+                       if(IS_DP_FREESYNC())
+                             INT_SCALER_A(0x20);
+                      else
+              #endif 
+ 506   3                      INT_SCALER_A(0x30);
+ 507   3                      INT_SCALER_B(0x00);
+ 508   3              }
+ 509   2              else
+ 510   2              {
+ 511   3          #if ENABLE_FREESYNC
+                          if(( CURRENT_INPUT_IS_HDMI())&&(UserprefFreeSyncMode==FreeSyncMenuItems_On))    
+                                  INT_SCALER_A(0x20);
+                  #else
+ 515   3                          INT_SCALER_A(0x30);//msWriteByte(SC0_CE, 0x30); // for YCbCr
+ 516   3          #endif
+ 517   3                  INT_SCALER_B(BIT2);//msWriteByte(SC0_CF, BIT2); // clock change
+ 518   3              }
+ 519   2          }
+ 520   1          else
+ 521   1          {
+ 522   2              INT_SCALER_A(0x00);//msWriteByte(SC0_CE, 0x00);
+ 523   2              INT_SCALER_B(0x00);//msWriteByte(SC0_CF, 0x00);
+ 524   2              //msWriteByte(SC0_CC, 0x00);
+ 525   2              //msWriteByte(SC0_CD, 0x00);
+ 526   2              INT_STATUS_CLEAR();
+ 527   2          }
+ 528   1          //return u8OrgValue;
+ 529   1      }
+ 530          #endif
+ 531          
+ 532          Bool mStar_SetPanelTiming(void)
+ 533          {
+ 534   1          if(appmStar_SetPanelTiming() == FALSE)
+ 535   1              return FALSE;
+C51 COMPILER V9.01   MSTAR                                                                 08/18/2023 11:33:10 PAGE 10  
+
+ 536   1          
+ 537   1          return TRUE;
+ 538   1      }
+ 539          
+ 540          #if FieldInvertCheck
+ 541          void mStar_CheckInterlacemode( BYTE ucFlag )
+ 542          {
+ 543   1          WORD xdata ucCount;
+ 544   1          BYTE xdata ucField0, ucField1;
+ 545   1          WORD xdata wTemp, wTemp0 = 0, wTemp1 = 0;
+ 546   1              
+ 547   1              if(CURRENT_INPUT_IS_VGA())//20130418
+ 548   1                      return;
+ 549   1      
+ 550   1          if( ucFlag )
+ 551   1          {
+ 552   2              msWriteByte( SC0_00, 0x00 );
+ 553   2             // if( msReadByte( SC0_E1 )&BIT3 )                               //130116_4 Henry For TimingChange After DPS On In DP Source
+ 554   2             //     msWriteByte( SC0_E8, msReadByte( SC0_E8 ) | 0x03 );
+ 555   2              msWriteByte( SC0_E9, msReadByte( SC0_E9 ) | BIT0 );
+ 556   2      
+ 557   2              ForceDelay1ms( 100 );
+ 558   2              ucCount = 0;
+ 559   2              wTemp0 = wTemp1 = 0;
+ 560   2              while( ucCount++ < 1000 )
+ 561   2              {
+ 562   3                  if( msReadByte( SC0_E1 )&BIT2 )
+ 563   3                  {
+ 564   4                      wTemp = msRead2Byte( SC0_95 );
+ 565   4                      if( wTemp > 0x250 )
+ 566   4                          wTemp1 = wTemp;
+ 567   4                  }
+ 568   3                  if( !( msReadByte( SC0_E1 )&BIT2 ) )
+ 569   3                  {
+ 570   4                      wTemp = msRead2Byte( SC0_95 );
+ 571   4                      if( wTemp > 0x250 )
+ 572   4                          wTemp0 = wTemp;
+ 573   4                  }
+ 574   3                  if( !wTemp0 && ( wTemp0 >> 8 ) == ( wTemp1 >> 8 ) && wTemp0 != wTemp1 )
+ 575   3                      break;
+ 576   3              }
+ 577   2      
+ 578   2              ucField1 = abs( wTemp1 - wTemp0 );
+ 579   2      
+ 580   2              msWriteByte( SC0_E9, msReadByte( SC0_E9 )& ( ~BIT0 ) );
+ 581   2              ForceDelay1ms( 100 );
+ 582   2      
+ 583   2              ucCount = 0;
+ 584   2              wTemp0 = wTemp1 = 0;
+ 585   2              while( ucCount++ < 1000 )
+ 586   2              {
+ 587   3                  if( msReadByte( SC0_E1 )&BIT2 )
+ 588   3                  {
+ 589   4                      wTemp = msRead2Byte( SC0_95 );
+ 590   4                      if( wTemp > 0x250 )
+ 591   4                          wTemp1 = wTemp;
+ 592   4                  }
+ 593   3                  if( !( msReadByte( SC0_E1 )&BIT2 ) )
+ 594   3                  {
+ 595   4                      wTemp = msRead2Byte( SC0_95 );
+ 596   4                      if( wTemp > 0x250 )
+ 597   4                          wTemp0 = wTemp;
+C51 COMPILER V9.01   MSTAR                                                                 08/18/2023 11:33:10 PAGE 11  
+
+ 598   4                  }
+ 599   3                  if( !wTemp0 && ( wTemp0 >> 8 ) == ( wTemp1 >> 8 ) && wTemp0 != wTemp1 )
+ 600   3                      break;
+ 601   3              }
+ 602   2      
+ 603   2              ucField0 = abs( wTemp1 - wTemp0 );
+ 604   2              //MST_printData(" FInvert wTemp0 %x", wTemp0);
+ 605   2              //MST_printData(" FInvert wTemp1 %x", wTemp1);
+ 606   2              //MST_printData(" FInvert ucCount %x", ucCount);
+ 607   2              //MST_printData(" FInvert ucField0 %x", ucField0);
+ 608   2              //MST_printData(" FInvert ucField1 %x", ucField1);
+ 609   2      
+ 610   2      
+ 611   2              msWriteByte( SC0_00, 0x00 );
+ 612   2              if( ucCount < 1000 )
+ 613   2              {
+ 614   3                  if( ucField0 >= 7 )
+ 615   3                  {
+ 616   4                      msWriteByte( SC0_E9, msReadByte( SC0_E9 ) | BIT0 );
+ 617   4                  }
+ 618   3                  else
+ 619   3                  {
+ 620   4                      if( ucField0 > ucField1 && abs( ucField0 - ucField1 ) >= 2 )
+ 621   4                      {
+ 622   5                          msWriteByte( SC0_E9, msReadByte( SC0_E9 ) | BIT0 );
+ 623   5                      }
+ 624   4                  }
+ 625   3              }
+ 626   2          }
+ 627   1          else
+ 628   1          {
+ 629   2              msWriteByte( SC0_00, 0x00 );
+ 630   2              //msWriteByte( SC0_E8, 0 );             //130116_4 Henry
+ 631   2          }
+ 632   1      }
+ 633          #endif
+ 634          
+ 635          //*******************************************************************
+ 636          // Function Name: mStar_SetupMode
+ 637          //
+ 638          // Decscription: setup registers for input timing,
+ 639          // return      : TRUE,
+ 640          // caller: mStar_SetupADC(), mStar_SetupCaptureWindow(),
+ 641          //         mStar_SetScalingFactor(), mStar_SetPanelTiming(),
+ 642          //         mStar_SetUserPref() in mstar.c
+ 643          //         mStar_FineTuneDVIPhase(), mStar_ValidTimingDetect() in detect.c
+ 644          //         mSar_WriteByte(), msReadByte() in ms_rwreg.c
+ 645          // callee: mStar_ModeHandler() in detect.c
+ 646          //*******************************************************************
+ 647          Bool mStar_SetupMode(void)                                                                                                                                                      //setup mode
+ 648          {
+ 649   1      #if ENABLE_DISPLAY_UNDERSCAN
+                  WORD hFreq, vFreq;
+              #endif
+ 652   1      
+ 653   1          Clr_FreeRunModeFlag();              //清空相关标志
+ 654   1          Clr_BackToUnsupportFlag();  //111223 Modify
+ 655   1          Clr_BackToStandbyFlag();    //111223 Modify
+ 656   1      
+ 657   1      // 121123 coding, moved here from mStar_PrepareForTimingChange()
+ 658   1          
+ 659   1              #if 0//ESaverPowerDownFunc              //110227 Modify for TPV Request
+C51 COMPILER V9.01   MSTAR                                                                 08/18/2023 11:33:10 PAGE 12  
+
+                  ESaverPowerDownCounter=0;
+                      #endif                          //设置模拟信号的HTotal Phase Polarity等相关参数
+ 662   1          mStar_SetupADC(); // setup ADC block, including polarity & htotal, phase, vco
+ 663   1          
+ 664   1      #if ENABLE_DUAL_LINK //&& DL_PXL_RAT_DET
+                      if (IsSrcUseDualLinkDviPort())
+                      msDVIDualLinkMode(msGetDVIDualLinkStatus());
+              #endif
+ 668   1          if (mStar_SetCaptureWindow() == FALSE)//通过获取输入信号的起始位置和尺寸大小来确�
+             -�输出信号的起始位置和尺寸大小
+ 669   1          // setup capture window
+ 670   1          {
+ 671   2              //      printMsg("Err_1");
+ 672   2              return FALSE;
+ 673   2          }
+ 674   1      
+ 675   1      #if ENABLE_DISPLAY_UNDERSCAN // 120529 coding modified for just MHL timing Vfreq under 48Hz could into fra
+             -me buffer
+                  hFreq = HFreq( SrcHPeriod );
+                  vFreq = VFreq( hFreq, SrcVTotal );
+                  if(CURRENT_SOURCE_IS_INTERLACE_MODE())
+                  {
+                      vFreq *= 2;
+                      #if 0//ENABLE_DEBUG
+                  printMsg("CURRENT_SOURCE_IS_INTERLACE_MODE");
+                      #endif
+                  }
+              
+                  //if(CURRENT_INPUT_IS_HYBRID_MHL_HDMI() && gMHLInfo.bMhlCablePlugged == TRUE && vFreq<DISPLAY_UNDERSCA
+             -N_FREQ)
+                  if(vFreq < DISPLAY_UNDERSCAN_FREQ ||vFreq > 1400)
+                  {
+                      UnderScanSetting.Enable = 1;
+                      UnderScanSetting.HSize = DISPLAY_UNDERSCAN_SPACE;
+                      UnderScanSetting.VSize = DISPLAY_UNDERSCAN_SPACE;
+                      #if ENABLE_RTE  //120611 Modify
+                              msOverDriveOnOff( FALSE );
+                      #endif
+                  }
+                  else
+                  {
+                      UnderScanSetting.Enable = 0;
+                      UnderScanSetting.HSize = 0;
+                      UnderScanSetting.VSize = 0;
+                  }
+              #endif
+ 703   1          
+ 704   1      #if (CHIP_ID==CHIP_TSUMU ||CHIP_ID==CHIP_TSUM2||CHIP_ID==CHIP_TSUMC||CHIP_ID==CHIP_TSUMD ||CHIP_ID==CHIP_T
+             -SUM9||CHIP_ID==CHIP_TSUMF)
+ 705   1      
+ 706   1                      mStar_SetupPath();                                              //对输出画面进行缩放的一些设置
+ 707   1      #else
+                              mStar_SetScalingFactor(); // setup scaling factor//设置比例因子，通过比较输入和输出的wi
+             -dth和height来设置横向和纵向的缩放因子
+                              mStar_SetScalingFilter();//按比例对水平和垂直方向进行缩放，无缩放比例 按比例增�
+             -�� 按比例缩小
+              #endif
+ 711   1      
+ 712   1          if (mStar_SetPanelTiming() == FALSE)//设置output dclk
+ 713   1          // set output dclk
+ 714   1          {
+ 715   2                         #if DEBUG_MSG
+C51 COMPILER V9.01   MSTAR                                                                 08/18/2023 11:33:10 PAGE 13  
+
+ 716   2                              printMsg( "===>mstar fail Not support" );
+ 717   2                              #endif   
+ 718   2              SrcFlags |= bUnsupportMode;
+ 719   2              //    printMsg("Err_2");
+ 720   2              return TRUE;
+ 721   2          }
+ 722   1      
+ 723   1      // 121019 coding addition
+ 724   1      
+ 725   1      #if 0//(ENABLE_DUAL_LINK)&&(ENABLE_RTE)         //130402 Modify
+              if(GetVfreq()>85
+              #if ENABLE_120Hz_OD
+                      && !(g_SetupPathInfo.wImgSizeOutH==PanelWidth &&  g_SetupPathInfo.wImgSizeOutV==PanelHeight)
+              #endif
+              )//(SrcModeIndex==MODE_1920x1080P_144Hz)        
+                  {
+                      msOverDriveOnOff( FALSE );
+                  }
+              #endif
+ 735   1      
+ 736   1          if (InputTimingChangeFlag || mStar_ValidTimingDetect())//检测输入信号是否发生改变
+ 737   1          // check if input timing has changed
+ 738   1          {
+ 739   2              //printMsg("Err3");
+ 740   2              return FALSE;
+ 741   2          }
+ 742   1              
+ 743   1          // enable double buffer
+ 744   1          mStar_ScalerDoubleBuffer(TRUE);    
+ 745   1      
+ 746   1          // use interrupt to speedup mode changing while input timing is changing
+ 747   1      #if UseINT
+ 748   1              mStar_EnableModeChangeINT(TRUE);//当输入信号改变时，使用中断加速模式改变
+ 749   1      #endif
+ 750   1      
+ 751   1      
+ 752   1          mStar_InterlaceModeSetting();//设置隔行扫描
+ 753   1      
+ 754   1      #if FieldInvertCheck
+ 755   1              mStar_CheckInterlacemode( SrcFlags & bInterlaceMode );
+ 756   1      #endif
+ 757   1      
+ 758   1      
+ 759   1              #if ENABLE_HDMI //120420 Modify
+ 760   1          if( mstar_HDMITmdsGetType()==TMDS_HDMI && SrcInputType>=Input_Digital )
+ 761   1                      gScInfo.InputColor=mstar_HDMIPacketColor();
+ 762   1              #endif
+ 763   1          mStar_SetUserPref(); // restore user setting 恢复用户设置，如：DCR、ColorTemp、Brightness�
+             -�
+ 764   1          return TRUE;
+ 765   1      }
+ 766          //*******************************************************************
+ 767          // Function Name: mStar_SetupFreeRunMode
+ 768          //
+ 769          // Decscription: setup registers for free run mode without any input timing,
+ 770          //
+ 771          //         msWriteByte(), msReadByte(), msWrite2Byte() in ms_rwreg.c
+ 772          // callee: mStar_ModeHandler() in detect.c
+ 773          //*******************************************************************
+ 774          void mStar_SetupFreeRunMode(void)
+ 775          {
+ 776   1              drvmStar_SetupFreeRunMode();
+C51 COMPILER V9.01   MSTAR                                                                 08/18/2023 11:33:10 PAGE 14  
+
+ 777   1          
+ 778   1              Set_FreeRunModeFlag();
+ 779   1      
+ 780   1      #if BrightFreqByVfreq
+ 781   1          SetPWMFreq( 250 );
+ 782   1      #endif
+ 783   1      
+ 784   1       #if EANBLE_NEW_DCR_Functing
+ 785   1      DCR_Counter=0;                                          
+ 786   1      Clr_EanbleClearBalclightStartFlag();
+ 787   1      Clr_DoClearBalclightFlag();
+ 788   1       #endif    
+ 789   1      
+ 790   1      
+ 791   1      #if ENABLE_FACTORY_SSCADJ
+ 792   1          mStar_SetPanelSSC(FactorySetting.SSCModulation, FactorySetting.SSCPercentage);
+ 793   1      #else
+                  mStar_SetPanelSSC(PANEL_SSC_MODULATION_DEF, PANEL_SSC_PERCENTAGE_DEF);
+              #endif
+ 796   1      }
+ 797          
+ 798          //*******************************************************************
+ 799          // Function Name: mStar_SetAnalogInputPort
+ 800          //
+ 801          // Decscription: setup registers for Separate Sync/Composite Sync/SOG,
+ 802          //
+ 803          // caller: mSar_WriteByte(), msReadByte() in ms_rwreg.c
+ 804          //
+ 805          // callee: mStar_MonitorInputTiming() in detect.c
+ 806          //*******************************************************************
+ 807          void mStar_SetAnalogInputPort( Bool ToSOGPort )
+ 808          {
+ 809   1          BYTE regValue = SC0_READ_INPUT_SETTING();//msReadByte(SC0_02);
+ 810   1      
+ 811   1      #if MS_VGA_SOG_EN
+                 // if( regValue & BIT4 )
+                 if(!ToSOGPort)
+                  {
+                      regValue = regValue & 0x8F;
+                      g_bInputSOGFlag=0;
+                      //if(bInputVGAisYUV)
+                      //    drvADC_SetADCSource(ADC_TABLE_SOURCE_YUV_HV);  // input is YUV
+                      //else
+                          drvADC_SetADCSource(ADC_TABLE_SOURCE_RGB);   // input is RGB
+              
+                      SC0_ADC_COAST_ENABLE(0x01);//msWriteByte(SC0_ED, 0x01);   // enable ADC coast
+                      SC0_ADC_COAST_START(0x03);//msWriteByte(SC0_EE, 0x03); //0x00);   // enable coast window start
+                      SC0_ADC_COAST_END(0x01);//msWriteByte(SC0_EF, 0x01); //0x00);   // enable coast window end
+                      SC0_GLITCH_REMOVAL_ENABLE(0);//msWriteByte(SC0_F3, 0x00 ); //RD suggest 20081008
+                      ADC_PLL_LOCKING_EDGE(0);//msWriteByteMask(REG_ADC_DTOP_07_L,0,BIT5); // 0:Hsync leading edge; 1: H
+             -sync trailing edge
+                      //printMsg("/r/nInputPort_____VGA");
+                  }
+                  else
+                  {
+                      regValue = regValue | 0x70;
+                      g_bInputSOGFlag=1;
+                      //if(bInputVGAisYUV)
+                          drvADC_SetADCSource(ADC_TABLE_SOURCE_SOG);  // input is YUV
+                      //else
+                      //    drvADC_SetADCSource(ADC_TABLE_SOURCE_RGB);   // input is RGB
+                      
+C51 COMPILER V9.01   MSTAR                                                                 08/18/2023 11:33:10 PAGE 15  
+
+                      SC0_ADC_COAST_ENABLE(0x21);//msWriteByte(SC0_ED, 0x21);   // enable ADC coast
+                      SC0_ADC_COAST_START(0x08);//msWriteByte(SC0_EE, 0x08);   // enable coast window start  //Al050814 
+             -Micro version need adjust this value
+                      SC0_ADC_COAST_END(0x08);//msWriteByte(SC0_EF, 0x08 ); //0x05);   // enable coast window end //Jiso
+             -n 110317 follow CHIP_TSUMT
+                      SC0_GLITCH_REMOVAL_ENABLE(0);//msWriteByte( SC0_F3,  0x00 );
+                      ADC_PLL_LOCKING_EDGE(1);//msWriteByteMask(REG_ADC_DTOP_07_L,BIT5,BIT5); // 0:Hsync leading edge; 1
+             -: Hsync trailing edge
+                      //      printMsg("/r/nInputPort_____SOG");
+                  }
+              //130912 nick modify for speed up switch port
+                  SC0_RECOVER_INPUT_SETTING(regValue);//msWriteByte(SC0_02, regValue);
+              
+                  SC0_SCALER_RESET(GPR_B|ADCR_B); // enable software reset function to clear ADC & Graphic port RO regis
+             -ter
+                  Delay1ms(2);
+                  SC0_SCALER_RESET(0); // disable software reset
+                  Delay1ms(80); // delay over 1 frame time to wait for status register is ready
+              
+                  
+              #else
+ 855   1          ToSOGPort=ToSOGPort;
+ 856   1          regValue = regValue & 0x8F;
+ 857   1          g_bInputSOGFlag = 0;
+ 858   1          drvADC_SetADCSource(ADC_TABLE_SOURCE_RGB);
+ 859   1              ADC_PLL_LOCKING_EDGE(0);// 0:Hsync leading edge; 1: Hsync trailing edge  //20130517 Modify
+ 860   1      
+ 861   1          SC0_RECOVER_INPUT_SETTING(regValue);//msWriteByte(SC0_02, regValue);
+ 862   1          
+ 863   1      #endif
+ 864   1      
+ 865   1      }
+ 866          //*******************************************************************
+ 867          // Function Name: mStar_SetupInputPort
+ 868          //
+ 869          // Decscription: setup input port registers for
+ 870          //               Analog/Digital/YCbCr(Video) input
+ 871          //
+ 872          // caller: mSar_WriteByte(), msReadByte() in ms_rwreg.c
+ 873          // callee: mStar_MonitorInputTiming() in detect.c
+ 874          //*******************************************************************
+ 875          void mStar_SetupInputPort(void)//数字端口需要拉下HPD
+ 876          {
+ 877   1      #if Dual
+ 878   1              if (!(FactoryModeFlag))
+ 879   1              Set_ShowInputInfoFlag();
+ 880   1      #endif
+ 881   1      #if CHIP_ID == CHIP_TSUMU
+                      if(!g_SetupPathInfo.bOverrideSCFmtIn)
+                          g_SetupPathInfo.ucSCFmtIn = SC_FMT_IN_NORMAL;
+                      g_SetupPathInfo.ucIPLRSel = IP_3D_LR_FRAME_DET;
+              #elif CHIP_ID == CHIP_TSUM2
+                      if(!g_SetupPathInfo.bOverrideSCFmtIn)
+                          g_SetupPathInfo.ucSCFmtIn = SC_FMT_IN_NORMAL;
+              #endif
+ 889   1      
+ 890   1      
+ 891   1      #if ENABLE_MHL //&& (CHIP_ID == CHIP_TSUM2)
+                  MHLExtenCountFlag = 0;
+              #endif
+ 894   1      
+ 895   1      
+C51 COMPILER V9.01   MSTAR                                                                 08/18/2023 11:33:10 PAGE 16  
+
+ 896   1          mStar_IPPowerControl(); // 130319 coding addition for test
+ 897   1      
+ 898   1          
+ 899   1      #if ((CHIP_ID == CHIP_TSUMC) || (CHIP_ID == CHIP_TSUMD)||(CHIP_ID == CHIP_TSUM9)||(CHIP_ID == CHIP_TSUMF))
+ 900   1          if(!CURRENT_INPUT_IS_TMDS())
+ 901   1          {
+ 902   2               msWriteByteMask(REG_175D, 0x20, 0x20);//Mask HDMI IRQ
+ 903   2      #if DHDMI_SIMPLAYHD_PATCH // SimplayHD CTS 8-18
+                       msWriteByteMask(REG_1509, 0x84, 0x84);
+              #endif
+ 906   2          }
+ 907   1          else
+ 908   1          {
+ 909   2              msWriteByteMask(REG_175D, 0x00, 0x20);
+ 910   2          }
+ 911   1      #if ENABLE_DP_INPUT
+                  if(!CURRENT_INPUT_IS_DISPLAYPORT())
+                   {
+                          #if(CHIP_ID == CHIP_TSUM9 || CHIP_ID == CHIP_TSUMF)
+                          DPRxOutputEnable( FALSE );
+                          #endif
+                          DPClearOffLineData();
+                          DPRxIRQEnable(FALSE);
+                          DPSetOffLine();
+                   }
+              #endif
+ 922   1      #endif
+ 923   1      
+ 924   1      #ifdef _HW_AUTO_NO_SIGNAL_
+                  msWriteByteMask(SC0_E7, _BIT4, _BIT4);
+              #endif
+ 927   1          if(CURRENT_INPUT_IS_VGA())//( SrcInputType < Input_Digital )
+ 928   1          {
+ 929   2             #if ENABLE_DEBUG
+ 930   2              printMsg("CURRENT_INPUT_IS_VGA");
+ 931   2              #endif
+ 932   2              drvmStar_SetupInputPort_VGA();
+ 933   2      #if (CHIP_ID==CHIP_TSUMC || CHIP_ID==CHIP_TSUMD||CHIP_ID == CHIP_TSUM9|| CHIP_ID == CHIP_TSUMF)//130604 Mo
+             -dify
+ 934   2                      ComboInputControl(COMBO_INPUT_ANALOG);
+ 935   2      #endif
+ 936   2          }
+ 937   1          else if(CURRENT_INPUT_IS_DVI())//( SrcInputType == Input_Digital )
+ 938   1          {
+ 939   2             #if ENABLE_DEBUG
+ 940   2             printMsg("CURRENT_INPUT_IS_DVI");
+ 941   2              #endif
+ 942   2              drvmStar_SetupInputPort_DVI();       
+ 943   2      #if ENABLE_MHL && (CHIP_ID == CHIP_TSUM2)
+                      mapi_mhl_CbusIsolate();
+              #endif
+ 946   2      #if (CHIP_ID==CHIP_TSUMC || CHIP_ID==CHIP_TSUMD || CHIP_ID == CHIP_TSUM9|| CHIP_ID == CHIP_TSUMF)//130604 
+             -Modify
+ 947   2                  ComboInputControl(COMBO_INPUT_DIGITAL);
+ 948   2      #endif
+ 949   2      
+ 950   2          }
+ 951   1      #if ENABLE_HDMI
+ 952   1          else if(CURRENT_INPUT_IS_HDMI())//(SrcInputType == Input_HDMI)
+ 953   1          {
+ 954   2              #if ENABLE_DEBUG
+ 955   2              printMsg("CURRENT_INPUT_IS_HDMI");
+C51 COMPILER V9.01   MSTAR                                                                 08/18/2023 11:33:10 PAGE 17  
+
+ 956   2              #endif
+ 957   2              mstar_HDMIInitialVariable();
+ 958   2              drvmStar_SetupInputPort_HDMI();
+ 959   2      #if (CHIP_ID==CHIP_TSUMC || CHIP_ID==CHIP_TSUMD || CHIP_ID==CHIP_TSUM9|| CHIP_ID == CHIP_TSUMF)//130604 Mo
+             -dify
+ 960   2                      ComboInputControl(COMBO_INPUT_DIGITAL);
+ 961   2      #endif
+ 962   2          }
+ 963   1      #endif
+ 964   1      #if ENABLE_DP_INPUT
+                  else if(CURRENT_INPUT_IS_DISPLAYPORT())//(SrcInputType == Input_Displayport)
+                  {
+                  #if ENABLE_DEBUG
+                   printMsg("CURRENT_INPUT_IS_DISPLAYPORT");
+                  #endif
+                      drvmStar_SetupInputPort_DisplayPort();
+              #if (CHIP_ID==CHIP_TSUMC || CHIP_ID==CHIP_TSUMD||CHIP_ID == CHIP_TSUM9|| CHIP_ID == CHIP_TSUMF)//130604 Mo
+             -dify
+                              ComboInputControl(COMBO_INPUT_DIGITAL);
+              #endif
+                  }
+              #endif
+ 976   1      
+ 977   1      #if CHIP_ID == CHIP_TSUMV
+                      if(SrcInputType != Input_VGA)//20130513 for DVI dot pattern color deviation problem.
+                              msWriteByteMask(SC7_23, 0x40,0x40);
+              #endif
+ 981   1      
+ 982   1      #if ENABLE_MHL
+              #if ((CHIP_ID == CHIP_TSUMC) ||(CHIP_ID == CHIP_TSUMD) ||(CHIP_ID == CHIP_TSUM9) ||(CHIP_ID == CHIP_TSUMF)
+             -)
+                      mapi_mhl_SourceChange();
+              #endif
+              #endif
+ 987   1      
+ 988   1      
+ 989   1      
+ 990   1          ForceDelay1ms(10);//(20);
+ 991   1          SC0_SCALER_RESET(GPR_B|ADCR_B); // enable software reset function to clear ADC & Graphic port RO regis
+             -ter
+ 992   1          ForceDelay1ms(20);//(80);
+ 993   1          SC0_SCALER_RESET(0); // disable software reset
+ 994   1      #if ENABLE_HDCP
+ 995   1      #if ENABLE_MHL //&& (CHIP_ID == CHIP_TSUM2)
+                  if(!CURRENT_INPUT_MHL_CABLE_PLUGGED())
+              #endif
+ 998   1          if(CURRENT_INPUT_IS_TMDS())//( SrcInputType == Input_Digital || SrcInputType == Input_Digital2 )
+ 999   1              msEnableHDCP();
+1000   1      #endif
+1001   1      }
+1002          //*******************************************************************
+1003          // Function Name: mStar_SetCaptureWindow
+1004          //
+1005          // Decscription: setup input capture window for display
+1006          //
+1007          // caller: mSar_WriteWord(), msRead2Byte() in ms_rwreg.c
+1008          ///
+1009          // callee: mStar_SetupMode() in mstar.c
+1010          //*******************************************************************
+1011          #if ENABLE_OVER_SCAN
+              #define PanelPitch 2760ul //2715ul // 0.2715 * 10000 = mm
+              #endif
+C51 COMPILER V9.01   MSTAR                                                                 08/18/2023 11:33:10 PAGE 18  
+
+1014          
+1015          Bool mStar_SetCaptureWindow(void)
+1016          {
+1017   1          WORD width, height;
+1018   1      #if ENABLE_OVER_SCAN
+              #if CHIP_ID == CHIP_TSUMU
+                  BYTE DualInDivider = 1;
+              #endif
+                      XDATA DWORD wTemp;
+                      XDATA WORD wTempRatio;
+                  WORD M, N;
+                  WORD CapWinHStart, CapWinVStart;
+                  WORD OverScanHDisp, OverScanVDisp, OverScanHCap, OverScanVCap;
+              #endif
+1028   1      #if CHIP_ID == CHIP_TSUMD       //20130909 nick modify
+                      #if !ENABLE_OVER_SCAN
+                  WORD CapWinHStart, CapWinVStart;
+                  WORD OverScanHDisp, OverScanVDisp, OverScanHCap, OverScanVCap;
+                      #endif
+                  BYTE DualInDivider = 1;
+              #endif
+1035   1      //CaptureWindow的原理是什么?
+1036   1      //原理：通过获取输入Image的起始位置和尺寸大小来设定输出Window的起始位置和尺
+             -寸大小,数字信号从寄存器中读取mode信息
+1037   1      
+1038   1          if( //数字信号
+1039   1              CURRENT_INPUT_IS_TMDS()//SrcInputType == Input_Digital || SrcInputType == Input_Digital2 
+1040   1      #if ENABLE_DP_INPUT
+                      || CURRENT_INPUT_IS_DISPLAYPORT()//SrcInputType == Input_Displayport
+              #endif
+1043   1          )
+1044   1          {   //从寄存器中读取mode信息
+1045   2              UserPrefHStart = SC0_READ_AUTO_START_H();//msRead2Byte(SC0_80); // get hsync DE start 自动检测
+             -水平起点位置
+1046   2              UserPrefVStart = SC0_READ_AUTO_START_V();//msRead2Byte(SC0_7E); // get vsync DE start 自动检测
+             -垂直起点位置
+1047   2              //自动检测水平终点位置 - 自动检测水平起点位置 + 1
+1048   2              width = SC0_READ_AUTO_WIDTH();//msRead2Byte(SC0_84)-msRead2Byte(SC0_80)+1; // get DE width
+1049   2              //自动检测垂直终点位置 - 自动检测垂直起点位置 + 1
+1050   2              height = SC0_READ_AUTO_HEIGHT();//msRead2Byte(SC0_82)-msRead2Byte(SC0_7E)+1; // get DE Height
+1051   2      
+1052   2                #if ENABLE_DEBUG
+1053   2          printData("CAPTUREWIN width001=%d",width);
+1054   2          printData("CAPTUREWIN height001=%d",height);
+1055   2          printData("CAPTUREWIN UserPrefHStart001=%d",UserPrefHStart);
+1056   2          printData("CAPTUREWIN UserPrefVStart001=%d",UserPrefVStart);
+1057   2      #endif
+1058   2      
+1059   2                      
+1060   2               if(CURRENT_SOURCE_IS_INTERLACE_MODE())
+1061   2                  {
+1062   3                      if(SC0_DE_ONLY_MODE() == TRUE)//(scReadByte(SC0_04)&BIT6) //DE only mode
+1063   3                      {
+1064   4                          if(SC0_VIDEO_FIELD_INVERSION() == FALSE)//((scReadByte(SC0_E9)&BIT3)==0) //video field
+             - invert
+1065   4                              {
+1066   5                              height+=3;  //height=(Vend �V Vstart + 2);
+1067   5                              UserPrefVStart-=1;        //120522 
+1068   5                              }
+1069   4                          else
+1070   4                              {
+1071   5                              height-=3; //height=(Vend �V Vstart - 2);
+C51 COMPILER V9.01   MSTAR                                                                 08/18/2023 11:33:10 PAGE 19  
+
+1072   5                              UserPrefVStart+=1;        //120522 
+1073   5                              }
+1074   4                      }
+1075   3                      else
+1076   3                      {
+1077   4                          height--; //height=(Vend �V Vstart)
+1078   4                      }
+1079   3                      #if ENABLE_DP_INPUT
+                                  if(CURRENT_INPUT_IS_DISPLAYPORT())//SrcInputType == Input_Displayport
+                                  {
+                                      if(scReadByte(SC0_04)&BIT6) //DE only mode
+                                      {
+                                          if((scReadByte(SC0_E9)&BIT3)==0) //video field invert
+                                              height++;  //height=(Vend �V Vstart + 2);
+                                          else
+                                              height-=3; //height=(Vend �V Vstart - 2);
+                                      }
+                                      else
+                                      {
+                                      if(g_SetupPathInfo.ucSCFmtIn == SC_FMT_IN_NORMAL)
+                                      { 
+                                              height+=2; //height=(Vend �V Vstart + 3);
+                                              UserPrefVStart-=1; 
+                                      }
+                                      else
+                                          height--; //height=(Vend �V Vstart)
+                                      }
+                                  }
+                              #endif
+1101   3      
+1102   3                  }
+1103   2               
+1104   2                  if( PanelWidth == 1366 )            //120119 Modify
+1105   2                  {
+1106   3                      if( width == 1360 )
+1107   3                      {
+1108   4                          UserPrefHStart -= 3;//1366的屏左右多出三个像素点的黑边
+1109   4                          width = 1366;
+1110   4                      }
+1111   3                  }
+1112   2      
+1113   2      #if ENABLE_OVER_SCAN && CHIP_ID == CHIP_TSUMU
+                          if(IS_INPUT_DUAL_IN()) // dual in
+                          {
+                              width *= 2;
+                              DualInDivider = 2;
+                          }
+              #endif
+1120   2               
+1121   2          }
+1122   1              //模拟信号从mode表中获取mode信息                                                                                                                                             //my
+1123   1          else
+1124   1          {
+1125   2              // input 1360x768 display on 1366 panel,
+1126   2              // don't do sacle and get 1366 for hori. data
+1127   2              if( PanelWidth == 1366 )
+1128   2              {
+1129   3                  if( StandardModeGroup == Res_1360x768 )
+1130   3                      width = 1366;
+1131   3                  else
+1132   3                      width = StandardModeWidth;
+1133   3              }
+C51 COMPILER V9.01   MSTAR                                                                 08/18/2023 11:33:10 PAGE 20  
+
+1134   2              else
+1135   2              {
+1136   3                  width = StandardModeWidth;
+1137   3              }
+1138   2      
+1139   2      
+1140   2              height = SC0_READ_AUTO_HEIGHT();//msRead2Byte(SC0_82)-msRead2Byte(SC0_7E)+1; // get DE Height
+1141   2              
+1142   2              if( StandardModeGroup == Res_1152x864 )
+1143   2              {
+1144   3                  height = 864;
+1145   3              }
+1146   2              else
+1147   2              {
+1148   3                  height = StandardModeHeight;
+1149   3                   if (SrcFlags&bInterlaceMode)  //120522
+1150   3                  {
+1151   4                      height = (StandardModeHeight+3);
+1152   4                      UserPrefVStart-=2;
+1153   4                  }
+1154   3              }
+1155   2      
+1156   2      
+1157   2          }
+1158   1      
+1159   1      #if ENABLE_OVER_SCAN && CHIP_ID == CHIP_TSUMU
+                  width &= (~BIT0);
+              #endif
+1162   1      
+1163   1      #if DEBUG_PRINTDATA//DEBUG_CAPTUREWIN
+1164   1          printData("CAPTUREWIN0000 height=%d",height);
+1165   1      #endif
+1166   1      
+1167   1      
+1168   1          if (DecVScaleFlag)
+1169   1              height += DecVScaleValue;
+1170   1      
+1171   1      #if DEBUG_PRINTDATA//DEBUG_CAPTUREWIN
+1172   1          printData("CAPTUREWIN1111 height=%d",height);
+1173   1      #endif
+1174   1      
+1175   1              
+1176   1      //121228 Modify
+1177   1      #if Enable_Expansion//按比例扩展                                                                                                                   //my
+1178   1      
+1179   1                      if (16*GetImageHeight()== 9*GetImageWidth()||16*GetImageHeight() == 10*GetImageWidth() ||((DWORD)GetImag
+             -eWidth()*PANEL_HEIGHT >= (DWORD)PANEL_WIDTH*GetImageHeight())
+1180   1                              #if !ENABLE_OVER_SCAN
+1181   1                              ||((GetImageWidth() == PANEL_WIDTH) && (GetImageHeight() == PANEL_HEIGHT))
+1182   1                              #endif
+1183   1                              ) //120911 Modify
+1184   1                              Clr_ExpansionFlag();
+1185   1                      else
+1186   1                              Set_ExpansionFlag();
+1187   1      
+1188   1      #endif
+1189   1      
+1190   1      #if 0//ENABLE_OVER_SCAN
+                  if(EXPANSION_MODE_IS_ASPECT() && !INPUT_IS_WILD_TIMING())// && (!INPUT_IS_NATIVE_TIMING())) //13011422
+             - Henry
+                  {
+                      OverScanSetting.ScanRatio = 100;
+C51 COMPILER V9.01   MSTAR                                                                 08/18/2023 11:33:10 PAGE 21  
+
+                      OverScanSetting.ImageRatio = 100;
+                      OverScanSetting.AspRatio = OVERSCAN_4_3;
+                      OverScanSetting.Enable = 1;
+                  }
+                  else if(EXPANSION_MODE_IS_11() && !(INPUT_IS_NATIVE_TIMING()||(StandardModeWidth > PANEL_WIDTH) || (St
+             -andardModeHeight > PANEL_HEIGHT)))//  && (!INPUT_IS_NATIVE_TIMING())) //13011422 Henry
+                  {
+                      OverScanSetting.ScanRatio = 100;
+                      OverScanSetting.ImageRatio = 0;
+                      OverScanSetting.AspRatio = OVERSCAN_FIXED_RATIO;
+                      OverScanSetting.Enable = 1;
+                  }
+                  
+              else if(EXPANSION_MODE_IS_17())//  && (!INPUT_IS_NATIVE_TIMING())) //13011422 Henry
+              {
+                  OverScanSetting.ScanRatio = 100;
+                  OverScanSetting.ImageRatio = 0;
+                  OverScanSetting.AspRatio = PC_SCALE_17Picth;
+                  OverScanSetting.Enable = 1;
+              }
+              else if(EXPANSION_MODE_IS_19())//  && (!INPUT_IS_NATIVE_TIMING())) //13011422 Henry
+              {
+                  OverScanSetting.ScanRatio = 100;
+                  OverScanSetting.ImageRatio = 0;
+                  OverScanSetting.AspRatio = PC_SCALE_19Picth;
+                  OverScanSetting.Enable = 1;
+              }
+              else if(EXPANSION_MODE_IS_W19())//  && (!INPUT_IS_NATIVE_TIMING())) //13011422 Henry
+              {
+                  OverScanSetting.ScanRatio = 100;
+                  OverScanSetting.ImageRatio = 0;
+                  OverScanSetting.AspRatio = PC_SCALE_W19Picth;
+                  OverScanSetting.Enable = 1;
+              }
+              else if(EXPANSION_MODE_IS_W21())//  && (!INPUT_IS_NATIVE_TIMING())) //13011422 Henry
+              {
+                  OverScanSetting.ScanRatio = 100;
+                  OverScanSetting.ImageRatio = 0;
+                  OverScanSetting.AspRatio = PC_SCALE_W21_5Picth;
+                  OverScanSetting.Enable = 1;
+              }
+              else if(EXPANSION_MODE_IS_W22())//  && (!INPUT_IS_NATIVE_TIMING())) //13011422 Henry
+              {
+              
+                  OverScanSetting.ScanRatio = 100;
+                  OverScanSetting.ImageRatio = 0;
+                  OverScanSetting.AspRatio = PC_SCALE_W22Picth;
+                  OverScanSetting.Enable = 1;
+              }
+              else if(EXPANSION_MODE_IS_W23() )// && (!INPUT_IS_NATIVE_TIMING())) //13011422 Henry
+              {
+              
+                  OverScanSetting.ScanRatio = 100;
+                  OverScanSetting.ImageRatio = 0;
+                  OverScanSetting.AspRatio = PC_SCALE_W23Picth;
+                  OverScanSetting.Enable = 1;
+              }
+              
+                  else// if(EXPANSION_MODE_IS_FULL())
+                  {
+                      OverScanSetting.ScanRatio = 100;
+                      OverScanSetting.ImageRatio = 100;
+C51 COMPILER V9.01   MSTAR                                                                 08/18/2023 11:33:10 PAGE 22  
+
+                      OverScanSetting.AspRatio = OVERSCAN_16_9;//OVERSCAN_FIXED;
+                      OverScanSetting.Enable = 1;
+                      UserprefExpansionMode = Expansion_Full;
+                  }
+              
+                  CapWinHStart = UserPrefHStart;
+                  CapWinVStart = UserPrefVStart;
+                  if(OverScanSetting.Enable && (g_SetupPathInfo.ucSCFmtIn == SC_FMT_IN_NORMAL))
+                  {
+                      OverScanSetting.OverScanH = PanelWidth;
+                      OverScanSetting.OverScanV = PanelHeight;
+              
+                      if( (OverScanSetting.AspRatio == OVERSCAN_4_3)
+                       || (OverScanSetting.AspRatio == OVERSCAN_16_9) )
+                      {
+                          if(OverScanSetting.AspRatio == OVERSCAN_4_3)
+                          {
+                              M = 4;
+                              N = 3;
+                          }
+                          else if(OverScanSetting.AspRatio == OVERSCAN_16_9)
+                          {
+                              M = 16;
+                              N = 9;
+                          }
+              
+                          if( ((DWORD)PanelWidth*N/M) < PanelHeight )
+                          {
+                              OverScanSetting.OverScanH = PanelWidth;
+                              OverScanSetting.OverScanV = ((DWORD)PanelWidth*N/M);
+                          }
+                          else
+                          {
+                              OverScanSetting.OverScanH = ((DWORD)PanelHeight*M/N);
+                              OverScanSetting.OverScanV = PanelHeight;
+                          }
+              
+                          OverScanHDisp = OverScanSetting.OverScanH + OverScanSetting.ExtH;
+                          OverScanVDisp = OverScanSetting.OverScanV + OverScanSetting.ExtV;
+              
+                          if( OverScanSetting.ExtH )
+                          {
+                              OverScanHCap = ((DWORD)width * OverScanSetting.OverScanH / OverScanHDisp);
+                              CapWinHStart = UserPrefHStart + (width - OverScanHCap) / 2 / DualInDivider;
+                              width = OverScanHCap;
+                          }
+              
+                          if( OverScanSetting.ExtV )
+                          {
+                              OverScanVCap = ((DWORD)height * OverScanSetting.OverScanV / OverScanVDisp);
+                              CapWinVStart = UserPrefVStart + (height - OverScanVCap) / 2;
+                              height = OverScanVCap;
+                          }
+                      }
+                      else if(OverScanSetting.AspRatio == OVERSCAN_FIXED) //Fixed Input Aspect Ratio
+                      {
+                          if( (DWORD)PanelWidth*height >= (DWORD)PanelHeight*width )
+                          {
+                              OverScanSetting.OverScanH = ((DWORD)width * PanelHeight / height);
+                              OverScanSetting.OverScanV = PanelHeight;
+                          }
+                          else
+C51 COMPILER V9.01   MSTAR                                                                 08/18/2023 11:33:10 PAGE 23  
+
+                          {
+                              OverScanSetting.OverScanH = PanelWidth;
+                              OverScanSetting.OverScanV = ((DWORD)height * PanelWidth / width);
+                          }
+                                      
+                      }
+                      else if( OverScanSetting.AspRatio == OVERSCAN_FIXED_RATIO )
+                      {
+                          OverScanSetting.OverScanH = (PanelWidth > width)?( width + ((DWORD)(PanelWidth - width) * Over
+             -ScanSetting.ImageRatio) / 100 ):PanelWidth ;
+                          OverScanSetting.OverScanV = (PanelHeight > height)?( height + ((DWORD)(PanelHeight - height) *
+             - OverScanSetting.ImageRatio) / 100 ):PanelHeight ;
+              
+                          if(CURRENT_INPUT_IS_DISPLAYPORT())
+                              OverScanSetting.OverScanH=OverScanSetting.OverScanH*2;
+              
+                          OverScanHCap = ((DWORD)width * OverScanSetting.ScanRatio / 100);
+                          CapWinHStart = UserPrefHStart + (width - OverScanHCap) / 2 / DualInDivider;
+                          width = OverScanHCap;
+              
+                          OverScanVCap = ((DWORD)height * OverScanSetting.ScanRatio / 100);
+                          CapWinVStart = UserPrefVStart + (height - OverScanVCap) / 2;
+                          height = OverScanVCap;
+                      }
+              
+              #if ENABLE_OVER_SCAN
+                              else if(IS_ScreenSizeMode)
+                              {
+                                        XDATA DWORD PitchTempV;
+                                        XDATA DWORD PitchTempH;
+                      
+                                            if(OverScanSetting.AspRatio == PC_SCALE_17Picth)
+                                              {
+                                          PitchTempV=2400000ul;
+                                          PitchTempH=3200000ul;
+                                          //printData("############PC_SCALE_17Picth", 1);
+                                      }
+                                            else if(OverScanSetting.AspRatio == PC_SCALE_19Picth)
+                                              {
+                                          PitchTempV=2700000ul;
+                                          PitchTempH=3600000ul;
+                                          //printData("############PC_SCALE_19Picth", 1);
+                                      }
+                                            else if(OverScanSetting.AspRatio == PC_SCALE_W19Picth)
+                                              {
+                                          PitchTempV=2551500ul;
+                                          PitchTempH=4082400ul;
+                                          //printData("############PC_SCALE_W19Picth", 1);
+                                      }
+                                            else if(OverScanSetting.AspRatio == PC_SCALE_W21_5Picth)
+                                              {
+                                          PitchTempV=2680000ul;
+                                          PitchTempH=4766000ul;
+                                          //printData("############PC_SCALE_W21_5Picth", 1);
+                                      }
+                                            else if(OverScanSetting.AspRatio == PC_SCALE_W22Picth)
+                                              {
+                                          PitchTempV=2930000ul;
+                                          PitchTempH=4730000ul;
+                                          //printData("############PC_SCALE_W22Picth", 1);
+                                      }
+                                            else if(OverScanSetting.AspRatio == PC_SCALE_W23Picth)
+C51 COMPILER V9.01   MSTAR                                                                 08/18/2023 11:33:10 PAGE 24  
+
+                                              {
+                                          PitchTempV=2867000ul;
+                                          PitchTempH=5097000ul;
+                                          //printData("############PC_SCALE_W23Picth", 1);
+                                      }
+                      
+                                          wTemp=PitchTempV/PanelPitch; // panel pixel pitch = mm*10000.
+                                          wTempRatio=PanelHeight-wTemp;
+                                          wTempRatio = (DWORD)0 * wTempRatio / 100;
+                                          wTemp+=wTempRatio;
+                                          OverScanSetting.OverScanV = wTemp;
+                      
+                                    wTemp = wTemp*(PitchTempH/PanelPitch)/(PitchTempV/PanelPitch); // // // panel pixel 
+             -pitch = mm*10000.
+                                          OverScanSetting.OverScanH = wTemp;
+                                            if (OverScanSetting.OverScanH & BIT0) // H  must to even to prvent screen br
+             -eak.
+                                              OverScanSetting.OverScanH+=1;
+                                          OverScanHCap = ((DWORD)width * OverScanSetting.ScanRatio / 100);
+                                          CapWinHStart = UserPrefHStart + (width - OverScanHCap) / 2 / DualInDivider;
+                                            width = OverScanHCap;
+                      
+                                          OverScanVCap = ((DWORD)height * OverScanSetting.ScanRatio / 100);
+                                          CapWinVStart = UserPrefVStart + (height - OverScanVCap) / 2;
+                                          height = OverScanVCap;
+                                  }
+                      
+              #endif
+              
+                      width &= (~BIT0);
+              #if DEBUG_CAPTUREWIN
+                      printData("OverScanEnable = %x", OverScanSetting.Enable);
+                      printData("OverScanAspRatio = %x", OverScanSetting.AspRatio);
+                      printData("OverScanExtH = %x", OverScanSetting.ExtH);
+                      printData("OverScanExtV = %x", OverScanSetting.ExtV);
+              #endif        
+                  }
+              
+                  mStar_AdjustHPosition(CapWinHStart);//msWrite2Byte(SC0_07, UserPrefHStart); // set capture window hsta
+             -rt
+                  mStar_AdjustVPosition(CapWinVStart);          // set capture window vstart
+              
+                  SC0_SET_IMAGE_HEIGHT(height);//msWrite2ByteMask(SC0_09, height, SC_MASK_V);
+                  SC0_SET_IMAGE_WIDTH((width/DualInDivider));//msWrite2ByteMask(SC0_0B, width, SC_MASK_H); // set captur
+             -e window width according input resolution
+                  
+              #else // !ENABLE_OVER_SCAN
+1420   1      #if CHIP_ID == CHIP_TSUMD  //130909 nick add for TSUMXXD FRC case
+                 OverScanSetting.OverScanH = PanelWidth; 
+                 OverScanSetting.OverScanV = PanelHeight;
+              
+                 #if 0
+                  if(EXPANSION_MODE_IS_ASPECT() && !INPUT_IS_WILD_TIMING())
+                  {
+                      WORD wval;
+                      OverScanSetting.Enable = 1;
+                      OverScanSetting.OverScanV = PanelHeight;
+                      width=GetImageOutH();//OverScanSetting.OverScanH = GetImageOutH();
+                      //wval = HStartOffset = (PanelWidth-OverScanSetting.OverScanH)/2;
+                      //UserPrefHStart += wval;
+                  }
+                  else
+C51 COMPILER V9.01   MSTAR                                                                 08/18/2023 11:33:10 PAGE 25  
+
+                  {
+                      OverScanSetting.Enable = 0;
+                      OverScanSetting.OverScanH = PanelWidth;
+                      OverScanSetting.OverScanV = PanelHeight;
+                      HStartOffset = 0;
+                  }
+                  #endif
+              
+              
+                  if(EXPANSION_MODE_IS_ASPECT() && !INPUT_IS_WILD_TIMING())
+                  {
+                      if( ((DWORD)PanelWidth*3/4) < PanelHeight )
+                      {
+                          OverScanSetting.OverScanH = PanelWidth;
+                          OverScanSetting.OverScanV = ((DWORD)PanelWidth*3/4);
+                      }
+                      else
+                      {
+                          OverScanSetting.OverScanH = ((DWORD)PanelHeight*4/3);
+                          OverScanSetting.OverScanV = PanelHeight;
+                      }
+              
+                      OverScanHDisp = OverScanSetting.OverScanH + OverScanSetting.ExtH;
+                      OverScanVDisp = OverScanSetting.OverScanV + OverScanSetting.ExtV;
+              
+                      if( OverScanSetting.ExtH )
+                      {
+                          OverScanHCap = ((DWORD)width * OverScanSetting.OverScanH / OverScanHDisp);
+                          CapWinHStart = UserPrefHStart + (width - OverScanHCap) / 2 / DualInDivider;
+                          width = OverScanHCap;
+                      }
+              
+                      if( OverScanSetting.ExtV )
+                      {
+                          OverScanVCap = ((DWORD)height * OverScanSetting.OverScanV / OverScanVDisp);
+                          CapWinVStart = UserPrefVStart + (height - OverScanVCap) / 2;
+                          height = OverScanVCap;
+                      }
+                      width &= (~BIT0);
+                      }
+              #endif                                                          //调整输出的起始位置和尺寸大小                                                                                                            //my
+1476   1          mStar_AdjustHPosition(UserPrefHStart);//msWrite2Byte(SC0_07, UserPrefHStart); // set capture window hs
+             -tart
+1477   1          mStar_AdjustVPosition(UserPrefVStart);        // set capture window vstart
+1478   1      
+1479   1          SC0_SET_IMAGE_HEIGHT(height);//msWrite2ByteMask(SC0_09, height, SC_MASK_V);
+1480   1          SC0_SET_IMAGE_WIDTH(width);//msWrite2ByteMask(SC0_0B, width, SC_MASK_H); // set capture window width a
+             -ccording input resolution
+1481   1      #endif
+1482   1      #if DEBUG_PRINTDATA//DEBUG_CAPTUREWIN
+1483   1          printData("CAPTUREWIN width=%d",width);
+1484   1          printData("CAPTUREWIN height=%d",height);
+1485   1      #endif
+1486   1              
+1487   1      
+1488   1          return TRUE;
+1489   1      }
+1490          
+1491          #if CHIP_ID == CHIP_TSUM2
+              void PowerDownDDR(void)
+              {
+                      //DDR DTOP
+C51 COMPILER V9.01   MSTAR                                                                 08/18/2023 11:33:10 PAGE 26  
+
+                   msWrite2Byte(REG_1207, 0x3250);
+                   msWrite2Byte(REG_1247, 0xfffe);
+                   ForceDelay1ms(2);
+                   msWrite2Byte(REG_1219, 0x0400);
+                   msWrite2Byte(REG_1201, 0x002f);
+                   msWrite2Byte(REG_1201, 0x052e);
+                   msWrite2Byte(REG_1201, 0x002e);
+                   msWrite2Byte(REG_1201, 0x032e);
+                   msWrite2Byte(REG_1201, 0x002e);
+                   ForceDelay1ms(2);
+                   msWrite2Byte(REG_1247, 0xffff);
+                   msWrite2Byte(REG_1201, 0x202e);
+              }
+              #endif
+1509          
+1510          
+1511          //*******************************************************************
+1512          // Function Name: mStar_SetupADC
+1513          //
+1514          // Decscription: setup ADC bandwidth/filter, clock, phase for sampling input data
+1515          //               and R/G/B gains, offsets
+1516          // caller: mSar_WriteByte(), msReadByte() in ms_rwreg.c
+1517          ///
+1518          // callee: mStar_SetupMode() in mstar.c
+1519          //*******************************************************************
+1520          void mStar_SetupADC(void)
+1521          {
+1522   1              WORD tempValue;
+1523   1      
+1524   1              if(SrcInputType > Input_ANALOG)
+1525   1                      return;
+1526   1      
+1527   1              tempValue = HFreq( SrcHPeriod );//(( DWORD )MST_CLOCK_MHZ * 10 + SrcHPeriod / 2 ) / SrcHPeriod; //calcula
+             -te hfreq: round 5
+1528   1              tempValue = (( DWORD )tempValue * UserPrefHTotal + 5000 ) / 10000; //dclk= hfreq * htotal
+1529   1      
+1530   1      #ifdef DADCPLLPROTECTION
+1531   1              drvADC_SetModewithPLLProtection(ADC_INPUTSOURCE_RGB, tempValue, UserPrefHTotal);//(g_bInputSOGFlag ? ADC_
+             -INPUTSOURCE_YPBPR : ADC_INPUTSOURCE_RGB, tempValue, UserPrefHTotal);
+1532   1      #else
+                      drvADC_AdjustHTotal(UserPrefHTotal);
+              
+                      drvADC_SetADCModeSetting((g_bInputSOGFlag ? ADC_INPUTSOURCE_YPBPR : ADC_INPUTSOURCE_RGB), tempValue);
+              #endif
+1537   1              //drvADC_SetPhaseCode((UPPHASE_GET_REAL_VALUE()+1)%MAX_PHASE_VALUE); //Jison 100818 patch for phase state
+             - machine reset
+1538   1              drvADC_SetPhaseCode(UserPrefPhase); //Jison 100818
+1539   1              drvADC_SetupHsyncPolarity((SrcFlags & bHSyncNegative)); //Jison 100818
+1540   1      
+1541   1              // wait for checking
+1542   1              drvADC_SetRGBGainCode(UserPrefAdcRedGain, UserPrefAdcGreenGain, UserPrefAdcBlueGain);
+1543   1              drvADC_SetRGBOffsetCode(UserPrefAdcRedOffset, UserPrefAdcGreenOffset, UserPrefAdcBlueOffset);
+1544   1              drvADC_AdjustCalDuring(32);
+1545   1      
+1546   1              //mStar_SetupClampingByMode(); //Jison 110106
+1547   1              //msADC_AdjustCalDuring( 80/2 );  // unit: pixel // coding temp setting
+1548   1      }
+1549          
+1550          
+1551          #define DVI_POWER_ON()  (msWriteByteMask(REG_PM_B2, 0, BIT2|BIT3), msWrite2ByteMask(REG_290C, 0, 0xFFFF), 
+             -msWrite2ByteMask(REG_29C0, 0, 0xFFFF))
+1552          #define DVI_POWER_DOWN()    (msWriteByteMask(REG_PM_B2, BIT2|BIT3, BIT2|BIT3), msWrite2ByteMask(REG_290C, 
+C51 COMPILER V9.01   MSTAR                                                                 08/18/2023 11:33:10 PAGE 27  
+
+             -0x7FFE, 0xFFFF), msWrite2ByteMask(REG_29C0, 0xFFFF, 0xFFFF))
+1553          
+1554          //*******************************************************************
+1555          // Function Name: mStar_PowerUp
+1556          //
+1557          // Decscription: Power on chip from power down mode
+1558          //
+1559          // callee: msWriteByte() in ms_rwreg.c
+1560          //
+1561          // caller: Power_PowerOnSystem() in power.c
+1562          //*******************************************************************
+1563          void mStar_PowerUp(void)
+1564          {
+1565   1      
+1566   1      #if     !(MS_PM)
+              #if ENABLE_MHL
+                  if(!GET_MHL_CABLE_PLUGGED())
+              #endif
+                  {
+                      MPLL_POWER_UP(TRUE);
+                      LPLL_POWER_UP(TRUE);
+                      MPLL_CLOCK_ADC(TRUE);
+                      mcuSetSystemSpeed(SPEED_NORMAL_MODE);
+                  }
+              #endif
+1577   1      
+1578   1      #if ENABLE_MHL
+                  mapi_mhl_PowerCtrl(MHL_POWER_ON);
+              #endif
+1581   1      
+1582   1      
+1583   1          // 120601 coding reserved
+1584   1          //mStar_IPPowerControl();   //120204 Modify
+1585   1      
+1586   1          SC0_SCALER_POWER_DOWN(BIT6, 0xFF); // power on chip from power down mode
+1587   1      
+1588   1           SC0_SCALER_RESET( GPR_B | ADCR_B ); // reset graphic port RO register
+1589   1           SC0_SCALER_RESET( 0 );
+1590   1      
+1591   1      #if MS_DAC
+1592   1          msAudioDACPowerDown( FALSE );
+1593   1      #endif
+1594   1      
+1595   1      
+1596   1      
+1597   1      #if (CHIP_ID==CHIP_TSUM2)|| (CHIP_ID==CHIP_TSUMC)|| (CHIP_ID==CHIP_TSUMD) || (CHIP_ID==CHIP_TSUM9)|| (CHIP
+             -_ID==CHIP_TSUMF)
+1598   1          WRITE_POWER_ON_TABLE();
+1599   1      #endif
+1600   1      
+1601   1          // 120601 coding addition
+1602   1          drvADC_PowerCtrl(ADC_POWER_ON);
+1603   1          drvDVI_PowerCtrl(DVI_POWER_ON);
+1604   1      
+1605   1      // 120531 coding addition
+1606   1      #if ((FRAME_BFF_SEL == FRAME_BUFFER) || (ENABLE_RTE))&&(CHIP_ID != CHIP_TSUMF)
+                  msInitMemory();
+              #endif
+1609   1      
+1610   1      #if ENABLE_DP_INPUT
+                      #if (CHIP_ID==CHIP_TSUMC)|| (CHIP_ID==CHIP_TSUMD)||(CHIP_ID == CHIP_TSUM9)||(CHIP_ID == CHIP_TSUMF)
+                      DPRxInit_PM();
+C51 COMPILER V9.01   MSTAR                                                                 08/18/2023 11:33:10 PAGE 28  
+
+                      DPRxFastTrainingInitial();
+                      #endif
+              #endif
+1616   1      
+1617   1      
+1618   1      }
+1619          //*******************************************************************
+1620          // Function Name: mStar_PowerDown
+1621          //
+1622          // Decscription: Power down chip
+1623          //
+1624          // callee: msWriteByte() in ms_rwreg.c
+1625          //
+1626          // caller: Power_PowerOffSystem() in power.c
+1627          //*******************************************************************
+1628          void mStar_PowerDown(void)
+1629          {
+1630   1      
+1631   1      #if TMDS_SYNC_RECHECK//20130418
+                  if(TMDS_INPUT_WITHOUT_HV_SYNC())
+                  {
+                      return;
+                  }
+              #endif
+1637   1      
+1638   1      #if (((CHIP_ID == CHIP_TSUMC) || (CHIP_ID == CHIP_TSUMD) ||(CHIP_ID == CHIP_TSUM9)||(CHIP_ID == CHIP_TSUMF
+             -))&&(ENABLE_DP_INPUT))
+              #if (CHIP_ID == CHIP_TSUM9||CHIP_ID == CHIP_TSUMF)
+              #if !DP_AUX_NORMAL_FRO
+                   DPRxSetAuxClock(FRO);
+              #endif
+              #endif
+                   DPAux_Reset();
+                   DPSetOffLine();
+                   DPRxIRQEnable(FALSE);
+                   msWriteByteMask( REG_2B19, ( _BIT7 ), _BIT7 );         // Disable DPISR
+              #endif
+1649   1      #if ENABLE_RTE // 081124 od modified
+                  msOverDriveOnOff( FALSE); // disable OD function , or you can set BK4_90h= 0 directly.
+              #endif
+1652   1      
+1653   1      #if MS_DAC
+1654   1              msAudioDACPowerDown(TRUE);
+1655   1      #endif
+1656   1      
+1657   1      
+1658   1      #if (MS_PM)     //120612 Modify
+1659   1              if((ESaverPowerDownCounter!=0)
+1660   1                      #if ENABLE_MHL && (CHIP_ID==CHIP_TSUM2)// 120607 coding addition for VGA cannot wakeup when MHL cable pl
+             -ugged
+                              ||GET_MHL_CABLE_PLUGGED()
+                              #endif
+1663   1                )
+1664   1                      msWrite2ByteMask( REG_ADC_ATOP_04_L, 0 , BIT14); 
+1665   1      #endif
+1666   1      
+1667   1      #if UseINT
+1668   1              mStar_EnableModeChangeINT(FALSE); //Jison: for DDCCI,DVI input, reduced power off,it wake up immediately.
+1669   1      #endif
+1670   1      
+1671   1          drvADC_PowerCtrl((PowerOnFlag ? ADC_POWER_STANDBY : ADC_POWER_DOWN));
+1672   1          drvDVI_PowerCtrl((PowerOnFlag)?(DVI_POWER_STANDBY):(DVI_POWER_DOWN));
+C51 COMPILER V9.01   MSTAR                                                                 08/18/2023 11:33:10 PAGE 29  
+
+1673   1          // 120203 coding test
+1674   1          //if(!PowerOnFlag)
+1675   1          //    DVI_POWER_DOWN();
+1676   1      #if (CHIP_ID==CHIP_TSUMC || CHIP_ID==CHIP_TSUMD)//130604 Modify
+1677   1              //ComboInputControl((PowerOnFlag ? COMBO_INPUT_POWERSAVING: COMBO_INPUT_OFF));  //130607 nick
+1678   1      #endif
+1679   1      
+1680   1      
+1681   1      
+1682   1      #if     (MS_PM)
+1683   1          SC0_SCALER_POWER_DOWN( PDDS_B | BIT5 | BIT2 | 0x2 | BIT6, 0xFF ); // power down chip except mode detec
+             -tion
+1684   1      #else
+                  SC0_SCALER_POWER_DOWN( PDDS_B | BIT5 | BIT2 | 0x3 | BIT6, 0xFF ); // power down chip except mode detec
+             -tion
+                  //Jison, Don't enable if use PM mode, it will cause sometime DDCCI_ID is disabled by int 0
+                  //if (DDCCI_FORCE_POWER_SAVE_FLAG && (SRC_INPUT_TYPE==INPUT_DVI || SRC_INPUT_TYPE==INPUT_HDMI))
+                  //msWriteByte(SC0_CF, BIT2); //Enable DVI clock change int 090710 // 110928 coding check with Jison
+              #endif
+1690   1      
+1691   1      #if ENABLE_MHL
+                      mapi_mhl_PowerCtrl(PowerOnFlag ? MHL_POWER_STANDBY : MHL_POWER_DOWN);
+              #endif    
+1694   1      
+1695   1      #if CHIP_ID == CHIP_TSUM2
+                  PowerDownDDR();
+              #endif
+1698   1      
+1699   1      #if     !(MS_PM)// && !ENABLE_MHL
+              
+              #if ENABLE_DP_INPUT
+                  #if CHIP_ID == CHIP_TSUMU
+                      DPRXPMForceEnter(); /* Force DP Enter Power Saving Mode */
+                  #endif
+              #endif
+              
+              #if ENABLE_MHL
+                  if(!GET_MHL_CABLE_PLUGGED())
+              #endif
+                  {
+                      mcuSetSystemSpeed(SPEED_XTAL_MODE);             //111012 Modify
+                      MPLL_POWER_UP(FALSE);
+                      LPLL_POWER_UP(FALSE);
+                      MPLL_CLOCK_ADC(FALSE);
+                  }
+              #endif 
+1717   1      
+1718   1      }
+1719          //*******************************************************************
+1720          // Function Name: mStar_InitADC
+1721          //
+1722          // Decscription: Initialize ADC bank registers
+1723          //
+1724          // callee: msWriteByte() in ms_rwreg.c
+1725          //
+1726          // caller: mStar_Init() in mStar.c
+1727          //*******************************************************************
+1728          void mStar_InitADC(void)
+1729          {
+1730   1              drvADC_init(FALSE);
+1731   1              drvADC_ADCOffsetGainMismatchCal();
+1732   1      #if _DGAIN_CAL_WITHOUT_INPUT_
+C51 COMPILER V9.01   MSTAR                                                                 08/18/2023 11:33:10 PAGE 30  
+
+1733   1          #if ENABLE_AUTO_CLOLR_WITHOUT_INPUT
+1734   1          if(!FactoryAutoColorDone)
+1735   1          {
+1736   2              drvADC_ADCAutoGainCalwithoutInput();
+1737   2              FactoryAutoColorDone = 1;
+1738   2              SaveFactorySetting();
+1739   2          }
+1740   1          #else
+                      drvADC_ADCAutoGainCalwithoutInput();
+                  #endif
+1743   1      #endif
+1744   1      #if ENABLE_ADC_DITHERING        //120204 Modify
+                  msWriteByteMask(REG_ADC_ATOP_51_L, 0x00, 0x03); // [1:0]: enable ADCA interleve H/V dither in the norm
+             -al display
+              #else
+1747   1          msWriteByteMask(REG_ADC_ATOP_51_L, 0x03, 0x03); // [1:0]: disable ADCA interleve H/V dither in the nor
+             -mal display
+1748   1      #endif
+1749   1              //drvADC_SetHsyncRefLevel(ADC_HSYNC_LVL_0);
+1750   1      }
+1751          
+1752          //*******************************************************************
+1753          // Function Name: mStar_InitTCON
+1754          //
+1755          // Decscription: Initialize TCON bank registers according panel type
+1756          //
+1757          // callee: msWriteByte(), msWrite2Byte in ms_rwreg.c
+1758          //
+1759          // caller: mStar_Init() in mStar.c
+1760          //*******************************************************************
+1761          //==================================================================
+1762          extern void SetColorBoostWindow(BYTE mode);
+1763          extern void SetColorBoostWin(BYTE mode);
+1764          extern BYTE code t_MWEDLC_Linear_Table[];
+1765          extern code short t_Normal_ColorSettingTable[][3];
+1766          
+1767          //*******************************************************************
+1768          // Function Name: mStar_SetUserPref
+1769          //
+1770          // Decscription: Restore user setting from NVRAM
+1771          //
+1772          // callee: msWriteByte() in ms_rwreg.c
+1773          //
+1774          // caller: mStar_SetupMode() in mStar.c
+1775          //*******************************************************************
+1776          void mStar_SetUserPref(void)
+1777          {
+1778   1      
+1779   1      #if ENABLE_RTE  //130605 william
+                      if(UserPrefRTEMode!=OFF
+                      #if ENABLE_DISPLAY_UNDERSCAN
+                              && !UnderScanSetting.Enable&&!(g_SetupPathInfo.bFBMode)
+                      #endif
+                        #if ENABLE_DUAL_LINK
+                                        ||((GetVfreq()<=85)&&(!ENABLE_FREESYNC)
+                                      #if ENABLE_120Hz_OD
+                                        &&!(g_SetupPathInfo.wImgSizeOutH==PanelWidth &&       g_SetupPathInfo.wImgSizeOutV==PanelHeight)
+                                      #endif
+                                        )//(SrcModeIndex!=MODE_1920x1080P_144Hz) //130328 Modify
+                        #endif
+                       )
+                      {
+C51 COMPILER V9.01   MSTAR                                                                 08/18/2023 11:33:10 PAGE 31  
+
+                              msOverDriveOnOff( TRUE );
+                      }
+              #endif
+1796   1      
+1797   1          if (UserPrefDcrMode)
+1798   1          {
+1799   2              //msDlcInit( PanelWidth, PanelHeight );
+1800   2                      msDCROnOff(UserPrefDcrMode, MAIN_WINDOW);       //120308 Modify
+1801   2                      ReadColorTempSetting();
+1802   2              // 091005 coding
+1803   2              if(FreeRunModeFlag)
+1804   2                  mStar_AdjustBrightness(100);
+1805   2              return ;
+1806   2          }
+1807   1              else
+1808   1              msAccOnOff(0);
+1809   1              
+1810   1      
+1811   1          // 091005 coding
+1812   1          if(FreeRunModeFlag)
+1813   1              mStar_AdjustBrightness(100);
+1814   1          else
+1815   1              SetECO(); //zhifeng.wu
+1816   1      
+1817   1      
+1818   1       
+1819   1      
+1820   1      
+1821   1      #if ENABLE_DeltaE
+                  msWriteByte(SC7_D0, 0);
+                  msWriteByte(SC7_D2, 0);
+                  SetColorTemp();// 091028 for AC OFF/OFF,Contrast error    by lizzie
+              #endif
+1826   1      
+1827   1           
+1828   1         VIDEO_AUTO_GAIN_SELECT(!IsColorspaceRGB()); //Avoid Some Video After Scaling Blanking area grean line g
+             -arbge issue  20150212 alpha add 
+1829   1      
+1830   1      
+1831   1      
+1832   1      #if CHIP_ID == CHIP_TSUMV//130306 Modify
+                      {
+                              if(UserPrefSharpness<DefSharpness ||CURRENT_INPUT_IS_DVI())//20130516 feed back Sc7_23[6] for DVI       
+                                  msAdjustSharpness( MAIN_WINDOW,  GetRealSharpness() ,1);
+                              else
+                                  msAdjustSharpness( MAIN_WINDOW,  GetRealSharpness() ,0);    
+                      }
+              #else
+1840   1              #if  0
+                      if(CURRENT_INPUT_IS_VGA())
+                              msAdjustSharpness( MAIN_WINDOW,  0x0C ,0);      
+                      else
+                      #endif
+1845   1                      msAdjustSharpness( MAIN_WINDOW,  GetRealSharpness() ,0);        
+1846   1      #endif
+1847   1      
+1848   1      
+1849   1      
+1850   1          // 2006/10/16 12:39AM by Emily     mStar_InitGamma(); // programming gamma table
+1851   1          // Restore other settings here
+1852   1      }
+1853          
+C51 COMPILER V9.01   MSTAR                                                                 08/18/2023 11:33:10 PAGE 32  
+
+1854          void SetPWMFreq(WORD freq)
+1855          {
+1856   1      
+1857   1      
+1858   1      
+1859   1      #if ENABLE_BRIGHTNESS_FREQ_20KHZ                //130627 xiandi
+                      freq=freq;
+                      #if ((CHIP_ID==CHIP_TSUM9 || CHIP_ID==CHIP_TSUMF) && ENABLE_XTAL_LESS)
+                  drvGPIO_SetPWMFreq(BrightnessPWM, 22000); //Modify DC Adjust Light 20Khz For TPV EE Request  20150930
+                      #else
+                      drvGPIO_SetPWMFreq(BrightnessPWM, 27000);
+                      #endif
+              #else
+1867   1              drvGPIO_SetPWMFreq(BrightnessPWM, freq);
+1868   1      #endif
+1869   1      }
+1870          #if (CHIP_ID==CHIP_TSUM9) || (CHIP_ID==CHIP_TSUMF)
+              void msTrimFROFromEfuse(void)
+              {
+                  BYTE uctemp;
+              
+                  uctemp = msEread_GetDataFromEfuse(0x0004);
+              
+                  if((uctemp & BIT7) == BIT7)  // Trimming flag
+                  {
+                      msWriteByteMask(REG_018A, uctemp, 0x7F);
+                      g_bFROTrimResult = TRUE;
+                  }
+                  else
+                  {
+                      g_bFROTrimResult = FALSE;
+                  }
+              }
+              
+              #if (ENABLE_XTAL_LESS)
+              //*******************************************************
+              //      RCOSC calibration counter.
+              //      If HIGH_RESOLUTION_EN = 0
+              //      >> TARGET frequency = REF_freq * COUNT_REPORT/ 512
+              //         => COUNT_REPORT = Target * 512  / REF_Freg = (OSC432M/16) * 512 / FRO12M  = 0x480
+              //      If HIGH_RESOLUTION_EN = 1
+              //      >> TARGET frequency = REF_freq * COUNT_REPORT/ 2048
+              //         => COUNT_REPORT = Target * 2048  / REF_Freg = (OSC432M/32) * 2048 / FRO12M = 0x900
+              //*******************************************************
+              Bool msStartRCOSC432MCal(void)
+              {
+                      #define WRITE_CAL_VALUE(A)    (msWriteByteMask(REG_1ECB, A,0xFF))
+                      #define RCOSC_HIGH_RESOLUTION_EN  0 // BIT3
+                      #define RCOSC_COUNTER_MASK              0xFFF
+                      #if RCOSC_HIGH_RESOLUTION_EN
+                  #if CHIP_ID==CHIP_TSUMF
+                  #define OSC432_TARGET               0x900   //0x7C0 for 372M, 0x900 for 432M
+                  #else
+                  #define OSC432_TARGET               0x7C0   //0x7C0 for 372M, 0x900 for 432M
+                  #endif
+                  #else
+                  #if CHIP_ID==CHIP_TSUMF
+                  #define OSC432_TARGET               0x480   //0x3E0 for 372M, 0x480 for 432M
+                  #else
+                  #define OSC432_TARGET               0x3E0   //0x3E0 for 372M, 0x480 for 432M
+                  #endif
+                      #endif
+C51 COMPILER V9.01   MSTAR                                                                 08/18/2023 11:33:10 PAGE 33  
+
+                      WORD ucCounter;
+                      BYTE i=0;
+              
+                      msWriteByte(REG_1ECA,0x20);//0x1E65[7:0] = 0010_0000
+                      msWriteByteMask(REG_01B2, 0, BIT5|BIT6|BIT7);//0x0159[7:5] = 000 (default)
+                      msWriteBit(REG_1EEB, TRUE, BIT6);//0x1E75[14] = 1 //Enable test bus output.
+                      msWriteByteMask(REG_1EE8, 0x13, 0x1F);//0x1E74[4:0] = 10011 // Select TEST_CLK_OUT source.
+                      msWriteByteMask(REG_1EEB, 0x01, 0x1F);//0x1E75[12:8] = 00001 //ckg_tstclk
+                  #if RCOSC_HIGH_RESOLUTION_EN
+                      msWriteByteMask(REG_1EEC,0x05,0x07);//0x1E76[2:0] = 101
+                  #else
+                      msWriteByteMask(REG_1EEC,0x04,0x07);//0x1E76[2:0] = 100
+                  #endif
+                  Delay1ms(99);
+                      do
+                      {
+                              WRITE_CAL_VALUE(i++);
+                      Delay1ms(1);
+                             msWriteByte(REG_3A80, 0x80|RCOSC_HIGH_RESOLUTION_EN);//osc soft reset
+                             msWriteByte(REG_3A80, 0x03|RCOSC_HIGH_RESOLUTION_EN);// calculate & counter one time mode enable
+                              while( !( msReadByte(REG_3A83) & BIT4 ) );
+                              ucCounter = msRead2Byte(REG_3A82)&RCOSC_COUNTER_MASK;
+                      }
+                      while(( ucCounter < OSC432_TARGET ) &&  (i < 0xF0 ));
+                      msWriteBit(REG_1EEB, FALSE, BIT6); //close test bus
+                      return (BOOL)(ucCounter >= OSC432_TARGET);
+              
+                      #undef WRITE_CAL_VALUE
+                      #undef RCOSC_HIGH_RESOLUTION_EN
+                      #undef RCOSC_COUNTER_MASK
+                      #undef OSC432_TARGET
+              
+              }
+              #endif
+              #endif
+1951          
+1952          
+1953          #if (CHIP_ID == CHIP_TSUMC)||(CHIP_ID == CHIP_TSUMD) ||(CHIP_ID == CHIP_TSUM9)||(CHIP_ID == CHIP_TSUM2) ||
+             -(CHIP_ID == CHIP_TSUMF)       //130319 Modify
+1954          #if !ENABLE_MHL //130609 bian   petit 20131010 update   fay 20131030 add M2870VQ/M2870VHE
+1955          extern void msEread_SetMHLInitialValue(void);
+1956          extern BYTE msEread_GetHDCPKeyFromEfuse(WORD wCount);
+1957          #endif
+1958          #endif
+1959          
+1960          #if (CHIP_ID == CHIP_TSUM2)
+              extern Bool msEread_CompareHDCPChecksumInEfuse(WORD u16Value);
+              extern Bool msEread_IsHDCPKeyInEfuse(void);
+              extern BYTE msEread_GetADCBandgapTrimValFromEfuse(void);
+              extern void msEread_SetComboInitialValue(void);
+              extern void msEread_SetHDMIInitialValue(void);
+              #endif
+1967          
+1968          #if (CHIP_ID == CHIP_TSUMC)
+1969          extern BYTE GetVfreq( void );
+1970          #endif
+1971          
+1972          #if !ENABLE_RTE
+1973          extern void msOverDriveDummy();
+1974          #endif
+1975          
+1976          #if !Enable_Gamma
+C51 COMPILER V9.01   MSTAR                                                                 08/18/2023 11:33:10 PAGE 34  
+
+1977          extern void msGammaDummy(void);
+1978          #endif
+1979          void UnUseFunc(void)            //110311 Modify for compiler warning
+1980          {
+1981   1              BYTE Temp=0;
+1982   1              if(Temp)
+1983   1              {
+1984   2                      msAdjustVideoRGB(0,0,0,0);
+1985   2                      InitialPeaking();
+1986   2                      InitACEVar();
+1987   2                      InitDLCVar();
+1988   2                      #if CHIP_ID<CHIP_TSUMV  //130808 xiandi for AOC_ID07 warning
+                              mStar_WriteOSDByte( OSD1_77, mStar_ReadOSDByte(OSD1_77));
+                              #endif
+1991   2                    #if 1//ENABLE_RTE
+1992   2                    msFBDummy();
+1993   2                    #endif
+1994   2                      #if !ENABLE_RTE
+1995   2                      msOverDriveDummy();
+1996   2                      #endif
+1997   2                      msAdjustPCContrast(0,0);
+1998   2                      #ifdef TSUMXXT
+                              msACESetHDTVMode(0);
+                              msAdjustPCRGB( 0,0,0,0 );
+                              #endif
+2002   2      
+2003   2              msClearVersionDummy();  //130529 Nick
+2004   2      
+2005   2              #if !Enable_Gamma
+2006   2              msGammaDummy();
+2007   2              #endif
+2008   2                      
+2009   2                    #if (CHIP_ID == CHIP_TSUMC)||(CHIP_ID == CHIP_TSUMD)||(CHIP_ID == CHIP_TSUM2)     ||(CHIP_ID == 
+             -CHIP_TSUM9) ||(CHIP_ID == CHIP_TSUMF) //130319 Modify
+2010   2              #if !ENABLE_MHL         //130609 bian   petit 20131010 update           fay 20131030 add M2870VQ/M2870VHE
+2011   2              msEread_SetMHLInitialValue(); 
+2012   2              msEread_GetHDCPKeyFromEfuse(0);
+2013   2                      #if CHIP_ID == CHIP_TSUM9 || CHIP_ID == CHIP_TSUMF
+                      msEread_IsHDCPKeyInEfuse();
+                      msEread_SetComboInitialValue();
+                      #endif
+2017   2              #endif
+2018   2              #endif
+2019   2                      
+2020   2                      #if CHIP_ID == CHIP_TSUMD||CHIP_ID == CHIP_TSUMC || CHIP_ID == CHIP_TSUM9 || CHIP_ID == CHIP_TSUMF//1303
+             -15 Modify
+2021   2                              #if !ENABLE_DP_INPUT
+2022   2                              msdrvDPRxAppDummy();
+2023   2                              #endif
+2024   2                      #endif              
+2025   2              #if CHIP_ID == CHIP_TSUMD       //130315 Modify
+                      #if 0
+                              #if ENABLE_DP_INPUT
+                      #else
+                      msdrvDPRxAppDummy();
+                      #endif
+                      #endif
+                      #if   (1||ModelName == TSUMXXF_DEMO||ModelName==HH_TCL_DEMO_Project ||ModelName==HH_TCL_T27N1_Proj
+             -ect||(ModelName==HH_TCL_T27N1_F_Project)\
+                              ||ModelName==YWPK_L58CDT9_NV1|| ModelName==JRY_L58VHN_GV3|| ModelName==HKC_O587HT9_NV1|| ModelName==HKC_
+             -L58CDT9_NV1\
+                              || ModelName==SPT_CNC_O38CDMT9_GV1||ModelName==SPT_CNC_JRY_L8787_BV1||ModelName==LEYI_JRY_LQ570S_BV1\
+C51 COMPILER V9.01   MSTAR                                                                 08/18/2023 11:33:10 PAGE 35  
+
+                              ||ModelName==JuFeng_Project||ModelName==JRY_L58CDT9_GV3||ModelName==JRY_L58CDT9_EV1||ModelName==JRY_L58C
+             -DT9_PV1\
+                              ||(ModelName==HH_HKC_T32M8C_C_Project)||(ModelName==HH_TSY_KF270F075P_F_Project)||ModelName==JRY_L58CDT9
+             -_KV1||ModelName==JRY_L58CDT9_AV6||ModelName==HUNTKEY_F2272WHS\
+                              ||(ModelName==HH_BOARD_DEMO_Project))//130609 bian              fay 20131030 add M2870VQ/M2870VHE
+                      msSWDBWriteBit(0,0,0);
+                      msEread_SetMHLInitialValue();
+                      #endif
+                      #endif
+2042   2                      #if(CHIP_ID == CHIP_TSUM2 && ENABLE_MHL)// 130717 william For G15 compiling warning 
+                              mapi_mhl_SetHPD(0);
+                              #endif    
+2045   2                      #if CHIP_ID >= CHIP_TSUM2       //131031 xiandi
+2046   2                      OSDConfGDCurveH(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+2047   2                      OSDConfGDCurveV(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+2048   2                      OSDGDCurveSelectionForWindow(0, 0, 0);
+2049   2                      #endif
+2050   2                      #if CHIP_ID == CHIP_TSUM2 || CHIP_ID == CHIP_TSUMU|| CHIP_ID == CHIP_TSUMC|| CHIP_ID == CHIP_TSUMD|| CHI
+             -P_ID == CHIP_TSUMB|| CHIP_ID == CHIP_TSUM9 || CHIP_ID == CHIP_TSUMF//20130427//20130509
+2051   2                      GetLog(0);
+2052   2                      #endif
+2053   2                      
+2054   2              #if (CHIP_ID == CHIP_TSUM2)
+                              msEread_CompareHDCPChecksumInEfuse(0);
+                      msEread_IsHDCPKeyInEfuse();     
+                      msEread_GetADCBandgapTrimValFromEfuse();                
+                      msEread_SetComboInitialValue();         
+                      msEread_SetHDMIInitialValue();
+                              #endif
+2061   2              #if (CHIP_ID == CHIP_TSUM9 || CHIP_ID == CHIP_TSUMF)
+                      //BYTE u8ADCBandgapTrimVal;
+                      msEread_GetADCBandgapTrimValFromEfuse();
+                      drvGPIO_PWMAlignVSyncDelay(0, 0);
+                      drvGPIO_PWMInverse(0, 0);
+                      msDrvWriteInternalEDID(0, 0, 0);
+                      msDrvReadInternalEDID(0, 0);
+                      msTrimFROFromEfuse();
+                              SetSPI_Quad_En(0);
+                      msEread_SetHDMIInitialValue();
+                      #endif          
+2072   2              #if (CHIP_ID == CHIP_TSUMC)
+2073   2                      GetVfreq();
+2074   2              #endif
+2075   2                #if  CHIP_ID==CHIP_TSUMU
+                       //msAudioDPGA_SetVolume(0,0);  
+                      msWriteWord(0,0);
+                      msReadWord(0);
+                      #endif
+2080   2              }
+2081   1      }
+2082          
+2083          void mStar_BlackWhiteScreenCtrl(BYTE u8Ctrl)
+2084          {
+2085   1          if (u8Ctrl==BW_SCREEN_WHITE)
+2086   1              SC0_WHITE_SCREEN_ENABLE();//msWriteByteMask(SC0_43,BIT5,(BIT4|BIT5));
+2087   1          else if (u8Ctrl==BW_SCREEN_BLACK)
+2088   1              SC0_BLACK_SCREEN_ENABLE();//msWriteByteMask(SC0_43,BIT4,(BIT4|BIT5));
+2089   1          else
+2090   1              SC0_BLACK_WHITE_SCREEN_DISABLE();//msWriteByteMask(SC0_43,0,(BIT4|BIT5));
+2091   1      }
+2092          
+2093          #if   1
+C51 COMPILER V9.01   MSTAR                                                                 08/18/2023 11:33:10 PAGE 36  
+
+2094          BYTE IsColorspaceRGB(void)
+2095              {
+2096   1              BYTE  ColorspaceRGB=TRUE;
+2097   1      #if  ENABLE_DP_INPUT
+                      //if(CURRENT_INPUT_IS_DISPLAYPORT()&&(( gDPInfo.ucDPColorFormat  )!=InputColor_RGB))        
+                      if(CURRENT_INPUT_IS_DISPLAYPORT()&&DPINPUT_COLORSPACEYUV())
+                      ColorspaceRGB=FALSE;
+              #endif
+2102   1      #if ENABLE_HDMI
+2103   1              //if(SrcInputType==Input_HDMI&&(gScInfo.InputColor!=InputColor_RGB))
+2104   1      #if PANEL_3D_PASSIVE_4M
+                          if(CURRENT_INPUT_IS_HDMI())//(SrcInputType==Input_Digital)
+              #else
+2107   1              if(CURRENT_INPUT_IS_TMDS()&&(gScInfo.InputColor!=InputColor_RGB))
+2108   1      #endif
+2109   1              ColorspaceRGB=FALSE;
+2110   1      #endif
+2111   1          
+2112   1              return  ColorspaceRGB;
+2113   1          }
+2114          
+2115          void  SettingInputColorimetry(void)
+2116          {
+2117   1          
+2118   1      #if  ENABLE_DP_INPUT
+                  if(CURRENT_INPUT_IS_DISPLAYPORT()&&DPINPUT_COLORIMETRY_ITU709())
+                  msACESetHDTVMode(YUV_Colorimetry_ITU709);
+                  else
+              #endif
+2123   1      #if ENABLE_HDMI
+2124   1          if(CURRENT_INPUT_IS_HDMI()&&(gScInfo.AVI_Colorimetry == YUV_Colorimetry_ITU709)) // larry 130906 for t
+             -he color of window pattern is not the same in SDTV and HDTV
+2125   1          msACESetHDTVMode(YUV_Colorimetry_ITU709);
+2126   1          else
+2127   1      #endif
+2128   1          msACESetHDTVMode(YUV_Colorimetry_ITU601);
+2129   1      }
+2130          
+2131          #endif
+2132          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   2777    ----
+   CONSTANT SIZE    =    293    ----
+   XDATA SIZE       =      1      10
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       7
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

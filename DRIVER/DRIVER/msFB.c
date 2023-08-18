@@ -21,5 +21,5 @@ BYTE code msFBNullData[] = {0};
 
 void msFBDummy(void)
 {
-	BYTE i = msFBNullData[0];
+    BYTE i = msFBNullData[0];
 }

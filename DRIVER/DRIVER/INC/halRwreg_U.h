@@ -1,7 +1,7 @@
 
 // CHIP_TSUMU
 // interrupt
-#define INT_FIQ_TIMER0_ENABLE(Enable)    (msWriteByteMask( REG_2B00, ((Enable)?(0):(BIT0)), BIT0 ))
+#define INT_FIQ_TIMER0_ENABLE(Enable)    (msWriteByteMask( REG_2B00, ((Enable)?(0):(BIT0)), BIT0 ))   
 #define INT_FIQ_WDT_ENABLE(Enable)    (msWriteByteMask( REG_2B00, ((Enable)?(0):(BIT1)), BIT1 ))
 #define INT_IRQ_DISP_ENABLE(Enable)    (msWriteByteMask( REG_2B19, ((Enable)?(0):(BIT2)), BIT2 ))
 #define INT_STATUS_DISP_ISR()               (_bit2_(msRegs[REG_2B29])) // U, Y
@@ -70,7 +70,7 @@
 #define HDCP_FORCE_ACK()    (msWriteByteMask( REG_28F2, 0x02, 0x02 ))
 // dvi
 #define DVI_A_RCK_CTRL(On)  (msWriteByteMask( REG_PM_B2, ((On) ? 0 : BIT0), BIT0 ))
-#define DVI_B_RCK_CTRL(On)  (msWriteByteMask( REG_PM_B2, ((On) ? 0 : BIT1), BIT1 ))
+#define DVI_B_RCK_CTRL(On)  (msWriteByteMask( REG_PM_B2, ((On) ? 0 : BIT1), BIT1 ))  
 #define DVI_C_RCK_CTRL(On)  (msWriteByteMask( REG_PM_B3, ((On) ? 0 : BIT0), BIT0 ))
 #define DVI_RELATED_CLOCK_CTRL(Value, Mask)    (msWrite2ByteMask( REG_290C, Value, Mask ))
 #define DVI_DE_STABLE()  ( (msReadByte( REG_2862 ) & BIT6) == BIT6) // U,Y
@@ -85,11 +85,11 @@
 #define SC0_INPUT_SELECT(Value)  (msWriteByteMask(SC0_02, Value, BIT2|BIT1|BIT0))
 #define SC0_READ_INPUT_SETTING()    (msReadByte(SC0_02))
 #define SC0_RECOVER_INPUT_SETTING(Value)     (msWriteByte(SC0_02, Value))
-#define SC0_OUTPUT_LOCK_MODE(LockInput)   (msWriteByteMask(SC0_02, (LockInput)?(0):(BIT7) , BIT7))
+#define SC0_OUTPUT_LOCK_MODE(LockInput)   (msWriteByteMask(SC0_02, (LockInput)?(0):(BIT7) , BIT7))    
 #define SC0_SCALER_POWER_DOWN(Value, Mask) (msWriteByteMask( SC0_F0, Value, Mask ))
 #define SC0_SCALER_RESET(Value)  (msWriteByte( SC0_F1, Value ))
 #define SC0_NORMAL_MODE()   (msWriteByte( SC0_F8, 0x00 ))
-#define SC0_HPEROID_DETECT_MODE(Enable16lines)  (msWriteByte(SC0_E5, (Enable16lines)?(BIT7):(0)))
+#define SC0_HPEROID_DETECT_MODE(Enable16lines)  (msWriteByte(SC0_E5, (Enable16lines)?(BIT7):(0)))        
 #define SC0_READ_HPEROID()  (msRead2Byte(SC0_E4) & MASK_13BIT)
 #define SC0_READ_VTOTAL()   (msRead2Byte(SC0_E2) & MASK_11BIT)
 #define SC0_READ_SYNC_STATUS()  (msReadByte(SC0_E1))
@@ -99,21 +99,21 @@
 #define SC0_READ_AUTO_END_V()  (msRead2Byte(SC0_82))
 #define SC0_READ_AUTO_WIDTH()   (SC0_READ_AUTO_END_H()-SC0_READ_AUTO_START_H()+1)
 #define SC0_READ_AUTO_HEIGHT()   (SC0_READ_AUTO_END_V()-SC0_READ_AUTO_START_V()+1)
-#define SC0_READ_IMAGE_HEIGHT()  (msRead2Byte(SC0_09)&MASK_12BIT)
-#define SC0_READ_IMAGE_WIDTH()  (msRead2Byte(SC0_0B)&MASK_12BIT)
-#define SC0_SET_IMAGE_HEIGHT(Value)  (msWrite2Byte(SC0_09, (Value)&MASK_12BIT))
-#define SC0_SET_IMAGE_WIDTH(Value)  (msWrite2Byte(SC0_0B, (Value)&MASK_12BIT))
+#define SC0_READ_IMAGE_HEIGHT()  (msRead2Byte(SC0_09)&MASK_12BIT)    
+#define SC0_READ_IMAGE_WIDTH()  (msRead2Byte(SC0_0B)&MASK_12BIT)   
+#define SC0_SET_IMAGE_HEIGHT(Value)  (msWrite2Byte(SC0_09, (Value)&MASK_12BIT))    
+#define SC0_SET_IMAGE_WIDTH(Value)  (msWrite2Byte(SC0_0B, (Value)&MASK_12BIT))    
 #define SC0_SET_IMAGE_START_H(Value)    (msWrite2Byte( SC0_07, (Value)&MASK_12BIT ))
 #define SC0_SET_IMAGE_START_V(Value)    (msWrite2Byte( SC0_05, (Value)&MASK_12BIT ))
 #define SC0_WHITE_SCREEN_ENABLE()  (msWriteByteMask(SC0_43,BIT5,(BIT4|BIT5)))
 #define SC0_BLACK_SCREEN_ENABLE()  (msWriteByteMask(SC0_43,BIT4,(BIT4|BIT5)))
 #define SC0_BLACK_WHITE_SCREEN_DISABLE()  (msWriteByteMask(SC0_43,0,(BIT4|BIT5)))
 #define SC0_SET_OUTPUT_VTOTAL(Value) (msWrite2ByteMask(SC0_1E, Value, MASK_12BIT))
-#define SC0_DE_ONLY_MODE()  ((msReadByte(SC0_04)&BIT6) == BIT6)
+#define SC0_DE_ONLY_MODE()  ((msReadByte(SC0_04)&BIT6) == BIT6)     
 #define SC0_VIDEO_FIELD_INVERSION() ((msReadByte(SC0_E9)&BIT3) == BIT3)
-#define SC0_SET_DE_OLNY_MODE(Enable)        (msWriteByteMask(SC0_04, (Enable)?(BIT6):(0), BIT6))
+#define SC0_SET_DE_OLNY_MODE(Enable)        (msWriteByteMask(SC0_04, (Enable)?(BIT6):(0), BIT6))                      
 
-#define SC0_READ_POWER_DOWN_STATUS()    (msReadByte(SC0_F0))
+#define SC0_READ_POWER_DOWN_STATUS()    (msReadByte(SC0_F0))        
 #define SC0_ADC_COAST_ENABLE(Value)  (msWriteByte(SC0_ED, Value))
 #define SC0_ADC_COAST_START(Value)  (msWriteByte(SC0_EE, Value))
 #define SC0_ADC_COAST_END(Value)  (msWriteByte(SC0_EF, Value))
@@ -121,8 +121,8 @@
 #define SC0_READ_ADC_COAST_START_VALUE()   (msReadByte(SC0_EE))
 #define SC0_READ_ADC_COAST_END_VALUE()   (msReadByte(SC0_EF))
 #define SC0_GLITCH_REMOVAL_ENABLE(Value)    (msWriteByte(SC0_F3, Value))
-#define SC0_SAMPLE_CLOCK_INVERT(Value)   (msWriteByteMask(SC0_F3, ((Value)>165)?(BIT0):(0), BIT0))
-#define SC0_VSYNC_WIDTH_REPORT(Enable)  (msWriteByteMask(SC0_FA, (Enable)?(BIT0):(0),BIT0))
+#define SC0_SAMPLE_CLOCK_INVERT(Value)   (msWriteByteMask(SC0_F3, ((Value)>165)?(BIT0):(0), BIT0))   
+#define SC0_VSYNC_WIDTH_REPORT(Enable)  (msWriteByteMask(SC0_FA, (Enable)?(BIT0):(0),BIT0))  
 #define SC0_READ_VSYNC_WIDTH()  (msReadByte(SC0_E2))
 #define SC0_SET_DOUBLE_BUFFER(ENABLE) ((ENABLE)?(msWriteByte(SC0_01, 0x05)):(msWriteByte(SC0_01, 0x00)))
 #define IS_INPUT_DUAL_IN()      ((msReadByte(SC0_6A)&BIT1) == BIT1)
@@ -130,15 +130,15 @@
 
 // auto
 #define AUTO_POSITION_RESULT_READY()    (WaitAutoStatusReady(SC0_7B, BIT1))
-#define AUTO_POSITION_SET_VALID_VALUE(Value)    (msWriteByteMask(SC0_7C, (Value) << 4, 0xF0))
-#define AUTO_POSITION_READ_VALID_VALUE()    (msReadByte(SC0_7C)>>4)
-#define AUTO_POSITION_READ_HSTART()     (GetAutoValue(SC0_80))
+#define AUTO_POSITION_SET_VALID_VALUE(Value)    (msWriteByteMask(SC0_7C, (Value) << 4, 0xF0))    
+#define AUTO_POSITION_READ_VALID_VALUE()    (msReadByte(SC0_7C)>>4)    
+#define AUTO_POSITION_READ_HSTART()     (GetAutoValue(SC0_80))    
 #define AUTO_POSITION_READ_HEND()   (GetAutoValue(SC0_84))
-#define AUTO_POSITION_READ_VSTART()     (GetAutoValue(SC0_7E))
-#define AUTO_POSITION_READ_VEND()     (GetAutoValue(SC0_82))
-#define AUTO_POSITION_READ_TRANSTION_POSITION(Delaytime) (GetTranstionPosition( Delaytime, SC0_80 ))
-#define AUTO_PHASE_RESULT_READY()   (drvADC_WaitAutoStatusReady(SC0_8B, BIT1))
-#define AUTO_PHASE_READ_VALUE() ((((DWORD)msRead2Byte(SC0_8E))<<16)|msRead2Byte(SC0_8C))
+#define AUTO_POSITION_READ_VSTART()     (GetAutoValue(SC0_7E))    
+#define AUTO_POSITION_READ_VEND()     (GetAutoValue(SC0_82))    
+#define AUTO_POSITION_READ_TRANSTION_POSITION(Delaytime) (GetTranstionPosition( Delaytime, SC0_80 ))    
+#define AUTO_PHASE_RESULT_READY()   (drvADC_WaitAutoStatusReady(SC0_8B, BIT1))        
+#define AUTO_PHASE_READ_VALUE() ((((DWORD)msRead2Byte(SC0_8E))<<16)|msRead2Byte(SC0_8C))   
 
 // OSD
 #define OSD_MENU_EXIST()    ( (msReadByte( IOSDC1 )&MWIN_B) == MWIN_B ) // U,Y
@@ -186,17 +186,17 @@
 #define ICE_SUB_BRI_CTRL(Enable)   (msWriteByteMask(SC9_03, (Enable)?(BIT5):(0), BIT5))
 #define ICE_SUB_SAT_CTRL(Enable)   (msWriteByteMask(SC9_03, (Enable)?(BIT4):(0), BIT4))
 #define ICE_SUB_HUE_CTRL(Enable)   (msWriteByteMask(SC9_03, (Enable)?(BIT0):(0), BIT0))
-#define ICE_MAIN_CTRL(Enable)   (msWriteByte(SC9_02, (Enable)?(BIT5|BIT4|BIT0):(0)))
-#define ICE_SUB_CTRL(Enable)   (msWriteByte(SC9_03, (Enable)?(BIT5|BIT4|BIT0):(0)))
+#define ICE_MAIN_CTRL(Enable)   (msWriteByte(SC9_02, (Enable)?(BIT5|BIT4|BIT0):(0)))     
+#define ICE_SUB_CTRL(Enable)   (msWriteByte(SC9_03, (Enable)?(BIT5|BIT4|BIT0):(0)))    
 #define ICE_DEFINE_RANGE_RGB(Color, Value)  //(msWriteByte(SC9_04+Color, Value)) // check   
 #define ICE_ACTIVE_RANGE_RGBCMY(Color, Value)   (msWriteByte(SC9_08+(Color), Value))
 #define ICE_SATURATION_RGBCMY(Color, Value) (msWriteByte(SC9_14+(Color), Value))
 #define ICE_HUE_RGBCMY(Color, Value)    (msWriteByte(SC9_0E+(Color), Value))
 #define ICE_BRIGHTNESS_RGBCMY(Color, Value)    (msWriteByte(SC9_1A+(Color), Value))
 
-#define CSC_MAIN_ENABLE(Enable) (msWriteByteMask(SC7_40, (Enable)?(BIT0):(0), BIT0))
-#define CSC_SUB_ENABLE(Enable) (msWriteByteMask(SC7_40, (Enable)?(BIT4):(0), BIT4))
-#define SUB_BORDER_ENABLE(Enable)   (msWriteByteMask(SC0_32, ((Enable)?(BIT4):(0)),BIT4))
+#define CSC_MAIN_ENABLE(Enable) (msWriteByteMask(SC7_40, (Enable)?(BIT0):(0), BIT0))   
+#define CSC_SUB_ENABLE(Enable) (msWriteByteMask(SC7_40, (Enable)?(BIT4):(0), BIT4))   
+#define SUB_BORDER_ENABLE(Enable)   (msWriteByteMask(SC0_32, ((Enable)?(BIT4):(0)),BIT4))                
 #define SET_MAIN_WIN_FULL_RANGE()   (msWriteByteMask(SC8_81, 0, (BIT5|BIT4|BIT3)))
 #define SET_SUB_WIN_FULL_RANGE()   (msWriteByteMask(SC8_80, 0, (BIT5|BIT4|BIT3)))
 #define DISABLE_SUB_COLOR3X3()      (msWriteByte(SC8_80, 0))
@@ -205,7 +205,7 @@
 
 #define  OSD_FONT_CLEAR()  msWriteByte(OSD2_AE, 0)
 
-//OSD
+//OSD 
 //Code/Attr RAM bit8/bit9
 #define OSD_TEXT_HI_ADDR_SET_BIT8()     msWriteByteMask(OSD2_AE, BIT3, BIT3|BIT2); //enable bit 8
 #define OSD_TEXT_HI_ADDR_SET_BIT9()     msWriteByteMask(OSD2_AE, BIT2, BIT3|BIT2); //enable bit 9
@@ -220,23 +220,23 @@
 #define PORT_FONT_ADDR  OSD1_66
 #define PORT_FONT_DATA  OSD1_6C
 
-#define WRITE_CAFSRAM_ADDR()
-#define WRITE_CODE()
-#define WRITE_ATTRIBUTE()
-#define WRITE_FONT()
-#define CAFSRAM_ERASE_TRIG()
-#define CAFSRAM_READ_TRIG()
-#define WRITE_PSRAM0_ADDR()
-#define WRITE_PSRAM0_MASK()
-#define WRITE_PSRAM0_COLOR_KEY()
-#define WRITE_PSRAM0_COLOR()
-#define PSRAM0_ERASE_TRIG()
-#define PSRAM0_READ_TRIG()
-#define WRITE_PSRAM1_ADDR()
-#define WRITE_PSRAM1_COLOR_KEY()
-#define WRITE_PSRAM1_COLOR()
-#define PSRAM1_ERASE_TRIG()
-#define PSRAM1_READ_TRIG()
+#define WRITE_CAFSRAM_ADDR()  
+#define WRITE_CODE()  
+#define WRITE_ATTRIBUTE()  
+#define WRITE_FONT()  
+#define CAFSRAM_ERASE_TRIG()  
+#define CAFSRAM_READ_TRIG()  
+#define WRITE_PSRAM0_ADDR()  
+#define WRITE_PSRAM0_MASK()  
+#define WRITE_PSRAM0_COLOR_KEY()  
+#define WRITE_PSRAM0_COLOR()  
+#define PSRAM0_ERASE_TRIG()  
+#define PSRAM0_READ_TRIG()  
+#define WRITE_PSRAM1_ADDR()  
+#define WRITE_PSRAM1_COLOR_KEY()  
+#define WRITE_PSRAM1_COLOR()  
+#define PSRAM1_ERASE_TRIG()  
+#define PSRAM1_READ_TRIG()  
 
 
 

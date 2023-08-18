@@ -50,9 +50,9 @@ extern BYTE xdata g_u8FontAddrHiBits;
 
 typedef struct
 {
-	BYTE bButtonOsd: 1;
-	BYTE bSync2Main: 1;
-} WrapLayerFlagType;
+    BYTE bButtonOsd:1;
+    BYTE bSync2Main:1;
+}WrapLayerFlagType;
 
 #elif CHIP_ID==CHIP_TSUM2
 
@@ -76,9 +76,9 @@ extern BYTE xdata g_u8OsdFontDataHighByte;
 
 typedef struct
 {
-	BYTE bButtonOsd: 1;
-	BYTE bSync2Main: 1;
-} WrapLayerFlagType;
+    BYTE bButtonOsd:1;
+    BYTE bSync2Main:1;
+}WrapLayerFlagType;
 
 #elif CHIP_ID==CHIP_TSUMC || CHIP_ID==CHIP_TSUMD || CHIP_ID==CHIP_TSUM9 ||CHIP_ID == CHIP_TSUMF
 extern BYTE xdata g_u8OsdWndNo;
@@ -100,9 +100,9 @@ extern BYTE xdata g_u8OsdFontDataHighByte;
 
 typedef struct
 {
-	BYTE bButtonOsd: 1;
-	BYTE bSync2Main: 1;
-} WrapLayerFlagType;
+    BYTE bButtonOsd:1;
+    BYTE bSync2Main:1;
+}WrapLayerFlagType;
 
 #else
 #define GET_FONT_RAM_ADDR(u8Addr)		(u8Addr)
@@ -114,12 +114,12 @@ typedef struct
 
 typedef struct
 {
-	BYTE u8Red;
-	BYTE u8Green;
-	BYTE u8Blue;
-	#if CHIP_ID>=CHIP_TSUMV
-	BYTE u8ColorKey;
-	#endif
+    BYTE u8Red;
+    BYTE u8Green;
+    BYTE u8Blue;
+  #if CHIP_ID>=CHIP_TSUMV
+    BYTE u8ColorKey;
+  #endif
 } ColorPaletteType;
 
 extern  BYTE OsdWindowWidth;

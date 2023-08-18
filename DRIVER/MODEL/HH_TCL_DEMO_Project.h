@@ -4,7 +4,7 @@
 // BOARD SELECTION
 ////////////////////////////////////////////////////////////
 #define CHIP_ID                			CHIP_TSUMC//CHIP_TSUMF
-#define MainBoardType    				MainBoard_XY_W58CDT9_AV7
+#define MainBoardType    				MainBoard_XY_W58CDT9_AV7 
 #define PanelType 					PanelM270HVN02_1//PanelMV270FHM_N20//
 #define DisplayLogo					TCL_Logo
 
@@ -89,7 +89,7 @@
 
 
 
-#define  EANBLE_NEW_DCR_Functing       1
+#define  EANBLE_NEW_DCR_Functing       1 
 
 
 
@@ -188,7 +188,7 @@
 
 
 /////////////////////////brightness///////////////////////////////////
-#define BRI_PRO_MIN_VALUE			0x00
+#define BRI_PRO_MIN_VALUE			0x00	
 #define BRI_PRO_DEF_VALUE			0xCF
 #define BRI_PRO_MAX_VALUE			0xEF
 ////////////////////////color temp/////////////////////////////////

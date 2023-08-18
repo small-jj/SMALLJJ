@@ -1,180 +1,19 @@
-///////////////////////////////////////////////
-//my
 
-
-
-extern BYTE* MainMenu_ColorsText(void);
-extern BYTE* MainMenu_BriContrastText(void);
-extern BYTE* MainMenu_PictureText(void);
-extern BYTE* MainMenu_Game_Pro_FeaturesText(void);
-extern BYTE* MainMenu_Menu_settingsText(void);
-extern BYTE* MainMenu_Other_settingsText(void);
-extern BYTE* MainMenu_Shortcut_KeyText(void);
-
-
-extern BYTE* WarmColorTempText(void);
-extern BYTE* CoolColorTempText(void);
-extern BYTE* ChromatictysText(void);
-extern BYTE* ColorSaturationtext(void);
-
-extern BYTE* BrightnesssText(void);
-extern BYTE* ContrastRatioText(void);
-extern BYTE* Dynamic_Contrast_RatioText(void);
-extern BYTE* Dynamic_Brightnesstext(void);
-
-extern BYTE* Scenario_ModeText(void);
-extern BYTE* Screen_ScaleText(void);
-extern BYTE* GammaText(void);
-extern BYTE* Sharpnesstext(void);
-extern BYTE* Low_Blue_LightText(void);
-extern BYTE *HDRtext( void );
-extern BYTE* Dark_Balancetext(void);
-
-
-extern BYTE *MPRTText( void );
-extern BYTE *Adaptive_SyncText( void );
-extern BYTE *Response_timeText( void );
-extern BYTE *Refresh_ratetext( void );
-extern BYTE *Game_alignmentText( void );
-extern BYTE *Game_Timingtext( void );
-extern BYTE *Ambient_lighttext( void );
-
-extern BYTE *LanguageeText( void );
-extern BYTE *Show_TimeText( void );
-extern BYTE *Horizontal_PositionText( void );
-extern BYTE *Vertical_Vositiontext( void );
-extern BYTE *Transparencytext( void );
-extern BYTE *Menu_Rotationtext( void );
-extern BYTE *Menu_LockText( void );
-extern BYTE *Shortcut_OneText( void );
-extern BYTE *Shortcut_TwoText( void );
-extern BYTE *Shortcut_Threetext( void );
-extern BYTE *Shortcut_FourText( void );
-
-extern BYTE *Signal_Input_Text( void );
-extern BYTE *Mute_Text( void );
-extern BYTE *Volume_Text( void );
-extern BYTE *Audio_Input_text( void );
-extern BYTE *Auto_Power_Off_Text( void );
-extern BYTE *Eye_Protection_Reminder_text( void );
-extern BYTE *Information_text( void );
-extern BYTE *Reset_text( void );
-
-//三级菜单暖色温
-extern BYTE *Menu_1_1_1ValueText(void);
-extern BYTE *Menu_1_1_2ValueText(void);
-//冷色温
-extern BYTE *Menu_1_2_1ValueText(void);
-extern BYTE *Menu_1_2_2ValueText(void);
-//RGB
-extern BYTE *Menu_1_3_1ValueText(void);
-extern BYTE *Menu_1_3_2ValueText(void);
-extern BYTE *Menu_1_3_3ValueText(void);
-
-
-//三级菜单动态对比度
-extern BYTE *Menu_2_3_1ValueText(void);
-extern BYTE *Menu_2_3_2ValueText(void);
-extern BYTE *Menu_2_3_3ValueText(void);
-
-//三级菜单动态亮度
-extern BYTE *Menu_2_4_1ValueText(void);
-extern BYTE *Menu_2_4_2ValueText(void);
-extern BYTE *Menu_2_4_3ValueText(void);
-extern BYTE *Menu_2_4_4ValueText(void);
-//画面
-extern BYTE *Menu_3_1_1ValueText(void);
-extern BYTE *Menu_3_1_2ValueText(void);
-extern BYTE *Menu_3_1_3ValueText(void);
-extern BYTE *Menu_3_1_4ValueText(void);
-
-extern BYTE *Menu_3_2_1ValueText(void);
-extern BYTE *Menu_3_2_2ValueText(void);
-extern BYTE *Menu_3_2_3ValueText(void);
-extern BYTE *Menu_3_2_4ValueText(void);
-
-extern BYTE *Menu_3_3_1ValueText(void);
-extern BYTE *Menu_3_3_2ValueText(void);
-extern BYTE *Menu_3_3_3ValueText(void);
-extern BYTE *Menu_3_3_4ValueText(void);
-extern BYTE *Menu_3_3_5ValueText(void);
-extern BYTE *Menu_3_3_6ValueText(void);
-
-extern BYTE *Menu_3_6_1ValueText(void);
-extern BYTE *Menu_3_6_2ValueText(void);
-//MPRT
-extern BYTE *Menu_4_1_1ValueText(void);
-extern BYTE *Menu_4_1_2ValueText(void);
-
-extern BYTE *Menu_4_2_1ValueText(void);
-extern BYTE *Menu_4_2_2ValueText(void);
-extern BYTE *Menu_4_2_3ValueText(void);
-extern BYTE *Menu_4_2_4ValueText(void);
-//刷新率
-extern BYTE *Menu_4_3_3ValueText(void);
-
-//游戏准星
-extern BYTE *Menu_4_5_1ValueText(void);
-extern BYTE *Menu_4_5_2ValueText(void);
-extern BYTE *Menu_4_5_3ValueText(void);
-extern BYTE *Menu_4_5_4ValueText(void);
-extern BYTE *Menu_4_5_5ValueText(void);
-extern BYTE *Menu_4_5_6ValueText(void);
-extern BYTE *Menu_4_5_7ValueText(void);
-
-//游戏计时
-extern BYTE *Menu_4_6_1ValueText(void);
-extern BYTE *Menu_4_6_2ValueText(void);
-extern BYTE *Menu_4_6_3ValueText(void);
-extern BYTE *Menu_4_6_4ValueText(void);
-extern BYTE *Menu_4_6_5ValueText(void);
-extern BYTE *Menu_4_6_6ValueText(void);
-//氛围灯
-extern BYTE *Menu_4_7_1ValueText(void);
-extern BYTE *Menu_4_7_2ValueText(void);
-extern BYTE *Menu_4_7_3ValueText(void);
-
-
-//信号输入
-extern BYTE *Menu_6_1_1ValueText(void);
-extern BYTE *Menu_6_1_2ValueText(void);
-extern BYTE *Menu_6_1_3ValueText(void);
-extern BYTE *Menu_6_1_4ValueText(void);
-extern BYTE *Menu_6_1_5ValueText(void);
-extern BYTE *Menu_6_1_6ValueText(void);
-
-extern BYTE *Menu_6_3_1ValueText(void);
-extern BYTE *Menu_6_3_2ValueText(void);
-
-extern BYTE *Menu_6_5_3ValueText(void);
-
-extern BYTE *Menu_6_7_1ValueText(void);
-extern BYTE *Menu_6_7_2ValueText(void);
-
-extern BYTE *Menu_6_8_1ValueText(void);
-extern BYTE *Menu_6_8_2ValueText(void);
-extern BYTE *Menu_6_8_3ValueText(void);
-extern BYTE *Menu_6_8_4ValueText(void);
-
-
-
-
-
-
-
-
-
-
-
-
-
-/////////////////////////////////////////////////
 extern BYTE* MainMenu_BrightText(void);
 extern BYTE* MainMenu_ImageText(void);
 extern BYTE* MainMenu_ColorText(void);
 extern BYTE* MainMenu_OSDText(void);
 extern BYTE* MainMenu_ResetText(void);
 extern BYTE* MainMenu_MiscText(void);
+
+extern BYTE* QuickMenu_1Text(void);
+extern BYTE* QuickMenu_2Text(void);
+extern BYTE* QuickMenu_3Text(void);
+extern BYTE* QuickMenu_4Text(void);
+
+
+
+
 
 #if !AdjustLanguageFunction
 extern BYTE *strEnglishText( void );
@@ -212,6 +51,14 @@ extern BYTE *MuteValueText( void );
 #endif
 extern BYTE *VolumeText( void );
 #endif
+
+extern BYTE *Menu_6_3_1( void );
+extern BYTE *Menu_6_3_2( void );
+
+
+
+
+
 #if DDCCI_ENABLE && DDCCCIMenu_Enable
 extern BYTE *DDCCIText( void );
 extern BYTE *DDCCIValueText( void );
@@ -283,10 +130,24 @@ extern BYTE *HourText(void);
 extern BYTE *ContrastText( void );
 extern BYTE *BrightnessText( void );
 extern BYTE *ECOModeText( void );
+extern BYTE *Menu_2_3_1( void );
+extern BYTE *Menu_2_3_2( void );
+
+
+
+
 extern BYTE *ECOModeValue( void );
 extern BYTE *GammaText( void );
 extern BYTE *GammaModeValue( void );
 extern BYTE *DCRText( void );
+extern BYTE *Menu_2_4_1( void );
+extern BYTE *Menu_2_4_2( void );
+extern BYTE *Menu_2_4_3( void );
+extern BYTE *Menu_2_4_4( void );
+
+
+
+
 extern BYTE *DcrValueText( void );
 #if (ENABLE_RTE)
 extern BYTE *OverdriveText( void );
@@ -298,17 +159,54 @@ extern BYTE *OverdriveValueText( void );
 extern BYTE *ClockText( void );
 extern BYTE *FocusText( void );
 extern BYTE *HPositionText( void );
+extern BYTE *Menu_3_1_1( void );
+extern BYTE *Menu_3_1_2( void );
+extern BYTE *Menu_3_1_3( void );
+extern BYTE *Menu_3_1_4( void );
+extern BYTE *Menu_3_7( void );
+extern BYTE *Menu_3_6( void );
+extern BYTE *Menu_3_2_1( void );
+extern BYTE *Menu_3_2_2( void );
+extern BYTE *Menu_3_2_3( void );
+extern BYTE *Menu_3_2_4( void );
+
+extern BYTE *Menu_3_3_1( void );
+extern BYTE *Menu_3_3_2( void );
+extern BYTE *Menu_3_3_3( void );
+extern BYTE *Menu_3_3_4( void );
+extern BYTE *Menu_3_3_5( void );
+extern BYTE *Menu_3_3_6( void );
+extern BYTE *Menu_3_7_1( void );///开关
+extern BYTE *Menu_3_7_2( void );///开关
+
+
+
+
+
+extern BYTE *Quick_menu_1_1( void );
+extern BYTE *Quick_menu_1_2( void );
+extern BYTE *Quick_menu_1_3( void );
+extern BYTE *Quick_menu_1_4( void );
+
+
+
+
+
 extern BYTE *VPositionText( void );
 extern BYTE *SharpnessText( void );
 
 
 extern BYTE *ColorTempText( void );
+extern BYTE *Menu_1_1_1( void );
+extern BYTE *Menu_1_1_2( void );
+
 extern BYTE *ColorTempValueText( void );
 extern BYTE *UserColorRText( void );
+extern BYTE *Menu_1_2_1( void );
+extern BYTE *Menu_1_2_2( void );
+
 extern BYTE *UserColorGText( void );
 extern BYTE *UserColorBText( void );
-
-
 #if MWEFunction
 
 extern BYTE *BF_HueText( void );
@@ -318,16 +216,120 @@ extern BYTE *BF_RightArrowText( void );
 
 #endif
 
+
+extern BYTE *Menu_4_1_1( void );
+extern BYTE *Menu_4_1_2( void );
+extern BYTE *Menu_4_1_3( void );
+extern BYTE *Menu_4_1_4( void );
+
+
+
+
 extern BYTE *OsdHPositionText( void );
+extern BYTE *Menu_4_2_1( void );
+extern BYTE *Menu_4_2_2( void );
+extern BYTE *Menu_4_2_3( void );
+
+
+
 extern BYTE *OsdVPositionText( void );
+extern BYTE *Menu_4_3_1( void );
+extern BYTE *Menu_4_3_2( void );
+extern BYTE *Menu_4_3_3( void );
+extern BYTE *Menu_4_3_4( void );
+extern BYTE *Menu_4_3_5( void );
+extern BYTE *Menu_4_3_6( void );
+extern BYTE *Menu_4_3_7( void );
+
+
+
 extern BYTE *OsdTimeOutText( void );
+extern BYTE *Menu_4_4_1( void );
+extern BYTE *Menu_4_4_2( void );
+extern BYTE *Menu_4_4_3( void );
+extern BYTE *Menu_4_4_4( void );
+extern BYTE *Menu_4_4_5( void );
+extern BYTE *Menu_4_4_6( void );
+
+
+
+
 extern BYTE *TransparenceText( void );
+extern BYTE *Menu_4_5_1( void );
+extern BYTE *Menu_4_5_2( void );
+
+
 extern BYTE *LanguageText( void );
+
+extern BYTE *Menu_4_6( void );
+
+extern BYTE *Menu_4_6_1( void );
+extern BYTE *Menu_4_6_2( void );
+
+
+extern BYTE *Menu_4_7( void );
+
+extern BYTE *Menu_4_7_1( void );
+extern BYTE *Menu_4_7_2( void );
 
 
 extern BYTE *InputSelectText( void );
 extern BYTE *SubAutoColorText( void );
 extern BYTE *AutoConfigText( void );
+extern BYTE *Menu_5_1( void );
+extern BYTE *Menu_5_2( void );
+extern BYTE *Menu_5_3( void );
+extern BYTE *Menu_5_4( void );
+extern BYTE *Menu_5_5( void );
+extern BYTE *Menu_5_6( void );
+extern BYTE *Menu_5_7( void );
+
+extern BYTE *Menu_5_1_1( void );
+extern BYTE *Menu_5_1_2( void );
+extern BYTE *Menu_5_2_1( void );
+extern BYTE *Menu_5_2_2( void );
+extern BYTE *Menu_5_2_3( void );
+extern BYTE *Menu_5_2_4( void );
+extern BYTE *Menu_5_3_1( void );
+extern BYTE *Menu_5_3_2( void );
+
+extern BYTE *Menu_6_5( void );
+extern BYTE *Menu_6_6( void );
+extern BYTE *Menu_6_7( void );
+extern BYTE *Menu_6_8( void );
+
+extern BYTE *Menu_6_1_1( void );
+extern BYTE *Menu_6_1_2( void );
+extern BYTE *Menu_6_1_3( void );
+extern BYTE *Menu_6_1_4( void );
+extern BYTE *Menu_6_1_5( void );
+extern BYTE *Menu_6_1_6( void );
+
+extern BYTE *Menu_6_2_1( void );
+extern BYTE *Menu_6_2_2( void );
+extern BYTE *Menu_6_2_3( void );
+extern BYTE *Menu_6_2_4( void );
+extern BYTE *Menu_6_2_5( void );
+
+
+
+extern BYTE *Menu_6_5_1( void );
+extern BYTE *Menu_6_5_2( void );
+
+extern BYTE *Menu_6_6_1( void );
+extern BYTE *Menu_6_7_1( void );
+extern BYTE *Menu_6_7_2( void );
+extern BYTE *Menu_6_8_1( void );
+extern BYTE *Menu_6_8_2( void );
+extern BYTE *Menu_6_8_3( void );
+extern BYTE *Menu_6_8_4( void );
+
+
+
+
+
+
+
 #if Enable_Adjust_SharpnessMenu
 extern BYTE *SharpnessText( void );
 #else

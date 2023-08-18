@@ -1,0 +1,1758 @@
+C51 COMPILER V9.01   DDC                                                                   08/17/2023 10:55:11 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE DDC
+OBJECT MODULE PLACED IN .\obj\DDC.obj
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE ..\..\KERNEL\SCALER\DDC.c OPTIMIZE(SIZE) BROWSE INCDIR(..\..\DRIVER\INC;..\
+                    -..\KERNEL\SCALER\INC;..\..\KERNEL\SYSTEM\INC;..\..\LIB\INC;..\..\PANEL\INC;..\..\BOARD;..\..\DRIVER\INC;..\..\KERNEL\SYS
+                    -TEM\INC\AOC2011;..\..\DRIVER\extDEVICE\INC;..\..\MODEL;..\..\CONFIG;..\..\PANEL;..\..\UI\F_LOGO\INC;..\..\UI\HkcOsd\INC)
+                    - DEFINE(ModelName=MODEL_T24_TCL) DEBUG OBJECTEXTEND PRINT(.\list\DDC.lst) OBJECT(.\obj\DDC.obj)
+
+line level    source
+
+   1          #include "types.h"
+   2          #include "ms_reg.h"
+*** MESSAGE C320 IN LINE 337 OF ..\..\CONFIG\BOARD.H: "Please remember to disable the debug function!" 
+   3          #include "ms_rwreg.h"
+   4          #include "Global.h"
+   5          #include "MsID_V1.h"
+   6          #include "UserPref.h"
+   7          #include "nvram.h"      //120420 Modify
+   8          #include "msflash.h"
+   9          
+  10          #include "EDID.H"
+  11          
+  12          #include "I2C.H"
+  13          
+  14          extern void SetPWMFreq(WORD freq);
+  15          #define CheckDDCAddr1   0x10
+  16          #define CheckDDCAddr2   0x20
+  17          
+  18          #if (CHIP_ID==CHIP_TSUMF)
+              #define _BIT(a)                         (BIT0 << a)
+              #define MASKBIT(a)                      (_BIT((1?a) +1) -_BIT((0?a)))
+              #endif
+  22          //extern void i2c_WriteTBL(BYTE deviceID, WORD addr, BYTE *buffer, BYTE count);
+  23          //extern void i2c_ReadTBL(BYTE deviceID,WORD addr,BYTE * buffer,BYTE count);
+  24          
+  25          
+  26          #define NVRAM_ADDR_EDID          0x00
+  27          #if ((!VGA_Write_EEPROM&&ENABLE_VGA)||(!DVI_Write_EEPROM&&ENABLE_DVI))
+  28          void mStar_ClrDDC_WP(void)   
+  29          {
+  30   1              #if (ENABLE_DVI&&(!DVI_Write_EEPROM))
+                              msWriteByte(REG_3E45, BIT7);//打开DVI内部Buffer
+                      #else
+  33   1                      msWriteByte(REG_3E45, BIT0);//关闭DVI内部Buffer
+  34   1              #endif
+  35   1              msWriteByte(REG_3E49, BIT7); //ADC DDC disable write protect//打开VGA内部Buffer
+  36   1              msWriteByte(REG_3E4B,msReadByte(REG_3E4B)&~BIT7);//设置VGA内部Buffer为可写
+  37   1      }
+  38          
+  39          void mStar_SetDDC_WP(void)    //
+  40          {
+  41   1              #if (ENABLE_DVI&&(!DVI_Write_EEPROM))
+                              msWriteByte(REG_3E45, BIT7|BIT5);//开启DVI写保护
+                      #else
+  44   1                      msWriteByte(REG_3E45, BIT0);//关闭DVI内部Buffer
+  45   1              #endif
+  46   1         #if CHIP_ID==CHIP_TSUMF
+                  msWriteByteMask(REG_3EFA, 0, 0x0F);   // REG_DDC_BANK_7D[4:0]: Select A0 EDID sram base address//选�
+             -�基地址
+                  msWriteByte(REG_3E49, BIT7|BIT5); //ADC DDC Enable write protect//开启VGA内部Buffer
+                 #else
+  50   1              msWriteByte(REG_3E49, BIT7|BIT5); //ADC DDC Enable write protect
+C51 COMPILER V9.01   DDC                                                                   08/17/2023 10:55:11 PAGE 2   
+
+  51   1           #endif     
+  52   1              msWriteByte(REG_3E4B,msReadByte(REG_3E4B)|BIT7);
+  53   1      }
+  54          #endif
+  55          #if User_DDCTO_FlashSave
+  56          Bool CheckFlashEDIDData(void)
+  57          {
+  58   1              if(DDC1[0]==0x00&&DDC1[1]==0xFF&&DDC1[2]==0xFF&&DDC1[3]==0xFF&&DDC1[4]==0xFF&&DDC1[5]==0xFF&&DDC1[6]==0xF
+             -F&&DDC1[7]==0x00)
+  59   1              {
+  60   2                      return TRUE;
+  61   2              }
+  62   1              else
+  63   1                      return FALSE;   
+  64   1      }
+  65          #endif
+  66          
+  67          #if ((!VGA_Write_EEPROM)&&ENABLE_VGA)
+  68          void mStar_VGADDC_Base_Address(void)
+  69          {
+  70   1      
+  71   1             #if CHIP_ID==CHIP_TSUMF
+                      msWriteByteMask(REG_0260, 0, BIT2|BIT3);
+                      #endif
+  74   1      
+  75   1              #if (CHIP_ID == CHIP_TSUMC||CHIP_ID == CHIP_TSUMD)
+                       msWriteByte( REG_3EEC, 0x11);                                           // EDID Set Base address
+                       msWriteByte( REG_3EED, 0x03);
+                      #elif (CHIP_ID==CHIP_TSUMF)
+                     msWriteByte( REG_3EEC, 0x11);    
+                      #endif
+  81   1      
+  82   1           #if (CHIP_ID == CHIP_TSUMC||CHIP_ID == CHIP_TSUMD) 
+                   msWriteByteMask( REG_3EEB, 0x00, 0xF0);
+                   #elif (CHIP_ID==CHIP_TSUMF)        
+                   msWriteByteMask(REG_3EEB, 0, 0x0F);   // REG_DDC_BANK_75[12:8]: Select EDID sram base address for cpu
+             - read/write 
+                   #endif
+  87   1      }
+  88          #endif
+  89          #if ((!DVI_Write_EEPROM)&&ENABLE_DVI)
+              void mStar_DVIDDC_Base_Address(void)
+              {
+                      #if CHIP_ID==CHIP_TSUMF
+                      msWriteByteMask(REG_0260, 0, BIT2|BIT3);
+                      #endif
+              
+                      #if (CHIP_ID == CHIP_TSUMC||CHIP_ID == CHIP_TSUMD)
+                              msWriteByte( REG_3EEC, 0x11);                                           // EDID Set Base address
+                              msWriteByte( REG_3EED, 0x03);
+                      #elif (CHIP_ID==CHIP_TSUMF)     
+                               msWriteByte( REG_3EEC, 0x11);    
+                                msWriteByteMask(REG_3EEB, 1, MASKBIT(4:0));
+                              msWriteByteMask(REG_3E43, 0, BIT1);
+                      #endif
+              
+                   #if (CHIP_ID == CHIP_TSUMC||CHIP_ID == CHIP_TSUMD)  
+                              msWriteByteMask( REG_3EEB, 0x10, 0xF0);
+                   #elif (CHIP_ID==CHIP_TSUMF)        
+                   msWriteByteMask(REG_3EEB, 0x01, 0x1F);   // REG_DDC_BANK_75[12:8]: Select EDID sram base address for 
+             -cpu read/write         
+                   #endif
+C51 COMPILER V9.01   DDC                                                                   08/17/2023 10:55:11 PAGE 3   
+
+              }
+              #endif
+ 112          
+ 113          #if User_DDCTO_FlashSave
+ 114          void CleanDDCBuff (void)
+ 115          {
+ 116   1              BYTE i=0;
+ 117   1      
+ 118   1              for(i=0;i<20;i++)
+ 119   1                      DDC1[i]=0xFF;
+ 120   1      }
+ 121          #endif
+ 122          
+ 123          //2����ֵ :   ��¼�ɹ�/ʧ��
+ 124          #define         TryToModDdcFunction     0
+ 125          
+ 126          
+ 127          #if             TryToModDdcFunction
+              Bool            Init_AllPort_Ddc_ToE2PROM_Func(const BYTE DdcPort,const BYTE DdcDate[],const WORD DdcCount)
+              {
+              
+                              BYTE dd=0;
+                              WORD i=0;
+                              Bool Result = FALSE;
+                              BYTE  ReadCheckSum=0;
+              
+                              EnableReadDDCType=DdcPort;      
+                              Init_NVRAM_I2C_SCL_Pin();
+                              Init_NVRAM_I2C_SDA_Pin();
+              
+                              hw_ClrDDC_WP();
+                              for(i=0; i<DdcCount; i++)
+                               {
+                                  NVRam_WriteByte(NVRAM_ADDR_EDID+i, DdcDate[i]);
+                               }      
+                              hw_SetDDC_WP();
+                              Delay1ms(2);
+                              
+                              ReadCheckSum = 0;
+              
+                               for(i=0; i<DdcCount; i++)
+                               {
+                                      NVRam_ReadByte(NVRAM_ADDR_EDID+i, &dd);
+                                      DDC1[i]=dd;
+                                      ReadCheckSum+=DDC1[i];
+                               }
+              
+              
+                              if((DDC1[0]==0x00)&&(DDC1[1]==0xFF)&&(DDC1[2]==0xFF)&&(DDC1[3]==0xFF)&&(DDC1[4]==0xFF)
+                              &&(DDC1[5]==0xFF)&&(DDC1[6]==0xFF)&&(DDC1[7]==0x00)&&(DDC1[0x7F]==DdcDate[0x7F]))
+                              {
+                                      if ((ReadCheckSum)==0)
+                                      {
+                                              Result=TRUE;
+                                      }
+                              }
+              
+              
+                              EnableReadDDCType=I2C_EEPROM;   
+                              Init_NVRAM_I2C_SCL_Pin();
+                              Init_NVRAM_I2C_SDA_Pin();
+              
+C51 COMPILER V9.01   DDC                                                                   08/17/2023 10:55:11 PAGE 4   
+
+                              return Result;
+                              
+              }
+              
+              
+              #if ENABLE_VGA
+              void mStar_VGA_InitDDC(void)
+              {
+              #if VGA_Write_EEPROM//是否外挂eeprom
+              
+              if (Load_VGAEDID_Flag)//是否去读EDID
+              {
+              
+                              BYTE ChecKVGADoubleFlag=0;
+                              #if User_DDCTO_FlashSave
+                                      BYTE EDID_CheckSum=0 ;
+                              #endif
+                              
+                              #if USEFLASH
+                              #if User_DDCTO_FlashSave//是否外烧
+                                      CleanDDCBuff ();//清空ddc1数组
+                                      Flash_Read_Factory_KeySet(FLASH_KEY_DDCA, TRUE, 0, DDCAKEY_SIZE, &DDC1, DDCAKEY_SIZE);//将falsh中的E
+             -DID读到ddc1中
+                                      EDID_CheckSum=DDC1[0x7F];//将校验位的值赋给该变量
+                              #else
+                                      #message "VGA DDC Data User Default EDID"
+                              #endif
+                              #endif
+              
+                      #if User_DDCTO_FlashSave
+                    if (CheckFlashEDIDData())
+                      {       
+                              ChecKVGADoubleFlag = Init_AllPort_Ddc_ToE2PROM_Func(VGA_EDID,DDC1,128);
+                      }
+                      else
+                      #endif
+                      {       
+                              ChecKVGADoubleFlag = Init_AllPort_Ddc_ToE2PROM_Func(VGA_EDID,EDID_vga,128);
+                      }
+              
+                              if (ChecKVGADoubleFlag)
+                              {
+                                      Clr_Load_VGAEDID_Flag();
+                              #if USEFLASH
+                                      UserPref_EnableFlashSaveBit( bFlashSaveMonitorBit );
+                              #else   
+                                      NVRam_WriteWord(nvrMonitorAddr(MonitorFlag), MonitorFlags);
+                              #endif
+                              }
+              }
+              
+              #else
+              
+                      BYTE i;
+              
+                      mStar_ClrDDC_WP();
+              
+                      mStar_VGADDC_Base_Address();
+                      
+                      #if USEFLASH
+                      #if User_DDCTO_FlashSave
+                              Flash_Read_Factory_KeySet(FLASH_KEY_DDCA, TRUE, 0, DDCAKEY_SIZE, &DDC1, DDCAKEY_SIZE);
+C51 COMPILER V9.01   DDC                                                                   08/17/2023 10:55:11 PAGE 5   
+
+                      #else
+                              #message "VGA DDC Data User Default EDID"
+                      #endif
+                      #else
+                      //NVRam_ReadTbl(DDC_ADC_ADDR, DDC1, 128);
+                      #endif
+                      
+                      #if User_DDCTO_FlashSave
+                      if(CheckFlashEDIDData())
+                      {       
+                              for(i = 0; i < 128; i++)
+                              {
+                                      msWriteByte(REG_3E4B, i);
+                                      msWriteByte(REG_3E4C, DDC1[i]);
+                                      msWriteByteMask(REG_3E43, BIT5,BIT5);
+              
+                                      while(msReadByte(REG_3E7B) & BIT5);  
+                              }
+                      }
+                      else
+                      #endif
+                      {
+                              for(i = 0; i < 128; i++)
+                              {
+                                      msWriteByte(REG_3E4B, i);
+                                      msWriteByte(REG_3E4C, EDID_vga[i]);
+                                      msWriteByteMask(REG_3E43, BIT5,BIT5);
+              
+                                      while(msReadByte(REG_3E7B) & BIT5);  
+                              }
+                      }
+                      
+                      mStar_SetDDC_WP();
+                      
+              #endif
+              
+              }
+              #endif
+              #if ENABLE_DVI
+              void mStar_DVI_InitDDC(void)
+              {
+              #if DVI_Write_EEPROM
+              #if DEBUG_PRINTDATA
+              printData("Load_DVIIEDID_FlagAA=%d",Load_DVIIEDID_Flag);    
+              #endif          
+              
+              if (Load_DVIIEDID_Flag)
+              {
+              
+                              BYTE ChecKDVIDoubleFlag=0;
+                              #if User_DDCTO_FlashSave
+                                      BYTE EDID_CheckSum=0 ;
+                              #endif
+                              
+                              #if USEFLASH
+                              #if User_DDCTO_FlashSave
+                                      CleanDDCBuff ();
+                                      Flash_Read_Factory_KeySet(FLASH_KEY_DDCD, TRUE, 0, DDCDKEY_SIZE, &DDC1, DDCDKEY_SIZE);
+                                      EDID_CheckSum=DDC1[0x7F];
+                              #else
+                                      #message "DVI DDC Data User Default EDID"
+                              #endif
+C51 COMPILER V9.01   DDC                                                                   08/17/2023 10:55:11 PAGE 6   
+
+                              #endif
+              
+                      #if User_DDCTO_FlashSave
+                    if (CheckFlashEDIDData())
+                      {       
+                              ChecKDVIDoubleFlag = Init_AllPort_Ddc_ToE2PROM_Func(DVI_EDID,DDC1,128);
+                      }
+                      else
+                      #endif
+                      {       
+                              ChecKDVIDoubleFlag = Init_AllPort_Ddc_ToE2PROM_Func(DVI_EDID,EDID_dvi,128);
+                      }
+              
+                              if (ChecKDVIDoubleFlag)
+                              {
+                                      Clr_Load_DVIEDID_Flag();
+                              #if USEFLASH
+                                      UserPref_EnableFlashSaveBit( bFlashSaveMonitorBit );
+                              #else   
+                                      NVRam_WriteWord(nvrMonitorAddr(MonitorFlag), MonitorFlags);
+                              #endif
+                              }
+              }
+              #else
+              
+                      BYTE i;
+              
+                      mStar_ClrDDC_WP();
+              
+                      mStar_DVIDDC_Base_Address();
+                      
+                      #if USEFLASH
+                      #if User_DDCTO_FlashSave
+                              Flash_Read_Factory_KeySet(FLASH_KEY_DDCD, TRUE, 0, DDCDKEY_SIZE, &DDC1, DDCDKEY_SIZE);
+                      #else
+                              #message "DVI DDC Data User Default EDID"
+                      #endif
+                      #else
+                      //NVRam_ReadTbl(DDC_ADC_ADDR, DDC1, 128);
+                      #endif
+                      
+                      #if User_DDCTO_FlashSave
+                      if(CheckFlashEDIDData())
+                      {       
+                              for(i = 0; i < 128; i++)
+                              {
+                                      msWriteByte(REG_3E4B, i);
+                                      msWriteByte(REG_3E4C, DDC1[i]);
+                                      msWriteByteMask(REG_3E43, BIT5,BIT5);
+                              }
+                      }
+                      else
+                      #endif
+                      {
+                              for(i = 0; i < 128; i++)
+                              {
+                                      msWriteByte(REG_3E4B, i);
+                                      msWriteByte(REG_3E4C, EDID_dvi[i]);
+                                      msWriteByteMask(REG_3E43, BIT5,BIT5);
+                              }
+                      }
+                      
+C51 COMPILER V9.01   DDC                                                                   08/17/2023 10:55:11 PAGE 7   
+
+                      Delay1ms(100);
+                      mStar_SetDDC_WP(void)();
+                      
+              #endif
+              }
+              #endif
+              #if ENABLE_HDMI
+              void mStar_HDMI_InitDDC(void)
+              {
+              #if HDMI_Write_EEPROM
+                      if (Load_HDMIEDID_Flag)
+                      {
+              
+                              BYTE ChecKHDMIDoubleFlag=0;
+                              #if User_DDCTO_FlashSave
+                                      BYTE EDID_CheckSum=0 ;
+                              #endif
+                              
+                              #if USEFLASH
+                              #if User_DDCTO_FlashSave
+                                      CleanDDCBuff ();
+                                      Flash_Read_Factory_KeySet(FLASH_KEY_DDCH, TRUE, 0, DDCHKEY_SIZE, &DDC1, DDCHKEY_SIZE);
+                                      EDID_CheckSum=DDC1[0x7F];
+                              #else
+                                      #message "HDMI DDC Data User Default EDID"
+                              #endif
+                              #endif
+              
+                      #if User_DDCTO_FlashSave
+                    if (CheckFlashEDIDData())
+                      {       
+                              ChecKHDMIDoubleFlag = Init_AllPort_Ddc_ToE2PROM_Func(HDMI_EDID,DDC1,256);
+                      }
+                      else
+                      #endif
+                      {       
+                              ChecKHDMIDoubleFlag = Init_AllPort_Ddc_ToE2PROM_Func(HDMI_EDID,EDID_hdmi,256);
+                      }
+              
+                              if (ChecKHDMIDoubleFlag)
+                              {
+                                      Clr_Load_HDMIEDID_Flag();
+                              #if USEFLASH
+                                      UserPref_EnableFlashSaveBit( bFlashSaveMonitorBit );
+                              #else   
+                                      NVRam_WriteWord(nvrMonitorAddr(MonitorFlag), MonitorFlags);
+                              #endif
+                              }
+              }
+              #endif          
+              #if CHIP_ID==CHIP_TSUMF
+              DDC_Port_Sel();
+              #endif
+              
+              }
+              #endif
+              #if ENABLE_HDMI2
+              void mStar_HDMI2_InitDDC(void)
+              {
+              #if HDMI2_Write_EEPROM
+                      if (Load_HDMI2EDID_Flag)
+                      {
+C51 COMPILER V9.01   DDC                                                                   08/17/2023 10:55:11 PAGE 8   
+
+              
+                              BYTE ChecKHDMIDoubleFlag=0;
+                              #if User_DDCTO_FlashSave
+                                      BYTE EDID_CheckSum=0 ;
+                              #endif
+                              
+                              #if USEFLASH
+                              #if User_DDCTO_FlashSave
+                                      CleanDDCBuff ();
+                                      Flash_Read_Factory_KeySet(FLASH_KEY_DDCH, TRUE, 0, DDCHKEY_SIZE, &DDC1, DDCHKEY_SIZE);
+                                      EDID_CheckSum=DDC1[0x7F];
+                              #else
+                                      #message "HDMI2 DDC Data User Default EDID"
+                              #endif
+                              #endif
+              
+                      #if User_DDCTO_FlashSave
+                    if (CheckFlashEDIDData())
+                      {       
+                              ChecKHDMIDoubleFlag = Init_AllPort_Ddc_ToE2PROM_Func(HDMI2_EDID,DDC1,256);
+                      }
+                      else
+                      #endif
+                      {       
+                              ChecKHDMIDoubleFlag = Init_AllPort_Ddc_ToE2PROM_Func(HDMI2_EDID,EDID_hdmi2,256);
+                      }
+              
+                              if (ChecKHDMIDoubleFlag)
+                              {
+                                      Clr_Load_HDMI2EDID_Flag();
+                              #if USEFLASH
+                                      UserPref_EnableFlashSaveBit( bFlashSaveMonitorBit );
+                              #else   
+                                      NVRam_WriteWord(nvrMonitorAddr(MonitorFlag), MonitorFlags);
+                              #endif
+                              }
+              }
+              #endif          
+              }
+              #endif
+              
+              
+              #else
+ 462          
+ 463          
+ 464          
+ 465          #if ENABLE_VGA
+ 466          void mStar_VGA_InitDDC(void)
+ 467          {
+ 468   1      #if VGA_Write_EEPROM//是否外挂eeprom
+              
+              if (Load_VGAEDID_Flag)//是否读EDID
+              {
+                      BYTE i;
+                      BYTE  ReadCheckSum=0;
+                      BYTE  dd=0;
+                      BYTE CheckVGADoubleFlag=0;
+                      #if User_DDCTO_FlashSave
+                      BYTE EDID_CheckSum=0 ;
+                      #endif
+                      
+                      #if USEFLASH
+C51 COMPILER V9.01   DDC                                                                   08/17/2023 10:55:11 PAGE 9   
+
+                      #if User_DDCTO_FlashSave//如果外烧
+                              CleanDDCBuff();//清空DDC1数组
+                              Flash_Read_Factory_KeySet(FLASH_KEY_DDCA, TRUE, 0, DDCAKEY_SIZE, &DDC1, DDCAKEY_SIZE);//将falsh中的ED
+             -ID读到DDC1中
+                              EDID_CheckSum=DDC1[0x7F];//将校验位的值赋给该变量
+                      #else
+                              #message "VGA DDC Data User Default EDID"
+                      #endif
+                      #else
+                              //NVRam_ReadTbl(DDC_ADC_ADDR, DDC1, 128);
+                      #endif
+              
+              #if 1
+              #if User_DDCTO_FlashSave
+                   if (CheckFlashEDIDData())//校验EDID的头
+                      {
+                              hw_ClrDDC_WP();//清除写保护
+                                      
+                              Delay1ms(2);
+                              
+                              EnableReadDDCType=VGA_EDID;//切换相应的IIC类型
+                              Init_NVRAM_I2C_SCL_Pin(); //初始化IIC的时钟线
+                              Init_NVRAM_I2C_SDA_Pin();//初始化iic的数据线
+              
+                              for(i=0; i<128; i++)
+                               {
+                                  NVRam_WriteByte(NVRAM_ADDR_EDID+i, DDC1[i]);//将DDC1中的EDID写到eeprom中
+                               }      
+              
+                              hw_SetDDC_WP();//开启写保护
+                              
+                              Delay1ms(2);
+              
+                              for (i=0; i<128; i++)
+                              {
+                                      DDC1[i]=0xFF;
+                              }
+              
+                              for(i=0; i<128; i++)
+                               {
+                                      NVRam_ReadByte(NVRAM_ADDR_EDID+i, &dd);
+                                      DDC1[i]=dd;       //将从eeprom读的EDID写到DDC1中
+                                      ReadCheckSum+=DDC1[i];//将数据累加，得到校验位的值
+                               }      
+              
+                              if((DDC1[0]==0x00)&&(DDC1[1]==0xFF)&&(DDC1[2]==0xFF)&&(DDC1[3]==0xFF)&&(DDC1[4]==0xFF)//校验所读到�
+             -��EDID的头和checkSum和信号类型
+                               &&(DDC1[5]==0xFF)&&(DDC1[6]==0xFF)&&(DDC1[7]==0x00)&&(DDC1[0x7F]==EDID_CheckSum))//
+                              {
+                                      if ((ReadCheckSum)==0&&((DDC1[0x14]&0x80)!=0x80))//校验readchecksum和信号类型
+                                      {
+                                              CheckVGADoubleFlag=1;//条件满足标志位为1
+                                      }
+                              }
+              
+                              if (CheckVGADoubleFlag)
+                              {
+                                      Clr_Load_VGAEDID_Flag();//清除标志位，防止下次上电重新初始化
+                              #if USEFLASH
+                                      UserPref_EnableFlashSaveBit( bFlashSaveMonitorBit );//保存标志位
+                              #else   
+                                      NVRam_WriteWord(nvrMonitorAddr(MonitorFlag), MonitorFlags);
+C51 COMPILER V9.01   DDC                                                                   08/17/2023 10:55:11 PAGE 10  
+
+                              #endif
+                              }
+                              
+                      }
+                      else    //没有读取EDID的头的值
+                      #endif
+                      {
+                              hw_ClrDDC_WP();//清除写保护
+                                      
+                              Delay1ms(5);
+                              
+                              EnableReadDDCType=VGA_EDID;//切换相应的IIC类型
+                              Init_NVRAM_I2C_SCL_Pin();//初始化IIC时钟线
+                              Init_NVRAM_I2C_SDA_Pin();//初始化数据线
+              
+                              for(i=0; i<128; i++)
+                               {
+                                  NVRam_WriteByte(NVRAM_ADDR_EDID+i, EDID_vga[i]);//将code中的EDID到eeprom
+                               }      
+              
+                              hw_SetDDC_WP();//开启写保护
+                              
+                              Delay1ms(5);
+              
+                              for(i=0; i<128; i++)
+                               {
+                                      NVRam_ReadByte(NVRAM_ADDR_EDID+i, &dd);
+                                      DDC1[i]=dd;       //将eeprom读的EDID写到DDC1中
+                                      ReadCheckSum+=DDC1[i];//将数据累加，得到校验位的值
+                                    // printMsg("11111111111111");
+                                      //  printData("DDC1[i]====%x",DDC1[i]);   
+                                      
+                               }      
+                            // printData("ReadCheckSum", ReadCheckSum);
+                                         
+                              if((DDC1[0]==0x00)&&(DDC1[1]==0xFF)&&(DDC1[2]==0xFF)&&(DDC1[3]==0xFF)&&(DDC1[4]==0xFF)
+                              &&(DDC1[5]==0xFF)&&(DDC1[6]==0xFF)&&(DDC1[7]==0x00)&&(DDC1[0x7F]==EDID_vga[0x7F]))///校验所读到的E
+             -DID的头和checkSum和信号类型
+                              {
+                                      if ((ReadCheckSum)==0&&((DDC1[0x14]&0x80)!=0x80))//校验readchecksum和信号类型
+                                      {
+                                              CheckVGADoubleFlag=1;
+                                      }
+                              }
+                      //printData("CheckVGADoubleFlag====%d",CheckVGADoubleFlag);
+                              if (CheckVGADoubleFlag)
+                              {
+                                      Clr_Load_VGAEDID_Flag();//清除标志位，防止下次上电重新初始化
+                              #if USEFLASH
+                                      UserPref_EnableFlashSaveBit( bFlashSaveMonitorBit );//保存标志位
+                              #else   
+                                      NVRam_WriteWord(nvrMonitorAddr(MonitorFlag), MonitorFlags);
+                              #endif
+                              }
+                              EnableReadDDCType=I2C_EEPROM;   
+                              Init_NVRAM_I2C_SCL_Pin();
+                              Init_NVRAM_I2C_SDA_Pin();
+                      }
+              #endif  
+              }
+              
+              #else                                           //不外挂
+C51 COMPILER V9.01   DDC                                                                   08/17/2023 10:55:11 PAGE 11  
+
+ 602   1      
+ 603   1              BYTE i;
+ 604   1      
+ 605   1              mStar_ClrDDC_WP();//清除写保护
+ 606   1      
+ 607   1              mStar_VGADDC_Base_Address();//分配基地址
+ 608   1              
+ 609   1              #if USEFLASH
+ 610   1              #if User_DDCTO_FlashSave
+ 611   1                      Flash_Read_Factory_KeySet(FLASH_KEY_DDCA, TRUE, 0, DDCAKEY_SIZE, &DDC1, DDCAKEY_SIZE);//将falsh中的ED
+             -ID读到DDC1中
+ 612   1                      #message "VGA DDC Data User Default EDID and Flash EDID"
+*** MESSAGE C320 IN LINE 612 OF ..\..\KERNEL\SCALER\DDC.c: "VGA DDC Data User Default EDID and Flash EDID"
+ 613   1              #else
+                              #message "VGA DDC Data User Default EDID"
+                      #endif
+ 616   1              #else
+                      //NVRam_ReadTbl(DDC_ADC_ADDR, DDC1, 128);
+                      #endif
+ 619   1              
+ 620   1              #if User_DDCTO_FlashSave//将flash中的EDID写到DDC中，再将DDC中的EDID写到内部Buffer
+ 621   1              if(CheckFlashEDIDData())//校验EDID的头
+ 622   1              {       
+ 623   2                      for(i = 0; i < 128; i++)
+ 624   2                      {
+ 625   3                              msWriteByte(REG_3E4B, i);//使能DDC写
+ 626   3                              msWriteByte(REG_3E4C, DDC1[i]);                 //得到DDC1中的EDID写入内部Buffer                                                                        外烧
+ 627   3                              msWriteByteMask(REG_3E43, BIT5,BIT5);
+ 628   3      
+ 629   3                              while(msReadByte(REG_3E7B) & BIT5); //读取内部Buffer中的EDID；校验一下
+ 630   3                      }
+ 631   2              }
+ 632   1              else  // 将code中的EDID写到内部Buffer
+ 633   1              #endif
+ 634   1              {
+ 635   2                      for(i = 0; i < 128; i++)
+ 636   2                      {
+ 637   3                              msWriteByte(REG_3E4B, i);//使能DDC写
+ 638   3                              msWriteByte(REG_3E4C, EDID_vga[i]);//得到code中的EDID写入内部Buffer     
+ 639   3                              msWriteByteMask(REG_3E43, BIT5,BIT5);//                                                 不外烧
+ 640   3      
+ 641   3                              while(msReadByte(REG_3E7B) & BIT5);  //读取内部Buffer中的EDID 
+ 642   3                      }
+ 643   2              }
+ 644   1              
+ 645   1              mStar_SetDDC_WP();//写保护
+ 646   1              
+ 647   1      #endif
+ 648   1      
+ 649   1      }
+ 650          #endif
+ 651          #if ENABLE_DVI
+ 652          void mStar_DVI_InitDDC(void)
+ 653          {
+ 654   1      #if DVI_Write_EEPROM
+ 655   1      #if DEBUG_PRINTDATA
+ 656   1      printData("Load_DVIIEDID_FlagAA=%d",Load_DVIIEDID_Flag);    
+ 657   1      #endif          
+ 658   1      
+ 659   1      if (Load_DVIIEDID_Flag)
+ 660   1      {
+ 661   2      
+C51 COMPILER V9.01   DDC                                                                   08/17/2023 10:55:11 PAGE 12  
+
+ 662   2              BYTE i;
+ 663   2              BYTE  ReadCheckSum=0;
+ 664   2              BYTE  dd=0;
+ 665   2              BYTE CheckDVIDoubleFlag=0;
+ 666   2              #if User_DDCTO_FlashSave
+ 667   2              BYTE EDID_CheckSum=0 ;
+ 668   2              #endif
+ 669   2              #if USEFLASH
+ 670   2              #if User_DDCTO_FlashSave
+ 671   2                      CleanDDCBuff ();
+ 672   2                      Flash_Read_Factory_KeySet(FLASH_KEY_DDCD, TRUE, 0, DDCDKEY_SIZE, &DDC1, DDCDKEY_SIZE);
+ 673   2                      EDID_CheckSum=DDC1[0x7F];
+ 674   2              #else
+                              #message "DVI DDC Data User Default EDID"
+                      #endif
+ 677   2              #else
+                              //NVRam_ReadTbl(DDC_ADC_ADDR, DDC1, 128);
+                      #endif
+ 680   2              
+ 681   2      #if User_DDCTO_FlashSave
+ 682   2           if (CheckFlashEDIDData())
+ 683   2              {
+ 684   3                      #if ENABLE_DEBUG
+ 685   3                      printMsg("DVI0000000");
+ 686   3                      #endif
+ 687   3                      
+ 688   3                      hw_ClrDDC_WP();
+ 689   3                              
+ 690   3                      Delay1ms(10);
+ 691   3                      
+ 692   3                      EnableReadDDCType=DVI_EDID;
+ 693   3                      Init_NVRAM_I2C_SCL_Pin();
+ 694   3                      Init_NVRAM_I2C_SDA_Pin();
+ 695   3      
+ 696   3                      for(i=0; i<128; i++)
+ 697   3                       {
+ 698   4                          NVRam_WriteByte(NVRAM_ADDR_EDID+i, DDC1[i]);
+ 699   4                       }      
+ 700   3      
+ 701   3                      Delay1ms(100);
+ 702   3      
+ 703   3                      hw_SetDDC_WP();
+ 704   3                      
+ 705   3                      Delay1ms(2);
+ 706   3      
+ 707   3                      for (i=0; i<128; i++)
+ 708   3                      {
+ 709   4                              DDC1[i]=0xFF;
+ 710   4                      }
+ 711   3      
+ 712   3                      for(i=0; i<128; i++)
+ 713   3                       {
+ 714   4                              NVRam_ReadByte(NVRAM_ADDR_EDID+i, &dd);
+ 715   4                              DDC1[i]=dd;       
+ 716   4                              ReadCheckSum+=DDC1[i];
+ 717   4                       }      
+ 718   3      
+ 719   3                      
+ 720   3                      Delay1ms(100);
+ 721   3                      if((DDC1[0]==0x00)&&(DDC1[1]==0xFF)&&(DDC1[2]==0xFF)&&(DDC1[3]==0xFF)&&(DDC1[4]==0xFF)
+ 722   3                      &&(DDC1[5]==0xFF)&&(DDC1[6]==0xFF)&&(DDC1[7]==0x00)&&(DDC1[0x7F]==EDID_CheckSum))
+ 723   3                      {
+C51 COMPILER V9.01   DDC                                                                   08/17/2023 10:55:11 PAGE 13  
+
+ 724   4                                              #if ENABLE_DEBUG
+ 725   4                      printMsg("DVI1111111");
+ 726   4                      #endif
+ 727   4      
+ 728   4                              if ((ReadCheckSum)==0&&((DDC1[0x14]&0x80)==0x80))
+ 729   4                              {
+ 730   5                                      CheckDVIDoubleFlag=1;
+ 731   5                              }
+ 732   4                      }
+ 733   3      
+ 734   3                      if (CheckDVIDoubleFlag)
+ 735   3                      {
+ 736   4                              Clr_Load_DVIEDID_Flag();
+ 737   4                      #if USEFLASH
+ 738   4                              UserPref_EnableFlashSaveBit( bFlashSaveMonitorBit );
+ 739   4                      #else   
+                                      NVRam_WriteWord(nvrMonitorAddr(MonitorFlag), MonitorFlags);
+                              #endif
+ 742   4                      }
+ 743   3                      EnableReadDDCType=I2C_EEPROM;
+ 744   3      
+ 745   3                              Init_NVRAM_I2C_SCL_Pin();
+ 746   3                              Init_NVRAM_I2C_SDA_Pin();
+ 747   3                      
+ 748   3              }
+ 749   2              else
+ 750   2              #endif
+ 751   2              {
+ 752   3                      #if ENABLE_DEBUG
+ 753   3                      printMsg("DVI  EDID  INIT");
+ 754   3                      #endif
+ 755   3                      hw_ClrDDC_WP();
+ 756   3                              
+ 757   3                      Delay1ms(5);
+ 758   3                      
+ 759   3                      EnableReadDDCType=DVI_EDID;
+ 760   3                      Init_NVRAM_I2C_SCL_Pin();
+ 761   3                      Init_NVRAM_I2C_SDA_Pin();
+ 762   3      
+ 763   3                      for(i=0; i<128; i++)
+ 764   3                       {
+ 765   4                          NVRam_WriteByte(NVRAM_ADDR_EDID+i, EDID_dvi[i]);
+ 766   4                       }      
+ 767   3                      Delay1ms(100);
+ 768   3      
+ 769   3                      hw_SetDDC_WP();
+ 770   3                      
+ 771   3                      Delay1ms(5);
+ 772   3      
+ 773   3                      for(i=0; i<128; i++)
+ 774   3                       {
+ 775   4                              NVRam_ReadByte(NVRAM_ADDR_EDID+i, &dd);
+ 776   4                              DDC1[i]=dd;       
+ 777   4                              ReadCheckSum+=DDC1[i];
+ 778   4                       }      
+ 779   3      
+ 780   3                      if((DDC1[0]==0x00)&&(DDC1[1]==0xFF)&&(DDC1[2]==0xFF)&&(DDC1[3]==0xFF)&&(DDC1[4]==0xFF)
+ 781   3                      &&(DDC1[5]==0xFF)&&(DDC1[6]==0xFF)&&(DDC1[7]==0x00)&&(DDC1[0x7F]==EDID_dvi[0x7F]))
+ 782   3                      {
+ 783   4                              if ((ReadCheckSum)==0&&((DDC1[0x14]&0x80)==0x80))
+ 784   4                              {
+ 785   5                                      CheckDVIDoubleFlag=1;
+C51 COMPILER V9.01   DDC                                                                   08/17/2023 10:55:11 PAGE 14  
+
+ 786   5                              }
+ 787   4                      }
+ 788   3      
+ 789   3                      if (CheckDVIDoubleFlag)
+ 790   3                      {
+ 791   4                              Clr_Load_DVIEDID_Flag();
+ 792   4                      #if USEFLASH
+ 793   4                              UserPref_EnableFlashSaveBit( bFlashSaveMonitorBit );
+ 794   4                      #else   
+                                      NVRam_WriteWord(nvrMonitorAddr(MonitorFlag), MonitorFlags);
+                              #endif
+ 797   4                      #if ENABLE_DEBUG
+ 798   4                      printMsg("DVI  EDID  PASS");
+ 799   4                      #endif
+ 800   4                      }
+ 801   3                      EnableReadDDCType=I2C_EEPROM;   
+ 802   3      
+ 803   3                              Init_NVRAM_I2C_SCL_Pin();
+ 804   3                              Init_NVRAM_I2C_SDA_Pin();
+ 805   3              }
+ 806   2      }
+ 807   1      #else
+              
+                      BYTE i;
+              
+                      mStar_ClrDDC_WP();
+              
+                      mStar_DVIDDC_Base_Address();
+                      
+                      #if USEFLASH
+                      #if User_DDCTO_FlashSave
+                              Flash_Read_Factory_KeySet(FLASH_KEY_DDCD, TRUE, 0, DDCDKEY_SIZE, &DDC1, DDCDKEY_SIZE);
+                      #else
+                              #message "DVI DDC Data User Default EDID"
+                      #endif
+                      #else
+                      //NVRam_ReadTbl(DDC_ADC_ADDR, DDC1, 128);
+                      #endif
+                      
+                      #if User_DDCTO_FlashSave
+                      if(CheckFlashEDIDData())
+                      {       
+                              for(i = 0; i < 128; i++)
+                              {
+                                      msWriteByte(REG_3E4B, i);
+                                      msWriteByte(REG_3E4C, DDC1[i]);
+                                      msWriteByteMask(REG_3E43, BIT5,BIT5);
+                              }
+                      }
+                      else
+                      #endif
+                      {
+                              for(i = 0; i < 128; i++)
+                              {
+                                      msWriteByte(REG_3E4B, i);
+                                      msWriteByte(REG_3E4C, EDID_dvi[i]);
+                                      msWriteByteMask(REG_3E43, BIT5,BIT5);
+                              }
+                      }
+                      
+                  Delay1ms(100);
+                      mStar_SetDDC_WP();
+C51 COMPILER V9.01   DDC                                                                   08/17/2023 10:55:11 PAGE 15  
+
+                      
+              #endif
+ 850   1      }
+ 851          #endif
+ 852          #if ENABLE_HDMI
+              void mStar_HDMI_InitDDC(void)
+              {
+              #if HDMI_Write_EEPROM
+                      if (Load_HDMIEDID_Flag)
+                      {
+                              WORD i;
+                              BYTE  ReadCheckSum=0;
+                              BYTE  dd=0;
+                              BYTE ChecKHDMIDoubleFlag=0;
+                              #if User_DDCTO_FlashSave
+                                      BYTE EDID_CheckSum=0 ;
+                              #endif
+                              
+                              #if USEFLASH
+                              #if User_DDCTO_FlashSave
+                                      CleanDDCBuff ();
+                                      #if 0//ENABLE_HDMI2
+                                      Flash_Read_Factory_KeySet(FLASH_KEY_DDCD, TRUE, 0, DDCHKEY_SIZE, &DDC1, DDCHKEY_SIZE);
+                                      #else
+                                      Flash_Read_Factory_KeySet(FLASH_KEY_DDCH, TRUE, 0, DDCHKEY_SIZE, &DDC1, DDCHKEY_SIZE);
+                                      #endif
+                                      EDID_CheckSum=DDC1[0x7F];
+                                      #message "HDMI DDC Data User Default EDID and Flash EDID"
+                              #else
+                                      #message "HDMI DDC Data User Default EDID"
+                              #endif
+                              #else
+                                      //NVRam_ReadTbl(DDC_ADC_ADDR, DDC1, 128);
+                              #endif
+              
+              #if User_DDCTO_FlashSave
+                   if (CheckFlashEDIDData())
+                      {
+                              hw_ClrDDC_WP();
+                                      
+                              Delay1ms(2);
+                              
+                              EnableReadDDCType=HDMI_EDID;
+                              Init_NVRAM_I2C_SCL_Pin();
+                              Init_NVRAM_I2C_SDA_Pin();
+              
+                              for(i=0; i<256; i++)
+                               {
+                                  NVRam_WriteByte(NVRAM_ADDR_EDID+i, DDC1[i]);
+                               }      
+                              Delay1ms(100);
+              
+                              hw_SetDDC_WP();
+                              
+                              Delay1ms(2);
+              
+                              for (i=0; i<256; i++)
+                              {
+                                      DDC1[i]=0xFF;
+                              }
+              
+                              for(i=0; i<256; i++)
+C51 COMPILER V9.01   DDC                                                                   08/17/2023 10:55:11 PAGE 16  
+
+                               {
+                                      NVRam_ReadByte(NVRAM_ADDR_EDID+i, &dd);
+                                      DDC1[i]=dd;       
+                                      ReadCheckSum+=DDC1[i];
+                               }      
+              
+                              if((DDC1[0]==0x00)&&(DDC1[1]==0xFF)&&(DDC1[2]==0xFF)&&(DDC1[3]==0xFF)&&(DDC1[4]==0xFF)
+                              &&(DDC1[5]==0xFF)&&(DDC1[6]==0xFF)&&(DDC1[7]==0x00)&&(DDC1[0x7F]==EDID_CheckSum))
+                              {
+                                      if ((ReadCheckSum)==0&&((DDC1[0x14]&0x80)==0x80))
+                                      {
+                                              ChecKHDMIDoubleFlag=1;
+                                      }
+                              }
+              
+                              if (ChecKHDMIDoubleFlag)
+                              {
+                                      Clr_Load_HDMIEDID_Flag();
+                              #if USEFLASH
+                                      UserPref_EnableFlashSaveBit( bFlashSaveMonitorBit );
+                              #else   
+                                      NVRam_WriteWord(nvrMonitorAddr(MonitorFlag), MonitorFlags);
+                              #endif
+                              }
+              
+                              
+                              EnableReadDDCType=I2C_EEPROM;
+              
+                                      Init_NVRAM_I2C_SCL_Pin();
+                                      Init_NVRAM_I2C_SDA_Pin();
+                              
+                      }
+                      else
+                      #endif
+                      {
+                              hw_ClrDDC_WP();
+                                      
+                              Delay1ms(2);
+                              
+                              EnableReadDDCType=HDMI_EDID;
+                              Init_NVRAM_I2C_SCL_Pin();
+                              Init_NVRAM_I2C_SDA_Pin();
+              
+                              for(i=0; i<256; i++)
+                               {
+                                  NVRam_WriteByte(NVRAM_ADDR_EDID+i, EDID_hdmi[i]);
+                               }      
+                              Delay1ms(100);
+              
+                              hw_SetDDC_WP();
+                              
+                              Delay1ms(2);
+              
+                              for(i=0; i<256; i++)
+                               {
+                                      NVRam_ReadByte(NVRAM_ADDR_EDID+i, &dd);
+                                      DDC1[i]=dd;       
+                                      ReadCheckSum+=DDC1[i];
+                               }      
+              
+                              if((DDC1[0]==0x00)&&(DDC1[1]==0xFF)&&(DDC1[2]==0xFF)&&(DDC1[3]==0xFF)&&(DDC1[4]==0xFF)
+                              &&(DDC1[5]==0xFF)&&(DDC1[6]==0xFF)&&(DDC1[7]==0x00)&&(DDC1[0x7F]==EDID_hdmi[0x7F]))
+C51 COMPILER V9.01   DDC                                                                   08/17/2023 10:55:11 PAGE 17  
+
+                              {
+                                      if ((ReadCheckSum)==0&&((DDC1[0x14]&0x80)==0x80))
+                                      {
+                                              ChecKHDMIDoubleFlag=1;
+                                      }
+                              }
+              
+                              if (ChecKHDMIDoubleFlag)
+                              {
+                                      Clr_Load_HDMIEDID_Flag();
+                              #if USEFLASH
+                                      UserPref_EnableFlashSaveBit( bFlashSaveMonitorBit );
+                              #else   
+                                      NVRam_WriteWord(nvrMonitorAddr(MonitorFlag), MonitorFlags);
+                              #endif
+                              }
+                              EnableReadDDCType=I2C_EEPROM;   
+                              Init_NVRAM_I2C_SCL_Pin();
+                              Init_NVRAM_I2C_SDA_Pin();
+                      }
+              }
+              #endif          
+              #if CHIP_ID==CHIP_TSUMF
+              DDC_Port_Sel();
+              #endif
+              
+              }
+              #endif
+1000          
+1001          #if ENABLE_HDMI2
+              void mStar_HDMI2_InitDDC(void)
+              {
+              #if HDMI2_Write_EEPROM
+              
+                      if (Load_HDMI2EDID_Flag)
+                      {
+                              WORD i;
+                              BYTE  ReadCheckSum=0;
+                              BYTE  dd=0;
+                              bit ChecKHDMIDoubleFlag=0;
+                              #if User_DDCTO_FlashSave
+                                      BYTE EDID_CheckSum=0 ;
+                              #endif
+                              
+                              #if USEFLASH
+                              #if User_DDCTO_FlashSave
+                                      CleanDDCBuff ();
+                                      Flash_Read_Factory_KeySet(FLASH_KEY_DDCH, TRUE, 0, DDCHKEY_SIZE, &DDC1, DDCHKEY_SIZE);
+                                      EDID_CheckSum=DDC1[0x7F];
+                              #else
+                                      #message "HDMI2 DDC Data User Default EDID"
+                              #endif
+                              #else
+                                      //NVRam_ReadTbl(DDC_ADC_ADDR, DDC1, 128);
+                              #endif
+              
+              #if User_DDCTO_FlashSave
+                   if (CheckFlashEDIDData())
+                      {
+                              hw_ClrDDC_WP();
+                                      
+                              Delay1ms(2);
+C51 COMPILER V9.01   DDC                                                                   08/17/2023 10:55:11 PAGE 18  
+
+                              
+                              EnableReadDDCType=HDMI2_EDID;
+              
+                              for(i=0; i<256; i++)
+                               {
+                                  NVRam_WriteByte(NVRAM_ADDR_EDID+i, DDC1[i]);
+                               }      
+              
+                              hw_SetDDC_WP();
+                              
+                              Delay1ms(2);
+              
+                              for (i=0; i<256; i++)
+                              {
+                                      DDC1[i]=0xFF;
+                              }
+              
+                              for(i=0; i<256; i++)
+                               {
+                                      NVRam_ReadByte(NVRAM_ADDR_EDID+i, &dd);
+                                      DDC1[i]=dd;       
+                                      ReadCheckSum+=DDC1[i];
+                               }      
+              
+                              if((DDC1[0]==0x00)&&(DDC1[1]==0xFF)&&(DDC1[2]==0xFF)&&(DDC1[3]==0xFF)&&(DDC1[4]==0xFF)
+                              &&(DDC1[5]==0xFF)&&(DDC1[6]==0xFF)&&(DDC1[7]==0x00)&&(DDC1[0x7F]==EDID_CheckSum))
+                              {
+                                      if ((ReadCheckSum)==0&&((DDC1[0x14]&0x80)==0x80))
+                                      {
+                                              ChecKHDMIDoubleFlag=1;
+                                      }
+                              }
+              
+                              if (ChecKHDMIDoubleFlag)
+                              {
+                                      Clr_Load_HDMI2EDID_Flag();
+                              #if USEFLASH
+                                      UserPref_EnableFlashSaveBit( bFlashSaveMonitorBit );
+                              #else   
+                                      NVRam_WriteWord(nvrMonitorAddr(MonitorFlag), MonitorFlags);
+                              #endif
+                              }
+              
+                              
+                              EnableReadDDCType=I2C_EEPROM;
+              
+                                      Init_NVRAM_I2C_SCL_Pin();
+                                      Init_NVRAM_I2C_SDA_Pin();
+                              
+                      }
+                      else
+                      #endif
+                      {
+                              hw_ClrDDC_WP();
+                                      
+                              Delay1ms(2);
+                              
+                              EnableReadDDCType=HDMI2_EDID;
+              
+                              for(i=0; i<256; i++)
+                               {
+                                  NVRam_WriteByte(NVRAM_ADDR_EDID+i, EDID_hdmi2[i]);
+C51 COMPILER V9.01   DDC                                                                   08/17/2023 10:55:11 PAGE 19  
+
+                               }      
+              
+                              hw_SetDDC_WP();
+                              
+                              Delay1ms(2);
+              
+                              for(i=0; i<256; i++)
+                               {
+                                      NVRam_ReadByte(NVRAM_ADDR_EDID+i, &dd);
+                                      DDC1[i]=dd;       
+                                      ReadCheckSum+=DDC1[i];
+                               }      
+              
+                              if((DDC1[0]==0x00)&&(DDC1[1]==0xFF)&&(DDC1[2]==0xFF)&&(DDC1[3]==0xFF)&&(DDC1[4]==0xFF)
+                              &&(DDC1[5]==0xFF)&&(DDC1[6]==0xFF)&&(DDC1[7]==0x00)&&(DDC1[0x7F]==EDID_hdmi[0x7F]))
+                              {
+                                      if ((ReadCheckSum)==0&&((DDC1[0x14]&0x80)==0x80))
+                                      {
+                                              ChecKHDMIDoubleFlag=1;
+                                      }
+                              }
+              
+                              if (ChecKHDMIDoubleFlag)
+                              {
+                                      Clr_Load_HDMI2EDID_Flag();
+                              #if USEFLASH
+                                      UserPref_EnableFlashSaveBit( bFlashSaveMonitorBit );
+                              #else   
+                                      NVRam_WriteWord(nvrMonitorAddr(MonitorFlag), MonitorFlags);
+                              #endif
+                              }
+                              EnableReadDDCType=I2C_EEPROM;   
+              
+                                      Init_NVRAM_I2C_SCL_Pin();
+                                      Init_NVRAM_I2C_SDA_Pin();
+                      }
+              }
+              #endif          
+              }
+              #endif
+1136          
+1137          #endif
+1138          
+1139          
+1140          
+1141          void mStar_InitDDC(void)
+1142          {
+1143   1      #if ENABLE_VGA
+1144   1              mStar_VGA_InitDDC();                    //my EDID
+1145   1      #endif
+1146   1      
+1147   1      #if ENABLE_DVI
+1148   1              mStar_DVI_InitDDC();
+1149   1      #endif
+1150   1      
+1151   1      #if ENABLE_HDMI
+                      mStar_HDMI_InitDDC();
+              #endif
+1154   1      
+1155   1      #if ENABLE_HDMI2
+                      mStar_HDMI2_InitDDC();
+              #endif
+C51 COMPILER V9.01   DDC                                                                   08/17/2023 10:55:11 PAGE 20  
+
+1158   1      }
+1159          
+1160          /*********************************************************************************************************
+             -/
+1161          #if WriteSN_Functiom_New
+              extern code BYTE EDID[];
+              void ReLoadEDIDtoAddSN(void)
+              {
+              BYTE Week=0x00,Year=0x1C;
+              BYTE SNdata[18];
+              WORD i;
+              BYTE  ReadCheckSum=0;
+              BYTE  dd=0;
+              
+              //2    1  ��ȡEDID    ֻ����һ·
+                #if ENABLE_VGA
+                           Flash_Read_Factory_KeySet(FLASH_KEY_DDCA, TRUE, 0, DDCAKEY_SIZE, 
+              DDC1, DDCAKEY_SIZE);
+                #elif ENABLE_DVI
+                              Flash_Read_Factory_KeySet(FLASH_KEY_DDCD, TRUE, 0,   DDCDKEY_SIZE, DDC1, 
+              DDCDKEY_SIZE);  
+                #elif ENABLE_HDMI
+                              Flash_Read_Factory_KeySet(FLASH_KEY_DDCH, TRUE, 0,   DDCHKEY_SIZE, 
+              DDC1, DDCHKEY_SIZE);    
+                #endif
+              
+              //2  2 ��ȡ SN   (������6C -7D ��)
+              
+              
+              //for(i = 0;i<18;i++) SNdata[i] = DDC1[0X5A+i];
+              Week = DDC1[0x10];
+              Year = DDC1[0x11];  
+              for(i = 0;i<14;i++) SNdata[i] = DDC1[0x70+i];
+              
+              //2  3 ƴ��SN
+              
+              #if ENABLE_VGA
+              #if VGA_Write_EEPROM
+              Set_Load_VGAEDID_Flag();
+              #endif
+              #endif
+              
+              #if ENABLE_DVI
+              #if !ENABLE_VGA
+              Set_Load_DVIEDID_Flag();
+              #else
+              #if DVI_Write_EEPROM
+                    ReadCheckSum = 0;
+                      hw_ClrDDC_WP();         
+                      Delay1ms(2);
+                      EnableReadDDCType=DVI_EDID;
+                      NVRam_WriteByte(0x10, Week);
+                      NVRam_WriteByte(0x11, Year);
+                      for(i=0; i<14; i++)
+                       {
+                          NVRam_WriteByte(0x70+i, SNdata[i]);
+                       }      
+                      for(i=0; i<127; i++)
+                       {
+                              NVRam_ReadByte(i, &dd);
+                              ReadCheckSum+=dd;
+                       }      
+C51 COMPILER V9.01   DDC                                                                   08/17/2023 10:55:11 PAGE 21  
+
+                      NVRam_WriteByte(0x7F, 0x100-ReadCheckSum);
+                      hw_SetDDC_WP();
+              #else
+                      for(i=0; i<128; i++) DDC1[i] = DVI_EDID[i];
+                      DDC1[0x10] = Week;
+                      DDC1[0x11] = Year ;
+                      for(i = 0;i<14;i++)  DDC1[0x70+i] = SNdata[i] ;
+                      for(i=0; i<127; i++) ReadCheckSum+=DDC1[i];
+                      DDC1[0x7F] = 0x100-ReadCheckSum;
+                      Flash_Write_Factory_KeySet(FLASH_KEY_DDCD, FALSE,  DDCHKEY_SIZE, DDC1, 
+              DDCDKEY_SIZE);
+              #endif
+              #endif
+              #endif
+              
+              
+              //3   HDMI һ������24C02
+              //3(3)  ֱ�Ӳ���24C02
+              #if ENABLE_HDMI
+              #if !ENABLE_VGA&&!ENABLE_DVI
+                   Set_Load_HDMIEDID_Flag();
+              #else
+                     ReadCheckSum = 0;
+                      hw_ClrDDC_WP();         
+                      Delay1ms(2);
+                      EnableReadDDCType=HDMI_EDID;
+                      NVRam_WriteByte(0x10, Week);
+                      NVRam_WriteByte(0x11, Year);
+                      for(i=0; i<14; i++)
+                       {
+                          NVRam_WriteByte(0x70+i, SNdata[i]);
+                       }      
+                      for(i=0; i<127; i++)
+                       {
+                              NVRam_ReadByte(i, &dd);
+                              ReadCheckSum+=dd;
+                       }      
+                      NVRam_WriteByte(0x7F, 0x100-ReadCheckSum);
+                      hw_SetDDC_WP();
+                      
+                      EnableReadDDCType=I2C_EEPROM;   
+              #endif  
+              #endif
+              
+              #if ENABLE_HDMI2
+                      ReadCheckSum = 0;
+                      hw_ClrDDC_WP();         
+                      Delay1ms(2);
+                      EnableReadDDCType=HDMI2_EDID;
+                      NVRam_WriteByte(0x10, Week);
+                      NVRam_WriteByte(0x11, Year);
+                      for(i=0; i<14; i++)
+                       {
+                          NVRam_WriteByte(0x70+i, SNdata[i]);
+                       }      
+                      for(i=0; i<127; i++)
+                       {
+                              NVRam_ReadByte(i, &dd);
+                              ReadCheckSum+=dd;
+                       }      
+                      NVRam_WriteByte(0x7F, 0x100-ReadCheckSum);
+                      hw_SetDDC_WP();
+C51 COMPILER V9.01   DDC                                                                   08/17/2023 10:55:11 PAGE 22  
+
+              
+                      EnableReadDDCType=I2C_EEPROM;           
+                      
+              #endif
+              
+              
+              //3 (4)  DP Ҫ�ش�Flash
+              #if ENABLE_DP_INPUT     &&   DP_WRITE_SN
+                     ReadCheckSum = 0;
+                      for(i=0; i<256; i++) DDC1[i] = EDID[i];
+                      DDC1[0x10] = Week;
+                      DDC1[0x11] = Year ;
+                      for(i = 0;i<14;i++)  DDC1[0x70+i] = SNdata[i] ;
+                      for(i=0; i<127; i++) ReadCheckSum+=DDC1[i];
+                      DDC1[0x7F] = 0x100-ReadCheckSum;
+                      Flash_Write_Factory_KeySet(FLASH_KEY_HDCP, FALSE,  DDCHKEY_SIZE, DDC1, 
+              DDCHKEY_SIZE);
+              #endif
+              
+              
+              }
+              #endif
+1303          /*********************************************************************************************************
+             -/
+1304          
+1305          #if FreeSyncSwitchEDID
+              //*************************************************
+              //Check EDID Support FreeSync or Not
+              //If No Support return 0  (HDMI1FreeSyncED&&HDMI2FreeSyncED==0)
+              //If Support return 1 HDMI1FreeSyncED&&HDMI2FreeSyncED is the 0xED Addrs  (HDMI1FreeSyncED&&HDMI2FreeSyncE
+             -D>=128)
+              //*************************************************
+              Bool CheckEDIDSupportFreeSync(BYTE Input)
+              {
+                      BYTE temp;
+                      if(Input==HDMI_EDID)
+                      {
+                      for(temp=0;temp<125;temp++)
+                      {
+                                      if((EDID_hdmi[128+temp]==0x68)&&(EDID_hdmi[128+temp+1]==0x1A)&&(EDID_hdmi[128+temp+2]==0x00)&&(EDID_hdm
+             -i[128+temp+3]==0x00)&&(EDID_hdmi[128+temp+4]==0x01)&&(EDID_hdmi[128+temp+5]==0x01))
+                                      {
+                                              HDMI1FreeSyncED=temp+8+128;
+                                              return 1;
+                                      }
+                              }
+                              if(temp>=124)
+                              {
+                                      HDMI1FreeSyncED=0;
+                                      return 0;
+                              }
+                      }
+              
+              #if ENABLE_HDMI2
+                      if(Input==HDMI2_EDID)
+                      {
+              
+                      for(temp=0;temp<125;temp++)
+                      {
+                                      if((EDID_hdmi2[128+temp]==0x68)&&(EDID_hdmi2[128+temp+1]==0x1A)&&(EDID_hdmi2[128+temp+2]==0x00)&&(EDID_
+             -hdmi2[128+temp+3]==0x00)&&(EDID_hdmi2[128+temp+4]==0x01)&&(EDID_hdmi2[128+temp+5]==0x01))
+                                      {
+C51 COMPILER V9.01   DDC                                                                   08/17/2023 10:55:11 PAGE 23  
+
+                                              HDMI2FreeSyncED=temp+8+128;
+                                              return 1;
+                                      }
+                              }
+                              if(temp>=124)
+                              {
+                                      HDMI2FreeSyncED=0;
+                                      return 0;
+                              }               
+              
+                      }
+                      #endif
+                      return 0;
+              
+              
+              }
+              //*************************************************
+              //ͨ��Ĭ��EDIDֱ�ӷ���һ������ض�Ӧ��CheckSum
+              //���Ĭ��EDID��֧��FreeSync ���� NULL
+              //*************************************************
+              BYTE GetEDIDCheckSum(BYTE Input, BYTE OnOff)
+              {
+                      if(Input==HDMI_EDID)
+                      {
+                              if(CheckEDIDSupportFreeSync(Input))
+                              {
+                                      if(EDID_hdmi[HDMI1FreeSyncED]==0xED)
+                                      {
+                                              if(OnOff)
+                                              {
+                                                      return (EDID_hdmi[0xFF]+0xED);
+                                              }
+                                              else
+                                              {
+                                                      return (EDID_hdmi[0xFF]);
+                                              }
+                                      }
+                                      else
+                                      {
+                                              if(OnOff)
+                                              {
+                                                      return (EDID_hdmi[0xFF]);
+                                              }
+                                              else
+                                              {
+                                                      return (EDID_hdmi[0xFF]-0xED);
+                                              }
+                                      }
+                              }
+                              else
+                              {
+                                      return 0;
+                              }
+                      }
+                      #if ENABLE_HDMI2
+                      if(Input==HDMI2_EDID)
+                      {
+                              if(CheckEDIDSupportFreeSync(Input))
+                              {
+                                      if(EDID_hdmi2[HDMI2FreeSyncED]==0xED)
+                                      {
+                                              if(OnOff)
+C51 COMPILER V9.01   DDC                                                                   08/17/2023 10:55:11 PAGE 24  
+
+                                              {
+                                                      return (EDID_hdmi2[0xFF]+0xED);
+                                              }
+                                              else
+                                              {
+                                                      return (EDID_hdmi2[0xFF]);
+                                              }
+                                      }
+                                      else
+                                      {
+                                              if(OnOff)
+                                              {
+                                                      return (EDID_hdmi2[0xFF]);
+                                              }
+                                              else
+                                              {
+                                                      return (EDID_hdmi2[0xFF]-0xED);
+                                              }
+                                      }
+                              }
+                              else
+                              {
+                                      return 0;
+                              }
+                      }
+                      #endif
+              return 0;
+              }
+              //*************************************************
+              //Write Success Return 1
+              //Write Fail Or Default EDID NoSupport FreeSync Return 0
+              //*************************************************
+              Bool  FreeSyncEDIDSwitch(BYTE Input, BYTE OnOff)
+              {
+                      //BYTE CheckCount;
+                      BYTE xdata EDIDCheckSum=GetEDIDCheckSum(Input,OnOff);
+              
+              
+                      #if ENABLE_DEBUG
+                      printData("EDIDCheckSum   %d", EDIDCheckSum);
+                      #endif
+                      
+                      if(EDIDCheckSum)
+                      {
+                              if(Input==HDMI_EDID)
+                              {
+                                      #if ENABLE_DEBUG
+                                      printData("HDMI1FreeSyncED   %d", HDMI1FreeSyncED);
+                                      #endif
+                                      
+                                      EnableReadDDCType = HDMI_EDID;
+                                      hw_ClrDDC_WP();
+                                      Delay1ms(2);
+                                      if(OnOff)
+                                      {
+              
+                                              //i2c_WriteTBL(0xA0, HDMI1FreeSyncED, ,1);      
+                                              //i2c_WriteTBL(0xA0, HDMI1FreeSyncED, &ED_0x00, 1);
+                                              NVRam_WriteByte(HDMI1FreeSyncED,0x00);
+                                              //i2c_WriteTBL(0xA0, 0xFF, &EDIDCheckSum, 1);
+                                              NVRam_WriteByte(0xFF,EDIDCheckSum);
+                                      }
+C51 COMPILER V9.01   DDC                                                                   08/17/2023 10:55:11 PAGE 25  
+
+                                      else
+                                      {
+                                      #if ENABLE_DEBUG
+                                      printMsg("close freesync");
+                                      #endif
+                                              //i2c_WriteTBL(0xA0, HDMI1FreeSyncED, &ED_0xED, 1);
+                                              NVRam_WriteByte(HDMI1FreeSyncED,0xED);
+                                              //i2c_WriteTBL(0xA0, 0xFF, &EDIDCheckSum, 1);
+                                              NVRam_WriteByte(0xFF,EDIDCheckSum);
+                                      }
+                                      ForceDelay1ms(30);
+                                      hw_SetDDC_WP();
+                                      EnableReadDDCType = 0xFF;
+                              }
+                              #if ENABLE_HDMI2
+                              if(Input==HDMI2_EDID)
+                              {
+                                      EnableReadDDCType = Input;
+                                      hw_ClrDDC_WP();
+                                      if(OnOff)
+                                      {//i2c_WriteTBL;
+                                              //i2c_WriteTBL(0xA0, HDMI2FreeSyncED, &ED_0x00, 1);
+                                              NVRam_WriteByte(HDMI1FreeSyncED,0x00);
+                                              //i2c_WriteTBL(0xA0, 0xFF, &EDIDCheckSum, 1);
+                                              NVRam_WriteByte(0xFF,EDIDCheckSum);
+                                      }
+                                      else
+                                      {
+                                              //i2c_WriteTBL(0xA0, HDMI2FreeSyncED, &ED_0xED, 1);
+                                              NVRam_WriteByte(HDMI1FreeSyncED,0xED);
+                                              //i2c_WriteTBL(0xA0, 0xFF, &EDIDCheckSum, 1);
+                                              NVRam_WriteByte(0xFF,EDIDCheckSum);
+                                      }
+                                      ForceDelay1ms(30);
+                                      hw_SetDDC_WP();
+                                      EnableReadDDCType = 0xFF;
+                              }
+                              #endif
+                                      Init_NVRAM_I2C_SCL_Pin();
+                                      Init_NVRAM_I2C_SDA_Pin();
+                      }
+                      else
+                      {
+                              return 0;
+                      }
+              
+              //Check Write OK?
+                      if(Input==HDMI_EDID)
+                      {
+                              BYTE xdata FreeSyncED=0;
+                              BYTE xdata EDIDCheckSumTemp=0;
+                      
+                              EnableReadDDCType = Input;
+                              NVRam_ReadByte(HDMI1FreeSyncED,&FreeSyncED);
+                              NVRam_ReadByte(0xFF,&EDIDCheckSumTemp);
+                              ForceDelay1ms(30);      
+                                      Init_NVRAM_I2C_SCL_Pin();
+                                      Init_NVRAM_I2C_SDA_Pin();
+                              EnableReadDDCType = 0xFF;
+              
+                                                      #if ENABLE_DEBUG
+                                      printData("EDIDCheckSumTemp   %d", EDIDCheckSumTemp);
+C51 COMPILER V9.01   DDC                                                                   08/17/2023 10:55:11 PAGE 26  
+
+                                      printData("EDIDCheckSum   %d", EDIDCheckSum);
+                                      
+                                      printData("FreeSyncED   %d", FreeSyncED);
+                                      printData("HDMI1FreeSyncED   %d", HDMI1FreeSyncED);
+                                      printMsg("====================================");
+                                      #endif
+                              
+                              if(OnOff)
+                              {
+              
+              
+                                      if((EDIDCheckSumTemp==EDIDCheckSum)&&(FreeSyncED==0x00))
+                                              return 1;
+                                      else
+                                              return 0;
+                              }
+                              else
+                              {
+                                      if((EDIDCheckSumTemp==EDIDCheckSum)&&(FreeSyncED==0xED))
+                                              return 1;
+                                      else
+                                              return 0;
+                              }
+                      }
+                      if(Input==HDMI2_EDID)
+                      {
+                              BYTE xdata FreeSyncED=0;
+                              BYTE xdata EDIDCheckSumTemp=0;
+                      
+                                      EnableReadDDCType = Input;
+                              
+                              NVRam_ReadByte(HDMI2FreeSyncED,&FreeSyncED);
+                              NVRam_ReadByte(0xFF,&EDIDCheckSumTemp);
+                                      
+                              ForceDelay1ms(30);      
+                                      Init_NVRAM_I2C_SCL_Pin();
+                                      Init_NVRAM_I2C_SDA_Pin();
+                                      
+                              EnableReadDDCType = 0xFF;
+                              
+                              if(OnOff)
+                              {
+                                      if((EDIDCheckSumTemp==EDIDCheckSum)&&(FreeSyncED==0x00))
+                                              return 1;
+                                      else
+                                              return 0;
+                              }
+                              else
+                              {
+                                      if((EDIDCheckSumTemp==EDIDCheckSum)&&(FreeSyncED==0xED))
+                                              return 1;
+                                      else
+                                              return 0;
+                              }
+                      }
+                      return 0;
+              }
+              
+              #endif
+1584          
+1585          #if LoadAllPortSeriealnumberByOneVGAPort
+1586          
+C51 COMPILER V9.01   DDC                                                                   08/17/2023 10:55:11 PAGE 27  
+
+1587          #define SNStrat         0x71//0x4D
+1588          
+1589          #define HDMISNStrat             0x71//0x4D
+1590          
+1591          void ReLoadEDIDtoAddSN(void)
+1592          {
+1593   1      BYTE Week=0x00,Year=0x1C;
+1594   1      BYTE SNdata[18] = {0};
+1595   1      WORD i;
+1596   1      BYTE  ReadCheckSum=0;
+1597   1      BYTE  dd=0;
+1598   1      
+1599   1      //2    1  ��ȡEDID    ֻ����һ·
+1600   1        #if ENABLE_VGA
+1601   1                   Flash_Read_Factory_KeySet(FLASH_KEY_DDCA, TRUE, 0, DDCAKEY_SIZE, DDC1, DDCAKEY_SIZE);
+1602   1        #elif ENABLE_DVI
+                              Flash_Read_Factory_KeySet(FLASH_KEY_DDCD, TRUE, 0,   DDCDKEY_SIZE, DDC1, DDCDKEY_SIZE); 
+                #elif ENABLE_HDMI
+                              Flash_Read_Factory_KeySet(FLASH_KEY_DDCH, TRUE, 0,   DDCHKEY_SIZE, DDC1, DDCHKEY_SIZE); 
+                #endif
+1607   1      
+1608   1      //2  2 ��ȡ SN   (������6C -7D ��)
+1609   1      
+1610   1      
+1611   1      //for(i = 0;i<18;i++) SNdata[i] = DDC1[0X5A+i];
+1612   1      Week = DDC1[0x10];
+1613   1      Year = DDC1[0x11];  
+1614   1      for(i = 0;i<13;i++) SNdata[i] = DDC1[SNStrat+i];
+1615   1      
+1616   1      //2  3 ƴ��SN
+1617   1      
+1618   1      #if ENABLE_VGA
+1619   1      #if VGA_Write_EEPROM
+              //Set_LoadVGAEDIDFlag_A();
+              #endif
+1622   1      #endif
+1623   1      
+1624   1      
+1625   1      //3   HDMI һ������24C02
+1626   1      //3(3)  ֱ�Ӳ���24C02
+1627   1      #if ENABLE_HDMI
+              #if 0
+                   Set_Load_HDMIEDID_Flag();
+              #else
+                     ReadCheckSum = 0;
+                      hw_ClrDDC_WP();         
+                      Delay1ms(2);
+                      EnableReadDDCType=HDMI_EDID;
+                      NVRam_WriteByte(0x10, Week);
+                      NVRam_WriteByte(0x11, Year);
+                      for(i=0; i<13; i++)
+                       {
+                          NVRam_WriteByte(HDMISNStrat+i, SNdata[i]);
+                       }      
+                      for(i=0; i<127; i++)
+                       {
+                              NVRam_ReadByte(i, &dd);
+                              ReadCheckSum+=dd;
+                       }      
+                      NVRam_WriteByte(0x7F, 0x100-ReadCheckSum);
+                      hw_SetDDC_WP();
+                      
+C51 COMPILER V9.01   DDC                                                                   08/17/2023 10:55:11 PAGE 28  
+
+                      EnableReadDDCType=I2C_EEPROM;
+              #endif  
+              #endif
+1652   1      
+1653   1      }
+1654          #endif
+1655          
+1656          
+1657          #ifdef  UseVGACableReadWriteAllPortsEDID
+              extern void NVRAM_i2c_WriteTBL(BYTE deviceID, WORD addr, BYTE *buffer, BYTE count);
+              extern void NVRAM_i2c_ReadTBL(BYTE deviceID, WORD addr, BYTE *buffer, BYTE count);
+              
+              
+              #endif
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1134    ----
+   CONSTANT SIZE    =    480    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      28
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,10 +1,10 @@
 
-extern BYTE* MainMenu_BrightText(void);
-extern BYTE* MainMenu_ImageText(void);
-extern BYTE* MainMenu_ColorText(void);
-extern BYTE* MainMenu_OSDText(void);
-extern BYTE* MainMenu_ResetText(void);
-extern BYTE* MainMenu_MiscText(void);
+extern BYTE* MainMenu_BrightText(void);	
+extern BYTE* MainMenu_ImageText(void);	
+extern BYTE* MainMenu_ColorText(void);	
+extern BYTE* MainMenu_OSDText(void);	
+extern BYTE* MainMenu_ResetText(void);	
+extern BYTE* MainMenu_MiscText(void);	
 
 #if !AdjustLanguageFunction
 extern BYTE *strEnglishText( void );
@@ -35,7 +35,7 @@ extern BYTE *Main_FText(void);
 
 
 #if AudioFunc
-#if EANBLE_MUTE_ON_OFF
+#if EANBLE_MUTE_ON_OFF   
 
 extern BYTE *MuteText( void );
 extern BYTE *MuteValueText( void );
@@ -118,7 +118,7 @@ extern BYTE *GammaText( void );
 extern BYTE *GammaModeValue( void );
 extern BYTE *DCRText( void );
 extern BYTE *DcrValueText( void );
-#if (ENABLE_RTE)
+#if (ENABLE_RTE) 
 extern BYTE *OverdriveText( void );
 extern BYTE *OverdriveValueText( void );
 #endif
@@ -159,7 +159,7 @@ extern BYTE *AutoConfigText( void );
 #if Enable_Adjust_SharpnessMenu
 extern BYTE *SharpnessText( void );
 #else
-#ifdef OffPower
+#ifdef OffPower 
 extern BYTE *OffTimerText( void );
 extern BYTE *NullText( void );
 #endif
@@ -242,14 +242,14 @@ extern BYTE *InformationArrowText(void);
 //extern BYTE *VersionText(void);
 //extern BYTE *FW_VerText(void);
 #if DDCCI_ENABLE && DDCCCIMenu_Enable
-extern BYTE *DDCCIText(void);
-extern BYTE *DDCCIValueText(void);
-#endif
-
+    extern BYTE *DDCCIText(void);
+    extern BYTE *DDCCIValueText(void);
+#endif 
+ 
 #if Enable_Expansion
-extern BYTE *ExpansionText(void);
-extern BYTE *ExpansionValueText(void);
-#endif
+    extern BYTE *ExpansionText(void);
+    extern BYTE *ExpansionValueText(void);
+#endif 
 extern BYTE *InformationExtraText(void);
 extern BYTE *InputConnectorText(void);
 extern BYTE *ResolutionText(void);
@@ -267,10 +267,10 @@ extern BYTE* CableNotConnectText(void);
 extern BYTE *NoSyncText( void );
 extern BYTE *NoSyncStatusText( void );
 
-#ifdef OffPower
+#ifdef OffPower     
 extern BYTE *OffTimerM98Text( void );
 extern BYTE *MonitorOffText( void );
-#endif
+#endif 
 
 
 #if ENABLE_OSD_LowBlueLight
@@ -279,11 +279,11 @@ extern BYTE *LowBlueLightStatusText( void );
 #endif
 
 #if Hot_Corss_ColorSelect
-extern BYTE* CorssIcon(void);
+extern BYTE* CorssIcon(void);  
 #elif Hot_Corss_FY_ColorSelect || Hot_Corss_FND_Select
-extern BYTE* CorssIcon1(void);
-extern BYTE* CorssIcon2(void);
-extern BYTE* CorssIcon3(void);
+extern BYTE* CorssIcon1(void);  
+extern BYTE* CorssIcon2(void);  
+extern BYTE* CorssIcon3(void);  
 #endif
 
 

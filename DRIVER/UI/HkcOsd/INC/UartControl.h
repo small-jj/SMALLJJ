@@ -4,10 +4,10 @@
 
 typedef enum
 {
-	ARM_UART_IDLE = 0x00,
-	ARM_START_RECV,
-	ARM_UART_COMPLETED,
-} ARMUartState;
+  ARM_UART_IDLE = 0x00,
+  ARM_START_RECV,
+  ARM_UART_COMPLETED,
+}ARMUartState;
 
 typedef enum
 {
@@ -26,44 +26,44 @@ typedef enum
 	RETURN_BLIGHTNESS,	// 11
 	RETURN_USB,	// 12
 	RETURN_ACK,	// 13
-	ARM_CMD_CHANGE_DISPLAY,	// 14	//130708 gordon
-	ARM_CMD_CHANGE_BRIGHTNESS,	// 15	//130717 gordon
+	ARM_CMD_CHANGE_DISPLAY,	// 14	//130708 gordon	
+	ARM_CMD_CHANGE_BRIGHTNESS,	// 15	//130717 gordon	
 
-} ARMCMDState;
+}ARMCMDState;
 
 typedef enum
 {
 	ARM_IDLE = 0x00,
-	ARM_PowerOn,
-	ARM_DCOff,
-	ARM_DCOff_Complete,
-	ARM_ForceOff,	//130529 Nick
-	ARM_EscPowerSave,
-	ARM_ChangeSource,
-	ARM_AndroidSleeping,
-	ARM_AndroidWakeup,
-	ARM_WaitAndroid,
-	ARM_Normal,
-	ARM_SaveData,
-	ARM_GetData,	//130717 gordon
+	ARM_PowerOn ,
+	ARM_DCOff ,
+	ARM_DCOff_Complete ,
+	ARM_ForceOff ,	//130529 Nick
+	ARM_EscPowerSave ,
+	ARM_ChangeSource ,
+	ARM_AndroidSleeping ,
+	ARM_AndroidWakeup ,
+	ARM_WaitAndroid ,
+	ARM_Normal ,
+	ARM_SaveData ,
+	ARM_GetData ,	//130717 gordon
 
-} ARMStageState;
+}ARMStageState;
 /////////////////////////////////////////////
 // Uart command structure
 /////////////////////////////////////////////
 typedef enum _ARMCommadEnumType
 {
-	_ARM_UART_CMD_HEAD0_,
-	_ARM_UART_CMD_HEAD1_,
-	_ARM_UART_CMD_INDEX0_,
-	_ARM_UART_CMD_INDEX1_,
-	_ARM_UART_CMD_INDEX2_,
-	_ARM_UART_CMD_INDEX3_,
-	_ARM_UART_CMD_INDEX4_,
-	_ARM_UART_CMD_INDEX5_,
-	_ARM_UART_CMD_INDEX6_,
-	_ARM_UART_CMD_CHECKSUM_,
-} ARMCommadEnumType;
+    _ARM_UART_CMD_HEAD0_,
+    _ARM_UART_CMD_HEAD1_,
+    _ARM_UART_CMD_INDEX0_,
+    _ARM_UART_CMD_INDEX1_,
+    _ARM_UART_CMD_INDEX2_,
+    _ARM_UART_CMD_INDEX3_,
+    _ARM_UART_CMD_INDEX4_,
+    _ARM_UART_CMD_INDEX5_,
+    _ARM_UART_CMD_INDEX6_,
+    _ARM_UART_CMD_CHECKSUM_,
+}ARMCommadEnumType;
 
 #define ARM_SYNC_R				0x01
 #define ARM_SYNC_W				0x03

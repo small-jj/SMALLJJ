@@ -4,9 +4,11 @@
 // BOARD SELECTION
 ////////////////////////////////////////////////////////////
 #define CHIP_ID                			CHIP_TSUMC
-#define MainBoardType    				MainBoard_JRY_W58CDT9_AV7//MainBorad_JRY_L58CDT9_GV2
+#define MainBoardType    				MainBorad_JRY_L58CDT9_GV2
 #define PanelType 						PanelM215HGE_L21
-#define DisplayLogo					YMH_LOGO//YWYBIRD_LOGO//YWYLBS_LOGO//YWYDGM_LOGO//LOGO_DUNPAI//YWYMIMO_LOGO//CHANG_LOGO//YWYPOLY_LOGO//TEST_LOGO//YWY_LOGO//LOGO_YINGYAN   
+#define DisplayLogo					LOGO_YINGYAN
+
+
 
 //#define EEPROM_TYPE       EEPROM_24C16
 ////////////////////////////////////////////////////////////
@@ -75,7 +77,7 @@
 #define Init_HDCPKey    	           			0
 
 /***************************************************************************************/
-//1 DDC/CI功能
+								//1 DDC/CI功能
 #define JRY_Color_Tool_Functing            	1
 
 #define  Adj_7500K_Temp  				(0&&JRY_Color_Tool_Functing)
@@ -88,11 +90,11 @@
 /***************************************************************************************/
 
 
-#define  EANBLE_NEW_DCR_Functing       1
+#define  EANBLE_NEW_DCR_Functing       1 
 
 
 
-#if MainBoardType ==  						MainBoard_JRY_W58CDT9_AV7 //MainBorad_JRY_L58CDT9_GV2//
+#if MainBoardType == MainBorad_JRY_L58CDT9_GV2
 
 #define INPUT_TYPE_SEL              		(INPUT_0A|INPUT_1C)
 #define DVI_PORT_PRIORITY       			2 //
@@ -200,7 +202,7 @@
 #define ChangeDate					"20190524"//""
 
 /********************************************************************************************/
-//1 Project 设置
+					  			//1 Project 设置
 
 #define	HH_PivotKey_Enable						0
 
@@ -223,7 +225,7 @@
 
 #define	OSD_NoHotKeyFunc						1
 /////////////////////////brightness///////////////////////////////////
-#define BRI_PRO_MIN_VALUE			0x00
+#define BRI_PRO_MIN_VALUE			0x00	
 #define BRI_PRO_DEF_VALUE			0x55
 #define BRI_PRO_MAX_VALUE			0x7A
 ////////////////////////color temp/////////////////////////////////
@@ -248,7 +250,7 @@
 #define Pro_MidVol_P   			0x10F
 #define Pro_MaxVol_P				0x23F
 ///////////////////////////////////////////////////////////////
-
+ 
 #define ADCKEY_A0_VALUE     0x6F
 #define ADCKEY_A1_VALUE     0x9B//0x68
 #define ADCKEY_A2_VALUE     0xA0

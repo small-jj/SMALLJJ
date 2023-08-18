@@ -15,13 +15,13 @@
 #define REGBK	0x00
 #define BK0_00  0x00
 
-#define REG_BANK_MASK       0x07     //
-#define REG_BANK_SCALER     0x00     // Scaler bank
-#define REG_BANK_ADC_DVI    0x01     // ADC/DVI receiver bank
-#define REG_BANK_TCON       0x02     // Timing control bank
-#define REG_BANK_PIP        0x03     // Video control bank
-#define REG_BANK_MIU        0x04     // Video & MIU control bank
-#define REG_BANK_HDMI       0x05     // HDMI control bank
+    #define REG_BANK_MASK       0x07     //
+    #define REG_BANK_SCALER     0x00     // Scaler bank
+    #define REG_BANK_ADC_DVI    0x01     // ADC/DVI receiver bank
+    #define REG_BANK_TCON       0x02     // Timing control bank
+    #define REG_BANK_PIP        0x03     // Video control bank
+    #define REG_BANK_MIU        0x04     // Video & MIU control bank
+    #define REG_BANK_HDMI       0x05     // HDMI control bank
 
 ///////////////////////////////////////////////////////
 // [Bank = 001]
@@ -82,10 +82,10 @@
 #define BK1_1F  0x1F // DVI bit error tolerance threshold
 
 #define BK1_20  0x20
-// b5-4: channel select for DVI error status indicator(DVI feature only)
-#define DVI_RED_CHANNEL     0x00
-#define DVI_GREEN_CHANNEL   0x10
-#define DVI_BLUE_CHANNEL    0x20
+    // b5-4: channel select for DVI error status indicator(DVI feature only)
+    #define DVI_RED_CHANNEL     0x00
+    #define DVI_GREEN_CHANNEL   0x10
+    #define DVI_BLUE_CHANNEL    0x20
 
 #define BK1_21  0x21
 #define BK1_22  0x22
@@ -267,18 +267,18 @@
 // [Graphic port register]
 // input ssource select/control
 #define BK0_02  0x02
-// b1-0: input select
+    // b1-0: input select
 
-#define SCALER_ISEL_MASK    0x07
-#define SCALER_ISEL_ANALOG1 0x00
-#define SCALER_ISEL_ANALOG2 0x01
-//#define SCALER_ISEL_ANALOG3 0x02
-#define SCALER_ISEL_DVI     0x02//0x03
-#define SCALER_ISEL_VIDEO   0x03//0x04
-#define SCALER_ISEL_HDMI    0x07
+    #define SCALER_ISEL_MASK    0x07
+    #define SCALER_ISEL_ANALOG1 0x00
+    #define SCALER_ISEL_ANALOG2 0x01
+    //#define SCALER_ISEL_ANALOG3 0x02
+    #define SCALER_ISEL_DVI     0x02//0x03
+    #define SCALER_ISEL_VIDEO   0x03//0x04
+    #define SCALER_ISEL_HDMI    0x07
 
-// b6-5: input sync type
-#define SCALER_STYPE_SOG    0x60
+    // b6-5: input sync type
+    #define SCALER_STYPE_SOG    0x60
 
 #define BK0_03  0x03
 #define BK0_04  0x04
@@ -382,7 +382,7 @@
 // [OSD overlay register]
 // OSD alpha blending control
 #define BK0_4B  0x4B // b6-3: color index of color key
-// b2-0: alpha blending mode
+                     // b2-0: alpha blending mode
 #define BK0_4C  0x4C // b2-0: OSD alpha blending level
 
 // scaling ratio
@@ -620,7 +620,7 @@
 // power down control/ software reset
 #define BK0_F0  0xF0
 #define BK0_F1  0xF1
-#define SWRST_ALL   0x3f
+    #define SWRST_ALL   0x3f
 
 // output signal control
 #define BK0_F2  0xF2

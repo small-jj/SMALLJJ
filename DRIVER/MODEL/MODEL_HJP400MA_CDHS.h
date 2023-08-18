@@ -78,7 +78,7 @@
 
 #define JRY_FDDCCI_WriteEDID 			  (1&&JRY_Color_Tool_Functing)
 
-#define  EANBLE_NEW_DCR_Functing       1
+#define  EANBLE_NEW_DCR_Functing       1 
 
 #define		MIA_HotKeyExit		MIA_Auto
 #define  		 Hotkey_ECO_Enable		1
@@ -188,7 +188,7 @@
 
 #define		Def_DACGain				0x7FC
 /////////////////////////brightness///////////////////////////////////
-#define BRI_PRO_MIN_VALUE			0x00
+#define BRI_PRO_MIN_VALUE			0x00	
 #define BRI_PRO_DEF_VALUE			0xAF
 #define BRI_PRO_MAX_VALUE			0xDE
 ////////////////////////color temp/////////////////////////////////

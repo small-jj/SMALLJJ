@@ -1,0 +1,1760 @@
+C51 COMPILER V9.01   FACTORYSTRING                                                         08/17/2023 10:55:21 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE FACTORYSTRING
+OBJECT MODULE PLACED IN .\obj\FactoryString.obj
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE ..\..\UI\F_LOGO\FactoryString.c OPTIMIZE(SIZE) BROWSE INCDIR(..\..\DRIVER\I
+                    -NC;..\..\KERNEL\SCALER\INC;..\..\KERNEL\SYSTEM\INC;..\..\LIB\INC;..\..\PANEL\INC;..\..\BOARD;..\..\DRIVER\INC;..\..\KERN
+                    -EL\SYSTEM\INC\AOC2011;..\..\DRIVER\extDEVICE\INC;..\..\MODEL;..\..\CONFIG;..\..\PANEL;..\..\UI\F_LOGO\INC;..\..\UI\HkcOs
+                    -d\INC) DEFINE(ModelName=MODEL_T24_TCL) DEBUG OBJECTEXTEND PRINT(.\list\FactoryString.lst) OBJECT(.\obj\FactoryString.obj
+                    -)
+
+line level    source
+
+   1          
+   2          #include "global.h"
+*** MESSAGE C320 IN LINE 337 OF ..\..\CONFIG\BOARD.H: "Please remember to disable the debug function!" 
+   3          #include "msosd.h"
+   4          #include "msosdfunction.h"
+   5          #include "drvosd.h"
+   6          #include "extlib.h"
+   7          #include "CommonLoadCPnCompressFont.h"
+   8          #include "FactoryStringText.h"
+   9          #include "FactoryFontText.h"
+  10          #include "PropFont.h"
+  11          
+  12          
+  13          #include "LogoFontText.h"
+  14          
+  15          
+  16          extern xdata BYTE OsdFontColor;
+  17          
+  18          void Osd_DrawRealStr_F(BYTE xPos, BYTE yPos, BYTE *str);
+  19          
+  20          #if CHIP_ID >= CHIP_TSUMV
+  21          static void Load256ColorPalette(BYTE u8Group, BYTE u8Addr, ColorPaletteType *colorPtr, WORD u16Num)
+  22          {
+  23   1      #if CHIP_ID>=CHIP_TSUM2
+                       WORD xdata i;
+                  if (u8Group==0)
+                      WRITE_PSRAM0_ADDR();
+                  else
+                      WRITE_PSRAM1_ADDR();
+                  //write R/G/B
+                  msWriteByte(OSD1_66, u8Addr);
+                  if (u8Group==0)
+                      WRITE_PSRAM0_COLOR();
+                  else
+                      WRITE_PSRAM1_COLOR();
+                      
+                  for (i=0;i<u16Num;i++)
+                  {
+                      msWriteByte(OSD1_66, ((colorPtr+i)->u8Blue));
+                      msWriteByte(OSD1_66, ((colorPtr+i)->u8Green));
+                      msWriteByte(OSD1_66, ((colorPtr+i)->u8Red));
+                  }
+              
+                  //write colorkey
+                  if (u8Group==0)
+                      WRITE_PSRAM0_ADDR();
+                  else
+                      WRITE_PSRAM1_ADDR();
+                  msWriteByte(OSD1_66, u8Addr);
+                  if (u8Group==0)
+                      WRITE_PSRAM0_COLOR_KEY();
+C51 COMPILER V9.01   FACTORYSTRING                                                         08/17/2023 10:55:21 PAGE 2   
+
+                  else
+                      WRITE_PSRAM0_COLOR_KEY();
+                  while (u16Num--)
+                  {
+                      if(colorPtr->u8ColorKey)
+                          msWriteByteMask(OSD1_66, BIT0,BIT0);
+                      else
+                          msWriteByteMask(OSD1_66, 0,BIT0);
+                      colorPtr++;
+                  }
+              
+              
+              #elif CHIP_ID==CHIP_TSUMV
+  64   1      
+  65   1          WORD xdata i,u16PSRAM_AddrPort;
+  66   1          BYTE u8Bank=msReadByte(OSD1_00);
+  67   1          msWriteByte(OSD1_00,0x00);//subbank 0
+  68   1          if (u8Group==0)
+  69   1              u16PSRAM_AddrPort=OSD1_76;
+  70   1          else
+  71   1              u16PSRAM_AddrPort=OSD1_86;
+  72   1      //u8Addr=0;
+  73   1          //write R/G/B
+  74   1          msWriteByte(u16PSRAM_AddrPort, u8Addr);
+  75   1          for (i=0;i<u16Num;i++)
+  76   1          {   
+  77   2              msWriteByte(u16PSRAM_AddrPort+2, ((colorPtr+i)->u8Blue));
+  78   2              msWriteByte(u16PSRAM_AddrPort+2, ((colorPtr+i)->u8Green));
+  79   2              msWriteByte(u16PSRAM_AddrPort+2, ((colorPtr+i)->u8Red));
+  80   2          }
+  81   1      
+  82   1          //write colorkey
+  83   1          msWriteByte(u16PSRAM_AddrPort, u8Addr);
+  84   1          while (u16Num--)
+  85   1          {
+  86   2              if(colorPtr->u8ColorKey)
+  87   2                  msWriteByteMask(u16PSRAM_AddrPort+3, BIT0,BIT0);
+  88   2              else
+  89   2                  msWriteByteMask(u16PSRAM_AddrPort+3, 0,BIT0);
+  90   2              colorPtr++;
+  91   2          }
+  92   1          msWriteByte(OSD1_00,u8Bank);//subbank 0
+  93   1      
+  94   1          #else
+                      WORD xdata i;
+                      u8Group=0;
+                      msWriteByte( OSD2_AC, u8Addr );
+                      for (i=0; i<u16Num; i++)
+                      {
+                              msWriteByte(OSD2_AD, ((colorPtr+i)->u8Red));
+                              msWriteByte(OSD2_AD, ((colorPtr+i)->u8Green));
+                              msWriteByte(OSD2_AD, ((colorPtr+i)->u8Blue));
+                      }
+                  #endif
+ 105   1      }
+ 106          
+ 107          #endif
+ 108          
+ 109          
+ 110          #if (DisplayLogo!=NoBrand)//130306 Modify
+ 111          
+ 112          
+C51 COMPILER V9.01   FACTORYSTRING                                                         08/17/2023 10:55:21 PAGE 3   
+
+ 113          
+ 114          
+ 115          
+ 116          
+ 117          void Osd_LoadLogoFontCP(void)
+ 118          {
+ 119   1      
+ 120   1      
+ 121   1           Load256ColorPalette(0, 0, &tOSDColorPalette0, sizeof( tOSDColorPalette0) /sizeof(ColorPaletteType) );
+ 122   1      
+ 123   1      #if CHIP_ID==CHIP_TSUMV
+ 124   1              #if (DisplayLogo==AlgeriaLOGO)
+                         mStar_LoadCompressedFont(1, &tOSDLogoFont_LEFT,0); 
+                         mStar_LoadCompressedFont(50, &tOSDLogoFont_Right,0); 
+                         msWrite2ByteMask(OSD1_0A,200,0x03FF); 
+                         OSD_WRITE_FONT_ADDRESS(LOBYTE(200));
+                         LoadCompressColorFont( &tOSDLogoFont_Middle,0 , 25 ); 
+                      #elif (DisplayLogo==HUNTKEYLOGO)
+                         mStar_LoadCompressedFont(1, &tOSDLogoFont,0); 
+                      #elif (DisplayLogo==DAHUALOGO)
+                       mStar_LoadCompressedFont(1, &tOSDLogoFont, 0); 
+                      OSD_FONT_HI_ADDR_SET_BIT8();
+                      msWrite2ByteMask(OSD1_0A,0x1ff,0x03FF);
+                      msWrite2ByteMask(OSD1_0C,0x2ff,0x03FF); 
+                      mStar_LoadCompressedFont(1, &tOSDLogoFont1, 0); 
+                      OSD_FONT_HI_ADDR_CLR_TO_0();
+                      #else
+ 140   1                 mStar_LoadCompressedFont(1, &tOSDLogoFont,0); 
+ 141   1              #endif
+ 142   1      #else
+                  
+              #if (DisplayLogo==AlgeriaLOGO)
+                         mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(1), &tOSDLogoFont_LEFT,0); 
+                         mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(50), &tOSDLogoFont_Right,0); 
+                         msWrite2ByteMask(OSD1_0A,200,0x03FF); 
+                         OSD_WRITE_FONT_ADDRESS(LOBYTE(200));
+                         LoadCompressColorFont( &tOSDLogoFont_Middle,0 , 25 ); 
+                         
+              #elif (DisplayLogo==DAHUALOGO)
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont, sizeof(tOSDLogoFont)); 
+                      OSD_FONT_HI_ADDR_SET_BIT8();
+                      msWrite2ByteMask(OSD1_0A,0x1ff,0x03FF);
+                      msWrite2ByteMask(OSD1_0C,0x2ff,0x03FF); 
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont1, sizeof(tOSDLogoFont1)); 
+                      OSD_FONT_HI_ADDR_CLR_TO_0();       
+              #elif (DisplayLogo==LOGO_ELECTROMAN)
+                      msWrite2ByteMask(OSD1_0A,0x1ff,0x03FF);
+                      msWrite2ByteMask(OSD1_0C,0x2ff,0x03FF); 
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont, sizeof(tOSDLogoFont)); 
+                      OSD_FONT_HI_ADDR_SET_BIT8();
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont1, sizeof(tOSDLogoFont1)); 
+                      OSD_FONT_HI_ADDR_CLR_TO_0();            
+              #elif (DisplayLogo==LOGO_DULLDOG)
+                      msWrite2ByteMask(OSD1_0A,0x2ff,0x03FF);
+                      msWrite2ByteMask(OSD1_0C,0x2ff,0x03FF); 
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont, sizeof(tOSDLogoFont)); 
+                      OSD_FONT_HI_ADDR_SET_BIT8();
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogo2Font, sizeof(tOSDLogo2Font)); 
+                      OSD_FONT_HI_ADDR_CLR_TO_0();
+              #elif (DisplayLogo==LOGO_ONEPIECE)
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont, 0); 
+              
+C51 COMPILER V9.01   FACTORYSTRING                                                         08/17/2023 10:55:21 PAGE 4   
+
+                      OSD_FONT_HI_ADDR_SET_BIT8();
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont1,0); 
+                      OSD_FONT_HI_ADDR_CLR_TO_0();
+              #elif (DisplayLogo==LOGO_AISI)
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont, 0); 
+              
+                      OSD_FONT_HI_ADDR_SET_BIT8();
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont1,0); 
+                      OSD_FONT_HI_ADDR_CLR_TO_0();
+              #elif (DisplayLogo==LOGO_AISI2)
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont, 0); 
+              
+                      msWrite2ByteMask(OSD1_0A,0x140,0x03FF); 
+                      OSD_FONT_HI_ADDR_SET_BIT8();
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x00), &tOSDLogoFont1,0); 
+                      OSD_WRITE_FONT_ADDRESS(LOBYTE(0x40));
+                      LoadCompressColorFont( &tOSDLogoFont2,NULL, 90 ); 
+                      OSD_FONT_HI_ADDR_CLR_TO_0();
+              
+                      OSD_FONT_HI_ADDR_SET_BIT9();
+                      OSD_WRITE_FONT_ADDRESS(LOBYTE(0x00));
+                      LoadCompressColorFont( &tOSDLogoFont3,NULL, 92 ); 
+                      OSD_FONT_HI_ADDR_CLR_TO_0();
+              
+              #elif (DisplayLogo==LOGO_CAOMAO)
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont, 0); 
+              
+                      OSD_FONT_HI_ADDR_SET_BIT8();
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont1,0); 
+                      OSD_FONT_HI_ADDR_CLR_TO_0();
+              #elif (DisplayLogo==LOGO_LUFEI2)
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont, 0); 
+                      OSD_FONT_HI_ADDR_SET_BIT8();
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont1,0); 
+                      OSD_FONT_HI_ADDR_CLR_TO_0();
+              #elif (DisplayLogo==LOGO_LUFEI)
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont, 0); 
+                      OSD_FONT_HI_ADDR_SET_BIT8();
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont1,0); 
+                      OSD_FONT_HI_ADDR_CLR_TO_0();
+              #elif (DisplayLogo==LOGO_LONG)
+                         mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont2,0); 
+                         msWrite2ByteMask(OSD1_0A,0x100,0x03FF); 
+                         OSD_FONT_HI_ADDR_SET_BIT8();
+                         OSD_WRITE_FONT_ADDRESS(LOBYTE(0x100));
+                         LoadCompressColorFont( &tOSDLogoFont4,NULL, 82 ); 
+                      OSD_FONT_HI_ADDR_CLR_TO_0();
+              #elif (DisplayLogo==LOGO_AI)
+                         mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont2,0); 
+                         msWrite2ByteMask(OSD1_0A,0x100,0x03FF); 
+                         OSD_FONT_HI_ADDR_SET_BIT8();
+                         OSD_WRITE_FONT_ADDRESS(LOBYTE(0x100));
+                         LoadCompressColorFont( &tOSDLogoFont4,NULL, 14 ); 
+                      OSD_FONT_HI_ADDR_CLR_TO_0();
+              #elif (DisplayLogo==LOGO_ZEI)
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont2,0); 
+                      msWrite2ByteMask(OSD1_0A,0x100,0x03FF); 
+                      OSD_FONT_HI_ADDR_SET_BIT8();    
+                      OSD_WRITE_FONT_ADDRESS(LOBYTE(0x100));
+                      LoadCompressColorFont( &tOSDLogoFont4,NULL,24 ); 
+                      OSD_FONT_HI_ADDR_CLR_TO_0();
+              #elif (DisplayLogo==HUANGHE_LOGO)
+C51 COMPILER V9.01   FACTORYSTRING                                                         08/17/2023 10:55:21 PAGE 5   
+
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont, sizeof(tOSDLogoFont)); 
+                      OSD_FONT_HI_ADDR_SET_BIT8();
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont1, sizeof(tOSDLogoFont1)); 
+                      OSD_FONT_HI_ADDR_CLR_TO_0();
+              #elif (DisplayLogo==MIMO_LOGO)
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(1), &tOSDLogoFont,0); 
+                      msWrite2ByteMask(OSD1_0A,0x9D,0x03FF); 
+                      OSD_WRITE_FONT_ADDRESS(LOBYTE(0xEC));
+                      LoadCompressColorFont( &tOSDLogoFont1,0,10);
+              #elif (DisplayLogo==POLY_LOGO)
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont, sizeof(tOSDLogoFont)); 
+                      OSD_FONT_HI_ADDR_SET_BIT8();
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont1, sizeof(tOSDLogoFont1)); 
+                      OSD_FONT_HI_ADDR_CLR_TO_0();
+              #elif (DisplayLogo==LOGO_SUO2)
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont, sizeof(tOSDLogoFont)); 
+                      OSD_FONT_HI_ADDR_SET_BIT8();
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x00), &tOSDLogoFont1, sizeof(tOSDLogoFont1)); 
+                      OSD_FONT_HI_ADDR_CLR_TO_0();
+              #elif (DisplayLogo==DRAGON_LOGO)
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont,0); 
+                      msWrite2ByteMask(OSD1_0A,0x100,0x03FF);
+                      OSD_FONT_HI_ADDR_SET_BIT8();
+                      OSD_WRITE_FONT_ADDRESS(LOBYTE(0x00));
+                      LoadCompressColorFont( &tOSDLogoFont1,NULL,82);
+                      OSD_FONT_HI_ADDR_CLR_TO_0();
+              #elif (DisplayLogo==LOGO_DUNPAI)
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont,0);
+              
+                      msWrite2ByteMask(OSD1_0A,0x165,0x03FF);
+                      msWrite2ByteMask(OSD1_0C,0x300,0x03FF);
+                      
+                      OSD_FONT_HI_ADDR_SET_BIT8();
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont1,0); 
+                      OSD_WRITE_FONT_ADDRESS(LOBYTE(0x65));
+                      LoadCompressColorFont( &tOSDLogoFont2,NULL,60);
+                      OSD_FONT_HI_ADDR_CLR_TO_0();
+                      
+                      OSD_FONT_HI_ADDR_SET_BIT9();
+                      OSD_WRITE_FONT_ADDRESS(LOBYTE(0x01));
+                      LoadCompressColorFont( &tOSDLogoFont3,NULL,60);
+                      OSD_FONT_HI_ADDR_CLR_TO_0();
+              #elif (DisplayLogo==LOGO_YINGYAN)
+                      msWrite2ByteMask(OSD1_0A,0x209,0x03FF);
+                      msWrite2ByteMask(OSD1_0C,0x300,0x03FF);
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont,0);     
+                      OSD_FONT_HI_ADDR_SET_BIT8();
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont1,0); 
+                      OSD_FONT_HI_ADDR_CLR_TO_0();
+                      
+                      OSD_FONT_HI_ADDR_SET_BIT9();
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont2,0); 
+                      OSD_WRITE_FONT_ADDRESS(LOBYTE(0x09));
+                      LoadCompressColorFont( &tOSDLogoFont4,NULL,9);
+                      OSD_FONT_HI_ADDR_CLR_TO_0();
+              #elif (DisplayLogo==LOGO_SUO)
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont,0);
+              
+                      msWrite2ByteMask(OSD1_0A,0x10D,0x03FF);
+                      msWrite2ByteMask(OSD1_0C,0x300,0x03FF);
+                      
+                      OSD_FONT_HI_ADDR_SET_BIT8();
+C51 COMPILER V9.01   FACTORYSTRING                                                         08/17/2023 10:55:21 PAGE 6   
+
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x00), &tOSDLogoFont1,0); 
+                      OSD_WRITE_FONT_ADDRESS(LOBYTE(0x0D));
+                      LoadCompressColorFont( &tOSDLogoFont2,NULL,70);
+                      OSD_FONT_HI_ADDR_CLR_TO_0();
+                      
+                      OSD_FONT_HI_ADDR_SET_BIT9();
+                      OSD_WRITE_FONT_ADDRESS(LOBYTE(0x00));
+                      LoadCompressColorFont( &tOSDLogoFont3,NULL,77);
+                      OSD_FONT_HI_ADDR_CLR_TO_0();
+              #elif (DisplayLogo==LBS_LOGO)
+                      msWrite2ByteMask(OSD1_0A,0x165,0x03FF);
+                      msWrite2ByteMask(OSD1_0C,0x300,0x03FF);
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont,0);
+                      OSD_FONT_HI_ADDR_SET_BIT8();
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont1,0); 
+                      OSD_WRITE_FONT_ADDRESS(LOBYTE(0x65));
+                      LoadCompressColorFont( &tOSDLogoFont2,NULL,60);
+                      OSD_FONT_HI_ADDR_CLR_TO_0();
+                      
+                      OSD_FONT_HI_ADDR_SET_BIT9();
+                      OSD_WRITE_FONT_ADDRESS(LOBYTE(0x01));
+                      LoadCompressColorFont( &tOSDLogoFont3,NULL,60);
+                      OSD_FONT_HI_ADDR_CLR_TO_0();
+              #elif (DisplayLogo==LOGO_NIAO)
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont2,0);
+              
+                      msWrite2ByteMask(OSD1_0A,0x100,0x03FF);
+                      msWrite2ByteMask(OSD1_0C,0x300,0x03FF);
+                      
+                      OSD_FONT_HI_ADDR_SET_BIT8();
+                      OSD_WRITE_FONT_ADDRESS(LOBYTE(0x100));
+                      LoadCompressColorFont( &tOSDLogoFont4,NULL,118);
+                      OSD_FONT_HI_ADDR_CLR_TO_0();
+                      
+              #elif (DisplayLogo==ViewSync_LOGO)
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont2_1,0);
+              
+                      msWrite2ByteMask(OSD1_0A,0x125,0x03FF);
+                      msWrite2ByteMask(OSD1_0C,0x300,0x03FF);
+                      
+                      OSD_FONT_HI_ADDR_SET_BIT8();
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont2_2,0); 
+                      OSD_WRITE_FONT_ADDRESS(LOBYTE(0x125));
+                      LoadCompressColorFont( &tOSDLogoFont4,NULL,5);
+                      OSD_FONT_HI_ADDR_CLR_TO_0();
+              #elif (DisplayLogo==Vison_LOGO)
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont2_1,0);
+              
+                      msWrite2ByteMask(OSD1_0A,0x13D,0x03FF);
+                      msWrite2ByteMask(OSD1_0C,0x300,0x03FF);
+                      
+                      OSD_FONT_HI_ADDR_SET_BIT8();
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont2_2,0); 
+                      OSD_WRITE_FONT_ADDRESS(LOBYTE(0x13D));
+                      LoadCompressColorFont( &tOSDLogoFont4,NULL,34);
+                      OSD_FONT_HI_ADDR_CLR_TO_0();
+              #elif (DisplayLogo==DAHUA_LOGO)
+                      msWrite2ByteMask(OSD1_0A,0x88,0x03FF);
+              
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x01), &tOSDLogoFont2,0); 
+                      OSD_WRITE_FONT_ADDRESS(LOBYTE(0x88));
+                      LoadCompressColorFont( &tOSDLogoFont4,NULL,5);
+C51 COMPILER V9.01   FACTORYSTRING                                                         08/17/2023 10:55:21 PAGE 7   
+
+              #else
+                      mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(1), &tOSDLogoFont,0); 
+              #endif
+              #endif
+ 365   1      }
+ 366          
+ 367          void DrawLogo(void) // Draw AOC Logo
+ 368          {
+ 369   1          BYTE i;
+ 370   1      
+ 371   1      #if (DisplayLogo==LOGO_AISI||DisplayLogo==LOGO_SUO2||DisplayLogo==LOGO_SUO||DisplayLogo==LOGO_YINGYAN||Dis
+             -playLogo==LOGO_AI||DisplayLogo==LOGO_DUNPAI||DisplayLogo==LOGO_NIAO||DisplayLogo==LOGO_LUFEI2||DisplayLogo==LOGO_AISI||D
+             -isplayLogo==LOGO_LUFEI||DisplayLogo==LOGO_CAOMAO||DisplayLogo==LOGO_BAIHUZI||DisplayLogo==LOGO_OCEAN||DisplayLogo==LOGO_
+             -ONEPIECE||DisplayLogo==DAHUA_LOGO||DisplayLogo==Vison_LOGO||DisplayLogo==ViewSync_LOGO||DisplayLogo==AMAZON_LOGO||Displa
+             -yLogo==LBS_LOGO||DisplayLogo==DRAGON_LOGO||DisplayLogo==POLY_LOGO||DisplayLogo==MIMO_LOGO||DisplayLogo==HUANGHE_LOGO||Di
+             -splayLogo==EOE_LOGO||DisplayLogo==CHANGHONG||DisplayLogo==AlgeriaLOGO||DisplayLogo==TOPSYNC_LOGO||DisplayLogo==MYIGLOGO|
+             -|DisplayLogo==LOGO_ZEI||DisplayLogo==Element||DisplayLogo==DAHUALOGO||DisplayLogo==SANXINGLOGO||DisplayLogo==TCL_Logo)
+ 372   1              BYTE j;
+ 373   1      #elif 1
+                    BYTE j;
+              #endif
+ 376   1          Osd_LoadLogoFontCP();
+ 377   1      
+ 378   1      #if  (DisplayLogo==AOCSoHuLOGO)
+                              Osd_SetTextMonoColor(0, CP_BlackColor);
+                              for (i = 0; i < OsdWindowHeight; i++)
+                              {
+                                      Osd_DrawRealStr_F(0, i, AOCSohuLogoText[i]);
+                              }
+              #elif (DisplayLogo==AlgeriaLOGO)
+                    Osd_SetTextMonoColor(10, CP_BlackColor);
+                        for (i = 0; i < 5; i++)
+                        {
+                                for (j = 0; j <16; j++)
+                                        Osd_DrawCharDirect(j, i, strLOGWindow_Left[i][j]);
+                        }
+                        
+                        Osd_Set256TextColor( 0x10, Color_2);
+                        for (i = 0; i < 5; i++)
+                        {
+                                for (j = 0; j <5; j++)
+                                        Osd_DrawCharDirect(j+16, i, strLOGWindow_Middle[i][j]);
+                        }
+                        
+                        
+                         Osd_SetTextMonoColor(CP_BlackColor, 10);  
+                        for (i = 0; i < 5; i++)
+                        {
+                                for (j = 0; j <25; j++)
+                                        Osd_DrawCharDirect(j+16+5, i, strLOGWindow_Right[i][j]);
+                        }
+              #elif (DisplayLogo==MYIGLOGO)
+              
+                        Osd_SetTextMonoColor(CP_RedColor, CP_BlackColor);
+                        for (i = 0; i < 4; i++)
+                        {
+                                for (j = 0; j <70; j++)
+                                        Osd_DrawCharDirect(j, i, strmyiWindow[i][j]);
+                        }     
+                         Osd_SetTextMonoColor(0x08, CP_BlackColor);
+                        for (i = 4; i < 14; i++)
+                        {
+C51 COMPILER V9.01   FACTORYSTRING                                                         08/17/2023 10:55:21 PAGE 8   
+
+                                for (j = 0; j <70; j++)
+                                        Osd_DrawCharDirect(j, i, strmyiWindow[i][j]);
+                        }
+                        Osd_SetTextMonoColor(CP_RedColor, CP_RedColor);
+                        for (i = 1; i < 3; i++)
+                        {
+                                for (j = 52; j <55; j++)
+                                        Osd_DrawCharDirect(j, i, strmyiWindow[i][j]);
+                        }     
+              #elif(DisplayLogo==Element)
+                         Osd_SetTextMonoColor(2,1);
+                         for (i=0;i<10;i++)
+                              {
+                              for (j=0;j<96;j++)
+                                      {
+                                      Osd_DrawCharDirect(j, i, strELEWindow[i][j]);
+                                      }
+                              }
+              #elif (DisplayLogo==LOGO_FANGZHENG)  
+                        Osd_SetTextMonoColor(2,3);
+                         for (i=0;i<6;i++)
+                              {
+                              for (j=0;j<60;j++)
+                                      {
+                                      Osd_DrawCharDirect(j, i, strFanWindow[i][j]);
+                                      }
+                              }
+              #elif (DisplayLogo==LOGO_NOBRAND)  
+                        Osd_SetTextMonoColor(2,3);
+                         for (i=0;i<6;i++)
+                              {
+                              for (j=0;j<48;j++)
+                                      {
+                                      Osd_DrawCharDirect(j, i, strNobWindow[i][j]);
+                                      }
+                              }
+              #elif (DisplayLogo==LOGO_OCEAN)  
+                      Osd_SetTextMonoColor(1,0);
+                         for (i=0;i<18;i++)
+                              {
+                                      for (j=0;j<40;j++)
+                                      {
+                                              Osd_DrawCharDirect(j, i, strOCEWindow[i][j]);
+                                      }
+                              }
+              #elif (DisplayLogo==CHANGHONG)  
+                      Osd_SetTextMonoColor(1,0);
+                         for (i=0;i<8;i++)
+                              {
+                                      for (j=0;j<70;j++)
+                                      {
+                                              Osd_DrawCharDirect(j, i, strCHAWindow[i][j]);
+                                      }
+                              }
+              #elif (DisplayLogo == EOE_LOGO) 
+                      for (i = 0;i < 15;i++)
+                      {
+                              for(j = 0;j< 80;j++)
+                              {
+                                      if(j>=28 && j<=51)
+                                      {
+                                              Osd_SetTextMonoColor(3,2);
+C51 COMPILER V9.01   FACTORYSTRING                                                         08/17/2023 10:55:21 PAGE 9   
+
+                                              Osd_DrawCharDirect(j, i, strEOEWindow[i][j]);
+                                      }
+                                      else
+                                      {
+                                              Osd_SetTextMonoColor(1,0);
+                                              Osd_DrawCharDirect(j, i, strEOEWindow[i][j]);
+                                      }
+                              }
+                      }
+              #elif (DisplayLogo==HUANGHE_LOGO)  
+                      for (i=0;i<7;i++)
+                      {
+                              for (j=0;j<40;j++)
+                              {
+                                      Osd_SetTextMonoColor(1,0);
+                                      Osd_DrawCharDirect(j, i, strAHUWindow[i][j]);
+                              }
+                      }
+                      OSD_TEXT_HI_ADDR_SET_BIT8();
+                      for (i=0;i<5;i++)
+                      {
+                              for (j=0;j<40;j++)
+                              {
+                                      Osd_SetTextMonoColor(2,0);
+                                      Osd_DrawCharDirect(j, i+7, strBHUWindow[i][j]);
+                              }
+                      }
+                      OSD_TEXT_HI_ADDR_CLR_TO_0();
+              #elif (DisplayLogo==MIMO_LOGO)
+                      for (i = 0;i < 17;i++)
+                      {
+                              for(j = 0;j < 67;j++)
+                              {
+                                      if(i >= 11)
+                                      {
+                                              Osd_SetTextMonoColor(4,0);
+                                      }
+                                      else
+                                      {
+                                              if((j <= 18) || (j >= 23 && j <= 43) || (i <= 6 && j >= 55) || (i == 4 && j >= 53) || (i == 5 && (j >=
+             - 50 && j <= 65)) || (i == 7 && (j >= 57 && j <= 61)))
+                                              {
+                                                      Osd_SetTextMonoColor(2,0);
+                                              }
+                                              else if((j >= 19 && j <= 22) || (j >= 44 && j <= 49) || (i == 3 && (j >= 50 && j <= 52)) || (i == 8 &&
+             - j == 55) || ((i >= 9 && i <= 10) && (j >= 50 && j <= 58)))
+                                              {
+                                                      Osd_SetTextMonoColor(3,0);
+                                              }
+                                              else if((i == 3 && (j >= 53 && j <= 54)) || (i == 4 && (j >= 50 && j <= 52)) || (i == 7 && (j >= 55 &&
+             - j <= 56)) || (i == 8 && (j >= 56 && j <= 58)))
+                                              {
+                                                      Osd_Set256TextColor(0x00, Color_2);
+                                              }
+                                      }
+                                      Osd_DrawCharDirect(j, i, strMIOWindow[i][j]);
+                              }
+                      }
+              #elif (DisplayLogo==POLY_LOGO)
+                      for(i = 0;i < 17;i++)
+                      {
+                              for(j = 0;j < 42;j++)
+C51 COMPILER V9.01   FACTORYSTRING                                                         08/17/2023 10:55:21 PAGE 10  
+
+                              {
+                                      if(i >= 11 || (i <= 10 && j <= 31))
+                                      {
+                                              Osd_SetTextMonoColor(1,0);
+                                      }                       
+                                      else if(i <= 6 && j >= 32)
+                                      {
+                                              Osd_SetTextMonoColor(2,0);
+                                      }
+                                      else if((i >= 7 && i <= 10) && j >= 32)
+                                      {
+                                              Osd_SetTextMonoColor(4,0);
+                                      }
+                                      Osd_DrawCharDirect(j, i, strAPOWindow[i][j]);
+                              }
+                      }
+                      OSD_TEXT_HI_ADDR_SET_BIT8();
+                      for(i = 0;i < 17;i++)
+                      {
+                              for(j = 0;j < 38;j++)
+                              {
+                                      if(i >= 11 || (i <= 10 && j >= 7) || ((i >= 9 && i <= 10) && (j >= 4 && j <= 6)))
+                                      {
+                                              Osd_SetTextMonoColor(1,0);
+                                      }
+                                      else if((i <= 7 && j <= 6) || (i == 8 && (j >= 4 && j <= 6)))
+                                      {
+                                              Osd_SetTextMonoColor(3,0);
+                                      }
+                                      else if((i >= 8 && i <= 10) && j <= 3)
+                                      {
+                                              Osd_SetTextMonoColor(4,0);
+                                      }
+                                      Osd_DrawCharDirect(j+42, i, strBPOWindow[i][j]);
+                              }
+                      }
+                      OSD_TEXT_HI_ADDR_CLR_TO_0();
+              #elif (DisplayLogo==DRAGON_LOGO)        
+                      for(i = 0;i < 23;i++)
+                      {
+                              for(j = 0;j < 39;j++)
+                              {
+                                      if(PalDRA[i][j] >= 0x04)      //ÎªÉõÒª´óÓÚµÈÓÚ0x04?
+                                      {
+                                              Osd_SetTextMonoColor((PalDRA[i][j]+1),PalDRA[i][j]);
+                                      }
+                                      else
+                                      {
+                                              Osd_Set256TextColor((PalDRA[i][j]>>2), Color_4);  //¼ÈÈ»ÊÇËÄÉ«È¡É«£¬PalDRA[i][j]ÓÒÒÆµÄ×÷ÓÃå
+                                      }
+                                      if(strDRAWindow[i][j] > 0xFF)
+                                      {
+                                              OSD_TEXT_HI_ADDR_SET_BIT8();
+                                              Osd_DrawCharDirect(j, i, strDRAWindow[i][j]-0x100);
+                                              OSD_TEXT_HI_ADDR_CLR_TO_0();
+                                      }
+                                      else
+                                      {
+                                              Osd_DrawCharDirect(j, i, strDRAWindow[i][j]);
+                                      }
+                              }
+                      }
+C51 COMPILER V9.01   FACTORYSTRING                                                         08/17/2023 10:55:21 PAGE 11  
+
+              #elif (DisplayLogo==LOGO_LONG)  
+                      for(i = 0;i < 23;i++)
+                      {
+                              for(j = 0;j < 39;j++)
+                              {
+                                      if(PalLON[i][j] >= 0x04)
+                                      {
+                                              Osd_SetTextMonoColor((PalLON[i][j]+1),PalLON[i][j]);
+                                      }
+                                      else
+                                      {
+                                              Osd_Set256TextColor((PalLON[i][j] >> 2), Color_4);
+                                      }
+                                      if(strLONWindow[i][j] > 0xFF)
+                                      {
+                                              OSD_TEXT_HI_ADDR_SET_BIT8();
+                                              Osd_DrawCharDirect(j, i, strLONWindow[i][j]-0x100);
+                                              OSD_TEXT_HI_ADDR_CLR_TO_0();
+                                      }
+                                      else
+                                      {
+                                              Osd_DrawCharDirect(j, i, strLONWindow[i][j]);
+                                      }
+                              }
+                      }
+              #elif (DisplayLogo==LOGO_ZEI)   
+                      for(i = 0;i < 20;i++)
+                      {
+                              for(j = 0;j < 35;j++)
+                              {
+                                      if(Palhai[i][j] >= 0x08)
+                                      {
+                                              Osd_SetTextMonoColor((Palhai[i][j]+1),Palhai[i][j]);
+                                      }
+                                      else
+                                      {
+                                              Osd_Set256TextColor((Palhai[i][j] >> 2), Color_4);
+                                      }
+                                      if(strhaiWindow[i][j] > 0xFF)
+                                      {
+                                              OSD_TEXT_HI_ADDR_SET_BIT8();
+                                              Osd_DrawCharDirect(j, i, strhaiWindow[i][j]-0x100);
+                                              OSD_TEXT_HI_ADDR_CLR_TO_0();
+                                      }
+                                      else
+                                      {
+                                              Osd_DrawCharDirect(j, i, strhaiWindow[i][j]);
+                                      }
+                              }
+                      }
+              #elif (DisplayLogo==LOGO_SUO2)  
+                    Osd_SetTextMonoColor(1,0);
+                      for (i=0;i<26;i++)
+                      {
+                              for (j=0;j<46;j++)
+                              {       
+                                      if(strsuoWindow[i][j]>255)
+                                      {
+                                              OSD_TEXT_HI_ADDR_SET_BIT8();
+                                              Osd_DrawCharDirect(j, i, strsuoWindow[i][j]-0x100);
+                                              OSD_TEXT_HI_ADDR_CLR_TO_0();
+                                      }
+C51 COMPILER V9.01   FACTORYSTRING                                                         08/17/2023 10:55:21 PAGE 12  
+
+                                      else Osd_DrawCharDirect(j, i, strsuoWindow[i][j]);
+                              }
+                      }
+              #elif (DisplayLogo==LOGO_SUO)
+                      for(i = 0;i < 26;i++)
+                      {
+                              for(j = 0;j < 45;j++)
+                              {
+                                      if(Palsuo[i][j] == 0x20)
+                                      {
+                                              Osd_SetTextMonoColor(1,2);
+                                      }
+                                      else     if(Palsuo[i][j] > 0x20)
+                                      {
+                                              Osd_SetTextMonoColor(Palsuo[i][j]-0x20+1,Palsuo[i][j]-0x20);    
+                                      }
+                                              /*if(Palsuo[i][j] == 0x22)
+                                      {
+                                              Osd_SetTextMonoColor(3,2);
+                                      }
+                                      else if(Palsuo[i][j] == 0x24)
+                                      {
+                                              Osd_SetTextMonoColor(5,4);
+                                      }
+                                      else if(Palsuo[i][j] == 0x26)
+                                      {
+                                              Osd_SetTextMonoColor(7,6);
+                                      }*/
+                              
+                                      else
+                                      {
+                                              Osd_Set256TextColor(((Palsuo[i][j]+10)>> 2), Color_4);
+                                      }
+              
+                              
+                                      if(strsuoWindow[i][j] >= 0x100 && strsuoWindow[i][j] <= 0x198)
+                                      {
+                                              
+                                                      OSD_TEXT_HI_ADDR_SET_BIT8();
+                                                      Osd_DrawCharDirect(j, i, strsuoWindow[i][j]-0x100);
+                                                      OSD_TEXT_HI_ADDR_CLR_TO_0();
+                                              
+                                      }
+                                      else if(strsuoWindow[i][j] >= 0x199)
+                                      {                               
+                                              OSD_TEXT_HI_ADDR_SET_BIT9();
+                                              Osd_DrawCharDirect(j, i, strsuoWindow[i][j]-0x199);
+                                              OSD_TEXT_HI_ADDR_CLR_TO_0();
+                                      }
+                                      else
+                                      {
+                                              Osd_DrawCharDirect(j, i, strsuoWindow[i][j]);
+                                      }
+                              }
+                      }
+              #elif (DisplayLogo==LOGO_YINGYAN)       
+                      for(i = 0;i < 32;i++)
+                      {
+                              for(j = 0;j < 40;j++)
+                              {
+                                      if(Palyin[i][j] >= 0x04)
+                                      {
+C51 COMPILER V9.01   FACTORYSTRING                                                         08/17/2023 10:55:21 PAGE 13  
+
+                                              if(i==31&&j==16)
+                                                      Osd_SetTextMonoColor(1,0);
+                                              else if(i==31&&j==17)
+                                                      Osd_SetTextMonoColor(1,0);
+                                              else Osd_SetTextMonoColor((Palyin[i][j]+1),Palyin[i][j]);
+                                      }
+                                      else
+                                      {
+                                              if(i==11&&j==15)
+                                                      Osd_SetTextMonoColor(3,1);
+                                              else Osd_Set256TextColor((Palyin[i][j] >> 2), Color_4);
+                                      }
+                                      if(stryinWindow[i][j] < 0x100)
+                                      {       
+                                              Osd_DrawCharDirect(j, i, stryinWindow[i][j]);           
+                                      }
+                                      else if(stryinWindow[i][j] < 0x200&&stryinWindow[i][j] > 0xFF)
+                                      {
+                                              OSD_TEXT_HI_ADDR_SET_BIT8();
+                                              Osd_DrawCharDirect(j, i, stryinWindow[i][j]-0xFF);
+                                              OSD_TEXT_HI_ADDR_CLR_TO_0();
+                                      }
+                                      else  if(stryinWindow[i][j] < 0x209&&stryinWindow[i][j] > 0x1FF)
+                                      {
+                                              OSD_TEXT_HI_ADDR_SET_BIT9();
+                                              Osd_DrawCharDirect(j, i, stryinWindow[i][j]-0x200);
+                                              OSD_TEXT_HI_ADDR_CLR_TO_0();
+                                      }
+                                      else
+                                      {
+                                              OSD_TEXT_HI_ADDR_SET_BIT9();
+                                              Osd_DrawCharDirect(j, i, stryinWindow[i][j]-0x1FF);
+                                              OSD_TEXT_HI_ADDR_CLR_TO_0();
+                                      }
+                              }
+                      }
+              #elif (DisplayLogo==LOGO_AI)    
+                      for(i = 0;i < 14;i++)
+                      {
+                              for(j = 0;j < 36;j++)
+                              {
+                                      if(PalAI7[i][j] >= 0x08)
+                                      {
+                                              Osd_SetTextMonoColor((PalAI7[i][j]+1),PalAI7[i][j]);
+                                      }
+                                      else
+                                      {
+                                              Osd_Set256TextColor((PalAI7[i][j] >> 2), Color_4);
+                                      }
+                                      if(strAI7Window[i][j] > 0xFF)
+                                      {
+                                              OSD_TEXT_HI_ADDR_SET_BIT8();
+                                              Osd_DrawCharDirect(j, i, strAI7Window[i][j]-0x100);
+                                              OSD_TEXT_HI_ADDR_CLR_TO_0();
+                                      }
+                                      else
+                                      {
+                                              Osd_DrawCharDirect(j, i, strAI7Window[i][j]);
+                                      }
+                              }
+                      }
+              #elif (DisplayLogo==LOGO_NIAO)
+C51 COMPILER V9.01   FACTORYSTRING                                                         08/17/2023 10:55:21 PAGE 14  
+
+              /*
+                      for(i = 0;i < 13;i++)
+                      {
+                              for(j = 0;j < 32;j++)
+                              {
+                                      if(Palvie[i][j] >= 0x98)
+                                      {
+                                              Osd_Set256TextColor((Palvie[i][j]-0x98),Color_2);
+                                      }
+                                      else
+                                      {
+                                              Osd_Set256TextColor(((Palvie[i][j]+0x98) >> 2), Color_4);
+                                      }
+                                      if(strvieWindow[i][j] <0x6D)
+                                      {
+                                              Osd_DrawCharDirect(j, i, strvieWindow[i][j]);
+                                      }
+                                      else
+                                      {                               
+                                              OSD_TEXT_HI_ADDR_SET_BIT8();
+                                              Osd_DrawCharDirect(j, i, strvieWindow[i][j]-0x100);
+                                              OSD_TEXT_HI_ADDR_CLR_TO_0();
+                                      }
+                              }
+                      }*/
+              msWriteByteMask(OSD2_23, 0, BIT7);//ÐÞ¸ÄÊ¹ÓÃÊôÐÔ
+              
+                      for (i=0; i<13; i++)
+                              for (j=0; j<32; j++)
+                              {
+                                      //OsdFontColor=Palvie[i][j];
+                                      Osd_Set256TextColor((Palvie[i][j]), Color_2);//Ö±½ÓÈ¡É«£¬²»·ÖËÄÉ«Á½É«
+                                      
+                                      if(strvieWindow[i][j]<=0x6c)
+                                              Osd_DrawCharDirect(j, i, strvieWindow[i][j]);//»­µÚÒ»Ò³µÄÁ½É«²¿·Ö
+                                      else 
+                                      {
+                                              OSD_TEXT_HI_ADDR_SET_BIT8(); 
+                                              Osd_DrawCharDirect(j, i, strvieWindow[i][j]-0x100);//»­µÚ¶þÒ³µÄËÄÉ«²¿·Ö 
+                                              OSD_TEXT_HI_ADDR_CLR_TO_0();       
+                                      }
+                              }
+              msWriteByteMask(OSD2_23, 1, BIT7);//»Ö¸´
+              
+              
+              #elif (DisplayLogo==LOGO_DUNPAI)
+                      for(i = 0;i < 30;i++)
+                      {
+                              for(j = 0;j < 42;j++)
+                              {
+                                      if(PalBUB[i][j] >= 0x08)
+                                      {
+                                              if(PalBUB[i][j] == 0x10)
+                                                      Osd_SetTextMonoColor(0x0A,0x0C);
+              
+                                              else
+                                                      Osd_SetTextMonoColor((PalBUB[i][j]+1),PalBUB[i][j]);
+                                      }
+                                      else
+                                      {
+                                              Osd_Set256TextColor((PalBUB[i][j] >> 2), Color_4);
+                                      }
+C51 COMPILER V9.01   FACTORYSTRING                                                         08/17/2023 10:55:21 PAGE 15  
+
+                                      if(strBUBWindow[i][j] > 0xFF && strBUBWindow[i][j] < 0x1DD)
+                                      {
+                                              if(strBUBWindow[i][j] < 0x165)
+                                              {
+                                                      OSD_TEXT_HI_ADDR_SET_BIT8();
+                                                      Osd_DrawCharDirect(j, i, strBUBWindow[i][j]-0xFF);
+                                                      OSD_TEXT_HI_ADDR_CLR_TO_0();
+                                              }
+                                              else
+                                              {
+                                                      OSD_TEXT_HI_ADDR_SET_BIT8();
+                                                      Osd_DrawCharDirect(j, i, strBUBWindow[i][j]-0x100);
+                                                      OSD_TEXT_HI_ADDR_CLR_TO_0();
+                                              }
+                                      }
+                                      else if(strBUBWindow[i][j] > 0x1DC)
+                                      {                               
+                                              OSD_TEXT_HI_ADDR_SET_BIT9();
+                                              Osd_DrawCharDirect(j, i, strBUBWindow[i][j]-0x1DC);
+                                              OSD_TEXT_HI_ADDR_CLR_TO_0();
+                                      }
+                                      else
+                                      {
+                                              Osd_DrawCharDirect(j, i, strBUBWindow[i][j]);
+                                      }
+                              }
+                      }
+              #elif (DisplayLogo==LBS_LOGO)
+                      for(i = 0;i < 30;i++)
+                      {
+                              for(j = 0;j < 42;j++)
+                              {
+                                      if(PalBAB[i][j] >= 0x08)
+                                      {
+                                              if(PalBAB[i][j] == 0x10)
+                                                      Osd_SetTextMonoColor(0x0A,0x0C);
+              
+                                              else
+                                                      Osd_SetTextMonoColor((PalBAB[i][j]+1),PalBAB[i][j]);
+                                      }
+                                      else
+                                      {
+                                              Osd_Set256TextColor((PalBAB[i][j] >> 2), Color_4);
+                                      }
+                                      if(strBABWindow[i][j] > 0xFF && strBABWindow[i][j] < 0x1DD)
+                                      {
+                                              if(strBABWindow[i][j] < 0x165)
+                                              {
+                                                      OSD_TEXT_HI_ADDR_SET_BIT8();
+                                                      Osd_DrawCharDirect(j, i, strBABWindow[i][j]-0xFF);
+                                                      OSD_TEXT_HI_ADDR_CLR_TO_0();
+                                              }
+                                              else
+                                              {
+                                                      OSD_TEXT_HI_ADDR_SET_BIT8();
+                                                      Osd_DrawCharDirect(j, i, strBABWindow[i][j]-0x100);
+                                                      OSD_TEXT_HI_ADDR_CLR_TO_0();
+                                              }
+                                      }
+                                      else if(strBABWindow[i][j] > 0x1DC)
+                                      {                               
+                                              OSD_TEXT_HI_ADDR_SET_BIT9();
+C51 COMPILER V9.01   FACTORYSTRING                                                         08/17/2023 10:55:21 PAGE 16  
+
+                                              Osd_DrawCharDirect(j, i, strBABWindow[i][j]-0x1DC);
+                                              OSD_TEXT_HI_ADDR_CLR_TO_0();
+                                      }
+                                      else
+                                      {
+                                              Osd_DrawCharDirect(j, i, strBABWindow[i][j]);
+                                      }
+                              }
+                      }
+              #elif (DisplayLogo==LOGO_ONEPIECE)
+                    Osd_SetTextMonoColor(1,0);
+                      for (i=0;i<18;i++)
+                      {
+                              for (j=0;j<66;j++)
+                              {       
+                                      if(strOneWindow[i][j]>0xFF)
+                                      {
+                                              OSD_TEXT_HI_ADDR_SET_BIT8();
+                                              Osd_DrawCharDirect(j, i, strOneWindow[i][j]-0xFF);
+                                              OSD_TEXT_HI_ADDR_CLR_TO_0();
+                                      }
+                                      else Osd_DrawCharDirect(j, i, strOneWindow[i][j]);
+                              }
+                      }
+              #elif (DisplayLogo==LOGO_LUFEI2)
+                    Osd_SetTextMonoColor(1,0);
+                      for (i=0;i<30;i++)
+                      {
+                              for (j=0;j<45;j++)
+                              {       
+                                      if(strlufWindow[i][j]>255)
+                                      {
+                                              OSD_TEXT_HI_ADDR_SET_BIT8();
+                                              Osd_DrawCharDirect(j, i, strlufWindow[i][j]-255);
+                                              OSD_TEXT_HI_ADDR_CLR_TO_0();
+                                      }
+                                      else Osd_DrawCharDirect(j, i, strlufWindow[i][j]);
+                              }
+                      }
+              #elif (DisplayLogo==LOGO_AISI)
+                    Osd_SetTextMonoColor(1,0);
+                      for (i=0;i<29;i++)
+                      {
+                              for (j=0;j<35;j++)
+                              {       
+                                      if(straisWindow[i][j]<0x100)
+                                      {
+                                              Osd_DrawCharDirect(j, i, straisWindow[i][j]);
+                                      }
+                                      else 
+                                      {                               
+                                              OSD_TEXT_HI_ADDR_SET_BIT8();
+                                              Osd_DrawCharDirect(j, i, straisWindow[i][j]-0xFF);
+                                              OSD_TEXT_HI_ADDR_CLR_TO_0();
+                                      }
+                              }
+                      }
+              #elif (DisplayLogo==LOGO_AISI2)
+                      for(i = 0;i < 29;i++)
+                      {
+                              for(j = 0;j < 35;j++)
+                              {
+C51 COMPILER V9.01   FACTORYSTRING                                                         08/17/2023 10:55:21 PAGE 17  
+
+                                   if(Palais[i][j] >= 0x1C)
+                                      {
+                                                      if(Palais[i][j] == 0x1C)
+                                                              Osd_SetTextMonoColor(1,0);
+                                                      else Osd_SetTextMonoColor(Palais[i][j]+1 ,Palais[i][j]);.=-
+                                      }
+                                      else
+                                      {
+                                              Osd_Set256TextColor((Palais[i][j]>> 2), Color_4);
+                                      }
+              
+                              
+                                      if(straisWindow[i][j] >= 0x100 && straisWindow[i][j] <0x1F4)
+                                      {
+                                              
+                                              OSD_TEXT_HI_ADDR_SET_BIT8();
+                                              Osd_DrawCharDirect(j, i, straisWindow[i][j]-0x100);
+                                              OSD_TEXT_HI_ADDR_CLR_TO_0();
+                                              
+                                      }
+                                      else if(straisWindow[i][j] >= 0x1F4)
+                                      {                               
+                                              OSD_TEXT_HI_ADDR_SET_BIT9();
+                                              Osd_DrawCharDirect(j, i, straisWindow[i][j]-0x1F4);
+                                              OSD_TEXT_HI_ADDR_CLR_TO_0();
+                                      }
+                                      else
+                                      {
+                                              Osd_DrawCharDirect(j, i, straisWindow[i][j]);
+                                      }
+                              }
+                      }
+              #elif (DisplayLogo==LOGO_LUFEI)
+                    Osd_SetTextMonoColor(1,0);
+                      for (i=0;i<27;i++)
+                      {
+                              for (j=0;j<32;j++)
+                              {       
+                                      if(strlufWindow[i][j]>255)
+                                      {
+                                              OSD_TEXT_HI_ADDR_SET_BIT8();
+                                              Osd_DrawCharDirect(j, i, strlufWindow[i][j]-255);
+                                              OSD_TEXT_HI_ADDR_CLR_TO_0();
+                                      }
+                                      else Osd_DrawCharDirect(j, i, strlufWindow[i][j]);
+                              }
+                      }
+              #elif (DisplayLogo==LOGO_BAIHUZI)
+                    Osd_SetTextMonoColor(1,0);
+                      for (i=0;i<24;i++)
+                      {
+                              for (j=0;j<38;j++)
+                              {               
+                                      Osd_DrawCharDirect(j, i, strbaiWindow[i][j]);
+                              }
+                      }
+              #elif (DisplayLogo==LOGO_CAOMAO)
+                    Osd_SetTextMonoColor(1,0);
+                      for (i=0;i<21;i++)
+                      {
+                              for (j=0;j<53;j++)
+                              {       
+C51 COMPILER V9.01   FACTORYSTRING                                                         08/17/2023 10:55:21 PAGE 18  
+
+                                      if(strcaoWindow[i][j] < 0x100)
+                                              Osd_DrawCharDirect(j, i, strcaoWindow[i][j]);
+                                      else 
+                                      {
+                                              OSD_TEXT_HI_ADDR_SET_BIT8();
+                                              Osd_DrawCharDirect(j, i, strcaoWindow[i][j]-0xFF);
+                                              OSD_TEXT_HI_ADDR_CLR_TO_0();            
+                                      }
+                              }
+                      }
+              #elif (DisplayLogo==ViewSync_LOGO) 
+                      for(i = 0;i < 15;i++)
+                      {
+                              for(j = 0;j < 60;j++)
+                              {
+                                      if(PalSYN[i][j] >= 0x08)
+                                      {
+                                              if(PalSYN[i][j] == 0x10)
+                                                      Osd_SetTextMonoColor(0x0D,0x09);
+                                              else
+                                                      Osd_SetTextMonoColor((PalSYN[i][j]+1),PalSYN[i][j]);
+                                      }
+                                      else
+                                      {
+                                              Osd_Set256TextColor((PalSYN[i][j] >> 2), Color_4);
+                                      }
+                                      if(strSYNWindow[i][j] <= 0xFF)
+                                      {
+                                              Osd_DrawCharDirect(j, i, strSYNWindow[i][j]);
+                                      }
+                                      else if(strSYNWindow[i][j] > 0xFF && strSYNWindow[i][j] < 0x125)
+                                      {
+                                              OSD_TEXT_HI_ADDR_SET_BIT8();
+                                              Osd_DrawCharDirect(j, i, strSYNWindow[i][j]-0xFF);
+                                              OSD_TEXT_HI_ADDR_CLR_TO_0();
+                                      }
+                                      else
+                                      {                       
+                                              OSD_TEXT_HI_ADDR_SET_BIT8();
+                                              Osd_DrawCharDirect(j, i, strSYNWindow[i][j]-0x100);
+                                              OSD_TEXT_HI_ADDR_CLR_TO_0();
+                                      }
+                              }
+                      }
+              #elif (DisplayLogo==Vison_LOGO) 
+                      for(i = 0;i < 22;i++)
+                      {
+                              for(j = 0;j < 60;j++)
+                              {
+                                      if(PalVIS[i][j] >= 0x08)
+                                      {
+                                              if(PalVIS[i][j] == 0x10)
+                                                      Osd_SetTextMonoColor(0x0D,0x0F);
+                                              else
+                                                      Osd_SetTextMonoColor((PalVIS[i][j]+1),PalVIS[i][j]);
+                                      }
+                                      else
+                                      {
+                                              Osd_Set256TextColor((PalVIS[i][j] >> 2), Color_4);
+                                      }
+                                      if(strVISWindow[i][j] <= 0xFF)
+                                      {
+C51 COMPILER V9.01   FACTORYSTRING                                                         08/17/2023 10:55:21 PAGE 19  
+
+                                              Osd_DrawCharDirect(j, i, strVISWindow[i][j]);
+                                      }
+                                      else if(strVISWindow[i][j] > 0xFF && strVISWindow[i][j] < 0x13D)
+                                      {
+                                              OSD_TEXT_HI_ADDR_SET_BIT8();
+                                              Osd_DrawCharDirect(j, i, strVISWindow[i][j]-0xFF);
+                                              OSD_TEXT_HI_ADDR_CLR_TO_0();
+                                      }
+                                      else
+                                      {                       
+                                              OSD_TEXT_HI_ADDR_SET_BIT8();
+                                              Osd_DrawCharDirect(j, i, strVISWindow[i][j]-0x100);
+                                              OSD_TEXT_HI_ADDR_CLR_TO_0();
+                                      }
+                              }
+                      }
+              #elif (DisplayLogo==DAHUA_LOGO)
+                      for(i = 0;i < 6;i++)
+                      {
+                              for(j = 0;j <29 ;j++)
+                              {
+                                      if(PalDAH[i][j] >= 0x04)
+                                      {
+                                              Osd_SetTextMonoColor((PalDAH[i][j]+1),PalDAH[i][j]);
+                                      }
+                                      else
+                                      {
+                                              Osd_Set256TextColor((PalDAH[i][j] >> 2), Color_4);
+                                      }
+                                      
+                                      Osd_DrawCharDirect(j, i, strDAHWindow[i][j]);
+                              }
+                      }
+              #elif (DisplayLogo==LOGO_ELECTROMAN)
+                       Osd_SetTextMonoColor(2,3);
+              
+                  for (i=0; i<14; i++)
+                      for(j=0; j<40; j++)
+                      {
+                              Osd_DrawCharDirect(j, i, strEl_Window[i][j]);
+                      }       
+              OSD_TEXT_HI_ADDR_SET_BIT8(); 
+                  for (i=0; i<14; i++)
+                      for(j=0; j<40; j++)
+                      {
+                              Osd_DrawCharDirect(j, (i+14), strEl2_Window[i][j]);
+                      }       
+               OSD_TEXT_HI_ADDR_CLR_TO_0();      
+               
+              #elif (DisplayLogo==TCL_Logo)
+1146   1      for (i=0; i<19; i++)
+1147   1              for(j=0; j<32; j++)
+1148   1              {
+1149   2                  if(i<=12)
+1150   2                  {
+1151   3                      if((i==0&&j<5)||(i==1&&j<2)||(i==2&&j==0))
+1152   3                      OsdFontColor=0x72;      
+1153   3                      else
+1154   3                      OsdFontColor=0x82;      
+1155   3                  }
+1156   2                  else
+1157   2                  {
+C51 COMPILER V9.01   FACTORYSTRING                                                         08/17/2023 10:55:21 PAGE 20  
+
+1158   3                      OsdFontColor=0x78;      
+1159   3                  }        
+1160   2               Osd_DrawCharDirect(j, i, strTCLWindow[i][j]);
+1161   2              }       
+1162   1      #elif (DisplayLogo==TOPSYNC_LOGO)
+              OsdFontColor=0x87;      
+              for (i=0; i<5; i++)//(i=0; i<8; i++)
+                      for(j=0; j<61; j++)//(j=0; j<90; j++)
+                      {      
+                       Osd_DrawCharDirect(j, i, strtopWindow[i][j]);
+                      }       
+              #elif DisplayLogo==LOGO_DULLDOG
+                       OsdFontColor=0x12;     
+              
+                  for (i=0; i<31; i++)
+                      for(j=0; j<44; j++)
+                      {
+                         if(strbulWindow[i][j]>0xFF)
+                         {
+                              OSD_TEXT_HI_ADDR_SET_BIT8(); 
+                              Osd_DrawCharDirect(j, i, strbulWindow[i][j]-0xFF);
+                               OSD_TEXT_HI_ADDR_CLR_TO_0();
+                         }
+                         else
+                              Osd_DrawCharDirect(j, i, strbulWindow[i][j]);
+                      }
+              #elif DisplayLogo==LOGO_XSTAR
+              OsdFontColor=0x87;      
+              for (i=0; i<9; i++)//(i=0; i<8; i++)
+                      for(j=0; j<42; j++)//(j=0; j<90; j++)
+                      {      
+                       Osd_DrawCharDirect(j, i, strXSTWindow[i][j]);
+                      }
+              #elif (DisplayLogo==OGNENTUS_LOGO)
+              OsdFontColor=0x87;      
+              for (i=0; i<11; i++)//(i=0; i<8; i++)
+                      for(j=0; j<72; j++)//(j=0; j<90; j++)
+                      {      
+                       Osd_DrawCharDirect(j, i, strOGNWindow[i][j]);
+                      }       
+              #elif (DisplayLogo==HUNTKEYLOGO)
+                      Osd_SetTextMonoColor(0, CP_BlackColor);
+                      for (i = 0; i < OsdWindowHeight; i++)
+                      {
+                              Osd_DrawRealStr_F(0, i, HUNTKEYLogoText[i]);
+                      }
+              #elif (DisplayLogo==SANXINGLOGO)
+                      Osd_SetTextMonoColor(0x08,CP_BlueColor);
+                      for (i = 0; i < 12; i++)
+                              for(j=0;j<60;j++)
+                              {
+                                      Osd_DrawCharDirect(j, i, strSANWindow[i][j]);
+                              }
+              #elif (DisplayLogo==TogetherLOGO)
+                              for (i = 0; i < OsdWindowHeight; i++)
+                              {
+                                      Osd_DrawRealStr_F(0, i, TogetherLogoText[i]);
+                              }
+              #elif (DisplayLogo==NECLOGO)
+                      Osd_SetTextMonoColor(0x01, 0x08);
+                      for (i = 0; i < OsdWindowHeight; i++)
+                      {
+C51 COMPILER V9.01   FACTORYSTRING                                                         08/17/2023 10:55:21 PAGE 21  
+
+                              Osd_DrawRealStr_F(0, i, NECLogoText[i]);
+                      }       
+              #elif (DisplayLogo==DAHUALOGO)
+              
+                      for(i=0;i<16;i++)
+                              for(j=0;j<31;j++)
+                                      {
+                                              if((i>=0&&i<=2)\
+                                                 ||((i==3)&&((j>=6&&j<=11)||(j>=20&&j<=29)))\
+                                                 ||((i==4)&&((j>=4&&j<=8)||(j>=22&&j<=29)))\
+                                                 ||((i==5)&&((j>=3&&j<=7)||(j>=23&&j<=28)))\
+                                                 ||((i==6)&&((j>=2&&j<=5)||(j>=23&&j<=28)))\
+                                                 ||((i==7)&&((j>=2&&j<=5)||(j>=22&&j<=27)))\
+                                                 ||((i==8)&&((j>=2&&j<=4)||(j>=22&&j<=27)))\
+                                                 ||((i==9)&&((j>=2&&j<=4)||(j>=21&&j<=26)))\
+                                                 ||((i==10)&&((j>=2&&j<=4)||(j>=20&&j<=25)))\
+                                                 ||((i==11)&&(j>=2&&j<=5))\
+                                                 ||((i==12)&&((j>=3&&j<=7)||(j>=15&&j<=17)))\
+                                                 ||((i==13)&&(j>=4&&j<=16))\
+                                                 ||((i==14)&&(j>=7&&j<=12))
+                                                 )
+                                                      Osd_SetTextMonoColor(CP_RedColor,CP_BlueColor);
+                                               else if(
+                                                              ((i==4)&&(j==16||j==17))\
+                                                         ||((i==5)&&(j==12||j==13||j==18||j==19||j==20))\
+                                                         ||((i==6)&&(j==18||j==19||j==20))\
+                                                         ||((i==7)&&(j==14||j==17||j==18||j==19))\
+                                                         ||((i==8)&&(j==10||j==11||j==17||j==18||j==19||j==30))\
+                                                         ||((i==9)&&(j==9||j==10||j==11||j==16||j==17||j==18||j==30))\
+                                                         ||((i==10)&&(j==10||j==11||j==12||j==16||j==17||j==18||j==29||j==30))
+                                                      )
+                                                      Osd_SetTextMonoColor(CP_WhiteColor,CP_WhiteColor);
+                                              else
+                                                      Osd_SetTextMonoColor(CP_WhiteColor,CP_BlueColor);       
+                                               
+                                              Osd_DrawCharDirect(j, i, strADAWindow[i][j]);
+                                      }
+              
+              OSD_TEXT_HI_ADDR_SET_BIT8();
+              
+                      for(i=0;i<16;i++)
+                              for(j=0;j<39;j++)
+                                      {       
+                                              Osd_SetTextMonoColor(CP_BlueColor,CP_WhiteColor);
+                                              Osd_DrawCharDirect(j+31, i, strMDAWindow[i][j]);
+                                      }
+              
+              OSD_TEXT_HI_ADDR_CLR_TO_0();
+              
+              #else
+                  for (i = 0; i < OsdWindowHeight; i++)
+                  {
+                      Osd_DrawRealStr_F(0, i, AOCLogoText[i]);
+                  }
+              #endif
+1275   1      #if (DisplayLogo==LOGO_ONEPIECE)   //º£ÔôÍõ
+                      drvOSD_FrameColorEnable(TRUE);
+                      drvOSD_FrameColorRGB(0xFF, 0xFF, 0xFF);
+              #elif (DisplayLogo==LOGO_LUFEI)   //º£ÔôÍõ
+                      drvOSD_FrameColorEnable(TRUE);
+                      drvOSD_FrameColorRGB(0xFF, 0xFF, 0xFF);
+              #elif (DisplayLogo==LOGO_LUFEI2)   //º£ÔôÍõ
+C51 COMPILER V9.01   FACTORYSTRING                                                         08/17/2023 10:55:21 PAGE 22  
+
+                      drvOSD_FrameColorEnable(TRUE);
+                      drvOSD_FrameColorRGB(0xFF, 0xFF, 0xFF);
+              #elif (DisplayLogo==LOGO_AISI)   //º£ÔôÍõ
+                      drvOSD_FrameColorEnable(TRUE);
+                      drvOSD_FrameColorRGB(0xFF, 0xFF, 0xFF);
+              #elif (DisplayLogo==LOGO_AISI2)   //º£ÔôÍõ
+                      drvOSD_FrameColorEnable(TRUE);
+                      drvOSD_FrameColorRGB(0xFF, 0xFF, 0xFF);
+              #elif (DisplayLogo==Element)
+                      drvOSD_FrameColorEnable(TRUE);
+                      drvOSD_FrameColorRGB(0x44, 0x98, 0xD4);
+              #elif (DisplayLogo==LOGO_BAIHUZI) //°×ºú×Ó
+                      drvOSD_FrameColorEnable(TRUE);
+                      drvOSD_FrameColorRGB(0xFF, 0xFF, 0xFF);
+              #elif (DisplayLogo==LOGO_BAIHUZI) //²ÝÃ±
+                      drvOSD_FrameColorEnable(TRUE);
+                      drvOSD_FrameColorRGB(0x00, 0x00, 0x00);
+              #elif (DisplayLogo==LOGO_YINGYAN) //²ÝÃ±
+                      drvOSD_FrameColorEnable(TRUE);
+                      drvOSD_FrameColorRGB(0xFF, 0xFF, 0xFF);
+              #elif (DisplayLogo==LOGO_SUO) //²ÝÃ±
+                      drvOSD_FrameColorEnable(TRUE);
+                      drvOSD_FrameColorRGB(0xFF, 0xFF, 0xFF);
+              #elif (DisplayLogo==LOGO_SUO2) //²ÝÃ±
+                      drvOSD_FrameColorEnable(TRUE);
+                      drvOSD_FrameColorRGB(0xFF, 0xFF, 0xFF);
+              #elif (DisplayLogo==LOGO_LONG)
+                      drvOSD_FrameColorEnable(TRUE);
+                      drvOSD_FrameColorRGB(0x00, 0x00, 0x00);
+              #elif (DisplayLogo==LOGO_AI)
+                      drvOSD_FrameColorEnable(TRUE);
+                      drvOSD_FrameColorRGB(0xFF, 0xFF, 0xFF);
+              #elif (DisplayLogo==LOGO_DUNPAI)
+                      drvOSD_FrameColorEnable(TRUE);
+                      drvOSD_FrameColorRGB(0x00, 0x00, 0x00);
+              #elif (DisplayLogo==LOGO_ZEI)
+                      drvOSD_FrameColorEnable(TRUE);
+                      drvOSD_FrameColorRGB(0x00, 0x00, 0x00);
+              #elif (DisplayLogo==HUNTKEYLOGO)
+                      drvOSD_FrameColorEnable(TRUE);     
+                      drvOSD_FrameColorRGB(0xFF, 0xFF, 0xFF);
+              #elif (DisplayLogo==DAHUALOGO)
+                  drvOSD_FrameColorEnable(TRUE);         
+                      drvOSD_FrameColorRGB(0x00, 0x00, 0xFF); 
+              #elif (DisplayLogo==SANXINGLOGO)
+                      drvOSD_FrameColorEnable(TRUE);     
+                      drvOSD_FrameColorRGB(0xff, 0xff, 0xff); 
+              #elif (DisplayLogo==LOGO_OCEAN)   
+                      drvOSD_FrameColorEnable(TRUE);
+                      drvOSD_FrameColorRGB(0x00, 0x00, 0x00);
+              #elif (DisplayLogo==CHANGHONG)
+                      drvOSD_FrameColorEnable(TRUE);
+                      drvOSD_FrameColorRGB(0x00, 0x00, 0x00);
+              #elif (DisplayLogo==EOE_LOGO)
+                      drvOSD_FrameColorEnable(TRUE);
+                      drvOSD_FrameColorRGB(0xFF, 0xFF, 0xFF);
+              #elif (DisplayLogo==HUANGHE_LOGO)
+                      drvOSD_FrameColorEnable(TRUE);
+                      drvOSD_FrameColorRGB(0xFF, 0xFF, 0xFF);
+              #elif (DisplayLogo==MIMO_LOGO)
+                      drvOSD_FrameColorEnable(TRUE);
+                      drvOSD_FrameColorRGB(0xFF, 0xFF, 0xFF);
+C51 COMPILER V9.01   FACTORYSTRING                                                         08/17/2023 10:55:21 PAGE 23  
+
+              #elif (DisplayLogo==POLY_LOGO)
+                      drvOSD_FrameColorEnable(TRUE);
+                      drvOSD_FrameColorRGB(0xFF, 0xFF, 0xFF);
+              #elif (DisplayLogo==DRAGON_LOGO)
+                      drvOSD_FrameColorEnable(TRUE);
+                      drvOSD_FrameColorRGB(0x00, 0x00, 0x00);
+              #elif (DisplayLogo==LBS_LOGO||DisplayLogo==LOGO_NIAO)
+                      drvOSD_FrameColorEnable(TRUE);
+                      drvOSD_FrameColorRGB(0x00, 0x00, 0x00); 
+              #elif (DisplayLogo==AMAZON_LOGO)
+                      drvOSD_FrameColorEnable(TRUE);
+                      drvOSD_FrameColorRGB(0x00, 0x00, 0x00); 
+              #elif (DisplayLogo==ViewSync_LOGO)
+                      drvOSD_FrameColorEnable(TRUE);
+                      drvOSD_FrameColorRGB(0xFF, 0xFF, 0xFF); 
+              #elif (DisplayLogo==Vison_LOGO)
+                      drvOSD_FrameColorEnable(TRUE);
+                      drvOSD_FrameColorRGB(0xFF, 0xFF, 0xFF); 
+              #elif (DisplayLogo==DAHUA_LOGO)
+                      drvOSD_FrameColorEnable(TRUE);
+                      drvOSD_FrameColorRGB(0x00, 0x00, 0x00); 
+              #else
+1366   1          drvOSD_FrameColorEnable(FALSE);
+1367   1      #endif
+1368   1      
+1369   1          msWriteByte(BKMASKOSD1|0x29, 0x00);//reserve
+1370   1          msWriteByte(BKMASKOSD1|0x2f, 0x00);//reserve
+1371   1      }
+1372          #endif
+1373          
+1374          
+1375          void Osd_LoadFacoryFontCP(void)
+1376          {
+1377   1          Load256ColorPalette(0, 0, &tOSDColorPaletteF, sizeof( tOSDColorPaletteF ) /sizeof(ColorPaletteType) );
+1378   1      #if CHIP_ID==CHIP_TSUMV
+1379   1              mStar_LoadCompressedFont( 0x20, &tFactoryFont0, 0 ); 
+1380   1              mStar_LoadCompressedFont( 0x2D, &tFactoryFont1, 0 ); 
+1381   1              mStar_LoadCompressedFont( 0x30, &tFactoryFont_Number, 0 ); 
+1382   1              mStar_LoadCompressedFont( 0x41, &tFactoryFont_EnglishBig, 0 );
+1383   1              mStar_LoadCompressedFont( 0x61, &tFactoryFont_EnglishSmall, 0 ); 
+1384   1      #else
+                  mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(0x20), &tFactoryFont0, 0 ); 
+                  mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(0x2D), &tFactoryFont1, 0 ); 
+                  mStar_LoadCompressedFont( GET_FONT_RAM_ADDR(0x30), &tFactoryFont_Number, 0 ); 
+                  mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x41), &tFactoryFont_EnglishBig, 0 );
+                  mStar_LoadCompressedFont(GET_FONT_RAM_ADDR(0x61), &tFactoryFont_EnglishSmall, 0 ); 
+              #endif
+1391   1      }
+1392          
+1393          void Osd_DrawRealStr_F(BYTE xPos, BYTE yPos, BYTE *str)
+1394          {
+1395   1      #if CHIP_ID>=CHIP_TSUMV
+1396   1              WORD u16TempValue;
+1397   1              BYTE u8DrawCode = (!(yPos & BIT7));
+1398   1      
+1399   1              yPos &= 0x7F;
+1400   1      
+1401   1              //u8Wnd<<=5;
+1402   1              //u16TempValue=msRead2Byte((u8Wnd)+OSD2_10)+(WORD)u8YPos*msReadByte((u8Wnd)+OSD2_12)+u8XPos; // get real 
+             -address
+1403   1              u16TempValue=GET_TXT_CASTART(g_u8OsdWndNo,xPos,yPos); // get real address
+1404   1              
+C51 COMPILER V9.01   FACTORYSTRING                                                         08/17/2023 10:55:21 PAGE 24  
+
+1405   1      #define dispChar    xPos
+1406   1      #define dispPtr     yPos
+1407   1              dispPtr = 0;
+1408   1              WRITE_CAFSRAM_ADDR();
+1409   1              msWrite2Byte(PORT_ATTR_ADDR, u16TempValue); // display font attribute
+1410   1              WRITE_ATTRIBUTE();
+1411   1              while( *( str + dispPtr ) )        // display string font index
+1412   1              {
+1413   2                      msWriteByte(PORT_ATTR_DATA, OsdFontColor);
+1414   2                      dispPtr++;
+1415   2              }
+1416   1              if( u8DrawCode )
+1417   1              {
+1418   2                      dispPtr = 0;
+1419   2                    WRITE_CAFSRAM_ADDR();
+1420   2                      msWrite2Byte(PORT_CODE_ADDR, u16TempValue); // dispaly font code
+1421   2                    WRITE_CODE();
+1422   2                      while( dispChar = *( str + dispPtr ) )                    // display string font index
+1423   2                      {
+1424   3                              msWriteByte(PORT_CODE_DATA, dispChar);
+1425   3                              dispPtr++;
+1426   3                      }
+1427   2              }
+1428   1      #undef dispChar
+1429   1      #undef dispPtr
+1430   1      #else
+              #if 1 // 110819 wait for coding
+                      WORD tempValue;
+                      BYTE drawCode = TRUE;
+                      BYTE y;
+                      if( yPos & BIT7 )
+                      {
+                              drawCode = FALSE;
+                      }
+                      yPos &= 0x3F; //~(BIT7|BIT6);
+                      y = yPos;
+              #define dispChar    xPos
+              #define dispPtr     yPos
+                      tempValue = ( WORD )yPos * OsdWindowWidth + xPos; // get real address
+                      dispPtr = 0;
+                      msWrite2Byte( OSD2_A8, tempValue );
+                      while( *( str + dispPtr ) )        // display string font index
+                      {
+                              msWriteByte( OSD2_AA, OsdFontColor );
+                              dispPtr++;
+                      }
+                      if( drawCode == TRUE )
+                      {
+                              dispPtr = 0;
+                              msWrite2Byte( OSD2_A5, tempValue );
+                              while( dispChar = *( str + dispPtr ) )                    // display string font index
+                              {
+                                      msWriteByte( OSD2_A7, dispChar );
+                                      dispPtr++;
+                      #if DEBUG_OSD
+                                      ForceDelay1ms(20);
+                      #endif                  
+                              }
+                      }
+              #undef dispChar
+              #undef dispPtr
+              #endif
+C51 COMPILER V9.01   FACTORYSTRING                                                         08/17/2023 10:55:21 PAGE 25  
+
+              #endif
+1468   1      }
+1469          
+1470          
+1471          
+1472          BYTE *VersionDateText(void)
+1473          {
+1474   1          return strVersionDate;
+1475   1      }
+1476          BYTE *ChangeDateText(void)
+1477          {
+1478   1          return strChangeDate;
+1479   1      }
+1480          
+1481          #ifdef  Brand
+              BYTE *BrandNameText(void)
+              {
+                      return strBrandName;
+              }
+              #endif
+1487          
+1488          BYTE *ModelNameText(void)
+1489          {
+1490   1          return strModelName;
+1491   1      }
+1492          BYTE *ChipNameText( void )
+1493          {
+1494   1              return strChipName;
+1495   1      }
+1496          
+1497          #ifdef  BoardName
+1498          BYTE *BoardNameText(void)
+1499          {
+1500   1              return BoardName;
+1501   1      }
+1502          #endif
+1503          
+1504          #if Enable_Factory_Panel  
+1505          BYTE *PanelText(void)
+1506          {
+1507   1          return strPanel;
+1508   1      }
+1509          #endif
+1510          
+1511          
+1512          BYTE *CheckSumText(void)
+1513          {
+1514   1          return strCheckSum;
+1515   1      }
+1516          
+1517          #if AboutDSUBFunc_Enable
+1518          BYTE *AutoColorMenuText(void)
+1519          {
+1520   1          return strAutoColor;
+1521   1      }
+1522          
+1523          BYTE *PassText(void)
+1524          {
+1525   1          return strPass;
+1526   1      }
+1527          
+1528          BYTE *FailText(void)
+C51 COMPILER V9.01   FACTORYSTRING                                                         08/17/2023 10:55:21 PAGE 26  
+
+1529          {
+1530   1          return strFail;
+1531   1      }
+1532          
+1533          
+1534          BYTE *AutoColorText(void)
+1535          {
+1536   1          return strAutoColor;
+1537   1      }
+1538          BYTE *AdcGainText(void)
+1539          {
+1540   1          return strAdcGain;
+1541   1      }
+1542          BYTE *AdcOffsetText(void)
+1543          {
+1544   1          return strAdcOffset;
+1545   1      }
+1546          #endif
+1547          BYTE *FactoryRedText(void)
+1548          {
+1549   1          return strFactoryRed;
+1550   1      }
+1551          BYTE *FactoryGreenText(void)
+1552          {
+1553   1          return strFactoryGreen;
+1554   1      }
+1555          BYTE *FactoryBlueText(void)
+1556          {
+1557   1          return strFactoryBlue;
+1558   1      }
+1559          
+1560          BYTE *COOL1Text(void)
+1561          {
+1562   1          return strFCool1;
+1563   1      }
+1564          BYTE *WARM1Text(void)
+1565          {
+1566   1          return strFWarm1;
+1567   1      }
+1568          #if CT_sRGB_ENABLE
+              BYTE *sRGBText(void)
+              {
+                  return strFsRGB;
+              }
+              #endif
+1574          #if CT_7500K_ENABLE
+              BYTE *NORMALText(void)
+              {
+                  return strFNORMAL;
+              }
+              #endif
+1580          BYTE *BurninText(void)
+1581          {
+1582   1          return strBurnin;
+1583   1      }
+1584          
+1585          #if ENABLE_FACTORY_BLACKLEVEL
+              BYTE * FacBlacklevelText(void)
+              {
+                      return strBlacklevelText;
+              }
+              #endif
+C51 COMPILER V9.01   FACTORYSTRING                                                         08/17/2023 10:55:21 PAGE 27  
+
+1591          
+1592          BYTE *F_BackLightText(void)
+1593          {
+1594   1          return strBackLight;
+1595   1      }
+1596          BYTE *F_HourText(void)
+1597          {
+1598   1          return strHour;
+1599   1      }
+1600          
+1601          BYTE *F_MinText(void)
+1602          {
+1603   1          return strMinute;
+1604   1      }
+1605          
+1606          
+1607          #if !USEFLASH // 130829 larry
+              BYTE *EraseEEPROMText(void)
+              {
+                  return strEraseEEPROM;
+              }
+              #endif
+1613          #if F_ShowVsync_Enable
+              BYTE *FreeSyncVsyncText(void)
+              {
+                  return strFreeSyncVsync;
+              }
+              #endif
+1619          
+1620          #if Enable_ProductModeAdjust
+              BYTE *ProductModeText(void)
+              {
+                  return strDFM;
+              }
+              BYTE *ProductModeOnOffText(void)
+              {
+                  return  (strOnOff[0]);
+              }
+              #endif
+1630          
+1631          BYTE *BurninOnOffText(void)
+1632          {
+1633   1          return (BurninModeFlag) ? (strOnOff[1]): (strOnOff[0]);
+1634   1      }
+1635          
+1636          #if 0//DisplayPowerOnLogo
+              BYTE *LogoOnOffText(void)
+              {
+                  return (UserPrefLogoON) ? (strOnOff[1]): (strOnOff[0]);
+              }
+              #endif
+1642          
+1643          #if PanelminiLVDS || PANEL_VCOM_ADJUST  //110229 Modify
+              BYTE *VCOMText(void)
+              {
+                  return strVCOM;
+              }
+              #endif
+1649          
+1650          
+1651          #if ENABLE_FACTORY_SSCADJ       //120305 Modify
+1652          BYTE *SpreadSpectrumText( void )
+C51 COMPILER V9.01   FACTORYSTRING                                                         08/17/2023 10:55:21 PAGE 28  
+
+1653          {
+1654   1          return strSpreadSpectrum;
+1655   1      }
+1656          BYTE *FreqText( void )
+1657          {
+1658   1          return strFreq;
+1659   1      }
+1660          BYTE *AmpText( void )
+1661          {
+1662   1          return strAmp;
+1663   1      }
+1664          #endif
+1665          
+1666          
+1667          
+1668          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1030    ----
+   CONSTANT SIZE    =   4024    ----
+   XDATA SIZE       =   ----       4
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      18
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

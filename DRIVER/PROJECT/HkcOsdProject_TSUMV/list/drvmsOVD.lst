@@ -1,0 +1,53 @@
+C51 COMPILER V9.01   DRVMSOVD                                                              08/17/2023 10:55:16 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE DRVMSOVD
+OBJECT MODULE PLACED IN .\obj\drvmsOVD.obj
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE ..\..\DRIVER\drvmsOVD.c OPTIMIZE(SIZE) BROWSE INCDIR(..\..\DRIVER\INC;..\..
+                    -\KERNEL\SCALER\INC;..\..\KERNEL\SYSTEM\INC;..\..\LIB\INC;..\..\PANEL\INC;..\..\BOARD;..\..\DRIVER\INC;..\..\KERNEL\SYSTE
+                    -M\INC\AOC2011;..\..\DRIVER\extDEVICE\INC;..\..\MODEL;..\..\CONFIG;..\..\PANEL;..\..\UI\F_LOGO\INC;..\..\UI\HkcOsd\INC) D
+                    -EFINE(ModelName=MODEL_T24_TCL) DEBUG OBJECTEXTEND PRINT(.\list\drvmsOVD.lst) OBJECT(.\obj\drvmsOVD.obj)
+
+line level    source
+
+   1          
+   2          #include "global.h"
+*** MESSAGE C320 IN LINE 337 OF ..\..\CONFIG\BOARD.H: "Please remember to disable the debug function!" 
+   3          
+   4          #if CHIP_ID == CHIP_TSUMU
+              #include "drvmsOVD_U.c"
+              #elif CHIP_ID == CHIP_TSUMB
+              #include "drvmsOVD_B.c"
+              #elif CHIP_ID == CHIP_TSUM2
+              #include "drvmsOVD_2.c"
+              #elif CHIP_ID == CHIP_TSUMC
+              #include "drvmsOVD_C.c"
+              #elif CHIP_ID == CHIP_TSUMD
+              #include "drvmsOVD_D.c"
+              #elif CHIP_ID == CHIP_TSUMF
+              #include "drvmsOVD_F.c"
+              //#elif CHIP_ID == CHIP_TSUMV || CHIP_ID == CHIP_TSUMY
+              #else
+  18          #message "please check if need OD function for your project"
+*** MESSAGE C320 IN LINE 18 OF ..\..\DRIVER\drvmsOVD.c: "please check if need OD function for your project"
+  19          BYTE code msOVDDummy[] = {0};
+  20          void msOverDriveDummy()
+  21          {
+  22   1          BYTE x = msOVDDummy;
+  23   1      }
+  24          #endif
+  25          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =      4    ----
+   CONSTANT SIZE    =      1    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

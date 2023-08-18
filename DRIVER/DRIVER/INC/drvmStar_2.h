@@ -54,9 +54,9 @@ _DRVMSTARDEC_ void drvmStar_SetupInputPort_HDMI(void);
 
 typedef enum
 {
-	DVI_POWER_ON,
-	DVI_POWER_STANDBY,
-	DVI_POWER_DOWN
+    DVI_POWER_ON,
+    DVI_POWER_STANDBY,
+    DVI_POWER_DOWN
 
 } DVI_PowerCtrlType;
 
@@ -82,16 +82,16 @@ _DRVMSTARDEC_ WORD GetImageOutV();
 
 typedef struct _RegTblType
 {
-	WORD wReg;
-	BYTE ucValue;
-	BYTE ucMask;
-} RegTblType;
+    WORD wReg;
+    BYTE ucValue;
+    BYTE ucMask;
+}RegTblType;
 typedef enum _FSyncMode
 {
-	FLM_FBL,
-	FLM_FB_FPLL_NOLOCK,
-	FLM_FB_FPLL,
-} FSyncMode;
+    FLM_FBL,
+    FLM_FB_FPLL_NOLOCK,
+    FLM_FB_FPLL,
+}FSyncMode;
 
 _DRVMSTARDEC_ void msWritePowerOnTble(void);
 _DRVMSTARDEC_ void msSetFrameSyncMode(FSyncMode ucFrameLockMode);

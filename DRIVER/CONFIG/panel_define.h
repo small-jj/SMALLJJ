@@ -83,7 +83,7 @@
 #define PanelCMON156B6L0B	      	78//1366 768 LED
 #define PanelLTM200KT01 			79		//110617 Modify
 #define PanelBOEHT156WXB 			80		//1366 768 LED
-#define PanelBM190WX2 			    81
+#define PanelBM190WX2 			    81	
 #define PanelLM185WH2 			    82
 #define PanelAUOM240HW01VD 			83
 #define PanelBM215WF4 			    84	//120112 by Bian

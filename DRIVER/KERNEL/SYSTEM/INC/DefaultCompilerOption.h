@@ -22,7 +22,7 @@
 #define MOBILE_INTERFERENCE     0
 #endif
 
-
+	
 ///////////////////////////////////////////////////////////////
 
 #ifndef ENABLE_MENULOAD	//111223 Modify
@@ -34,7 +34,7 @@
 #endif
 
 #ifndef HDMI_PN_SWAP	//130109 Modify
-#define HDMI_PN_SWAP					0
+#define HDMI_PN_SWAP					0                             
 #endif
 
 #ifndef  DP_AUX_PortB_PNSWAP
@@ -69,7 +69,7 @@
 #endif
 
 #ifndef ENABLE_FACTORY_SSCADJ	//120305 Modify
-#define ENABLE_FACTORY_SSCADJ   1
+		#define ENABLE_FACTORY_SSCADJ   1
 #endif
 
 #ifndef ENABLE_UART1	//120305 Modify
@@ -156,13 +156,13 @@
 //#endif
 
 #ifndef  EANBLE_NEW_DCR_Functing
-#define  EANBLE_NEW_DCR_Functing       1
+#define  EANBLE_NEW_DCR_Functing       1   
 #endif
 
 
 #ifndef HotKey_ECO_DCR
 #define 	HotKey_ECO_DCR   		0
-#endif
+#endif 
 
 #ifndef DefLanguage
 #define DefLanguage     		LANG_English
@@ -275,10 +275,10 @@
 #endif
 
 #ifndef  GAMMA_BYPASS   //Request by TPV for 120Hz panel default byapss gamma
-#define GAMMA_BYPASS                0
+#define GAMMA_BYPASS                0   
 #endif
 
-#ifndef  FieldInvertCheck
+#ifndef  FieldInvertCheck  
 #define FieldInvertCheck                0
 #endif
 
@@ -306,7 +306,7 @@
 #define EEPROM_TYPE         EEPROM_24C16
 #endif
 
-
+ 
 //20130611 nick add
 
 #ifndef USE_VCTRL
@@ -336,7 +336,7 @@
 #endif
 
 
-#ifndef ENABLE_UART_CONTROL
+#ifndef ENABLE_UART_CONTROL 
 #define ENABLE_UART_CONTROL               0
 #endif
 
@@ -404,7 +404,7 @@
 
 #ifndef USE_DAC_ADJ
 #define USE_DAC_ADJ     0
-#endif
+#endif 
 
 
 
@@ -493,7 +493,7 @@
 #define ENABLE_RESET_PIN		0
 #endif
 
-#ifndef ENABLE_HDMI_DRR_MCCS
+#ifndef ENABLE_HDMI_DRR_MCCS               
 #define ENABLE_HDMI_DRR_MCCS                   (1&& ENABLE_FREESYNC)
 #endif
 
@@ -511,7 +511,7 @@
 #define Enable_ButtonKeyLongPressFunction	(Enable_Menu_LongPressKeyFunction||Enable_Plus_LongPressKeyFunction||Enable_Minus_LongPressKeyFunction||Enable_Exit_LongPressKeyFunction)
 #endif
 
-#ifndef		Enable_Func_AdjExpansion
+#ifndef		Enable_Func_AdjExpansion	    
 #define		Enable_Func_AdjExpansion	(Enable_Expansion&&PanelWidth==1920&&PanelHeight==1080)
 #endif
 
@@ -552,7 +552,7 @@
 
 
 
-#ifndef FreeSyncSwitchEDID
+#ifndef FreeSyncSwitchEDID		
 #define FreeSyncSwitchEDID		   	0
 #endif
 
@@ -560,7 +560,7 @@
 #define FREESYNC_DP_on_off                0
 #endif
 
-#ifndef Enable_Factory_Panel
+#ifndef Enable_Factory_Panel                 
 #define Enable_Factory_Panel              1
 #endif
 
@@ -616,7 +616,7 @@
 
 
 //*****************************************************************//
-//2ÕâÊÇÒôÆµµÄÉèÖÃ ²»ÐèÒª¶¨ÒåÕâÐ©Define
+					//2ÕâÊÇÒôÆµµÄÉèÖÃ ²»ÐèÒª¶¨ÒåÕâÐ©Define
 #ifndef	AudioFunc
 #define 	AudioFunc                 	(SpeakerDet_Enable|| EarphoneDet_Enable)
 #endif
@@ -646,61 +646,61 @@
 #endif
 
 #ifndef LanguageEnable_English
-#define LanguageEnable_English            0
+#define LanguageEnable_English            0   
 #endif
 #ifndef LanguageEnable_France
-#define LanguageEnable_France            0
+#define LanguageEnable_France            0   
 #endif
 #ifndef LanguageEnable_Spanish
-#define LanguageEnable_Spanish            0
+#define LanguageEnable_Spanish            0   
 #endif
 #ifndef LanguageEnable_Portugues
-#define LanguageEnable_Portugues            0
+#define LanguageEnable_Portugues            0   
 #endif
 
 
 #ifndef LanguageEnable_German
-#define LanguageEnable_German            0
+#define LanguageEnable_German            0   
 #endif
 #ifndef LanguageEnable_Italian
-#define LanguageEnable_Italian            0
+#define LanguageEnable_Italian            0   
 #endif
 #ifndef LanguageEnable_Dutch
-#define LanguageEnable_Dutch            0
+#define LanguageEnable_Dutch            0   
 #endif
 #ifndef LanguageEnable_Swedish
-#define LanguageEnable_Swedish            0
+#define LanguageEnable_Swedish            0   
 #endif
 
 #ifndef LanguageEnable_Finnish
-#define LanguageEnable_Finnish            0
+#define LanguageEnable_Finnish            0   
 #endif
 #ifndef LanguageEnable_Polish
-#define LanguageEnable_Polish            0
+#define LanguageEnable_Polish            0   
 #endif
 #ifndef LanguageEnable_Czech
-#define LanguageEnable_Czech            0
+#define LanguageEnable_Czech            0   
 #endif
 #ifndef LanguageEnable_Russia
-#define LanguageEnable_Russia            0
+#define LanguageEnable_Russia            0   
 #endif
 
 #ifndef LanguageEnable_Korea
-#define LanguageEnable_Korea            0
+#define LanguageEnable_Korea            0   
 #endif
 #ifndef LanguageEnable_TChina
-#define LanguageEnable_TChina            0
+#define LanguageEnable_TChina            0   
 #endif
 #ifndef LanguageEnable_SChina
-#define LanguageEnable_SChina            0
+#define LanguageEnable_SChina            0   
 #endif
 #ifndef LanguageEnable_Japan
-#define LanguageEnable_Japan            0
+#define LanguageEnable_Japan            0   
 #endif
 //----------------------------------------------------------------------------------
 
 #ifndef DefVolume
-#define DefVolume            50
+#define DefVolume            50   
 #endif
 
 //========================================================================
@@ -711,10 +711,10 @@
 
 //===================================================================================================
 
-//1 ´Ëcode ÖÐÔÝÊ±ÓÃ²»µ½µÄ¹¦ÄÜ
+									//1 ´Ëcode ÖÐÔÝÊ±ÓÃ²»µ½µÄ¹¦ÄÜ
 
 #ifndef Enable_YCM_Mode
-#define Enable_YCM_Mode 			 Enable_YMC
+#define Enable_YCM_Mode 			 Enable_YMC					
 #endif
 
 
@@ -869,11 +869,11 @@
 
 //1******************************************************************************************
 
-//2 waring  ÒÔÏÂ¶¨ÒåÖØÒª£¬ÇÐÎð¸Ä¶¯
+							//2 waring  ÒÔÏÂ¶¨ÒåÖØÒª£¬ÇÐÎð¸Ä¶¯
 
 #ifndef DefRTEMode
 #define 	DefRTEMode   		OFF
-#endif
+#endif 
 
 #ifndef	CT_sRGB_ENABLE
 #define   CT_sRGB_ENABLE			0
@@ -901,7 +901,7 @@
 
 #ifndef   WriteSN_Functiom_New			//2 ÕâÊÇÐÂµÄSN ÉÕÂ¼·½Ê½£¬//½ö½öÊÊÓÃÓÚ¾ßÓÐ24C02 µÄ°å×Ó
 #define   WriteSN_Functiom_New		0
-//1  ËµÃ÷
+							//1  ËµÃ÷
 //2   SN ±ØÐë´æ·ÅÔÚµÚ4  Î»(0x6C-0x7D)
 //2 ÎÞÂÛ¼¸¸ö¶Ë¿Ú£¬Ö»ÊÇ½ÓÊÜV D H DP Ë³ÐòÉÕÂ¼SN µÄÒ»Â·
 //2 ÐèÒª¸ø¿Í»§Ìá¹©·ûºÏ¹æ·¶µÄEDID ÉÕÂ¼
@@ -911,7 +911,7 @@
 
 
 
-#ifndef		PropFontNewData
+#ifndef		PropFontNewData			
 #define		PropFontNewData		0
 #endif
 
@@ -928,14 +928,14 @@
 #endif
 
 /*********************************************************************************************/
-//1 ´ËÎªÌØÊâÒªÇó
+						//1 ´ËÎªÌØÊâÒªÇó
 
 #ifndef		EDID_Over_165Hz
 #define		EDID_Over_165Hz		0
 #endif
 
 /********************************************************************************************/
-//1 ²âÊÔ¹¦ÄÜÌí¼Ó
+						//1 ²âÊÔ¹¦ÄÜÌí¼Ó
 
 
 #define ENABLE_VGA_INPUT       		ENABLE_VGA//(INPUT_TYPE&INPUT_0A)
@@ -943,7 +943,7 @@
 #define ENABLE_HDMI_INPUT       		ENABLE_HDMI
 #define ENABLE_HDMI2ND_INPUT    	ENABLE_HDMI2
 #define ENABLE_DPlay_INPUT         	ENABLE_DP_INPUT//0
-
+				
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -994,11 +994,11 @@
 #endif
 
 #ifndef		OSD_Trans_ColorTemp
-#define		OSD_Trans_ColorTemp		0				//2 Color Temperature?9300£¬6500£¬5500£¬User£»
+#define		OSD_Trans_ColorTemp		0				//2 Color Temperature£9300£¬6500£¬5500£¬User£»
 #endif
 
 #ifndef		FOSD_Trans_ColorTemp
-#define		FOSD_Trans_ColorTemp		0				//2 Color Temperature?99300£¬6500£¬7500
+#define		FOSD_Trans_ColorTemp		0				//2 Color Temperature£99300£¬6500£¬7500
 #endif
 
 
@@ -1030,11 +1030,11 @@
 #endif
 
 
-#ifndef	   Enable_GDFlash_Save
+#ifndef	   Enable_GDFlash_Save	
 #define	   Enable_GDFlash_Save			1			//3´ËFlashÐèÒª¹Ø±ÕÒ»Ð©Function
 #endif
 
-#ifndef	   Enable_FMFlash_Save
+#ifndef	   Enable_FMFlash_Save	
 #define	   Enable_FMFlash_Save			0			//3´ËFlashÐèÒª¹Ø±ÕÒ»Ð©Function
 #endif
 

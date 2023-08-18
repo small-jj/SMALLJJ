@@ -62,11 +62,11 @@
 #elif (IR_TYPE==IR_ASUS)
 #define IR_CUSTOM_CODE    	0x00BD//0x807F
 #elif (IR_TYPE==IR_AOC)
-#if ModelName==AOC_S23P
-#define IR_CUSTOM_CODE    	0x00FF
-#else
-#define IR_CUSTOM_CODE    	0x00BD
-#endif
+    #if ModelName==AOC_S23P
+        #define IR_CUSTOM_CODE    	0x00FF
+    #else
+        #define IR_CUSTOM_CODE    	0x00BD
+    #endif
 #else
 #define IR_CUSTOM_CODE    	0x807F // LSB first
 #endif
@@ -82,9 +82,9 @@ _IRDEC_ void IR_EXit(void);
 
 union DW_TEMP
 {
-	BYTE	valB[4];	//B[]={0x0xaa,0xbb,0xcc,0xdd}
-	WORD	valW[2];	//W[]={0xaabb,0xccdd}
-	DWORD	valDW;	//DW=0xaabbccdd
+    BYTE	valB[4];	//B[]={0x0xaa,0xbb,0xcc,0xdd}
+    WORD	valW[2];	//W[]={0xaabb,0xccdd}
+    DWORD	valDW;	//DW=0xaabbccdd
 };
 
 #define REPEAT_KEY_DEBOUNCE_COUNT       2

@@ -21,7 +21,7 @@
 
 
 
-#ifndef   Enable_8757DDRRotate180
+#ifndef   Enable_8757DDRRotate180				
 #define 	Enable_8757DDRRotate180				0
 #endif
 

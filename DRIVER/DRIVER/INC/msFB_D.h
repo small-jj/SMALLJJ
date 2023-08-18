@@ -23,30 +23,30 @@
 
 enum
 {
-	_SDR        = 0x00,
-	_DDR        = BIT0,
-	_DDR2       = BIT1,
-	_DDR3       = BIT0 | BIT1,
+    _SDR        = 0x00,
+    _DDR        = BIT0,
+    _DDR2       = BIT1,
+    _DDR3       = BIT0|BIT1,
 };
 
 enum
 {
-	_1PICS      = 0x00,
-	_2PICS      = BIT2,
+    _1PICS      = 0x00,
+    _2PICS      = BIT2,
 };
 
 enum
 {
-	_2BK        = 0x00,
-	_4BK        = BIT4,
-	_8BK        = BIT5,
+    _2BK        = 0x00,
+    _4BK        = BIT4,
+    _8BK        = BIT5,
 };
 
 enum
 {
-	_8COL       = 0x00,
-	_9COL       = BIT6,
-	_10COL      = BIT7,
+    _8COL       = 0x00,
+    _9COL       = BIT6,
+    _10COL      = BIT7,
 };
 
 
@@ -126,17 +126,17 @@ enum
 #endif
 
 #if ENABLE_VC_8_5 	//20130909 nick modify
-#if 1//(PANEL_WIDTH == 1920 && PANEL_HEIGHT == 1200) // due to 1080P50 memory size is not enough in 1920x1080 60 panel, use this size for temp solution
-#define MIU_FB_SIZE             (0x62E080UL)// 1920*1200*3*5/8(compression ratio)*1.5
-#else // (PANEL_WIDTH == 1920 && PANEL_HEIGHT == 1080)
-#define MIU_FB_SIZE             (0x58FD40UL)// 1920*1080*3*5/8(compression ratio)*1.5
-#endif
+    #if 1//(PANEL_WIDTH == 1920 && PANEL_HEIGHT == 1200) // due to 1080P50 memory size is not enough in 1920x1080 60 panel, use this size for temp solution
+    #define MIU_FB_SIZE             (0x62E080UL)// 1920*1200*3*5/8(compression ratio)*1.5
+    #else // (PANEL_WIDTH == 1920 && PANEL_HEIGHT == 1080)
+    #define MIU_FB_SIZE             (0x58FD40UL)// 1920*1080*3*5/8(compression ratio)*1.5
+    #endif
 #else // VC_8_6
-#if (PANEL_WIDTH == 1920 && PANEL_HEIGHT == 1200)
-#define MIU_FB_SIZE             (0x76A700UL)// 1920*1200*3*6/8(compression ratio)*1.5
-#else // (PANEL_WIDTH == 1920 && PANEL_HEIGHT == 1080)
-#define MIU_FB_SIZE             (0x6AC980UL)// 1920*1080*3*6/8(compression ratio)*1.5
-#endif
+    #if (PANEL_WIDTH == 1920 && PANEL_HEIGHT == 1200)
+    #define MIU_FB_SIZE             (0x76A700UL)// 1920*1200*3*6/8(compression ratio)*1.5
+    #else // (PANEL_WIDTH == 1920 && PANEL_HEIGHT == 1080)
+    #define MIU_FB_SIZE             (0x6AC980UL)// 1920*1080*3*6/8(compression ratio)*1.5
+    #endif
 #endif
 
 
@@ -157,7 +157,7 @@ enum
 
 
 #if ENABLE_RTE
-#if PanelType==PanelLM240WU8_SLD1||PanelType==PanelLTM240CL04 //130711 william For NVIDIA 9500GT NVIDIA GeForce 9600 GT  Noise
+#if PanelType==PanelLM240WU8_SLD1||PanelType==PanelLTM240CL04 //130711 william For NVIDIA 9500GT NVIDIA GeForce 9600 GT  Noise 	
 #define MIU_OD_SIZE              (0x13C680UL)// 1920*1200*3*3/8/2(OD mode:333+H scaling down)
 #else
 #define MIU_OD_SIZE              (0x11CC40UL)// 1920*1080*3*3/8/2(OD mode:333+H scaling down)
@@ -193,29 +193,29 @@ enum
 #endif
 enum
 {
-	MIU_PROTECT_0 = BIT0,
-	MIU_PROTECT_1 = BIT1,
-	MIU_PROTECT_2 = BIT2,
-	MIU_PROTECT_3 = BIT3,
+    MIU_PROTECT_0 = BIT0,
+    MIU_PROTECT_1 = BIT1,
+    MIU_PROTECT_2 = BIT2,
+    MIU_PROTECT_3 = BIT3,
 };
 
 enum
 {
-	MIU_ID_MIU_CMD      = BIT0,
-	MIU_ID_MIU_HK_CPU   = BIT1,
-	MIU_ID_MIU_DEBUG    = BIT2,
-	MIU_ID_MIU_R2_CPU_I = BIT3,
-	MIU_ID_MIU_OD_R     = BIT4,
-	MIU_ID_MIU_OD_W     = BIT5,
-	MIU_ID_MIU_R2_CPU_D = BIT7,
-	MIU_ID_MIU_BDMA     = BIT8,
-	MIU_ID_MIU_IPR_SC   = BIT9,
-	MIU_ID_MIU_MRW_W    = BIT10,
-	MIU_ID_MIU_MRW_R    = BIT11,
-	MIU_ID_MIU_USB_0    = BIT12,
-	MIU_ID_MIU_USB_1    = BIT13,
-	MIU_ID_MIU_T3D_RNDR = BIT14,
-	MIU_ID_MIU_T3D_DPTH = BIT15,
+    MIU_ID_MIU_CMD      = BIT0,
+    MIU_ID_MIU_HK_CPU   = BIT1,
+    MIU_ID_MIU_DEBUG    = BIT2,
+    MIU_ID_MIU_R2_CPU_I = BIT3,
+    MIU_ID_MIU_OD_R     = BIT4,
+    MIU_ID_MIU_OD_W     = BIT5,
+    MIU_ID_MIU_R2_CPU_D = BIT7,
+    MIU_ID_MIU_BDMA     = BIT8,
+    MIU_ID_MIU_IPR_SC   = BIT9,
+    MIU_ID_MIU_MRW_W    = BIT10,
+    MIU_ID_MIU_MRW_R    = BIT11,
+    MIU_ID_MIU_USB_0    = BIT12,
+    MIU_ID_MIU_USB_1    = BIT13,
+    MIU_ID_MIU_T3D_RNDR = BIT14,
+    MIU_ID_MIU_T3D_DPTH = BIT15,
 
 };
 

@@ -10,6 +10,6 @@ extern void NVRam_ReadByte(WORD addr, BYTE *value);
 
 #ifdef  UseVGACableReadWriteAllPortsEDID
 //extern void WriteDevice(BYTE DeviceType,WORD Address, BYTE* buf,BYTE Length);
-extern void ReadDevice(BYTE DeviceType, WORD Address, BYTE* buf, BYTE Length);
+extern void ReadDevice(BYTE DeviceType,WORD Address, BYTE* buf,BYTE Length);
 #endif
 #endif

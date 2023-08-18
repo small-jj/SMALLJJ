@@ -4,7 +4,7 @@
 // BOARD SELECTION
 ////////////////////////////////////////////////////////////
 #define CHIP_ID                			CHIP_TSUMU
-#define MainBoardType    				MainBoard_JRY_F9BQHD_BV1
+#define MainBoardType    				MainBoard_JRY_F9BQHD_BV1 
 #define PanelType 					PanelLSM270HP06//PanelMV270FHM_N20//
 #define DisplayLogo					TOPSYNC_LOGO
 
@@ -88,7 +88,7 @@
 
 #define JRY_FDDCCI_WriteEDID 			  (1&&JRY_Color_Tool_Functing)
 
-#define  EANBLE_NEW_DCR_Functing       1
+#define  EANBLE_NEW_DCR_Functing       1 
 
 
 
@@ -195,11 +195,11 @@
 #define ENABLE_FREESYNC   			  0
 /////////////////////////brightness///////////////////////////////////
 #if 								0
-#define BRI_PRO_MIN_VALUE			0x00
+#define BRI_PRO_MIN_VALUE			0x00	
 #define BRI_PRO_DEF_VALUE			0xCF
 #define BRI_PRO_MAX_VALUE			0xEF
 #else
-#define BRI_PRO_MIN_VALUE			0x00
+#define BRI_PRO_MIN_VALUE			0x00	
 #define BRI_PRO_DEF_VALUE			0x400
 #define BRI_PRO_MAX_VALUE			0x605
 #endif

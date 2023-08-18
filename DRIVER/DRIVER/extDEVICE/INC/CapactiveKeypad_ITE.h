@@ -16,16 +16,16 @@ extern bit CheckTouchKeyFlag;				//110304 Modiy By ITE FAE
 
 typedef enum
 {
-	ITEKEY_ALLLEDOFF,
-	ITEKEY_AMBERLEDON,
-	ITEKEY_GREENLEDON,
+    ITEKEY_ALLLEDOFF,
+    ITEKEY_AMBERLEDON,
+    ITEKEY_GREENLEDON,
 } ITEkeyLEDStatus;
 
 typedef struct InitCapSReg
 {
-	BYTE   page;
-	BYTE   reg;
-	WORD   value;
+    BYTE   page;
+    BYTE   reg;
+    WORD   value;
 } sInitCapSReg;
 
 
@@ -433,7 +433,7 @@ typedef struct InitCapSReg
 /////////////////////////////////////////////////////////////////////////////////
 
 #ifdef __cplusplus
-extern "C" {
+    extern "C" {
 #endif
 
 extern xdata WORD g_wOneTouchDataRegs;
@@ -446,7 +446,7 @@ BYTE appGetI2CKeypadStatus( void );
 
 
 #ifdef __cplusplus
-}   // extern "C"
+    }   // extern "C"
 #endif
 
 #endif

@@ -131,18 +131,11 @@ void DynamicLoadFont(MenuFontType *menuFonts)
 void LoadLanguageStatusPropfont( void )
 {
 	if(MenuPageIndex != FactoryMenu)
-		Osd_DynamicLoadFont( PropFontAddress, MenuPage4[UserPrefLanguage].Fonts, MenuPage4[UserPrefLanguage].FontCount );
-	Osd_DynamicLoadFont( MainAddress, MenuPage7[UserPrefLanguage].Fonts, MenuPage7[UserPrefLanguage].FontCount );
-//	Osd_DynamicLoadFont( 0xbc, MenuPage0[UserPrefLanguage].Fonts, MenuPage0[UserPrefLanguage].FontCount );
-//	Osd_DynamicLoadFont( 0x2c, MenuPage01[UserPrefLanguage].Fonts, MenuPage01[UserPrefLanguage].FontCount );
-//	Osd_DynamicLoadFont( 0x38, MenuPage02[UserPrefLanguage].Fonts, MenuPage02[UserPrefLanguage].FontCount );
-//	Osd_DynamicLoadFont( 0x46, MenuPage03[UserPrefLanguage].Fonts, MenuPage03[UserPrefLanguage].FontCount );
-//	Osd_DynamicLoadFont( 0x5d, MenuPage04[UserPrefLanguage].Fonts, MenuPage04[UserPrefLanguage].FontCount );
-//	Osd_DynamicLoadFont( 0x7c , MenuPage05[UserPrefLanguage].Fonts, MenuPage05[UserPrefLanguage].FontCount );
-//	Osd_DynamicLoadFont( 0xa4, MenuPage06[UserPrefLanguage].Fonts, MenuPage06[UserPrefLanguage].FontCount );
-	
+		Osd_DynamicLoadFont( PropFontAddress, MenuPage5[UserPrefLanguage].Fonts, MenuPage5[UserPrefLanguage].FontCount );//刷新改变二级菜单语言的
+	Osd_DynamicLoadFont( MainAddress, MenuPage7[UserPrefLanguage].Fonts, MenuPage7[UserPrefLanguage].FontCount );///实时让一级菜单语言改变
 	#if AdjustLanguageFunction
 	Osd_DynamicLoadFont( LanguageAddress, MenuPage8[UserPrefLanguage].Fonts, MenuPage8[UserPrefLanguage].FontCount );
 	#endif
+	
 }
 

@@ -7,11 +7,11 @@
 #define DPS_AggrPowerSaveMode_EN 1
 #define DPS_YminForWindowSave_EN 0
 #define DPS_HistPseuMax_MOD1_EN  0
-#define DPS_HistPseuMax_MOD2_EN  0
+#define DPS_HistPseuMax_MOD2_EN  0 
 #define DPS_FAD_OnOff_Mode 1
 #define DPS_InputProcess_Mode 1
 //===================================================================================================================================================================:
-// Extern XDATA variable from msDLC to share the parameter
+// Extern XDATA variable from msDLC to share the parameter 
 //===================================================================================================================================================================:
 #if SHARE_DLC_XDATA
 extern XDATA WORD  u16Array32[32];
@@ -27,7 +27,7 @@ extern XDATA DWORD g_dwLstep;
 #define ISR_HistogramTotalPix   g_dwFactory
 #define ISR_HistogramTotalLuma  g_dwFactory_7
 #define ISR_HistogramMax        g_HighStrength
-#define ISR_HistogramMin        g_LowStrength
+#define ISR_HistogramMin        g_LowStrength  
 //#define ucWin DLCStatus
 #else
 
@@ -56,7 +56,7 @@ extern xdata BYTE  REG_DPS_YOUT_ENABLE;
 extern xdata BYTE  REG_DPS_BW_MODE_EN;
 extern xdata BYTE  REG_DPS_BW_MODE_Gain;
 extern xdata BOOL  REG_DPS_RUN_Flag;
-extern xdata BYTE  REG_DPS_Off_FadFlag;
+extern xdata BYTE  REG_DPS_Off_FadFlag; 
 extern xdata BYTE  REG_DPS_On_FadFlag;
 extern BYTE code DPS_Lumi_Table[17][11];
 #if DPS_YminForWindowSave_EN
@@ -87,7 +87,7 @@ extern void msDPS_AdjustBacklight ( BYTE BLValue );
 extern void msDPS_RegSettingDummy(void);
 extern void msDPS_Off_Fad_Handler(BYTE En);
 //===================================================================================================================================================================:
-// DPS Debug Mode
+// DPS Debug Mode  
 //===================================================================================================================================================================:
 #if DPS_DEBUG
 #define DEBUG_Ygain 1

@@ -64,177 +64,177 @@
 
 typedef enum
 {
-	READ = 0x03,
-	BYTE_WRITE = 0x02,
-	H_READ = 0x0B,
-	RDSR = 0x05,
-	WRSR = 0x01,
-	WREN = 0x06,
-	WRDI = 0x04,
-	EWSR = 0x50,
-} FLASH_OP;
+	READ=0x03,
+	BYTE_WRITE=0x02,
+	H_READ=0x0B,
+	RDSR=0x05,
+	WRSR=0x01,
+	WREN=0x06,
+	WRDI=0x04,
+	EWSR=0x50,
+}FLASH_OP;
 
 #if Enable_FMFlash_Save
 typedef enum
 {
-	FMSH_READ = 0x03,
-	FMSH_H_READ = 0x0B,
-	FMSH_ERASE_SECTOR = 0x20,
-	FMSH_ERASE_BLOCK = 0xD8,
-	FMSH_ERASE_CHIP = 0xC7,
-	FMSH_BYTE_WRITE = 0x02,
-	FMSH_RDSR = 0x05,
-	FMSH_RDSR1 = 0x35,
-	FMSH_WRSR = 0x01,
-	FMSH_WREN = 0x06,
-	FMSH_WRDI = 0x04,
+    FMSH_READ = 0x03,
+    FMSH_H_READ = 0x0B,
+    FMSH_ERASE_SECTOR = 0x20,
+    FMSH_ERASE_BLOCK = 0xD8,
+    FMSH_ERASE_CHIP = 0xC7,
+    FMSH_BYTE_WRITE = 0x02,
+    FMSH_RDSR = 0x05,
+    FMSH_RDSR1 = 0x35,
+    FMSH_WRSR = 0x01,
+    FMSH_WREN = 0x06,
+    FMSH_WRDI = 0x04,
 
-	FMSH_INDIVIDUAL_SECTOR_UNLOCK = 0x39,
-	FMSH_GLOBAL_SECTOR_LOCK = 0x7E,
-	FMSH_READ_ID = 0x9F
+    FMSH_INDIVIDUAL_SECTOR_UNLOCK = 0x39,
+    FMSH_GLOBAL_SECTOR_LOCK = 0x7E,
+    FMSH_READ_ID = 0x9F
 } FLASH_OP_FMSH;
 #endif
 
 // 25VF020B
 typedef enum
 {
-	SST_READ = 0x03,
-	SST_H_READ = 0x0B,
-	SST_ERASE_SECTOR = 0x20,
-	SST_ERASE_BLOCK = 0x52,
-	SST_ERASE_CHIP = 0x60,
-	SST_BYTE_WRITE = 0x02,
-	SST_AAI = 0xAF,
-	SST_RDSR = 0x05,
-	SST_EWSR = 0x50,
-	SST_WRSR = 0x01,
-	SST_WREN = 0x06,
-	SST_WRDI = 0x04,
-	SST_READ_ID = 0x9F // read out: 0xBF, 0x25, 0x8C
-} FLASH_OP_SST;
+	SST_READ=0x03,
+	SST_H_READ=0x0B,
+	SST_ERASE_SECTOR=0x20,
+	SST_ERASE_BLOCK=0x52,
+	SST_ERASE_CHIP=0x60,
+	SST_BYTE_WRITE=0x02,
+	SST_AAI=0xAF,
+	SST_RDSR=0x05,
+	SST_EWSR=0x50,
+	SST_WRSR=0x01,
+	SST_WREN=0x06,
+	SST_WRDI=0x04,
+    SST_READ_ID = 0x9F // read out: 0xBF, 0x25, 0x8C
+}FLASH_OP_SST;
 typedef enum
 {
-	PMC_READ = 0x03, //
-	PMC_H_READ = 0x0B, //
-	PMC_ERASE_SECTOR = 0xD7,
-	PMC_ERASE_BLOCK = 0xD8,
-	PMC_ERASE_CHIP = 0xC7,
-	PMC_BYTE_WRITE = 0x02,
-	PMC_RDSR = 0x05, //
-	PMC_WRSR = 0x01, //
-	PMC_WREN = 0x06, //
-	PMC_WRDI = 0x04, //
-	PMC_READ_ID = 0x9F, //0xAB
-	PMC_UNPROTECT = 0x26,
-	PMC_PROTECT = 0x24
-} FLASH_OP_PMC;
+	PMC_READ=0x03,//
+	PMC_H_READ=0x0B,//
+	PMC_ERASE_SECTOR=0xD7,
+	PMC_ERASE_BLOCK=0xD8,
+	PMC_ERASE_CHIP=0xC7,
+	PMC_BYTE_WRITE=0x02,
+	PMC_RDSR=0x05,//
+	PMC_WRSR=0x01,//
+	PMC_WREN=0x06,//
+	PMC_WRDI=0x04,//
+	PMC_READ_ID=0x9F,//0xAB
+	PMC_UNPROTECT=0x26,
+	PMC_PROTECT=0x24
+}FLASH_OP_PMC;
 typedef enum
 {
-	MXIC_READ = 0x03,
-	MXIC_H_READ = 0x0B,
-	MXIC_ERASE_SECTOR = 0x20,
-	MXIC_ERASE_BLOCK = 0xD8,
-	MXIC_ERASE_CHIP = 0x60,
-	MXIC_BYTE_WRITE = 0x02,
+	MXIC_READ=0x03,
+	MXIC_H_READ=0x0B,
+	MXIC_ERASE_SECTOR=0x20,
+	MXIC_ERASE_BLOCK=0xD8,
+	MXIC_ERASE_CHIP=0x60,
+	MXIC_BYTE_WRITE=0x02,
 	//AAI=0xAF,
-	MXIC_RDSR = 0x05,
+	MXIC_RDSR=0x05,
 	//EWSR=0x50,
-	MXIC_WRSR = 0x01,
-	MXIC_WREN = 0x06,
-	MXIC_WRDI = 0x04,
-	MXIC_READ_ID = 0x9F, // read output: 0xC2, 0x20, 0x12(2025 is same with 2026)
-	MXIC_RES = 0xAB // read output: 0x03(2026); 0x11(2025)
-} FLASH_OP_MXIC;
+	MXIC_WRSR=0x01,
+	MXIC_WREN=0x06,
+	MXIC_WRDI=0x04,
+    MXIC_READ_ID = 0x9F, // read output: 0xC2, 0x20, 0x12(2025 is same with 2026) 
+    MXIC_RES = 0xAB // read output: 0x03(2026); 0x11(2025)
+}FLASH_OP_MXIC;
 typedef enum
 {
-	EON_READ = 0x03,
-	EON_H_READ = 0x0B,
-	EON_ERASE_SECTOR = 0x20,
-	EON_ERASE_BLOCK = 0x52,
-	EON_ERASE_CHIP = 0x60,
-	EON_BYTE_WRITE = 0x02,
+	EON_READ=0x03,
+	EON_H_READ=0x0B,
+	EON_ERASE_SECTOR=0x20,
+	EON_ERASE_BLOCK=0x52,
+	EON_ERASE_CHIP=0x60,
+	EON_BYTE_WRITE=0x02,
 	//AAI=0xAF,
-	EON_RDSR = 0x05,
+	EON_RDSR=0x05,
 	//EWSR=0x50,
-	EON_WRSR = 0x01,
-	EON_WREN = 0x06,
-	EON_WRDI = 0x04,
-	EON_READ_ID = 0x9F
-} FLASH_OP_EON;
+	EON_WRSR=0x01,
+	EON_WREN=0x06,
+	EON_WRDI=0x04,
+	EON_READ_ID=0x9F
+}FLASH_OP_EON;
 typedef enum
 {
-	AMIC_READ = 0x03,
-	AMIC_H_READ = 0x0B,
-	AMIC_ERASE_SECTOR = 0x20,
-	AMIC_ERASE_BLOCK = 0xD8,
-	AMIC_ERASE_CHIP = 0xC7,
-	AMIC_BYTE_WRITE = 0x02,
+	AMIC_READ=0x03,
+	AMIC_H_READ=0x0B,
+	AMIC_ERASE_SECTOR=0x20,
+	AMIC_ERASE_BLOCK=0xD8,
+	AMIC_ERASE_CHIP=0xC7,
+	AMIC_BYTE_WRITE=0x02,
 	//AAI=0xAF,
-	AMIC_RDSR = 0x05,
+	AMIC_RDSR=0x05,
 	//EWSR=0x50,
-	AMIC_WRSR = 0x01,
-	AMIC_WREN = 0x06,
-	AMIC_WRDI = 0x04,
-	AMIC_READ_ID = 0x9F
+	AMIC_WRSR=0x01,
+	AMIC_WREN=0x06,
+	AMIC_WRDI=0x04,
+	AMIC_READ_ID=0x9F
 } FLASH_OP_AMIC;
 typedef enum
 {
-	WINBOND_READ = 0x03,
-	WINBOND_H_READ = 0x0B,
-	WINBOND_ERASE_SECTOR = 0x20,
-	WINBOND_ERASE_BLOCK = 0xD8,
-	WINBOND_ERASE_CHIP = 0xC7,
-	WINBOND_BYTE_WRITE = 0x02,
-	//AAI=0xAF,
-	WINBOND_RDSR = 0x05,
-	//EWSR=0x50,
-	WINBOND_WRSR = 0x01,
-	WINBOND_WREN = 0x06,
-	WINBOND_WRDI = 0x04,
-
-	WINBOND_READ_ID = 0x9F,
-	WINBOND_READ_UNIQUE_ID = 0x4B
+    WINBOND_READ = 0x03,
+    WINBOND_H_READ = 0x0B,
+    WINBOND_ERASE_SECTOR = 0x20,
+    WINBOND_ERASE_BLOCK = 0xD8,
+    WINBOND_ERASE_CHIP = 0xC7,
+    WINBOND_BYTE_WRITE = 0x02,
+    //AAI=0xAF,
+    WINBOND_RDSR = 0x05,
+    //EWSR=0x50,
+    WINBOND_WRSR = 0x01,
+    WINBOND_WREN = 0x06,
+    WINBOND_WRDI = 0x04,
+    
+    WINBOND_READ_ID = 0x9F,
+    WINBOND_READ_UNIQUE_ID = 0x4B
 } FLASH_OP_WINBOND;
 typedef enum
 {
-	GIGADEVICE_READ = 0x03,
-	GIGADEVICE_H_READ = 0x0B,
-	GIGADEVICE_ERASE_SECTOR = 0x20,
-	GIGADEVICE_ERASE_BLOCK = 0xD8,
-	GIGADEVICE_ERASE_CHIP = 0xC7,
-	GIGADEVICE_BYTE_WRITE = 0x02,
-	GIGADEVICE_RDSR = 0x05,
-	GIGADEVICE_WRSR = 0x01,
-	GIGADEVICE_WREN = 0x06,
-	GIGADEVICE_WRDI = 0x04,
-	GIGADEVICE_READ_ID = 0x9F,
-	GIGADEVICE_UNPROTECT = 0x4C,
-	GIGADEVICE_PROTECT = 0x4D
+    GIGADEVICE_READ = 0x03,
+    GIGADEVICE_H_READ = 0x0B,
+    GIGADEVICE_ERASE_SECTOR = 0x20,
+    GIGADEVICE_ERASE_BLOCK = 0xD8,
+    GIGADEVICE_ERASE_CHIP = 0xC7,
+    GIGADEVICE_BYTE_WRITE = 0x02,
+    GIGADEVICE_RDSR = 0x05,
+    GIGADEVICE_WRSR = 0x01,
+    GIGADEVICE_WREN = 0x06,
+    GIGADEVICE_WRDI = 0x04,
+    GIGADEVICE_READ_ID = 0x9F,
+    GIGADEVICE_UNPROTECT = 0x4C,
+    GIGADEVICE_PROTECT = 0x4D
 } FLASH_OP_GIGADEVICE;
 
 typedef enum
 {
-	MX_2025     = 0x11, // read by AB command // 2M bit without special unprotection, all command ID(RDID/RES/REMS) are same with MX2026E/KH2026E
-	MX_4025     = 0x12, // read by AB command // 4M bit without special unprotecton, all command ID(RDID/RES/REMS) are same with MX4026E/KH4026E
-	MX_2026     = 0x03, // read by AB command // 2M bit with special unprotection
-	MX_4026     = 0x04, // read by AB command // 4 M bit with special unprotection
-	PM25_LV020  = 0x7D,
-	PM25_LD020  = 0x22,
-	PM25_LQ020  = 0x42,
-	W25X05CL = 0x10, // 512K bit // 9F command ID15~0: 0x3010
-	W25X10CL = 0x11, // 1M bit // 0x3011
-	W25X20CL = 0x12, // 2M bit // 0x3012
-	W25X10BV = W25X10CL, // 1M bit // 0x3011
-	W25X20BV = W25X20CL, // 2M bit // 0x3012
-	W25X40BV = 0x13, // 4M bit // 0x3013
-	W25X21CL = 0x95, // 2M bit with special unprotection // 0x3012 by 9F command // 21CL: 0x95; 20CL: 0xD5 by 4B command
+    MX_2025     = 0x11, // read by AB command // 2M bit without special unprotection, all command ID(RDID/RES/REMS) are same with MX2026E/KH2026E
+    MX_4025     = 0x12, // read by AB command // 4M bit without special unprotecton, all command ID(RDID/RES/REMS) are same with MX4026E/KH4026E
+    MX_2026     = 0x03, // read by AB command // 2M bit with special unprotection 
+    MX_4026     = 0x04, // read by AB command // 4 M bit with special unprotection
+    PM25_LV020  = 0x7D,
+    PM25_LD020  = 0x22,
+    PM25_LQ020  = 0x42,
+    W25X05CL = 0x10, // 512K bit // 9F command ID15~0: 0x3010
+    W25X10CL = 0x11, // 1M bit // 0x3011
+    W25X20CL = 0x12, // 2M bit // 0x3012
+    W25X10BV = W25X10CL, // 1M bit // 0x3011
+    W25X20BV = W25X20CL, // 2M bit // 0x3012
+    W25X40BV = 0x13, // 4M bit // 0x3013
+    W25X21CL = 0x95, // 2M bit with special unprotection // 0x3012 by 9F command // 21CL: 0x95; 20CL: 0xD5 by 4B command
 	W25X41CL = 0x97, // 4M bit with special unprotection // 0x3013 by 9F command // 41CL: 0x97; by 4B command // 120619 coding wait for x41 unique id
 	GD25M21B = 0x12, // 2M bit, 9F command M7~M0: 0xC8, ID15~ID8: 0x41, ID7~0: 0x12
 	GD25M41B = 0x13, // 4M bit, 9F command M7~M0: 0xC8, ID15~ID8: 0x41, ID7~0: 0x13
-	#if Enable_FMFlash_Save
+#if Enable_FMFlash_Save
 	FM25Q02  = 0x12, // 8M bit, 9F command M7~M0: 0xA1, ID15~ID8: 0x40, ID7~0: 0x12
-	FM25Q04  = 0x13, // 8M bit, 9F command M7~M0: 0xA1, ID15~ID8: 0x40, ID7~0: 0x13
-	#endif
+	FM25Q04  = 0x13, // 8M bit, 9F command M7~M0: 0xA1, ID15~ID8: 0x40, ID7~0: 0x13	
+#endif	
 } _DEVICE_ID;
 
 typedef enum
@@ -246,23 +246,23 @@ typedef enum
 	FLASH_WINBOND = 0xEF,
 	FLASH_AMIC    = 0x37,
 	FLASH_GIGADEVICE = 0xC8,
-	#if Enable_FMFlash_Save
-	FLASH_FMSH = 0xA1,
-	#endif
+#if Enable_FMFlash_Save
+       FLASH_FMSH = 0xA1,
+#endif
 	FLASH_UNKNOW  = 0xFF
-} _FLASH_ID;
+}_FLASH_ID;
 
 
 typedef enum
 {
-	FBufType_HDCP_EDID          = 0xAA,
+    	FBufType_HDCP_EDID          = 0xAA,
 	FBufType_MonitorSetting	    = 0x88,
 	FBufType_MonitorSetting2    = 0x44,
 	FBufType_TimingMode         = 0x22,
 	FBufType_FactorySetting     = 0x11,
 	FBufType_FullBuffer         = 0x00, // 091022 coding, if buffer type is 0, it should be free buffer.
 	FBufType_EmptyBuffer        = 0xFF,
-} FLASH_BUFFTER_TYPE;
+}FLASH_BUFFTER_TYPE;
 
 //#define FLASH_SIZE                  0x40000
 #if 1//HDCPKEY_IN_7F000	//120420 Modify
@@ -307,7 +307,7 @@ typedef enum
 	FLASH_KEY_DDCD,
 	FLASH_KEY_DDCH,
 	FLASH_KEY_DDCDP,
-} FLASH_KEY_TYPE;
+}FLASH_KEY_TYPE;
 
 #if 1
 #define BF3B_TYPR_ADDR              FLASH_FactorySettingAddr//0xB000 is buffer type
@@ -481,13 +481,13 @@ typedef enum
 	FLASH_KEY_WRITE     = 0xAA,
 	FLASH_KEY_VALID     = 0x22,
 	FLASH_KEY_INVALID   = 0x00,
-} FLASH_KEY_STATUS;
+}FLASH_KEY_STATUS;
 
 typedef enum
 {
-	FLASH_SIZE_2M = 2,
-	FLASH_SIZE_4M = 4,
-} FLASH_SIZE;
+    FLASH_SIZE_2M = 2,
+    FLASH_SIZE_4M = 4,        
+}FLASH_SIZE;
 //==================================================
 _MSFLASHDEC_ BYTE xdata g_ucFlashID;
 _MSFLASHDEC_ WORD xdata g_wKEYSET_START;
@@ -499,7 +499,7 @@ _MSFLASHDEC_ WORD xdata FLASH_FactorySettingAddr;	//Factory Setting
 _MSFLASHDEC_ WORD xdata FLASH_FreeBufferAddr;	//Empty buffer
 
 #if  1//(CHIP_ID == CHIP_TSUM9 || CHIP_ID == CHIP_TSUMF) && ENABLE_CABLE_5V_EDID
-_MSFLASHDEC_ WORD xdata FLASH_HDCP_EDIDAddr;    //Hdcp
+_MSFLASHDEC_ WORD xdata FLASH_HDCP_EDIDAddr;    //Hdcp 
 #endif
 #endif
 //==================================================
@@ -595,12 +595,12 @@ _MSFLASHDEC_ void Flash_ClearModeSet(void);
 // <API><Description>:	Write Factory setting to flash,
 //					It will exchange buffer when not found empty space
 //////////////////////////////////////////////////////////////////////////////
-_MSFLASHDEC_ void Flash_WriteFactorySet(BYTE* pbuf, BYTE ucLen);
+_MSFLASHDEC_ void Flash_WriteFactorySet(BYTE* pbuf,BYTE ucLen);
 //////////////////////////////////////////////////////////////////////////////
 // <API><Description>:	Read latest factory setting struct from flash.
 // <Returns> : return TRUE when found factory setting
 //////////////////////////////////////////////////////////////////////////////
-_MSFLASHDEC_ Bool Flash_ReadFactorySet(BYTE* pbuf, BYTE ucLen);
+_MSFLASHDEC_ Bool Flash_ReadFactorySet(BYTE* pbuf,BYTE ucLen);
 //////////////////////////////////////////////////////////////////////////////
 // <API><Description>:	Write HDCP ,DDCA or DDCD key to flash,
 //					Need set correct type of key.
@@ -617,7 +617,7 @@ _MSFLASHDEC_ Bool Flash_ReadFactorySet(BYTE* pbuf, BYTE ucLen);
 //////////////////////////////////////////////////////////////////////////////
 _MSFLASHDEC_ void Flash_Write_Factory_KeySet(FLASH_KEY_TYPE ucType, WORD wIndex, WORD wBufSize, BYTE* buf, WORD wLen);
 
-_MSFLASHDEC_ void Flash_Erase_FreeBuffer(FLASH_KEY_TYPE ucType, WORD wIndex); // jeff add it in 2009 0907
+_MSFLASHDEC_ void Flash_Erase_FreeBuffer(FLASH_KEY_TYPE ucType,WORD wIndex);// jeff add it in 2009 0907
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -639,7 +639,7 @@ _MSFLASHDEC_ Bool Flash_Read_Factory_KeySet(FLASH_KEY_TYPE ucType, Bool bReadVai
 // <API><Description>:	Write Monitor setting struct to flash,
 //					It will exchange buffer when buffer full
 //////////////////////////////////////////////////////////////////////////////
-_MSFLASHDEC_ void Flash_WriteMonitorSet(BYTE* buf, BYTE len);
+_MSFLASHDEC_ void Flash_WriteMonitorSet(BYTE* buf,BYTE len);
 //////////////////////////////////////////////////////////////////////////////
 // <API><Description>:	Read latest Monitor setting struct from flash.
 //					1.Got monitor setting index by check flash identity
@@ -647,18 +647,18 @@ _MSFLASHDEC_ void Flash_WriteMonitorSet(BYTE* buf, BYTE len);
 //					3.read the Monitor setting struct
 // <Returns> : return TRUE when found MonitorSetting
 //////////////////////////////////////////////////////////////////////////////
-_MSFLASHDEC_ Bool Flash_ReadMonitorSet(BYTE* buf, BYTE len);
+_MSFLASHDEC_ Bool Flash_ReadMonitorSet(BYTE* buf,BYTE len);
 //////////////////////////////////////////////////////////////////////////////
 // <API><Description>:	Flash_WriteMonitorSet2 isues to save MonitorSetting2
 //					It will exchange buffer when buffer full
 //////////////////////////////////////////////////////////////////////////////
-_MSFLASHDEC_ void Flash_WriteMonitorSet2(BYTE* buf, BYTE len);
+_MSFLASHDEC_ void Flash_WriteMonitorSet2(BYTE* buf,BYTE len);
 //////////////////////////////////////////////////////////////////////////////
 // <API><Description>:	Read MonitorSetting2 struct from flash.
 //					1.Got monitor setting index by check flash identity
 // <Returns> : return TRUE when found MonitorSetting2
 //////////////////////////////////////////////////////////////////////////////
-_MSFLASHDEC_ Bool Flash_ReadMonitorSet2(BYTE* buf, BYTE len);
+_MSFLASHDEC_ Bool Flash_ReadMonitorSet2(BYTE* buf,BYTE len);
 //////////////////////////////////////////////////////////////////////////////
 // <API><Description>:	Write timing mode with index to flash
 //					1.Search the timing mode from timing buffer
@@ -671,7 +671,7 @@ _MSFLASHDEC_ Bool Flash_ReadMonitorSet2(BYTE* buf, BYTE len);
 //  index			-    In		-	timing index, UserMode need |_BIT7 in index
 //  *buf			-    In		-	point to the address of timing struct
 //////////////////////////////////////////////////////////////////////////////
-_MSFLASHDEC_ void Flash_WriteModeSet(BYTE index, BYTE *buf);
+_MSFLASHDEC_ void Flash_WriteModeSet(BYTE index,BYTE *buf);
 //////////////////////////////////////////////////////////////////////////////
 // <API><Description>:	Read timing mode with index from flash
 //					1.Search the timing mode from timing buffer by compare FLASH_IDENTDATA&TimingIndex
@@ -684,7 +684,7 @@ _MSFLASHDEC_ void Flash_WriteModeSet(BYTE index, BYTE *buf);
 //  index			-    In		-	timing index, UserMode need |_BIT7 in index
 //  *buf			-    In		-	point to the address of timing mode struct
 //////////////////////////////////////////////////////////////////////////////
-_MSFLASHDEC_ Bool Flash_ReadModeSet(BYTE index, BYTE *buf);
+_MSFLASHDEC_ Bool Flash_ReadModeSet(BYTE index,BYTE *buf);
 _MSFLASHDEC_ void FlashDisableWP(WORD wAddr);
 _MSFLASHDEC_ void FlashEnableWP(void);
 

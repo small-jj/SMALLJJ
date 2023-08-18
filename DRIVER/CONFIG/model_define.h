@@ -51,14 +51,14 @@
 #define HJP07BF2_Project					24   //    成都合盛
 
 
-#define HH_TCL_T27N1_Project					25
+#define HH_TCL_T27N1_Project					25   
 
-#define HH_TCL_T27N1_F_Project					26
+#define HH_TCL_T27N1_F_Project					26   
 
 
-#define HH_HKC_27P630Q_U_Project				27
+#define HH_HKC_27P630Q_U_Project				27   
 
-#define HH_TSY_KF270F075P_F_Project			28
+#define HH_TSY_KF270F075P_F_Project			28  
 
 #define HH_HKC_KF270F144P_Project				29		//1 AV1 FHD 144		量产
 
@@ -104,7 +104,7 @@
 
 #define HH_HKC_XXXXX_U_Project					254		//1送样暂定 BV1  FHD 144
 
-#define HH_TCL_DEMO_Project					255
+#define HH_TCL_DEMO_Project					255  
 
 #define HH_BOARD_DEMO_Project					256 		//1板子功能测试选项
 

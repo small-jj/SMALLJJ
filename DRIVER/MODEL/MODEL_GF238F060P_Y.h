@@ -4,7 +4,7 @@
 // BOARD SELECTION
 ////////////////////////////////////////////////////////////
 #define CHIP_ID                			CHIP_TSUMF
-#define MainBoardType    				MainBoard_JRY_L5AFHD_EV1
+#define MainBoardType    				MainBoard_JRY_L5AFHD_EV1 
 #define PanelType 					PanelMV238FHM_N30
 #define DisplayLogo					LOGO_ELECTROMAN
 
@@ -78,7 +78,7 @@
 
 #define   CT_7500K_ENABLE			1
 /***************************************************************************************/
-//1 DDC/CI功能
+								//1 DDC/CI功能
 #define JRY_Color_Tool_Functing            	1
 
 #define  Adj_7500K_Temp  				(1&&JRY_Color_Tool_Functing)
@@ -91,11 +91,11 @@
 /***************************************************************************************/
 
 
-#define  EANBLE_NEW_DCR_Functing       1
+#define  EANBLE_NEW_DCR_Functing       1 
 
 
 
-#if MainBoardType == MainBoard_JRY_L5AFHD_EV1
+#if MainBoardType == MainBoard_JRY_L5AFHD_EV1 
 
 #define INPUT_TYPE_SEL              			(INPUT_0A|INPUT_1C)
 #define DVI_PORT_PRIORITY       			2 //
@@ -208,7 +208,7 @@
 #define ChangeDate					"20200413"//""
 
 /********************************************************************************************/
-//1 Project 设置
+					  			//1 Project 设置
 
 #define	HH_PivotKey2_Enable					1
 
@@ -250,15 +250,15 @@
 #define		 FactoryLedFlicker_Enable			0
 #define 		PowerSaveLedFlicker_Enable            	0
 ///////////////////////////////////////////////////////////////////
-#define LanguageEnable_Italian           1
-#define LanguageEnable_Dutch            1
+#define LanguageEnable_Italian           1   
+#define LanguageEnable_Dutch            1  
 #define LanguageEnable_Swedish         1
 #define LanguageEnable_Finnish           1
-#define LanguageEnable_Polish            1
+#define LanguageEnable_Polish            1   
 #define LanguageEnable_Czech            1
 /////////////////////////brightness///////////////////////////////////
 #define	Brightness_Table_Enable			1
-#define BRI_PRO_MIN_VALUE			0x00
+#define BRI_PRO_MIN_VALUE			0x00	
 #define BRI_PRO_DEF_VALUE			0x56//210						0x4D	//200
 #define BRI_PRO_MAX_VALUE			0x67	//240
 ////////////////////////color temp/////////////////////////////////
@@ -291,7 +291,7 @@
 #define DefBriValue_ECO_Movies		80
 //////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////
-
+ 
 #define ADCKEY_A0_VALUE     0x00
 #define ADCKEY_A1_VALUE     0x9B//0x68
 #define ADCKEY_A2_VALUE     0xA0

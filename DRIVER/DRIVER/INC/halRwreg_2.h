@@ -1,7 +1,7 @@
 
 // CHIP_TSUMV
 // interrupt
-#define INT_FIQ_TIMER0_ENABLE(Enable)    (msWriteByteMask( REG_2B00, (Enable)?(0):(BIT0), BIT0 ))
+#define INT_FIQ_TIMER0_ENABLE(Enable)    (msWriteByteMask( REG_2B00, (Enable)?(0):(BIT0), BIT0 ))   
 #define INT_FIQ_WDT_ENABLE(Enable)    (msWriteByteMask( REG_2B00, ((Enable)?(0):(BIT1)), BIT1 ))
 #define INT_IRQ_DISP_ENABLE(Enable)    (msWriteByteMask( REG_2B18, ((Enable)?(0):(BIT1)), BIT1 ))
 #define INT_STATUS_DISP_ISR()               (_bit1_(msRegs[REG_2B28])) // V
@@ -63,10 +63,10 @@
 #define HDCP_CPU_WRITE_BKSV(Address, Value)  (HDCP_CPU_WRITE_DATA(Value))
 #define HDCP_CPU_WR_BUSY()    (_bit7_(MEM_MSREAD_BYTE(REG_28F2)))
 #define HDCP_CPU_WRITE_BCAPS(Value) {msWriteByteMask(REG_28F3, 0x80, 0xC0);\
-		msWrite2ByteMask(REG_28EE, 0x0040, 0x03FF);\
-		msWriteByte(REG_28F2, 0x20);\
-		msWriteByte(REG_28F0, Value);\
-		msWriteByte(REG_28F2, 0x10);}
+                                                                    msWrite2ByteMask(REG_28EE, 0x0040, 0x03FF);\
+                                                                    msWriteByte(REG_28F2, 0x20);\
+                                                                    msWriteByte(REG_28F0, Value);\
+                                                                    msWriteByte(REG_28F2, 0x10);}
 #define HDCP_MISC_SETTING(Value) (msWrite2Byte( REG_28C0, Value ))
 #define HDCP_ENABLE_DDC()   (msWriteByteMask( REG_28EF, BIT2, BIT2 ))//(msWriteByteMask( REG_3E74, BIT5, BIT5 ))
 #define HDCP_RESET(Enable)    (msWriteByteMask( REG_290E, (Enable)?(BIT5):(0),  BIT5)) //20130909 nick modify
@@ -88,11 +88,11 @@
 #define SC0_INPUT_SELECT(Value)  (msWriteByteMask(SC0_02, Value, BIT2|BIT1|BIT0))
 #define SC0_READ_INPUT_SETTING()    (msReadByte(SC0_02))
 #define SC0_RECOVER_INPUT_SETTING(Value)     (msWriteByte(SC0_02, Value))
-#define SC0_OUTPUT_LOCK_MODE(LockInput)   (msWriteByteMask(SC0_02, (LockInput)?(0):(BIT7) , BIT7))
+#define SC0_OUTPUT_LOCK_MODE(LockInput)   (msWriteByteMask(SC0_02, (LockInput)?(0):(BIT7) , BIT7))    
 #define SC0_SCALER_POWER_DOWN(Value, Mask) (msWriteByteMask( SC0_F0, Value, Mask ))
 #define SC0_SCALER_RESET(Value)  (msWriteByte( SC0_F1, Value ))
 #define SC0_NORMAL_MODE()   (msWriteByte( SC0_F8, 0x00 ))
-#define SC0_HPEROID_DETECT_MODE(Enable16lines)  (msWriteByte(SC0_E5, (Enable16lines)?(BIT7):(0)))
+#define SC0_HPEROID_DETECT_MODE(Enable16lines)  (msWriteByte(SC0_E5, (Enable16lines)?(BIT7):(0)))        
 #define SC0_READ_HPEROID()  (msRead2Byte(SC0_E4) & MASK_13BIT)
 #define SC0_READ_VTOTAL()   (msRead2Byte(SC0_E2) & MASK_12BIT)
 #define SC0_READ_SYNC_STATUS()  (msReadByte(SC0_E1))
@@ -102,22 +102,22 @@
 #define SC0_READ_AUTO_END_V()  (msRead2Byte(SC0_82))
 #define SC0_READ_AUTO_WIDTH()   (SC0_READ_AUTO_END_H()-SC0_READ_AUTO_START_H()+1)
 #define SC0_READ_AUTO_HEIGHT()   (SC0_READ_AUTO_END_V()-SC0_READ_AUTO_START_V()+1)
-#define SC0_READ_IMAGE_HEIGHT()  (msRead2Byte(SC0_09)&MASK_12BIT)
-#define SC0_READ_IMAGE_WIDTH()  (msRead2Byte(SC0_0B)&MASK_12BIT)
-#define SC0_SET_IMAGE_HEIGHT(Value)  (msWrite2Byte(SC0_09, (Value)&MASK_12BIT))
-#define SC0_SET_IMAGE_WIDTH(Value)  (msWrite2Byte(SC0_0B, (Value)&MASK_12BIT))
+#define SC0_READ_IMAGE_HEIGHT()  (msRead2Byte(SC0_09)&MASK_12BIT)    
+#define SC0_READ_IMAGE_WIDTH()  (msRead2Byte(SC0_0B)&MASK_12BIT)  
+#define SC0_SET_IMAGE_HEIGHT(Value)  (msWrite2Byte(SC0_09, (Value)&MASK_12BIT))    
+#define SC0_SET_IMAGE_WIDTH(Value)  (msWrite2Byte(SC0_0B, (Value)&MASK_12BIT))    
 #if ENABLE_MENULOAD         //111011 Rick modified - C_FOS_005
 #define SC0_SET_IMAGE_START_H(Value) {   msML_WaitReady();\
-		msML_WriteByte(ML_MODE_NORMAL, SC0_07, ((Value)&MASK_12BIT));\
-		msML_WriteByte(ML_MODE_NORMAL, SC0_08, ((Value)&MASK_12BIT)>>8);\
-		msML_Trigger(ML_TRIG_OUT_VDE_END); }
+                                                                msML_WriteByte(ML_MODE_NORMAL, SC0_07, ((Value)&MASK_12BIT));\
+                                                                msML_WriteByte(ML_MODE_NORMAL, SC0_08, ((Value)&MASK_12BIT)>>8);\
+                                                                msML_Trigger(ML_TRIG_OUT_VDE_END); }
 
 #elif ENABLE_SW_DOUBLE_BUFFER
 #define SC0_SET_IMAGE_START_H(Value) {   msSWDBWaitForRdy();\
-		DB_Mode(ML_MODE_NORMAL);\
-		DB_WB(SC0_07, ((Value)&MASK_12BIT));\
-		DB_WB(SC0_08, ((Value)&MASK_12BIT)>>8);\
-		msSWDBWriteToRegister();}
+                                                                        DB_Mode(ML_MODE_NORMAL);\ 
+                                                                        DB_WB(SC0_07, ((Value)&MASK_12BIT));\
+                                                                        DB_WB(SC0_08, ((Value)&MASK_12BIT)>>8);\
+                                                                        msSWDBWriteToRegister();}
 #else
 #define SC0_SET_IMAGE_START_H(Value)    (msWrite2Byte( SC0_07, (Value)&MASK_12BIT ))
 #endif
@@ -125,15 +125,15 @@
 
 #if ENABLE_MENULOAD
 #define SC0_SET_IMAGE_START_V(Value) {   msML_WaitReady();\
-		msML_WriteByte(ML_MODE_NORMAL, SC0_05, ((Value)&MASK_12BIT));\
-		msML_WriteByte(ML_MODE_NORMAL, SC0_06, ((Value)&MASK_12BIT)>>8);\
-		msML_Trigger(ML_TRIG_OUT_VDE_END); }
+                                                                msML_WriteByte(ML_MODE_NORMAL, SC0_05, ((Value)&MASK_12BIT));\
+                                                                msML_WriteByte(ML_MODE_NORMAL, SC0_06, ((Value)&MASK_12BIT)>>8);\
+                                                                msML_Trigger(ML_TRIG_OUT_VDE_END); }
 #elif ENABLE_SW_DOUBLE_BUFFER
 #define SC0_SET_IMAGE_START_V(Value) {   msSWDBWaitForRdy();\
-		DB_Mode(ML_MODE_NORMAL);\
-		DB_WB(SC0_05, ((Value)&MASK_12BIT));\
-		DB_WB(SC0_06, ((Value)&MASK_12BIT)>>8);\
-		msSWDBWriteToRegister();}
+                                                                        DB_Mode(ML_MODE_NORMAL);\ 
+                                                                        DB_WB(SC0_05, ((Value)&MASK_12BIT));\
+                                                                        DB_WB(SC0_06, ((Value)&MASK_12BIT)>>8);\
+                                                                        msSWDBWriteToRegister();}
 #else
 #define SC0_SET_IMAGE_START_V(Value)    (msWrite2Byte( SC0_05, (Value)&MASK_12BIT ))
 #endif
@@ -141,13 +141,13 @@
 #define SC0_BLACK_SCREEN_ENABLE()  (msWriteByteMask(SC0_43,BIT4,(BIT4|BIT5)))
 #define SC0_BLACK_WHITE_SCREEN_DISABLE()  (msWriteByteMask(SC0_43,0,(BIT4|BIT5)))
 #define SC0_SET_OUTPUT_VTOTAL(Value) (msWrite2ByteMask(SC0_1E, Value, MASK_12BIT))
-#define SC0_DE_ONLY_MODE()  ((msReadByte(SC0_04)&BIT6) == BIT6)
+#define SC0_DE_ONLY_MODE()  ((msReadByte(SC0_04)&BIT6) == BIT6)     
 #define SC0_VIDEO_FIELD_INVERSION() ((msReadByte(SC0_E9)&BIT3) == BIT3)
-#define SC0_SET_DE_OLNY_MODE(Enable)        (msWriteByteMask(SC0_04, (Enable)?(BIT6):(0), BIT6))
+#define SC0_SET_DE_OLNY_MODE(Enable)        (msWriteByteMask(SC0_04, (Enable)?(BIT6):(0), BIT6))                      
 #define DVI_DE_IS_EXIST()  ((msReadByte(SC0_CA)&BIT5) == BIT5)
 #define PIXEL_H_DE_COUNT()   ( msRead2Byte(REG_05CA))	//130627 nick
 
-#define SC0_READ_POWER_DOWN_STATUS()    (msReadByte(SC0_F0))
+#define SC0_READ_POWER_DOWN_STATUS()    (msReadByte(SC0_F0))        
 #define SC0_ADC_COAST_ENABLE(Value)  (msWriteByte(SC0_ED, Value))
 #define SC0_ADC_COAST_START(Value)  (msWriteByte(SC0_EE, Value))
 #define SC0_ADC_COAST_END(Value)  (msWriteByte(SC0_EF, Value))
@@ -155,22 +155,22 @@
 #define SC0_READ_ADC_COAST_START_VALUE()   (msReadByte(SC0_EE))
 #define SC0_READ_ADC_COAST_END_VALUE()   (msReadByte(SC0_EF))
 #define SC0_GLITCH_REMOVAL_ENABLE(Value)    (msWriteByte(SC0_F3, Value))
-#define SC0_SAMPLE_CLOCK_INVERT(Value)   (msWriteByteMask(SC0_F3, ((Value)>165)?(BIT0):(0), BIT0))
-#define SC0_VSYNC_WIDTH_REPORT(Enable)  (msWriteByteMask(SC0_FA, (Enable)?(BIT0):(0),BIT0))
+#define SC0_SAMPLE_CLOCK_INVERT(Value)   (msWriteByteMask(SC0_F3, ((Value)>165)?(BIT0):(0), BIT0))   
+#define SC0_VSYNC_WIDTH_REPORT(Enable)  (msWriteByteMask(SC0_FA, (Enable)?(BIT0):(0),BIT0))  
 #define SC0_READ_VSYNC_WIDTH()  (msReadByte(SC0_E2))
 #define SC0_SET_DOUBLE_BUFFER(ENABLE) ((ENABLE)?(msWriteByte(SC0_01, 0x05)):(msWriteByte(SC0_01, 0x00)))
 
 // auto
 #define AUTO_POSITION_RESULT_READY()    (WaitAutoStatusReady(SC0_7B, BIT1))
-#define AUTO_POSITION_SET_VALID_VALUE(Value)    (msWriteByteMask(SC0_7C, (Value) << 4, 0xF0))
-#define AUTO_POSITION_READ_VALID_VALUE()    (msReadByte(SC0_7C)>>4)
-#define AUTO_POSITION_READ_HSTART()     (GetAutoValue(SC0_80))
+#define AUTO_POSITION_SET_VALID_VALUE(Value)    (msWriteByteMask(SC0_7C, (Value) << 4, 0xF0))    
+#define AUTO_POSITION_READ_VALID_VALUE()    (msReadByte(SC0_7C)>>4)    
+#define AUTO_POSITION_READ_HSTART()     (GetAutoValue(SC0_80))    
 #define AUTO_POSITION_READ_HEND()   (GetAutoValue(SC0_84))
-#define AUTO_POSITION_READ_VSTART()     (GetAutoValue(SC0_7E))
-#define AUTO_POSITION_READ_VEND()     (GetAutoValue(SC0_82))
-#define AUTO_POSITION_READ_TRANSTION_POSITION(Delaytime) (GetTranstionPosition( Delaytime, SC0_80 ))
-#define AUTO_PHASE_RESULT_READY()   (drvADC_WaitAutoStatusReady(SC0_8B, BIT1))
-#define AUTO_PHASE_READ_VALUE() ((((DWORD)msRead2Byte(SC0_8E))<<16)|msRead2Byte(SC0_8C))
+#define AUTO_POSITION_READ_VSTART()     (GetAutoValue(SC0_7E))    
+#define AUTO_POSITION_READ_VEND()     (GetAutoValue(SC0_82))    
+#define AUTO_POSITION_READ_TRANSTION_POSITION(Delaytime) (GetTranstionPosition( Delaytime, SC0_80 ))    
+#define AUTO_PHASE_RESULT_READY()   (drvADC_WaitAutoStatusReady(SC0_8B, BIT1))        
+#define AUTO_PHASE_READ_VALUE() ((((DWORD)msRead2Byte(SC0_8E))<<16)|msRead2Byte(SC0_8C))   
 
 // OSD
 #define OSD_MENU_EXIST()    ( (msReadByte( (OSD_MAIN_WND<<5)+OSD2_00 )&MWIN_B) == MWIN_B ) // V
@@ -196,7 +196,7 @@
 
 // DCR
 #define HISTOGRAM_WHOLE_VERTICAL_RANGE_EN(Enable)   (msWriteByteMask(SC3_B5, (Enable)?(0):(BIT0), BIT0))
-#define HISTOGRAM_RGB_TO_Y_EN(Enable)   (msWriteByteMask(SC7_40, (Enable)?(BIT2):(0), BIT2))
+#define HISTOGRAM_RGB_TO_Y_EN(Enable)   (msWriteByteMask(SC7_40, (Enable)?(BIT2):(0), BIT2))    
 #define MWE_FUNCTION_EN(Enable)   (msWriteByteMask(SC0_5C, (Enable)?(BIT3):(0), BIT3))
 #define STATISTIC_REQUEST_MAIN_ENABLE()  (msWriteByte(SC7_B8, (BIT2|BIT1)))
 #define STATISTIC_REQUEST_SUB_ENABLE()  (msWriteByte(SC7_B8, (BIT2|BIT0)))
@@ -221,22 +221,22 @@
 #define ICE_SUB_BRI_CTRL(Enable)   (msWriteByteMask(SC9_03, (Enable)?(BIT5):(0), BIT5))
 #define ICE_SUB_SAT_CTRL(Enable)   (msWriteByteMask(SC9_03, (Enable)?(BIT4):(0), BIT4))
 #define ICE_SUB_HUE_CTRL(Enable)   (msWriteByteMask(SC9_03, (Enable)?(BIT0):(0), BIT0))
-#define ICE_MAIN_CTRL(Enable)   (msWriteByte(SC9_02, (Enable)?(BIT5|BIT4|BIT0):(0)))
-#define ICE_SUB_CTRL(Enable)   (msWriteByte(SC9_03, (Enable)?(BIT5|BIT4|BIT0):(0)))
-#define ICE_DEFINE_RANGE_RGB(Color, Value)  (msWriteByte(SC9_04+(Color), Value))
+#define ICE_MAIN_CTRL(Enable)   (msWriteByte(SC9_02, (Enable)?(BIT5|BIT4|BIT0):(0)))     
+#define ICE_SUB_CTRL(Enable)   (msWriteByte(SC9_03, (Enable)?(BIT5|BIT4|BIT0):(0)))    
+#define ICE_DEFINE_RANGE_RGB(Color, Value)  (msWriteByte(SC9_04+(Color), Value))   
 #define ICE_ACTIVE_RANGE_RGBCMY(Color, Value)   (msWriteByte(SC9_08+(Color), Value))
 #define ICE_SATURATION_RGBCMY(Color, Value) (msWriteByte(SC9_14+(Color), Value))
 #define ICE_HUE_RGBCMY(Color, Value)    (msWriteByte(SC9_0E+(Color), Value))
 #define ICE_BRIGHTNESS_RGBCMY(Color, Value)    (msWriteByte(SC9_1A+(Color), Value))
 
-#define CSC_MAIN_ENABLE(Enable) (msWriteByteMask(SC7_40, (Enable)?(BIT0):(0), BIT0))
-#define CSC_SUB_ENABLE(Enable) (msWriteByteMask(SC7_40, (Enable)?(BIT4):(0), BIT4))
-#define SUB_BORDER_ENABLE(Enable)   (msWriteByteMask(SC0_32, ((Enable)?(BIT4):(0)),BIT4))
+#define CSC_MAIN_ENABLE(Enable) (msWriteByteMask(SC7_40, (Enable)?(BIT0):(0), BIT0))   
+#define CSC_SUB_ENABLE(Enable) (msWriteByteMask(SC7_40, (Enable)?(BIT4):(0), BIT4))   
+#define SUB_BORDER_ENABLE(Enable)   (msWriteByteMask(SC0_32, ((Enable)?(BIT4):(0)),BIT4))                
 #define SET_MAIN_WIN_FULL_RANGE()   (msWriteByteMask(SC8_81, 0, (BIT5|BIT4|BIT3)))
 #define SET_SUB_WIN_FULL_RANGE()   (msWriteByteMask(SC8_80, 0, (BIT5|BIT4|BIT3)))
 #define DISABLE_SUB_COLOR3X3()      (msWriteByte(SC8_80, 0))
 
-//OSD
+//OSD 
 //Code/Attr RAM bit8/bit9
 #define OSD_TEXT_HI_ADDR_SET_BIT8()     g_u8OsdFontDataHighByte = BIT0//enable bit 8
 #define OSD_TEXT_HI_ADDR_SET_BIT9()     g_u8OsdFontDataHighByte = BIT1 //enable bit 9
@@ -253,7 +253,7 @@
 
 #define WRITE_CAFSRAM_ADDR()            msWriteByteMask(OSD1_68, 0, 0x1F)
 #define WRITE_CODE()                    (msWriteByteMask(OSD1_68, 1, 0x1F),\
-        msWriteByteMask(OSD1_67, g_u8OsdFontDataHighByte, BIT1|BIT0))
+                                        msWriteByteMask(OSD1_67, g_u8OsdFontDataHighByte, BIT1|BIT0))
 #define WRITE_ATTRIBUTE()               msWriteByteMask(OSD1_68, 2, 0x1F)
 #define WRITE_FONT()                    msWriteByteMask(OSD1_68, 3, 0x1F)
 #define CAFSRAM_ERASE_TRIG()            msWriteByteMask(OSD1_68, 4, 0x1F)

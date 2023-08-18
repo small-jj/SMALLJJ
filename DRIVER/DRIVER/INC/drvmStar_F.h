@@ -20,15 +20,15 @@ extern Bool xdata AUTOEQ_FLAG;
 #endif
 
 #ifndef I_GEN_CH //use a defined port
-#if PanelDualPort!=0
-#define I_GEN_CH  CH2
-#else
-#if PanelSwapPort!=0
-#define I_GEN_CH  CH6 // need check
-#else
-#define I_GEN_CH  CH2 // need check
-#endif
-#endif
+  #if PanelDualPort!=0
+    #define I_GEN_CH  CH2
+  #else
+    #if PanelSwapPort!=0
+      #define I_GEN_CH  CH6 // need check
+    #else
+      #define I_GEN_CH  CH2 // need check
+    #endif
+  #endif
 #endif
 
 #ifndef LVDS_XSWING_CH //LVDS double swing ch
@@ -74,30 +74,30 @@ _DRVMSTARDEC_ BOOL drvmStar_FRO12MCalibration(void);
 #endif
 #if ENABLE_HDMI
 _DRVMSTARDEC_ void drvmStar_SetupInputPort_HDMI(void);
-#endif
+ #endif
 #if ENABLE_CABLE_5V_EDID
 _DRVMSTARDEC_ void InsertEDIDData(BYTE ucAddress, BYTE ucData);
 _DRVMSTARDEC_ void drvmStar_LoadInternalEDID_VGA( void );
 _DRVMSTARDEC_ void drvmStar_LoadInternalEDID_HDMI(BYTE *pEdid);
 _DRVMSTARDEC_ void drvmStar_EnableHDMIFreeSyncEDID(Bool Enable);
-#endif
+ #endif
 
 typedef enum
 {
-	DVI_POWER_ON,
-	DVI_POWER_STANDBY,
-	DVI_POWER_DOWN
+    DVI_POWER_ON,
+    DVI_POWER_STANDBY,
+    DVI_POWER_DOWN
 } DVI_PowerCtrlType;
 
 typedef enum
 {
-	COMBO_INPUT_OFF,
-	COMBO_INPUT_POWERSAVING,
-	COMBO_INPUT_ANALOG,
-	COMBO_INPUT_DIGITAL,
-	COMBO_INPUT_DIGITAL_A,
-	COMBO_INPUT_DIGITAL_B,
-	COMBO_INPUT_DIGITAL_C,
+    COMBO_INPUT_OFF,
+    COMBO_INPUT_POWERSAVING,
+    COMBO_INPUT_ANALOG,
+    COMBO_INPUT_DIGITAL,
+    COMBO_INPUT_DIGITAL_A,
+    COMBO_INPUT_DIGITAL_B,
+    COMBO_INPUT_DIGITAL_C,
 } ComboInputType;
 
 _DRVMSTARDEC_ void ComboInputControl(ComboInputType ctrl);
@@ -120,32 +120,32 @@ _DRVMSTARDEC_ WORD GetImageOutV();
 
 typedef struct _RegTblType
 {
-	WORD wReg;
-	BYTE ucValue;
-	BYTE ucMask;
-} RegTblType;
+    WORD wReg;
+    BYTE ucValue;
+    BYTE ucMask;
+}RegTblType;
 
 typedef struct _RegTbl2Type
 {
-	WORD wReg;
-	WORD wValue;
-	WORD wMask;
-} RegTbl2Type;
+    WORD wReg;
+    WORD wValue;
+    WORD wMask;
+}RegTbl2Type;
 
 typedef enum _FSyncMode
 {
-	FLM_FBL,
+    FLM_FBL,
 	FLM_FBL_FRAMEPLL
-} FSyncMode;
+}FSyncMode;
 
 enum DVI_INPUT_PORT_TYPE
 {
-	DVI_INPUT_NONE = 0,
-	DVI_INPUT_PORT0,
-	DVI_INPUT_PORT1,
-	DVI_INPUT_PORT2,
-	DVI_INPUT_ALL,
-	DVI_INPUT_PORT_MASK,
+    DVI_INPUT_NONE = 0,
+    DVI_INPUT_PORT0,
+    DVI_INPUT_PORT1,
+    DVI_INPUT_PORT2,
+    DVI_INPUT_ALL,
+    DVI_INPUT_PORT_MASK,
 };
 
 _DRVMSTARDEC_ void msWritePowerOnTble(void);

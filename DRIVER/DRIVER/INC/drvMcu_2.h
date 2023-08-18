@@ -44,9 +44,9 @@
 #error "Wrong MCU_SPEED_INDEX define!!!"
 #endif
 #if CHIP_ID!=CHIP_TSUMB && CHIP_ID!=CHIP_TSUMY && CHIP_ID!=CHIP_TSUMU //&& CHIP_ID!=CHIP_TSUM2
-#if MCU_SPEED_INDEX==IDX_MCU_CLK_MPLL_DIV || MCU_SPEED_INDEX==IDX_MCU_CLK_144MHZ
-#error "Wrong MCU_SPEED_INDEX define!!!"
-#endif
+  #if MCU_SPEED_INDEX==IDX_MCU_CLK_MPLL_DIV || MCU_SPEED_INDEX==IDX_MCU_CLK_144MHZ
+  #error "Wrong MCU_SPEED_INDEX define!!!"
+  #endif
 #endif
 #if MCU_SPEED_INDEX==IDX_MCU_CLK_MPLL_DIV
 #define CPU_CLOCK_KHZ   (CLOCK_MPLL_MHZ/1000)
@@ -76,19 +76,19 @@
 #define    IDX_SPI_CLK_XTAL     6
 typedef enum
 {
-	SPI_MODE_NORMAL,
-	SPI_MODE_FR,
-	SPI_MODE_SADD,
-	SPI_MODE_DADD,
-	SPI_MODE_SAQD,
-	SPI_MODE_QAQD
+    SPI_MODE_NORMAL,
+    SPI_MODE_FR,
+    SPI_MODE_SADD,
+    SPI_MODE_DADD,
+    SPI_MODE_SAQD,
+    SPI_MODE_QAQD
 } SPI_ModeType;
 
 typedef enum
 {
-	SPEED_4MHZ_MODE,
-	SPEED_XTAL_MODE,
-	SPEED_NORMAL_MODE
+    SPEED_4MHZ_MODE,
+    SPEED_XTAL_MODE,
+    SPEED_NORMAL_MODE
 } SystemSpeedMode;
 
 extern void Init_WDT( BYTE bEnable );
@@ -126,8 +126,8 @@ extern void mcuSetSystemSpeed(BYTE u8Mode);
 
 typedef enum
 {
-	_SPI,
-	_DRAM,
+    _SPI,
+    _DRAM,
 } _CodeType;
 extern void mcuDMADownloadCode(DWORD dwSourceAddr, DWORD dwDestinAddr, DWORD dwByteCount);
 extern void mcuArrangeCodeAddr(BYTE ucType, DWORD dwAddrStart, DWORD dwAddrEnd);

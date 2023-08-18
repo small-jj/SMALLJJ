@@ -4,63 +4,57 @@
 #include "keypaddef.h"
 #include "menudef.h"
 
-
-
 #if PropFontNewData
 #include "menuTextProp_new.h"
 #else
 #include "menuTextProp.h"
 #endif
 
+
 #define Icon4Color_AddrShift   2
 #define Icon8Color_AddrShift   3
-//主界面图标
-#define M1(x)	( _2ColorMainIconStart + x )
-BYTE code strBrightnessIcon[1][3] =
+
+BYTE code strBrightnessIcon[3] =////还是二色好看
 {
-	{M1(0x00), M1(0x01), 0}
+	FONT_2COLOR_ICON_START + 0x02,
+	FONT_2COLOR_ICON_START + 0x03,
+	'\0'
+};
+BYTE code strImageIcon[3] =
+{
+	FONT_2COLOR_ICON_START + 0x04,
+	FONT_2COLOR_ICON_START + 0x05,
+	
+	'\0'
 };
 
-#define M2(x)	( _2ColorMainIconStart + x + 2 )
-
-BYTE code strImageIcon[1][3] =
+BYTE code strColorTempIcon[3] =
 {
-	{M2(0x00), M2(0x01), 0}
+	FONT_2COLOR_ICON_START + 0x06,
+	FONT_2COLOR_ICON_START + 0x07,
+	'\0'
+};
+	
+BYTE code strOSDIcon[3] =
+{
+	FONT_2COLOR_ICON_START + 0x11,
+	FONT_2COLOR_ICON_START + 0x12,
+	'\0'
 };
 
-#define M3(x)	( _2ColorMainIconStart + x + 4 )
-
-BYTE code strColorTempIcon[1][3] =
+BYTE code strResetIcon[3] =
 {
-	{M3(0x00), M3(0x01), 0}
+	FONT_2COLOR_ICON_START + 0x0C,
+	FONT_2COLOR_ICON_START + 0x0D,
+	'\0'
 };
 
-#define M4(x)	( _2ColorMainIconStart + x + 6 )
-
-BYTE code strOSDIcon[1][3] =
+BYTE code strMiscIcon[3] =
 {
-	{M4(0x00), M4(0x01), 0}
+	FONT_2COLOR_ICON_START + 0x13,
+	FONT_2COLOR_ICON_START + 0x14,
+	'\0'
 };
-
-#define M5(x)	( _2ColorMainIconStart + x + 8)
-
-BYTE code strResetIcon[1][3] =
-{
-	{M5(0x00), M5(0x01), 0}
-
-};
-
-#define M6(x)	( _2ColorMainIconStart + x + 10)
-
-BYTE code strMiscIcon[1][3] =
-{
-	{M6(0x00), M6(0x01),0}
-
-};
-
-
-
-
 
 BYTE* BrightnessIcon(void)
 {
@@ -86,595 +80,15 @@ BYTE* MiscIcon(void)
 {
 	return strMiscIcon;
 }
-#if 1
-/////////////////////主菜单///////////////////////////////////
-//my
-BYTE* MainMenu_ColorsText(void)
-{
-	return strColorM0[UserPrefLanguage];
-}
-BYTE* MainMenu_BriContrastText(void)
-{
-	return strBriContrastM0[UserPrefLanguage];
-}
-BYTE* MainMenu_PictureText(void)
-{
-	return strPictureM0[UserPrefLanguage];
-}
 
-BYTE* MainMenu_Game_Pro_FeaturesText(void)
-{
-	return strGame_Pro_FeaturesM0[UserPrefLanguage];
-}
 
-BYTE* MainMenu_Menu_settingsText(void)
-{
-	return strMenu_settingsM0[UserPrefLanguage];
-}
-BYTE* MainMenu_Other_settingsText(void)
-{
-	return strOther_settingsM0[UserPrefLanguage];
-}
-//BYTE* MainMenu_Shortcut_KeyText(void)
-//{
-//	return strShortcut_KeysM0[UserPrefLanguage];
-//}
-
-///////////////////颜色二级菜单////////////////
-
-BYTE *WarmColorTempText( void )
-{
-	return strWarmColorTempText[UserPrefLanguage];
-}
-BYTE *CoolColorTempText( void )
-{
-	return strCoolColorTempText[UserPrefLanguage];
-}
-BYTE *ChromatictysText( void )
-{
-	return strChromatictysText[UserPrefLanguage];
-}
-
-BYTE *ColorSaturationtext( void )
-{
-	return strColorSaturationtext[UserPrefLanguage];
-}
-//亮度/对比度二级菜单////////////////////////////////////////////
-
-BYTE *BrightnesssText( void )
-{
-	return strWBrightnessText[UserPrefLanguage];
-}
-BYTE *ContrastRatioText( void )
-{
-	return strContrastRatioText[UserPrefLanguage];
-}
-BYTE *Dynamic_Contrast_RatioText( void )
-{
-	return strDynamic_Contrast_RatioText[UserPrefLanguage];
-}
-
-BYTE *Dynamic_Brightnesstext( void )
-{
-	return strDynamic_Brightnesstext[UserPrefLanguage];
-}
-//画面二级菜单
-BYTE *Scenario_ModeText( void )
-{
-	
-	return strScenario_ModeText[UserPrefLanguage];
-}
-BYTE *Screen_ScaleText( void )
-{
-	return strScreen_ScaleText[UserPrefLanguage];
-}
-BYTE *GammaText( void )
-{
-	return strGammaText[UserPrefLanguage];
-}
-BYTE *Sharpnesstext( void )
-{
-	return strSharpnesstext[UserPrefLanguage];
-}
-BYTE *Low_Blue_LightText( void )
-{
-	return strLow_Blue_LightText[UserPrefLanguage];
-}
-BYTE *HDRtext( void )
-{
-	return strHDRtext[UserPrefLanguage];
-}
-BYTE *Dark_Balancetext( void )
-{
-	return strDark_Balancetext[UserPrefLanguage];
-}
-
-//游戏专业功能二级菜单
-
-BYTE *MPRTText( void )
-{
-	return strMPRTText[UserPrefLanguage];
-}
-BYTE *Adaptive_SyncText( void )
-{
-	return strSAdaptive_SyncText[UserPrefLanguage];
-}
-BYTE *Response_timeText( void )
-{
-	return strResponse_timeText[UserPrefLanguage];
-}
-BYTE *Refresh_ratetext( void )
-{
-	return strRefresh_ratetext[UserPrefLanguage];
-}
-BYTE *Game_alignmentText( void )
-{
-	return strGame_alignmentText[UserPrefLanguage];
-}
-BYTE *Game_Timingtext( void )
-{
-	return strGame_Timingtext[UserPrefLanguage];
-}
-BYTE *Ambient_lighttext( void )
-{
-	return strAmbient_lighttext[UserPrefLanguage];
-}
-//菜单设置二级菜单
-BYTE *LanguageeText( void )
-{
-	return strLanguageeText[UserPrefLanguage];
-}
-BYTE *Show_TimeText( void )
-{
-	return strShow_TimeText[UserPrefLanguage];
-}
-BYTE *Horizontal_PositionText( void )
-{
-	return strHorizontal_PositionText[UserPrefLanguage];
-}
-BYTE *Vertical_Vositiontext( void )
-{
-	return strVertical_Vositiontext[UserPrefLanguage];
-}
-BYTE *Transparencytext( void )
-{
-	return strTransparencytext[UserPrefLanguage];
-}
-BYTE *Menu_Rotationtext( void )
-{
-	return strMenu_Rotationtext[UserPrefLanguage];
-}
-BYTE *Menu_LockText( void )
-{
-	return strMenu_LockText[UserPrefLanguage];
-}
-BYTE *Shortcut_OneText( void )
-{
-	return strShortcut_OneText[UserPrefLanguage];
-}
-BYTE *Shortcut_TwoText( void )
-{
-	return strShortcut_TwoText[UserPrefLanguage];
-}
-BYTE *Shortcut_Threetext( void )
-{
-	return strShortcut_Threetext[UserPrefLanguage];
-}
-BYTE *Shortcut_FourText( void )
-{
-	return strShortcut_FourText[UserPrefLanguage];
-}
-
-//其他设置二级菜单
-BYTE *Signal_Input_Text( void )
-{
-	return strSignalInput[UserPrefLanguage];
-}
-BYTE *Mute_Text( void )
-{
-	return strMute[UserPrefLanguage];
-}
-BYTE *Volume_Text( void )
-{
-	return strVolume[UserPrefLanguage];
-}
-BYTE *Auto_Power_Off_Text( void )
-{
-	return strAutoPowerOff[UserPrefLanguage];
-}
-
-BYTE *Eye_Protection_Reminder_text( void )
-{
-	return strEyeProtectionReminder[UserPrefLanguage];
-}
-BYTE *Reset_text( void )
-{
-	return strReset_test[UserPrefLanguage];
-}
-
-BYTE *Information_text( void )
-{
-	return strInformation_test[UserPrefLanguage];
-}
-BYTE *Audio_Input_text( void )
-{
-	return strAudioIput[UserPrefLanguage];
-}
-//三级菜单
-//颜色
-BYTE *Menu_1_1_1ValueText(void)
-{
-//	if(WarmColorTemp == Color_ON)
-	{
-		return strWarmColorTempValue1[UserPrefLanguage];
-	}
-}
-BYTE *Menu_1_1_2ValueText(void)
-{
-//	if(WarmColorTemp == Color_OFF)
-	{
-		return strWarmColorTempValue2[UserPrefLanguage];
-	}
-}
-BYTE *Menu_1_2_1ValueText(void)
-{
-//	if(WarmColorTemp == Color_ON)
-	{
-		return strCoolColorTempValue1[UserPrefLanguage];
-	}
-}
-BYTE *Menu_1_2_2ValueText(void)
-{
-//	if(WarmColorTemp == Color_OFF)
-	{
-		return strCoolColorTempValue2[UserPrefLanguage];
-	}
-}
-BYTE *Menu_1_3_1ValueText(void)
-{
-	return strMenu_1_3_1Value[UserPrefLanguage];
-
-}
-BYTE *Menu_1_3_2ValueText(void)
-{
-	return strMenu_1_3_2Value[UserPrefLanguage];
-
-}
-BYTE *Menu_1_3_3ValueText(void)
-{
-	return strMenu_1_3_3Value[UserPrefLanguage];
-
-}
-
-
-//三级菜单亮度对比度
-BYTE *Menu_2_3_1ValueText(void)
-{
-	return strMenu_2_3_1Value[UserPrefLanguage];
-
-}
-BYTE *Menu_2_3_2ValueText(void)
-{
-	return strMenu_2_3_2Value[UserPrefLanguage];
-
-}
-BYTE *Menu_2_3_3ValueText(void)
-{
-	return strMenu_2_3_3Value[UserPrefLanguage];
-
-}
-
-BYTE *Menu_2_4_1ValueText(void)
-{
-	return strMenu_2_4_1Value[UserPrefLanguage];
-
-}
-BYTE *Menu_2_4_2ValueText(void)
-{
-	return strMenu_2_4_2Value[UserPrefLanguage];
-
-}
-BYTE *Menu_2_4_3ValueText(void)
-{
-	return strMenu_2_4_3Value[UserPrefLanguage];
-
-}
-BYTE *Menu_2_4_4ValueText(void)
-{
-	return strMenu_2_4_4Value[UserPrefLanguage];
-
-}
-//画面
-BYTE *Menu_3_1_1ValueText(void)
-{
-	return strMenu_3_1_1Value[UserPrefLanguage];
-
-}
-BYTE *Menu_3_1_2ValueText(void)
-{
-	return strMenu_3_1_2Value[UserPrefLanguage];
-
-}
-BYTE *Menu_3_1_3ValueText(void)
-{
-	return strMenu_3_1_3Value[UserPrefLanguage];
-
-}
-BYTE *Menu_3_1_4ValueText(void)
-{
-	return strMenu_3_1_4Value[UserPrefLanguage];
-
-}
-
-BYTE *Menu_3_2_1ValueText(void)
-{
-	return strMenu_3_2_1Value[UserPrefLanguage];
-
-}
-BYTE *Menu_3_2_2ValueText(void)
-{
-	return strMenu_3_2_2Value[UserPrefLanguage];
-
-}
-BYTE *Menu_3_2_3ValueText(void)
-{
-	return strMenu_3_2_3Value[UserPrefLanguage];
-
-}
-BYTE *Menu_3_2_4ValueText(void)
-{
-	return strMenu_3_2_4Value[UserPrefLanguage];
-
-}
-//gama
-BYTE *Menu_3_3_1ValueText(void)
-{
-	return strMenu_3_3_1Value[UserPrefLanguage];
-
-}
-BYTE *Menu_3_3_2ValueText(void)
-{
-	return strMenu_3_3_2Value[UserPrefLanguage];
-
-}
-BYTE *Menu_3_3_3ValueText(void)
-{
-	return strMenu_3_3_3Value[UserPrefLanguage];
-
-}
-BYTE *Menu_3_3_4ValueText(void)
-{
-	return strMenu_3_3_4Value[UserPrefLanguage];
-
-}
-BYTE *Menu_3_3_5ValueText(void)
-{
-	return strMenu_3_3_5Value[UserPrefLanguage];
-
-}
-BYTE *Menu_3_3_6ValueText(void)
-{
-	return strMenu_3_3_6Value[UserPrefLanguage];
-
-}
-
-BYTE *Menu_3_6_1ValueText(void)
-{
-	return strMenu_3_6_1Value[UserPrefLanguage];
-
-}
-BYTE *Menu_3_6_2ValueText(void)
-{
-	return strMenu_3_6_2Value[UserPrefLanguage];
-
-}
-//MPRT
-BYTE *Menu_4_1_1ValueText(void)
-{
-	return strMenu_4_1_1Value[UserPrefLanguage];
-
-}
-BYTE *Menu_4_1_2ValueText(void)
-{
-	return strMenu_4_1_2Value[UserPrefLanguage];
-
-}
-//响应时间
-BYTE *Menu_4_2_1ValueText(void)
-{
-	return strMenu_4_2_1Value[UserPrefLanguage];
-
-}
-BYTE *Menu_4_2_2ValueText(void)
-{
-	return strMenu_4_2_2Value[UserPrefLanguage];
-
-}
-BYTE *Menu_4_2_3ValueText(void)
-{
-	return strMenu_4_2_3Value[UserPrefLanguage];
-
-}
-BYTE *Menu_4_2_4ValueText(void)
-{
-	return strMenu_4_2_4Value[UserPrefLanguage];
-
-}
-//刷新率
-BYTE *Menu_4_3_3ValueText(void)
-{
-	return strMenu_4_3_3Value[UserPrefLanguage];
-
-}
-//游戏准星
-BYTE *Menu_4_5_1ValueText(void)
-{
-	return strMenu_4_5_1Value[UserPrefLanguage];
-
-}
-BYTE *Menu_4_5_2ValueText(void)
-{
-	return strMenu_4_5_2Value[UserPrefLanguage];
-
-}
-BYTE *Menu_4_5_3ValueText(void)
-{
-	return strMenu_4_5_3Value[UserPrefLanguage];
-
-}
-BYTE *Menu_4_5_4ValueText(void)
-{
-	return strMenu_4_5_4Value[UserPrefLanguage];
-
-}
-BYTE *Menu_4_5_5ValueText(void)
-{
-	return strMenu_4_5_5Value[UserPrefLanguage];
-
-}
-BYTE *Menu_4_5_6ValueText(void)
-{
-	return strMenu_4_5_6Value[UserPrefLanguage];
-
-}
-BYTE *Menu_4_5_7ValueText(void)
-{
-	return strMenu_4_5_7Value[UserPrefLanguage];
-
-}
-//游戏计时
-BYTE *Menu_4_6_1ValueText(void)
-{
-	return strMenu_4_6_1Value[UserPrefLanguage];
-
-}
-BYTE *Menu_4_6_2ValueText(void)
-{
-	return strMenu_4_6_2Value[UserPrefLanguage];
-
-}
-BYTE *Menu_4_6_3ValueText(void)
-{
-	return strMenu_4_6_3Value[UserPrefLanguage];
-
-}
-BYTE *Menu_4_6_4ValueText(void)
-{
-	return strMenu_4_6_4Value[UserPrefLanguage];
-
-}
-BYTE *Menu_4_6_5ValueText(void)
-{
-	return strMenu_4_6_5Value[UserPrefLanguage];
-
-}
-BYTE *Menu_4_6_6ValueText(void)
-{
-	return strMenu_4_6_6Value[UserPrefLanguage];
-
-}
-//氛围灯
-BYTE *Menu_4_7_1ValueText(void)
-{
-	return strMenu_4_7_1Value[UserPrefLanguage];
-
-}
-BYTE *Menu_4_7_2ValueText(void)
-{
-	return strMenu_4_7_2Value[UserPrefLanguage];
-
-}
-
-BYTE *Menu_4_7_3ValueText(void)
-{
-	return strMenu_4_7_3Value[UserPrefLanguage];
-
-}
-//信号输入
-BYTE *Menu_6_1_1ValueText(void)
-{
-	return strMenu_6_1_1Value[UserPrefLanguage];
-
-}
-BYTE *Menu_6_1_2ValueText(void)
-{
-	return strMenu_6_1_2Value[UserPrefLanguage];
-
-}
-BYTE *Menu_6_1_3ValueText(void)
-{
-	return strMenu_6_1_3Value[UserPrefLanguage];
-
-}
-BYTE *Menu_6_1_4ValueText(void)
-{
-	return strMenu_6_1_4Value[UserPrefLanguage];
-
-}
-BYTE *Menu_6_1_5ValueText(void)
-{
-	return strMenu_6_1_5Value[UserPrefLanguage];
-
-}
-BYTE *Menu_6_1_6ValueText(void)
-{
-	return strMenu_6_1_6Value[UserPrefLanguage];
-
-}
-BYTE *Menu_6_3_1ValueText(void)
-{
-	return strMenu_6_3_1Value[UserPrefLanguage];
-
-}
-BYTE *Menu_6_3_2ValueText(void)
-{
-	return strMenu_6_3_2Value[UserPrefLanguage];
-
-}
-
-BYTE *Menu_6_5_3ValueText(void)
-{
-	return strMenu_6_5_3Value[UserPrefLanguage];
-
-}
-
-BYTE *Menu_6_7_1ValueText(void)
-{
-	return strMenu_6_7_1Value[UserPrefLanguage];
-
-}
-BYTE *Menu_6_7_2ValueText(void)
-{
-	return strMenu_6_7_2Value[UserPrefLanguage];
-
-}
-//信息
-BYTE *Menu_6_8_1ValueText(void)
-{
-	return strMenu_6_8_1Value[UserPrefLanguage];
-
-}
-BYTE *Menu_6_8_2ValueText(void)
-{
-	return strMenu_6_8_2Value[UserPrefLanguage];
-
-}
-BYTE *Menu_6_8_3ValueText(void)
-{
-	return strMenu_6_8_3Value[UserPrefLanguage];
-
-}
-BYTE *Menu_6_8_4ValueText(void)
-{
-	return strMenu_6_8_4Value[UserPrefLanguage];
-
-}
-
-#endif
-
-//////////////////////////////////////////////////////
 //----Eson Start----------------------------------
 //========= TEXT =========
+BYTE* MainMenu_ColorText(void)
+{
+	return strColorSetupM7[UserPrefLanguage];
+}
+
 BYTE* MainMenu_BrightText(void)
 {
 	return strLuminanceM7[UserPrefLanguage];
@@ -682,10 +96,6 @@ BYTE* MainMenu_BrightText(void)
 BYTE* MainMenu_ImageText(void)
 {
 	return strImageSetupM7[UserPrefLanguage];
-}
-BYTE* MainMenu_ColorText(void)
-{
-	return strColorSetupM7[UserPrefLanguage];
 }
 
 BYTE* MainMenu_OSDText(void)
@@ -701,6 +111,24 @@ BYTE* MainMenu_MiscText(void)
 {
 	return strExtraM7[UserPrefLanguage];
 }
+
+BYTE* QuickMenu_1Text(void)
+{
+	return strQuick1M7[UserPrefLanguage];
+}
+BYTE* QuickMenu_2Text(void)
+{
+	return strQuick2M7[UserPrefLanguage];
+}
+BYTE* QuickMenu_3Text(void)
+{
+	return strQuick3M7[UserPrefLanguage];
+}
+BYTE* QuickMenu_4Text(void)
+{
+	return strQuick4M7[UserPrefLanguage];
+}
+
 BYTE *Main_FText(void)
 {
 	return strFactory;
@@ -720,6 +148,14 @@ BYTE *ECOModeText( void )
 	return strEcoModeM1[UserPrefLanguage];
 }
 
+BYTE *Menu_2_3_1( void )
+{
+	return strOnM_2[UserPrefLanguage];
+}
+BYTE *Menu_2_3_2( void )
+{
+	return strOffM_2[UserPrefLanguage];
+}
 
 BYTE *ECOModeValue( void )
 {
@@ -735,10 +171,6 @@ BYTE *ECOModeValue( void )
 	{
 		return strGameM1[UserPrefLanguage];
 	}
-//	else if( UserPrefECOMode == Color_ON )
-//	{
-//		return strWarmColorTempValue1[UserPrefLanguage];
-//	}
 	#if ENABLE_FPS_RTS
 	else if( UserPrefECOMode == ECO_FPS )
 	{
@@ -795,7 +227,25 @@ BYTE *DCRText( void )
 	#endif
 		return strDCRM1[UserPrefLanguage];
 }
-#if 0
+BYTE *Menu_2_4_1( void )
+{
+return strOffM_2[UserPrefLanguage];
+}
+BYTE *Menu_2_4_2( void )
+{
+return str2_4_2[UserPrefLanguage];
+}
+BYTE *Menu_2_4_3( void )
+{
+return str2_4_3[UserPrefLanguage];
+}
+BYTE *Menu_2_4_4( void )
+{
+return str2_4_4[UserPrefLanguage];
+}
+
+
+
 BYTE *DcrValueText( void )
 {
 	#if PresetMode_Enable && Enable_Gamma
@@ -826,20 +276,6 @@ BYTE *DcrValueText( void )
 			return strOffM1[UserPrefLanguage];
 		}
 	}
-}
-#endif 
-BYTE *DcrValueText( void )
-{
-
-		if( UserPrefDcrMode )
-		{
-			return strOnM1[UserPrefLanguage];
-		}
-		else
-		{
-			return strOffM1[UserPrefLanguage];
-		}
-	return strOffM1[UserPrefLanguage];
 }
 
 #if (ENABLE_RTE )
@@ -906,6 +342,103 @@ BYTE *HPositionText( void )
 {
 	return strHPositionM2[UserPrefLanguage];
 }
+BYTE *Menu_3_1_1( void )
+{
+	return str3_1_1[UserPrefLanguage];
+}
+BYTE *Menu_3_1_2( void )
+{
+	return str3_1_2[UserPrefLanguage];
+}
+BYTE *Menu_3_1_3( void )
+{
+	return str3_1_3[UserPrefLanguage];
+}
+BYTE *Menu_3_1_4( void )
+{
+	return str3_1_4[UserPrefLanguage];
+}
+
+BYTE *Menu_3_7( void )
+{
+	return str3_7[UserPrefLanguage];
+}
+
+BYTE *Menu_3_6( void )
+{
+	return str3_6[UserPrefLanguage];
+}
+
+BYTE *Menu_3_2_1( void )
+{
+	return str3_2_1[UserPrefLanguage];
+}
+BYTE *Menu_3_2_2( void )
+{
+	return str3_2_2[UserPrefLanguage];
+}
+BYTE *Menu_3_2_3( void )
+{
+	return str3_2_3[UserPrefLanguage];
+}
+BYTE *Menu_3_2_4( void )
+{
+	return str3_2_4[UserPrefLanguage];
+}
+
+BYTE *Menu_3_3_1( void )
+{
+	return str3_3_1[UserPrefLanguage];
+}
+BYTE *Menu_3_3_2( void )
+{
+	return str3_3_2[UserPrefLanguage];
+}
+BYTE *Menu_3_3_3( void )
+{
+	return str3_3_3[UserPrefLanguage];
+}
+BYTE *Menu_3_3_4( void )
+{
+	return str3_3_4[UserPrefLanguage];
+}
+BYTE *Menu_3_3_5( void )
+{
+	return str3_3_5[UserPrefLanguage];
+}
+BYTE *Menu_3_3_6( void )
+{
+	return str3_3_6[UserPrefLanguage];
+}
+BYTE *Menu_3_7_1( void )//开关
+{
+	return str3_7_1[UserPrefLanguage];
+}
+BYTE *Menu_3_7_2( void )//开关
+{
+	return str3_7_2[UserPrefLanguage];
+}
+BYTE *Quick_menu_1_1( void )//开关
+{
+	return strQuick_1_1[UserPrefLanguage];
+}
+BYTE *Quick_menu_1_2( void )//开关
+{
+	return strQuick_1_2[UserPrefLanguage];
+}
+BYTE *Quick_menu_1_3( void )//开关
+{
+	return strQuick_1_3[UserPrefLanguage];
+}
+
+BYTE *Quick_menu_1_4( void )//开关
+{
+	return strQuick_1_4[UserPrefLanguage];
+}
+
+
+
+
 BYTE *VPositionText( void )
 {
 	return strVPositionM2[UserPrefLanguage];
@@ -972,6 +505,15 @@ BYTE *ColorTempText( void )
 {
 	return strColorTempM3[UserPrefLanguage];
 }
+BYTE *Menu_1_1_1( void )
+{
+	return strOnM_1[UserPrefLanguage];
+}
+BYTE *Menu_1_1_2( void )
+{
+	return strOffM_1[UserPrefLanguage];
+}
+
 BYTE *ColorTempValueText( void )
 {
 	#if PresetMode_Enable
@@ -1041,6 +583,16 @@ BYTE *UserColorRText( void )
 {
 	return strRedM3[UserPrefLanguage];
 }
+BYTE *Menu_1_2_1( void )
+{
+	return strOnM_1[UserPrefLanguage];
+}
+BYTE *Menu_1_2_2( void )
+{
+	return strOffM_1[UserPrefLanguage];
+}
+
+
 BYTE *UserColorGText( void )
 {
 	return strGreenM3[UserPrefLanguage];
@@ -1049,7 +601,6 @@ BYTE *UserColorBText( void )
 {
 	return strBlueM3[UserPrefLanguage];
 }
-
 #if ( LowBlueLightType==LowBlueLight_ColorTemp)
 BYTE *LowBlueLightText( void )
 {
@@ -1141,28 +692,161 @@ BYTE *LowBlueLightStatusText( void )
 #endif
 
 //-----------------------------------------------------------
-#if 1//OsdAdjustHVPos_Enable
+
+
+
+BYTE *Menu_4_1_1( void )
+{
+	return str4_1_1[UserPrefLanguage];
+}
+BYTE *Menu_4_1_2( void )
+{
+	return str4_1_2[UserPrefLanguage];
+}
+BYTE *Menu_4_1_3( void )
+{
+	return str4_1_3[UserPrefLanguage];
+}
+BYTE *Menu_4_1_4( void )
+{
+	return str4_1_4[UserPrefLanguage];
+}
+
+#if OsdAdjustHVPos_Enable
 BYTE *OsdHPositionText( void )
 {
 	return strHPositionM4[UserPrefLanguage];
 }
+BYTE *Menu_4_2_1( void )
+{
+	return str4_2_1[UserPrefLanguage];
+}
+BYTE *Menu_4_2_2( void )
+{
+	return str4_2_2[UserPrefLanguage];
+}
+BYTE *Menu_4_2_3( void )
+{
+	return str4_2_3[UserPrefLanguage];
+}
+
 BYTE *OsdVPositionText( void )
 {
 	return strVPositionM4[UserPrefLanguage];
 }
+
+BYTE *Menu_4_3_1( void )
+{
+	return str4_3_1[UserPrefLanguage];
+}
+BYTE *Menu_4_3_2( void )
+{
+	return str4_3_2[UserPrefLanguage];
+}
+BYTE *Menu_4_3_3( void )
+{
+	return str4_3_3[UserPrefLanguage];
+}
+BYTE *Menu_4_3_4( void )
+{
+	return str4_3_4[UserPrefLanguage];
+}
+BYTE *Menu_4_3_5( void )
+{
+	return str4_3_5[UserPrefLanguage];
+}
+BYTE *Menu_4_3_6( void )
+{
+	return str4_3_6[UserPrefLanguage];
+}
+BYTE *Menu_4_3_7( void )
+{
+	return str4_3_7[UserPrefLanguage];
+}
+
+
 #endif
 BYTE *OsdTimeOutText( void )
 {
 	return strTimeoutM4[UserPrefLanguage];
 }
+BYTE *Menu_4_4_1( void )
+{
+	return str4_4_1[UserPrefLanguage];
+}
+BYTE *Menu_4_4_2( void )
+{
+	return str4_4_2[UserPrefLanguage];
+}
+BYTE *Menu_4_4_3( void )
+{
+	return str4_4_3[UserPrefLanguage];
+}
+BYTE *Menu_4_4_4( void )
+{
+	return str4_4_4[UserPrefLanguage];
+}
+BYTE *Menu_4_4_5( void )
+{
+	return str4_4_5[UserPrefLanguage];
+}
+BYTE *Menu_4_4_6 (void )
+{
+	return str4_4_6[UserPrefLanguage];
+}
+
+
 BYTE *TransparenceText( void )
 {
 	return strTransparenceM4[UserPrefLanguage];
 }
+
+BYTE *Menu_4_5_1 (void )
+{
+	return str4_5_1[UserPrefLanguage];
+}
+BYTE *Menu_4_5_2 (void )
+{
+	return str4_5_2[UserPrefLanguage];
+}
+
 BYTE *LanguageText( void )
 {
 	return strLanguageM4[UserPrefLanguage];
 }
+
+BYTE *Menu_4_6 (void )
+{
+	return str4_6[UserPrefLanguage];
+}
+BYTE *Menu_4_6_1 (void )
+{
+	return str4_6_1[UserPrefLanguage];
+}
+BYTE *Menu_4_6_2 (void )
+{
+	return str4_6_2[UserPrefLanguage];
+}
+
+
+BYTE *Menu_4_7 (void )
+{
+	return str4_7[UserPrefLanguage];
+}
+BYTE *Menu_4_7_1 (void )
+{
+	return str4_7_1[UserPrefLanguage];
+}
+
+BYTE *Menu_4_7_2 (void )
+{
+	return str4_7_2[UserPrefLanguage];
+}
+
+
+
+
+
 
 #if AdjustLanguageFunction
 BYTE *LanguageStatusText( void )
@@ -1254,6 +938,138 @@ BYTE *AutoConfigText( void )
 {
 	return strAutoConfigM5[UserPrefLanguage];
 }
+BYTE *Menu_5_1( void )
+{
+	return str5_1[UserPrefLanguage];
+}
+BYTE *Menu_5_2( void )
+{
+	return str5_2[UserPrefLanguage];
+}
+BYTE *Menu_5_3( void )
+{
+	return str5_3[UserPrefLanguage];
+}
+BYTE *Menu_5_4( void )
+{
+	return str5_4[UserPrefLanguage];
+}
+BYTE *Menu_5_5( void )
+{
+	return str5_5[UserPrefLanguage];
+}
+BYTE *Menu_5_6( void )
+{
+	return str5_6[UserPrefLanguage];
+}
+BYTE *Menu_5_7( void )
+{
+	return str5_7[UserPrefLanguage];
+}
+BYTE *Menu_5_1_1( void )
+{
+	return str5_1_1[UserPrefLanguage];
+}
+BYTE *Menu_5_1_2( void )
+{
+	return str5_1_2[UserPrefLanguage];
+}
+BYTE *Menu_5_2_1( void )
+{
+	return str5_2_1[UserPrefLanguage];
+}
+BYTE *Menu_5_2_2( void )
+{
+	return str5_2_2[UserPrefLanguage];
+}
+BYTE *Menu_5_2_3( void )
+{
+	return str5_2_3[UserPrefLanguage];
+}
+BYTE *Menu_5_2_4( void )
+{
+	return str5_2_4[UserPrefLanguage];
+}
+BYTE *Menu_5_3_1( void )///菜单所,开
+{
+	return strOn_5[UserPrefLanguage];
+}
+BYTE *Menu_5_3_2( void )///菜单所关
+{
+	return strOff_5[UserPrefLanguage];
+}
+
+
+
+BYTE *Menu_6_5( void )
+{
+	return str6_5[UserPrefLanguage];
+}
+BYTE *Menu_6_6( void )
+{
+	return str6_6[UserPrefLanguage];
+}
+BYTE *Menu_6_7( void )
+{
+	return str6_7[UserPrefLanguage];
+}
+BYTE *Menu_6_8( void )
+{
+	return str6_8[UserPrefLanguage];
+}
+
+
+
+
+BYTE *Menu_6_1_1( void )
+{
+	return str6_1_1[UserPrefLanguage];
+}
+BYTE *Menu_6_1_2( void )
+{
+	return str6_1_2[UserPrefLanguage];
+}
+BYTE *Menu_6_1_3( void )
+{
+	return str6_1_3[UserPrefLanguage];
+}
+BYTE *Menu_6_1_4( void )
+{
+	return str6_1_4[UserPrefLanguage];
+}
+BYTE *Menu_6_1_5( void )
+{
+	return str6_1_5[UserPrefLanguage];
+}
+BYTE *Menu_6_1_6( void )
+{
+	return str6_1_6[UserPrefLanguage];
+}
+
+
+
+BYTE *Menu_6_2_1( void )
+{
+	return str6_2_1[UserPrefLanguage];
+}
+BYTE *Menu_6_2_2( void )
+{
+	return str6_2_2[UserPrefLanguage];
+}
+BYTE *Menu_6_2_3( void )
+{
+	return str6_2_3[UserPrefLanguage];
+}
+BYTE *Menu_6_2_4( void )
+{
+	return str6_2_4[UserPrefLanguage];
+}
+BYTE *Menu_6_2_5( void )
+{
+	return str6_2_5[UserPrefLanguage];
+}
+
+
 #endif
 #ifdef OffPower
 
@@ -1420,6 +1236,55 @@ BYTE *VolumeText(void)
 	return strVolumeM6[UserPrefLanguage];
 }
 #endif
+BYTE *Menu_6_3_1(void)
+{
+	return strOnM_6[UserPrefLanguage];
+}
+BYTE *Menu_6_3_2(void)
+{
+	return strOffM_6[UserPrefLanguage];
+}
+BYTE *Menu_6_5_1(void)
+{
+	return str6_5_1[UserPrefLanguage];
+}
+BYTE *Menu_6_5_2(void)
+{
+	return str6_5_2[UserPrefLanguage];
+}
+
+BYTE *Menu_6_6_1(void)
+{
+	return str6_6_1[UserPrefLanguage];
+}
+
+BYTE *Menu_6_7_1(void)
+{
+	return str6_7_1[UserPrefLanguage];
+}
+BYTE *Menu_6_7_2(void)
+{
+	return str6_7_2[UserPrefLanguage];
+}
+BYTE *Menu_6_8_1(void)
+{
+	return str6_8_1[UserPrefLanguage];
+}
+BYTE *Menu_6_8_2(void)
+{
+	return str6_8_2[UserPrefLanguage];
+}
+BYTE *Menu_6_8_3(void)
+{
+	return str6_8_3[UserPrefLanguage];
+}
+BYTE *Menu_6_8_4(void)
+{
+	return str6_8_4[UserPrefLanguage];
+}
+
+
+
 #if Enable_Adjust_SharpnessMenu
 BYTE *SharpnessText( void )
 {

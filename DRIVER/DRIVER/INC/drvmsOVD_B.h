@@ -11,8 +11,8 @@
 
 typedef enum
 {
-	_OD_Disable,
-	_OD_Enable
+    _OD_Disable,
+    _OD_Enable
 
 } ODStatusType;
 

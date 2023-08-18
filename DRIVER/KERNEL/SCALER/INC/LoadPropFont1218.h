@@ -38,9 +38,8 @@
 //#define PORT_FONT_DATA  OSD1_6C
 
 typedef struct
-{
-	BYTE u8SpaceWidth;
-	WORD tLineData[18];
+{ BYTE u8SpaceWidth;
+  WORD tLineData[18];
 } PropFontNonCompressType;
 
 #ifndef _LOADPROPFONT1218_C
@@ -50,7 +49,7 @@ extern BYTE g_u8AlignResetIndex;
 extern BYTE xdata g_u8ByPassLength;
 #endif
 
-INTERFACE BYTE LoadPropFonts1218(BYTE u8Addr, BYTE *pu8Strings, WORD u16FontCount, BYTE *pu8Strings1, WORD u16FontCount1, BYTE u8UDShift, BYTE u8UDShift1);
+INTERFACE BYTE LoadPropFonts1218(BYTE u8Addr, BYTE *pu8Strings, WORD u16FontCount, BYTE *pu8Strings1, WORD u16FontCount1, BYTE u8UDShift ,BYTE u8UDShift1);
 INTERFACE void OSDLoadOneFont(WORD* pu16SN);
 INTERFACE void ClearFontBuf(WORD* pu16SN);
 INTERFACE BYTE LoadShiftBmpFont(BYTE u8Addr, BYTE *u8FontTbl, WORD u16Size, BYTE u8UDShift);

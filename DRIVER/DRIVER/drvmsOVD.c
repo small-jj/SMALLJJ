@@ -19,7 +19,7 @@
 BYTE code msOVDDummy[] = {0};
 void msOverDriveDummy()
 {
-	BYTE x = msOVDDummy;
+    BYTE x = msOVDDummy;
 }
 #endif
 

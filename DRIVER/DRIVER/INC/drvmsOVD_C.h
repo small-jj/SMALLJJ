@@ -2,9 +2,9 @@
 #define _MSOVD_7_H_
 
 #ifdef _MSOVD_7_C_
-#define _MSOVDDEC_7_
+  #define _MSOVDDEC_7_
 #else
-#define _MSOVDDEC_7_ extern
+  #define _MSOVDDEC_7_ extern
 #endif
 
 //*************************************************************************************************

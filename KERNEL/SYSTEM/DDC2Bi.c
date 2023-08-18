@@ -531,7 +531,7 @@ Bool JRYColorToolControl (void)
 		return 2;
 	}
 	#if WriteSN_Functiom_New
-	else if((DDCBuffer[3] == 0x39) && (DDCBuffer[4] == 0x30)) //3DDC³¤¶È
+	else if((DDCBuffer[3] == 0x39) && (DDCBuffer[4] == 0x30)) //3DDCï¿½ï¿½ï¿½ï¿½
 	{
 		edid_cont = ((DDCBuffer[5]) * 128);
 		edid_pointer = 0;
@@ -550,7 +550,7 @@ Bool JRYColorToolControl (void)
 			return 2;
 		}
 	}
-	else if((DDCBuffer[3] == 0x39) && (DDCBuffer[4] == 0x31)) //3DDC½ÓÊÕ
+	else if((DDCBuffer[3] == 0x39) && (DDCBuffer[4] == 0x31)) //3DDCï¿½ï¿½ï¿½ï¿½
 	{
 		BYTE  j, i = 0;
 		j = DDCBuffer[5];
@@ -574,7 +574,7 @@ Bool JRYColorToolControl (void)
 			return 2;
 		}
 	}
-	else if((DDCBuffer[3] == 0x39) && (DDCBuffer[4] == 0x32)) //3ddC Ð£Ñé
+	else if((DDCBuffer[3] == 0x39) && (DDCBuffer[4] == 0x32)) //3ddC Ð£ï¿½ï¿½
 	{
 		BYTE  checksun = 0;
 		WORD  i;
@@ -597,7 +597,7 @@ Bool JRYColorToolControl (void)
 		DDCBuffer[2] = 0x58;
 		return 2;
 	}
-	else if((DDCBuffer[3] == 0x39) && (DDCBuffer[4] == 0x33)) //3ddc±£´æ
+	else if((DDCBuffer[3] == 0x39) && (DDCBuffer[4] == 0x33)) //3ddcï¿½ï¿½ï¿½ï¿½
 	{
 		BYTE  checksun;
 		BYTE  EDID_TYPE = 0;
@@ -630,7 +630,7 @@ Bool JRYColorToolControl (void)
 		#elif ENABLE_HDMI
 		Flash_Write_Factory_KeySet(FLASH_KEY_DDCH, FALSE,  DDCHKEY_SIZE, DDC1, DDCHKEY_SIZE);
 		#endif
-		checksun = DDC1[0x7F]; //2  Ö»ÐèÐ£Ñé128 ×Ö½Ú
+		checksun = DDC1[0x7F]; //2  Ö»ï¿½ï¿½Ð£ï¿½ï¿½128 ï¿½Ö½ï¿½
 		for(i = 0; i < edid_cont; i++) DDC1[i] = 0;
 		#if ENABLE_VGA
 		Flash_Read_Factory_KeySet(FLASH_KEY_DDCA, TRUE, 0, DDCAKEY_SIZE, DDC1, DDCAKEY_SIZE);
@@ -645,7 +645,7 @@ Bool JRYColorToolControl (void)
 			Set_DDCCIReadLoadEDIDFlag();
 			//SaveMonitorSetting();
 			WhileCounte = 1;
-			Power_TurnOffLed();		//3ÃðµÆÖ¸Ê¾
+			Power_TurnOffLed();		//3ï¿½ï¿½ï¿½Ö¸Ê¾
 			DDCBuffer[0] = 0x84;
 			DDCBuffer[1] = 0x00;
 			DDCBuffer[2] = 0x4F;
@@ -660,7 +660,7 @@ Bool JRYColorToolControl (void)
 		}
 	}
 	#elif  JRY_FDDCCI_WriteEDID
-	else if((DDCBuffer[3] == 0x39) && (DDCBuffer[4] == 0x30)) //DDC³¤¶È
+	else if((DDCBuffer[3] == 0x39) && (DDCBuffer[4] == 0x30)) //DDCï¿½ï¿½ï¿½ï¿½
 	{
 		#if LoadAllPortSeriealnumberByOneVGAPort
 		Clr_DDCCOneVGAPortLoadEDIDFlag();
@@ -682,7 +682,7 @@ Bool JRYColorToolControl (void)
 			return 2;
 		}
 	}
-	else if((DDCBuffer[3] == 0x39) && (DDCBuffer[4] == 0x31)) //DDC½ÓÊÕ
+	else if((DDCBuffer[3] == 0x39) && (DDCBuffer[4] == 0x31)) //DDCï¿½ï¿½ï¿½ï¿½
 	{
 		BYTE  j, i = 0;
 		j = DDCBuffer[5];
@@ -706,7 +706,7 @@ Bool JRYColorToolControl (void)
 			return 2;
 		}
 	}
-	else if((DDCBuffer[3] == 0x39) && (DDCBuffer[4] == 0x32)) //2    ddC Ð£Ñé
+	else if((DDCBuffer[3] == 0x39) && (DDCBuffer[4] == 0x32)) //2    ddC Ð£ï¿½ï¿½
 	{
 		BYTE  checksun = 0;
 		WORD  i;
@@ -729,7 +729,7 @@ Bool JRYColorToolControl (void)
 		DDCBuffer[2] = 0x58;
 		return 2;
 	}
-	else if((DDCBuffer[3] == 0x39) && (DDCBuffer[4] == 0x33)) //ddc±£´æ
+	else if((DDCBuffer[3] == 0x39) && (DDCBuffer[4] == 0x33)) //ddcï¿½ï¿½ï¿½ï¿½
 	{
 		BYTE  checksun;
 		BYTE  EDID_TYPE = 0;
@@ -849,28 +849,28 @@ Bool JRYColorToolControl (void)
 	#if (ENABLE_HDCP&&JRY_FDDCCI_WriteHDCP)
 #message "please check , dont  have this function"
 	#elif 0
-	else if((DDCBuffer[3] == 0x39) && (DDCBuffer[4] == 0x34)) //HDCP ³¤¶È
+	else if((DDCBuffer[3] == 0x39) && (DDCBuffer[4] == 0x34)) //HDCP ï¿½ï¿½ï¿½ï¿½
 	{
 		if((DDCBuffer[5]) == 6)
 		{
-			//µ±Ç°Åú´Î[6]
-			//·ÖÈýÅú£¬µÚÒ»/¶þÅú128BYTE,
-			//µÚÈýÅú33YBTE.
-			//µ±ÎªµÚÒ»Åú´ÎÊ±ÇåÁãÐ£ÑéºÍ¡£
+			//ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½[6]
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»/ï¿½ï¿½ï¿½ï¿½128BYTE,
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½33YBTE.
+			//ï¿½ï¿½Îªï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Ð£ï¿½ï¿½Í¡ï¿½
 			if(DDCBuffer[6] == 0)
 			{
 				DDCCi_checksun = 0;
 				Flash_HDCPcont = 0;
 			}
-			// 3¸öÅú´Î£¬µÚÒ»´Î´«0£¬µÚ¶þ´Î´«1£¬µÚÈý´Î´«2
+			// 3ï¿½ï¿½ï¿½ï¿½ï¿½Î£ï¿½ï¿½ï¿½Ò»ï¿½Î´ï¿½0ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½Î´ï¿½1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î´ï¿½2
 			Hdcpsave_offset = DDCBuffer[6];
-			//DDCCI_cont±¾Åú´óÐ¡[7]£»
+			//DDCCI_contï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡[7]ï¿½ï¿½
 			DDCCI_cont = DDCBuffer[7];
-			//Hdcp_pointer±¾Åú´ÎµÄOFFSET ÆðÊ¼Î»ÖÃ[8][9]
+			//Hdcp_pointerï¿½ï¿½ï¿½ï¿½ï¿½Îµï¿½OFFSET ï¿½ï¿½Ê¼Î»ï¿½ï¿½[8][9]
 			Hdcp_pointer = DDCBuffer[8];
 			Hdcp_pointer = Hdcp_pointer << 8;
 			Hdcp_pointer = Hdcp_pointer | DDCBuffer[9];
-			//Tchecksun±¾Åú´ÎµÄChecksun
+			//Tchecksunï¿½ï¿½ï¿½ï¿½ï¿½Îµï¿½Checksun
 			Tchecksun = DDCBuffer[10];
 			Tchecksun = Tchecksun << 8;
 			Tchecksun = Tchecksun | DDCBuffer[11];
@@ -889,13 +889,13 @@ Bool JRYColorToolControl (void)
 			return 2;
 		}
 	}
-	else if((DDCBuffer[3] == 0x39) && (DDCBuffer[4] == 0x35)) //HDCP  ½ÓÊÕ
+	else if((DDCBuffer[3] == 0x39) && (DDCBuffer[4] == 0x35)) //HDCP  ï¿½ï¿½ï¿½ï¿½
 	{
 		BYTE  j, i = 0;
 		j = DDCBuffer[5];
 		if(DDCCI_pointer < DDCCI_cont)
 		{
-			//´«4Åú´Î£¬Ã¿Åú´Î32BYTE
+			//ï¿½ï¿½4ï¿½ï¿½ï¿½Î£ï¿½Ã¿ï¿½ï¿½ï¿½ï¿½32BYTE
 			for(i = 0; i < j; i++)
 			{
 				if(Flash_HDCPcont == 0)
@@ -915,7 +915,7 @@ Bool JRYColorToolControl (void)
 				}
 				DDCCI_pointer++;
 			}
-			if(DDCCI_pointer <= (DDCCI_cont - 1)) //2<=  ±£Ö¤¿¨ÔÚ×îºóÒ»´Î·¢ËÍÐ£ÑéÂë
+			if(DDCCI_pointer <= (DDCCI_cont - 1)) //2<=  ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½Î·ï¿½ï¿½ï¿½Ð£ï¿½ï¿½ï¿½ï¿½
 			{
 				DDCBuffer[0] = 0x84;
 				DDCBuffer[1] = 0x00;
@@ -924,7 +924,7 @@ Bool JRYColorToolControl (void)
 			}
 			else if((DDCCI_pointer == DDCCI_cont) && (Tchecksun == DDCCi_checksun))
 			{
-				//////////////////////////////ÖÁ´Ë->±¾Åú´Î½ÓÊÕÊý¾ÝOK£¬¿ÉÒÔÒÔHdcp_pointerÎªOFFSET ½øÐÐ±£´æ/////////////////////////////////////
+				//////////////////////////////ï¿½ï¿½ï¿½ï¿½->ï¿½ï¿½ï¿½ï¿½ï¿½Î½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½OKï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Hdcp_pointerÎªOFFSET ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½/////////////////////////////////////
 				//Flash_Write_Factory_KeySet(FLASH_KEY_HDCP, Hdcp_pointer,  DDCCI_cont, RX_EDID, DDCCI_cont);
 				if(Flash_HDCPcont == 2)
 				{
@@ -958,11 +958,11 @@ Bool JRYColorToolControl (void)
 			return 2;
 		}
 	}
-	else if((DDCBuffer[3] == 0x39) && (DDCBuffer[4] == 0x36)) //HDCP Ð£Ñé
+	else if((DDCBuffer[3] == 0x39) && (DDCBuffer[4] == 0x36)) //HDCP Ð£ï¿½ï¿½
 	{
 		WORD  wCount ;
 		BYTE   i = 0;
-		//ÔÚ´Ë´¦¶Ô±£´æµÄÊý¾Ý½øÐÐ¶ÁÈ¡£¬Èç¹ûÐ£ÑéºÍÓë´ËÇ°½ÓÊÕµÄÐ£ÑéºÍÏàµÈÔòOK,·ñÔòNG.
+		//ï¿½Ú´Ë´ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý½ï¿½ï¿½Ð¶ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ð£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½Õµï¿½Ð£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½OK,ï¿½ï¿½ï¿½ï¿½NG.
 		checksun_verify = 0;
 		for(i = 0; i < 20; i++)
 			DDC1[i] = 0;
@@ -2332,7 +2332,7 @@ BYTE AlignControl(void)
 		//For I-Menu
 		//S-6Ea-51a-PktLena-Pre1Bytea-Pre2Bytea-CmdBytea-ExtBytea-DATA1a-DATA2a-CHKa-P
 		#ifdef UseVGACableReadWriteAllPortsEDID
-		#if 1  ///yuanzhi 20100428_1 for µ¥¿ÚÉÕÂ¼²»Í¨ÎÊÌâ.
+		#if 1  ///yuanzhi 20100428_1 for ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½.
 		if((DDCBuffer[2] == 0xFE && DDCBuffer[3] == 0xEF)
 		        || ((DDCBuffer[3] == 0xE1) && (DDCBuffer[4] == 0xA2) && (DDCBuffer[5] == 0x01))
 		  )// && DDCBuffer[4]==0x20)
@@ -2717,7 +2717,7 @@ BYTE AlignControl(void)
 			TPValue = 0x00;
 		}
 		else if (CPCode == DisplayControlType)
-			// Jeff add it in 2004?~7¤ë13¤é?U¤È 04:46:32
+			// Jeff add it in 2004?~7ï¿½ï¿½13ï¿½ï¿½?Uï¿½ï¿½ 04:46:32
 		{
 			ValueH = 0xFF;
 			ValueL = 0x16;
@@ -2747,36 +2747,10 @@ BYTE AlignControl(void)
 		{
 			#if 1
 			ValueL = LANG_Nums;
-			if (UserPrefLanguage == LANG_Spanish)
-				RetValueL = LanSpanishCode;
-			else if (UserPrefLanguage == LANG_France)
+		
+			if (UserPrefLanguage == LANG_France)
 				RetValueL = LanFrenchCode;
-			else if (UserPrefLanguage == LANG_German)
-				RetValueL = LanGermanCode;
-			else if (UserPrefLanguage == LANG_Italian)
-				RetValueL = LanItalianCode;
-			else if (UserPrefLanguage == LANG_Russia)
-				RetValueL = LanRussianCode;
-			else if (UserPrefLanguage == LANG_Swedish)
-				RetValueL = LanSwedishCode;
-			else if (UserPrefLanguage == LANG_Polish)
-				RetValueL = LanPolishCode;
-			else if (UserPrefLanguage == LANG_Czech)
-				RetValueL = LanCzechCode;
-			else if (UserPrefLanguage == LANG_Portugues)
-				RetValueL = LanPortugueseCode_Brazil;
-			else if (UserPrefLanguage == LANG_SChina)
-				RetValueL = LanSChineseCode;
-			else if (UserPrefLanguage == LANG_TChina)
-				RetValueL = LanTChineseCode;
-			else if (UserPrefLanguage == LANG_Korea)
-				RetValueL = LanKoreanCode;
-			else if (UserPrefLanguage == LANG_Japan )
-				RetValueL = LanJapaneseCode;
-			else if (UserPrefLanguage == LanDutchCode)	//120105 Modify
-				RetValueL = LANG_Dutch;
-			else if (UserPrefLanguage == LANG_Finnish)	//120105 Modify
-				RetValueL = LanFinnishCode;
+			
 			else if (UserPrefLanguage == LANG_English)
 				RetValueL = LanEnglistCode;
 			RetValueH = 0x00;
@@ -3357,66 +3331,12 @@ BYTE AlignControl(void)
 		{
 			//     UserPrefLanguage = RetValueL-1;
 			#if 1
-			if (RetValueL == LanSpanishCode)
-			{
-				UserPrefLanguage = LANG_Spanish;
-			}
-			else if (RetValueL == LanFrenchCode)
+			
+			if (RetValueL == LanFrenchCode)
 			{
 				UserPrefLanguage = LANG_France;
 			}
-			else if (RetValueL == LanGermanCode)
-			{
-				UserPrefLanguage = LANG_German;
-			}
-			else if (RetValueL == LanItalianCode)
-			{
-				UserPrefLanguage = LANG_Italian;
-			}
-			else if (RetValueL == LanRussianCode)
-			{
-				UserPrefLanguage = LANG_Russia;
-			}
-			else if (RetValueL == LanSwedishCode)
-			{
-				UserPrefLanguage = LANG_Swedish;
-			}
-			else if (RetValueL == LanPolishCode)
-			{
-				UserPrefLanguage = LANG_Polish;
-			}
-			else if (RetValueL == LanCzechCode)
-			{
-				UserPrefLanguage = LANG_Czech;
-			}
-			else if (RetValueL == LanPortugueseCode_Brazil)
-			{
-				UserPrefLanguage = LANG_Portugues;
-			}
-			else if (RetValueL == LanSChineseCode)
-			{
-				UserPrefLanguage = LANG_SChina;
-			}
-			else if (RetValueL == LanTChineseCode)
-			{
-				UserPrefLanguage = LANG_TChina;
-			}
-			else if (RetValueL == LanKoreanCode)
-			{
-				UserPrefLanguage = LANG_Korea;
-			}
-			else if (RetValueL == LanJapaneseCode)
-			{
-				UserPrefLanguage = LANG_Japan;
-			}
-			else if (RetValueL == LanDutchCode)	//120105 Modify
-			{
-				UserPrefLanguage = LANG_Dutch;
-			}
-			else if (RetValueL == LanFinnishCode)	//120105 Modify
-			{
-				UserPrefLanguage = LANG_Finnish;
-			}
+			
 			else if (RetValueL == LanEnglistCode)
 				// default
 			{

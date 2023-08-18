@@ -127,13 +127,13 @@
 #define EarphoneDet_Enable          	   0
 
 
-#define  EANBLE_NEW_DCR_Functing        1
+#define  EANBLE_NEW_DCR_Functing        1 
 
 #define Enable_CheckVcc5V                      0  //PC 99 ¹¦ÄÜ
 
 #define EANBLE_MUTE_ON_OFF                1
 
-#define UseVGACableReadWriteAllPortsEDID
+#define UseVGACableReadWriteAllPortsEDID    
 
 
 #if MainBoardType == MainBoard_TSUMO58FDT9_1 //MainBoard_6178_M0A

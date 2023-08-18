@@ -67,10 +67,10 @@
 #define HDCP_CPU_WRITE_BKSV(Address, Value)  (HDCP_CPU_WRITE_DATA(Value))
 #define HDCP_CPU_WR_BUSY()    (_bit4_(MEM_MSREAD_BYTE(REG_152E)))
 #define HDCP_CPU_WRITE_BCAPS(Value) {msWriteByteMask(REG_150F, 0x80, 0xC0);\
-		msWrite2ByteMask(REG_150C, 0x0040, 0x03FF);\
-		msWriteByte(REG_153A, 0x10);\
-		msWriteByte(REG_150E, Value);\
-		msWriteByte(REG_153A, 0x08);}
+                                                                    msWrite2ByteMask(REG_150C, 0x0040, 0x03FF);\
+                                                                    msWriteByte(REG_153A, 0x10);\
+                                                                    msWriteByte(REG_150E, Value);\
+                                                                    msWriteByte(REG_153A, 0x08);}
 #define HDCP_MISC_SETTING(Value) (msWrite2Byte( REG_1500, Value ))
 #define HDCP_ENABLE_DDC()   (msWriteByteMask( REG_150D, BIT2, BIT2 ))//(msWriteByteMask( REG_3E74, BIT5, BIT5 ))
 #define HDCP_RESET(Enable)    (msWriteByteMask( REG_1752, (Enable)?(BIT4):(0),  BIT4))
@@ -116,30 +116,30 @@
 #define SC0_SET_IMAGE_WIDTH(Value)  (msWrite2Byte(SC0_0B, (Value)&MASK_12BIT))
 #if ENABLE_MENULOAD         //111011 Rick modified - C_FOS_005
 #define SC0_SET_IMAGE_START_H(Value) {   msML_WaitReady();\
-		msML_WriteByte(ML_MODE_NORMAL, SC0_07, ((Value)&MASK_11BIT));\
-		msML_WriteByte(ML_MODE_NORMAL, SC0_08, ((Value)&MASK_11BIT)>>8);\
-		msML_Trigger(ML_TRIG_OUT_VDE_END); }
+                                                                msML_WriteByte(ML_MODE_NORMAL, SC0_07, ((Value)&MASK_11BIT));\
+                                                                msML_WriteByte(ML_MODE_NORMAL, SC0_08, ((Value)&MASK_11BIT)>>8);\
+                                                                msML_Trigger(ML_TRIG_OUT_VDE_END); }
 #elif ENABLE_SW_DOUBLE_BUFFER
 #define SC0_SET_IMAGE_START_H(Value) {   msSWDBWaitForRdy();\
-		DB_Mode(ML_MODE_NORMAL);\
-		DB_WB(SC0_07, ((Value)&MASK_12BIT));\
-		DB_WB(SC0_08, ((Value)&MASK_12BIT)>>8);\
-		msSWDBWriteToRegister();}
+                                                                        DB_Mode(ML_MODE_NORMAL);\ 
+                                                                        DB_WB(SC0_07, ((Value)&MASK_12BIT));\
+                                                                        DB_WB(SC0_08, ((Value)&MASK_12BIT)>>8);\
+                                                                        msSWDBWriteToRegister();}
 
 #else
 #define SC0_SET_IMAGE_START_H(Value)    (msWrite2Byte( SC0_07, (Value)&MASK_11BIT ))
 #endif
 #if ENABLE_MENULOAD
 #define SC0_SET_IMAGE_START_V(Value) {   msML_WaitReady();\
-		msML_WriteByte(ML_MODE_NORMAL, SC0_05, ((Value)&MASK_11BIT));\
-		msML_WriteByte(ML_MODE_NORMAL, SC0_06, ((Value)&MASK_11BIT)>>8);\
-		msML_Trigger(ML_TRIG_OUT_VDE_END); }
+                                                                msML_WriteByte(ML_MODE_NORMAL, SC0_05, ((Value)&MASK_11BIT));\
+                                                                msML_WriteByte(ML_MODE_NORMAL, SC0_06, ((Value)&MASK_11BIT)>>8);\
+                                                                msML_Trigger(ML_TRIG_OUT_VDE_END); }
 #elif ENABLE_SW_DOUBLE_BUFFER
 #define SC0_SET_IMAGE_START_V(Value) {   msSWDBWaitForRdy();\
-		DB_Mode(ML_MODE_NORMAL);\
-		DB_WB(SC0_05, ((Value)&MASK_12BIT));\
-		DB_WB(SC0_06, ((Value)&MASK_12BIT)>>8);\
-		msSWDBWriteToRegister();}
+                                                                        DB_Mode(ML_MODE_NORMAL);\ 
+                                                                        DB_WB(SC0_05, ((Value)&MASK_12BIT));\
+                                                                        DB_WB(SC0_06, ((Value)&MASK_12BIT)>>8);\
+                                                                        msSWDBWriteToRegister();}
 
 #else
 #define SC0_SET_IMAGE_START_V(Value)    (msWrite2Byte( SC0_05, (Value)&MASK_11BIT ))
@@ -150,9 +150,9 @@
 #define SC0_SET_OUTPUT_VTOTAL(Value) (msWrite2ByteMask(SC0_1E, Value, MASK_12BIT))
 #define SC0_DE_ONLY_MODE()  ((msReadByte(SC0_04)&BIT6) == BIT6)
 #define SC0_VIDEO_FIELD_INVERSION() ((msReadByte(SC0_E9)&BIT3) == BIT3)
-#define SC0_SET_DE_OLNY_MODE(Enable)        (msWriteByteMask(SC0_04, (Enable)?(BIT6):(0), BIT6))
+#define SC0_SET_DE_OLNY_MODE(Enable)        (msWriteByteMask(SC0_04, (Enable)?(BIT6):(0), BIT6))                      
 
-#define SC0_READ_POWER_DOWN_STATUS()    (msReadByte(SC0_F0))
+#define SC0_READ_POWER_DOWN_STATUS()    (msReadByte(SC0_F0))        
 #define SC0_ADC_COAST_ENABLE(Value)  (msWriteByte(SC0_ED, Value))
 #define SC0_ADC_COAST_START(Value)  (msWriteByte(SC0_EE, Value))
 #define SC0_ADC_COAST_END(Value)  (msWriteByte(SC0_EF, Value))
@@ -224,7 +224,7 @@
 #define ICE_HUE_RGBCMY(Color, Value)    (msWriteByte(SC9_0E+(Color), Value))
 #define ICE_BRIGHTNESS_RGBCMY(Color, Value)    (msWriteByte(SC9_1A+(Color), Value))
 
-#define SUB_BORDER_ENABLE(Enable)   (msWriteByteMask(SC0_32, ((Enable)?(BIT4):(0)),BIT4))
+#define SUB_BORDER_ENABLE(Enable)   (msWriteByteMask(SC0_32, ((Enable)?(BIT4):(0)),BIT4))                
 #define CSC_MAIN_ENABLE(Enable) (msWriteByteMask(SC7_40, (Enable)?(BIT0):(0), BIT0))
 #define CSC_SUB_ENABLE(Enable) (msWriteByteMask(SC7_40, (Enable)?(BIT4):(0), BIT4))
 
@@ -242,7 +242,7 @@
 
 #define WRITE_CAFSRAM_ADDR()            msWriteByteMask(OSD1_68, 0, 0x1F)
 #define WRITE_CODE()                    (msWriteByteMask(OSD1_68, 1, 0x1F),\
-        msWriteByteMask(OSD1_67, g_u8OsdFontDataHighByte, BIT1|BIT0))
+                                        msWriteByteMask(OSD1_67, g_u8OsdFontDataHighByte, BIT1|BIT0))
 #define WRITE_ATTRIBUTE()               msWriteByteMask(OSD1_68, 2, 0x1F)
 #define WRITE_FONT()                    msWriteByteMask(OSD1_68, 3, 0x1F)
 #define CAFSRAM_ERASE_TRIG()            msWriteByteMask(OSD1_68, 4, 0x1F)
@@ -262,12 +262,12 @@
 #define PSRAM1_READ_TRIG()              msWriteByteMask(OSD1_68, 24, 0x1F)
 
 #define OSD_WRITE_FONT_ADDRESS(u8Addr)  WRITE_CAFSRAM_ADDR();\
-	msWrite2Byte(OSD1_66, GET_FONT_RAM_ADDR(u8Addr));
+                                        msWrite2Byte(OSD1_66, GET_FONT_RAM_ADDR(u8Addr));
 
 // ADC
 #if _NEW_SOG_DET_
 #define NEW_SOG_DET_FLUSH()             MEM_MSWRITE_BYTE_MASK(REG_ADC_ATOP_7A_L,BIT3,BIT3);\
-	MEM_MSWRITE_BYTE_MASK(REG_ADC_ATOP_7A_L, 0, BIT3)
+                                        MEM_MSWRITE_BYTE_MASK(REG_ADC_ATOP_7A_L, 0, BIT3)
 #endif
 
 #endif
@@ -289,7 +289,7 @@
 
 #define WRITE_CAFSRAM_ADDR()            msWriteByteMask(OSD1_68, 0, 0x1F)
 #define WRITE_CODE()                    (msWriteByteMask(OSD1_68, 1, 0x1F),\
-        msWriteByteMask(OSD1_67, g_u8OsdFontDataHighByte, BIT1|BIT0))
+                                        msWriteByteMask(OSD1_67, g_u8OsdFontDataHighByte, BIT1|BIT0))
 #define WRITE_ATTRIBUTE()               msWriteByteMask(OSD1_68, 2, 0x1F)
 #define WRITE_FONT()                    msWriteByteMask(OSD1_68, 3, 0x1F)
 #define CAFSRAM_ERASE_TRIG()            msWriteByteMask(OSD1_68, 4, 0x1F)
@@ -310,11 +310,11 @@
 
 
 #define OSD_WRITE_FONT_ADDRESS(u8Addr)  WRITE_CAFSRAM_ADDR();\
-	msWrite2Byte(OSD1_66, GET_FONT_RAM_ADDR(u8Addr));
+                                        msWrite2Byte(OSD1_66, GET_FONT_RAM_ADDR(u8Addr));
 
 #if _NEW_SOG_DET_
 #define NEW_SOG_DET_FLUSH()             MEM_MSWRITE_BYTE_MASK(REG_ADC_ATOP_7A_L,BIT3,BIT3);\
-	MEM_MSWRITE_BYTE_MASK(REG_ADC_ATOP_7A_L, 0, BIT3)
+                                        MEM_MSWRITE_BYTE_MASK(REG_ADC_ATOP_7A_L, 0, BIT3)
 #endif
 
 #define _TRIG_MODE_INIT_ADDR    0

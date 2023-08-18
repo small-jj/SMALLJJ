@@ -50,16 +50,16 @@ _DRVMSTARDEC_ void drvmStar_SetupInputPort_DVI(void);
 #if ENABLE_SUPERRESOLUTION	//121105 Modify
 typedef struct _RegTblType
 {
-	WORD wReg;
-	BYTE ucValue;
-	BYTE ucMask;
-} RegTblType;
+    WORD wReg;
+    BYTE ucValue;
+    BYTE ucMask;
+}RegTblType;
 #endif
 typedef enum
 {
-	DVI_POWER_ON,
-	DVI_POWER_STANDBY,
-	DVI_POWER_DOWN
+    DVI_POWER_ON,
+    DVI_POWER_STANDBY,
+    DVI_POWER_DOWN
 
 } DVI_PowerCtrlType;
 

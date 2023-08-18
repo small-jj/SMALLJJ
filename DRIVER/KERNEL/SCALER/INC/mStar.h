@@ -34,7 +34,7 @@ extern void SetPWMFreq(WORD freq);
 extern void GPIOPWMSelect(void);
 #ifdef ReduceDDC
 extern void InitVccDetectPin(void);
-extern void SystemVccOK(void);
+extern void SystemVccOK(void); 
 extern void ScalerResetThenPowerDown(void);
 extern void ScalerIntoDeepPowerDown(void);
 #endif

@@ -1818,6 +1818,9 @@ extern BYTE xdata LedCounter;
 #define Clr_ForcePowerSavingFlag()	 	(ForcePowerSavingFlag=0)
 #define Set_InputTimingStableFlag()	  	(InputTimingStableFlag=1)
 #define Clr_InputTimingStableFlag()	   	(InputTimingStableFlag=0)
+
+
+
 #if 0//def WH_REQUEST
 #if WH_REQUEST_DDCCI_POWERSAVING
 #if MS_PM

@@ -7,7 +7,7 @@
 #ifndef eDPTXTiming
 #define eDPTXTiming 4 //DP_1080P
 #endif
-#ifndef eDPTXMinRate
+#ifndef eDPTXMinRate 
 #define eDPTXMinRate 1 //DPTXHBR
 #endif
 #ifndef eDPTXMinLane
@@ -43,39 +43,39 @@
 
 typedef struct
 {
-	BYTE   ucLane;
-	BYTE   ucRate;
-	BYTE   ucVSwing;
-	BYTE   ucEmphasis;
-	WORD uwDPHtotal;
-	WORD uwDPVtotal;
-	WORD uwDPHWidth;
-	WORD uwDPVWidth;
-	WORD uwDPHPWS;
-	WORD uwDPVPWS;
-	WORD uwDPHStart;
-	WORD uwDPVStart;
-	Bool    bDPHPol;
-	Bool    bDPVPol;
-	BYTE   ucDPColorFormat;
-	Bool  bCDRLock;
-	Bool  bEQSYMLock;
-	Bool  bDPLock;
-	Bool  bTrainingDone;
-	Bool  bDPInterlace;
-	Bool  bDPNoVideoStrm;
-	Bool  bDPNoAudioStrm;
-	Bool  bDPPowerSaving;
-	Bool  bAudioMute;
-	BYTE  bHPD;
-	BYTE  bPlugOut;
-	BYTE  bLinkRate;
-	BYTE  bLinkLane;
-	BYTE  bReTraining;
-} DPTX_INFO;
+        BYTE   ucLane;
+        BYTE   ucRate;
+        BYTE   ucVSwing;
+        BYTE   ucEmphasis;
+        WORD uwDPHtotal;
+        WORD uwDPVtotal;
+        WORD uwDPHWidth;
+        WORD uwDPVWidth;
+        WORD uwDPHPWS;
+        WORD uwDPVPWS;
+        WORD uwDPHStart;
+        WORD uwDPVStart;
+        Bool    bDPHPol;
+        Bool    bDPVPol;
+        BYTE   ucDPColorFormat;
+        Bool  bCDRLock;
+        Bool  bEQSYMLock;
+        Bool  bDPLock;
+        Bool  bTrainingDone;
+     Bool  bDPInterlace;
+        Bool  bDPNoVideoStrm;
+        Bool  bDPNoAudioStrm;
+        Bool  bDPPowerSaving;
+        Bool  bAudioMute;
+	 BYTE  bHPD;
+	 BYTE  bPlugOut;
+        BYTE  bLinkRate;
+        BYTE  bLinkLane;
+        BYTE  bReTraining;
+ } DPTX_INFO;
 
 extern void DPTXCheckCap(void);
-extern void DPCDWRITEBYTES (BYTE ADDR2, BYTE ADDR1, BYTE ADDR0,  BYTE LEN, BYTE *TXDATA);
+extern void DPCDWRITEBYTES (BYTE ADDR2, BYTE ADDR1, BYTE ADDR0,  BYTE LEN , BYTE *TXDATA);
 extern BOOL DPTxCheckLockCDR(BYTE LaneCnt);
 extern void  DPTXTraining(void);
 extern void  DPTX_CheckHPD(void);
